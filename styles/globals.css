@@ -2,12 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-#__next, html, body, .App {
+#__next,
+html,
+body,
+.App {
   width: 100%;
   height: 100%;
 }
+@media (max-width: 1360px) {
+  html {
+    font-size: 15.11px;
+  }
+}
 
-#__next{
+@media (max-width: 1280px) {
+  html {
+    font-size: 14.22px;
+  }
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 13.33px;
+  }
+}
+
+@media (max-width: 1120px) {
+  html {
+    font-size: 12.44px;
+  }
+}
+@media (max-width: 1040px) {
+  html {
+    font-size: 11.56px;
+  }
+}
+
+@media (max-width: 960px) {
+  html {
+    font-size: 10.67px;
+  }
+}
+#__next {
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
