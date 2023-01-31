@@ -1,21 +1,10 @@
 import { HeaderLayout } from "@components/common/headerLayout";
-import React, { ChangeEvent } from "react";
-import { useNavigate, useNavigationType, NavigationType } from "react-router-dom";
+import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgQuery from "@public/query.svg";
-import { useState } from "react";
-import { useCallback } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 export function OpenQuery() {
-  const go = useNavigate();
-  const type = useNavigationType();
-  const onBack = () => {
-    if (type !== NavigationType.Pop) {
-      go(-1);
-    } else {
-      go("/");
-    }
-  };
-
+  const onBack  = useGoBack()
   const [vin, setVin] = useState("");
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value || "");

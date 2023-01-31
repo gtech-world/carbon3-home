@@ -1,21 +1,10 @@
 import { HeaderLayout } from "@components/common/headerLayout";
-import React, { ChangeEvent } from "react";
-import { useNavigate, useNavigationType, NavigationType } from "react-router-dom";
+import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgSignIn from "@public/sign-in.svg";
-import { useState } from "react";
-import { useCallback } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 export function SignIn() {
-  const go = useNavigate();
-  const type = useNavigationType();
-  const onBack = () => {
-    if (type !== NavigationType.Pop) {
-      go(-1);
-    } else {
-      go("/");
-    }
-  };
-
+  const onBack = useGoBack();
   const [account, setAccount] = useState("");
   const onAccountChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setAccount(e.target.value || "");
