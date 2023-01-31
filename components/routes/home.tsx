@@ -1,8 +1,8 @@
-import { HeaderLayout } from "@components/common/headerLayout";
-import numbro from "numbro";
-import { useNavigate } from "react-router-dom";
+import { HomeHeaderLayout } from "@components/common/headerLayout";
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
+import numbro from "numbro";
+import { useNavigate } from "react-router-dom";
 
 function NumData(p: { num: number; label: string }) {
   const { num, label } = p;
@@ -40,27 +40,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
 
 export function Home() {
   return (
-    <HeaderLayout
-      bg={
-        <div className="absolute z-0 top-0 w-full h-[48.75rem] bg-green-2">
-          <img className="object-cover h-full absolute right-0 top-0" src="/home-bg-r.png" />
-          <div
-            className="w-full h-full absolute lg:left-[calc(50%_-_45rem)]"
-            style={{
-              background: "linear-gradient(182.16deg, #000000 -4.66%, rgba(0, 0, 0, 0) 17.13%)",
-              transform: "matrix(-1, 0, 0, 1, 0, 0)",
-            }}
-          />
-          <div
-            className="w-full h-full absolute lg:left-[calc(50%_-_45rem)]"
-            style={{
-              background: "linear-gradient(270deg, #227A30 38.28%, rgba(34, 122, 48, 0) 77.8%)",
-              transform: "matrix(-1, 0, 0, 1, 0, 0)",
-            }}
-          />
-        </div>
-      }
-    >
+    <HomeHeaderLayout>
       <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36">
         AICD is the global, industry-level database for long-term carbon performance traceability and visibility under
         the 2050 Net Zero commitment.
@@ -79,6 +59,7 @@ export function Home() {
       <div className="flex justify-between my-[3.75rem]">
         <Card
           icon={<SvgQuery className="h-[6.125rem]" />}
+          to="/query"
           text={
             <div>
               <span className="font-bold">Open Query</span> for public accessible data
@@ -87,6 +68,7 @@ export function Home() {
         />
         <Card
           icon={<SvgSignIn className="h-[5.875rem]" />}
+          to="/sign"
           text={
             <div>
               <span className="font-bold">Sign in</span> with authenticated account
@@ -95,6 +77,6 @@ export function Home() {
         />
         <Card icon={<img src="/earth.png" className="w-[6.25rem]" />} text="Work with AICD for a Net Zero future" />
       </div>
-    </HeaderLayout>
+    </HomeHeaderLayout>
   );
 }

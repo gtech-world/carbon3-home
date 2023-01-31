@@ -1,13 +1,16 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import { Carbon } from "./carbon";
+import { OpenQuery } from "./openQuery";
+import { SignIn } from "./signIn";
+
 import { Home } from "./home";
 export function Root() {
   return (
     <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/carbon" element={<Carbon />} />
+        <Route path="/query" element={<OpenQuery />} />
+        <Route path="/sign" element={<SignIn />} />
       </Routes>
     </HashRouter>
   );
