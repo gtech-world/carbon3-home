@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SvgAICD from "@public/AICD.svg";
-
+import { HiOutlineMenu } from "react-icons/hi";
+import { AiOutlineUser } from "react-icons/ai";
 export function Header() {
   return (
     <div className="relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] py-6">
@@ -13,7 +14,12 @@ export function Header() {
         </div>
       </Link>
       <div className="flex-1" />
-
+      <button className="text-[2rem] text-white mr-4">
+        <HiOutlineMenu />
+      </button>
+      <button className="text-[2rem] text-white">
+        <AiOutlineUser />
+      </button>
     </div>
   );
 }

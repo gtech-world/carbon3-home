@@ -3,7 +3,6 @@ import numbro from "numbro";
 import { useNavigate } from "react-router-dom";
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
-import SvgEarth from "@public/earth.svg";
 
 function NumData(p: { num: number; label: string }) {
   const { num, label } = p;
@@ -30,7 +29,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
   return (
     <div className="flex flex-col items-center p-5 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl">
       {icon}
-      <div className="flex-1"/>
+      <div className="flex-1" />
       <div className="text-black text-2xl text-center">{text}</div>
       <button onClick={onClick} className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mt-8">
         {bt}
@@ -94,7 +93,7 @@ export function Home() {
             </div>
           }
         />
-        <Card icon={<SvgEarth className="w-[6.25rem]" />} text="Work with AICD for a Net Zero future" />
+        <Card icon={<img src="/earth.png" className="w-[6.25rem]" />} text="Work with AICD for a Net Zero future" />
       </div>
     </HeaderLayout>
   );
