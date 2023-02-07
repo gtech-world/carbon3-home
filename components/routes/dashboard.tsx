@@ -3,7 +3,7 @@ import { MainLayout } from "@components/common/mainLayout";
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ProfileInfo(p: { label: string; text: string }) {
+export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
   return (
     <div className="text-lg whitespace-nowrap [&:nth-child(n+2)]:mt-6 mo:!mt-0 mo:text-[.9375rem] mo:whitespace-pre">
@@ -59,7 +59,7 @@ export function UserDashboard() {
     <MainLayout className="text-black mo:w-full">
       <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
       <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
-        <img className="h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full" />
+        <img className="h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]" />
         <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
           <ProfileInfo label="Organization" text="ChangAn Ford CN" />
           <ProfileInfo label="Orgnization Type" text="Auto - OEM" />

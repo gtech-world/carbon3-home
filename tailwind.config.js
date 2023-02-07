@@ -14,6 +14,8 @@ module.exports = {
       colors: {
         gray: {
           6: "#666666",
+          9: "#999999",
+          16: "#f3f3f3"
         },
         green: {
           2: "#227A30",
@@ -21,7 +23,11 @@ module.exports = {
         },
         blue: {
           0: "#0084FF",
+
         },
+        orange: {
+          16: "#FF8D00"
+        }
       },
 
       unf: ":nth=child(n + 2)",
