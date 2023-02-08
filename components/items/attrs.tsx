@@ -43,3 +43,21 @@ export function Attrs(p: AttrsProps) {
     </div>
   );
 }
+
+export function AttrsForSource(p: AttrsProps) {
+  const { title, sub, badge = [] } = p;
+  return (
+    <div
+      className={classNames("rounded-lg py-3 pl-3 pr-[.4375rem] w-full overflow-hidden [&:nth-child(2n+1)]:bg-gray-16")}
+    >
+      <div className="text-black text-base w-full overflow-hidden whitespace-nowrap text-ellipsis">{title}</div>
+      <div className="flex mt-[.625rem]">
+        <div className="text-gray-9 text-sm overflow-hidden whitespace-nowrap text-ellipsis mr-2">{sub}</div>
+        <div className="flex-1"/>
+        {badge.map((bad, i) => (
+          <Badge style={{ marginLeft: 6 }} className="shrink-0" key={`attrs1_badge_${i}`} {...bad} />
+        ))}
+      </div>
+    </div>
+  );
+}

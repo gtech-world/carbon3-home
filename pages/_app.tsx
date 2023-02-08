@@ -18,7 +18,7 @@ const font_classes = [open_sans].map((f) => f.variable).join(" ");
 export default function App({ Component, pageProps }: AppProps) {
 
   return (
-    <div suppressHydrationWarning className={classNames("App font-OpenSans", font_classes)}>
+    <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
       <Head>
         <title>Carbon3</title>
         <meta name="description" content="Carbon3 Home" />

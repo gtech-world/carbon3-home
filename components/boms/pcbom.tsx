@@ -55,9 +55,23 @@ function PcBomItem(p: any) {
 
 function PartInfo(p: { label: string; text: string }) {
   return (
-    <div className="text-gray-6 text-lg whitespace-nowrap text-ellipsis overflow-hidden [&:nth-child(n+2)]:mt-[1.375rem]">
+    <div className="text-gray-6 text-lg whitespace-nowrap text-ellipsis overflow-hidden [&:nth-child(n+2)]:mt-[1.375rem] mo:text-[.9375rem] mo:!mt-0">
       <span className="text-black font-bold">{p.label}:</span> {p.text}
     </div>
+  );
+}
+
+export function PartInfos(p: { node: any }) {
+  return (
+    <>
+      <PartInfo label="Part Name" text="Climate System" />
+      <PartInfo label="Part Type" text="Sub-system" />
+      <PartInfo label="BOM Genealogy Level" text="1" />
+      <PartInfo label="Parent" text="Ford Mach-E RWD 2022" />
+      <PartInfo label="Children" text="No child" />
+      <PartInfo label="From Supplier" text="AB Auto Thermo Inc,AB Auto Thermo Inc." />
+      <PartInfo label="Last Update" text="2023-01-04 18:43" />
+    </>
   );
 }
 
@@ -132,13 +146,7 @@ export function PcBom(p: { data: any }) {
       </div>
       <div className="px-8 pt-[2.125rem] pb-8 flex-1 bg-white rounded-r-lg h-[27rem] flex justify-between">
         <div className="flex-1 w-0">
-          <PartInfo label="Part Name" text="Climate System" />
-          <PartInfo label="Part Type" text="Sub-system" />
-          <PartInfo label="BOM Genealogy Level" text="1" />
-          <PartInfo label="Parent" text="Ford Mach-E RWD 2022" />
-          <PartInfo label="Children" text="No child" />
-          <PartInfo label="From Supplier" text="AB Auto Thermo Inc,AB Auto Thermo Inc." />
-          <PartInfo label="Last Update" text="2023-01-04 18:43" />
+          <PartInfos node={data}/>
         </div>
         <div className="w-[3.5rem]" />
         <div className="w-0 flex-1 flex flex-col">

@@ -65,10 +65,10 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   return (
-    <div className="h-full w-full bg-slate-50 relative">
+    <div className="h-full w-full overflow-y-auto bg-slate-50 relative">
       <Header
         tits={["AICD Supply Chain", "Traceability System"]}
-        className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:py-5"
+        className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
       <div
         className={classNames(
