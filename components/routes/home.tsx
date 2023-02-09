@@ -96,3 +96,5 @@ export function Home() {
     </HomeHeaderLayout>
   );
 }
+
+export default Home

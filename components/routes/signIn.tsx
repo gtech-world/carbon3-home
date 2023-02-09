@@ -46,3 +46,5 @@ export function SignIn() {
     </HeaderLayout>
   );
 }
+
+export default SignIn

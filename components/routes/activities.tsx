@@ -59,3 +59,5 @@ export function CarbonActivities() {
     </MainLayout>
   );
 }
+
+export default CarbonActivities

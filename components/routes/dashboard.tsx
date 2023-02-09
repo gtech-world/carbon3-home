@@ -82,3 +82,5 @@ export function UserDashboard() {
     </MainLayout>
   );
 }
+
+export default UserDashboard

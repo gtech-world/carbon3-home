@@ -20,8 +20,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
       <Head>
-        <title>Carbon3</title>
-        <meta name="description" content="Carbon3 Home" />
+        <title>AICD</title>
+        <meta name="description" content="AICD Home" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -97,3 +97,5 @@ export function ProductDefinition() {
     </MainLayout>
   );
 }
+
+export default ProductDefinition

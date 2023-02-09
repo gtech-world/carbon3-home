@@ -159,3 +159,5 @@ export function PCF() {
     </MainLayout>
   );
 }
+
+export default PCF

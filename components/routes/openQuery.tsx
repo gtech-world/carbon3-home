@@ -46,3 +46,5 @@ export function OpenQuery() {
     </HeaderLayout>
   );
 }
+
+export default OpenQuery
