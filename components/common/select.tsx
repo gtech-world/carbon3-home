@@ -36,7 +36,7 @@ export function Select(p: SelectProps) {
     <div
       ref={ref}
       className={classNames(
-        "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer",
+        "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer mo:w-full mo:text-sm",
         className
       )}
       onClick={() => onToggle()}
@@ -54,7 +54,7 @@ export function Select(p: SelectProps) {
                 borderTop: index > 0 ? "1px solid #DDDDDD" : "none",
                 backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
               }}
-              className={classNames("px-5 py-2 text-base")}
+              className={classNames("px-5 py-2 text-base mo:text-xs")}
               onClick={() => onClickItem(index)}
             >
               {item.text}

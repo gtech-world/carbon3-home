@@ -72,7 +72,7 @@ export function ProductDefinition() {
   };
   return (
     <MainLayout className="text-black">
-      <Select current={current} items={items} onChange={onChange} className="mo:w-full mo:text-sm" />
+      <Select current={current} items={items} onChange={onChange} />
       <div className="text-2xl font-bold my-5 mo:text-lg">PRODUCT INFO</div>
       <div className="w-full bg-white rounded-lg p-5 flex items-center justify-between mo:flex-col mo:items-start">
         <img className="w-[15.625rem] aspect-square rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]" />

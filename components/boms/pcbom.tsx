@@ -53,9 +53,9 @@ function PcBomItem(p: any) {
   );
 }
 
-function PartInfo(p: { label: string; text: string }) {
+export function PartInfo(p: { label: string; text: string }) {
   return (
-    <div className="text-gray-6 text-lg whitespace-nowrap text-ellipsis overflow-hidden [&:nth-child(n+2)]:mt-[1.375rem] mo:text-[.9375rem] mo:!mt-0">
+    <div className="text-gray-6 text-lg whitespace-nowrap text-ellipsis overflow-hidden [&:nth-child(n+2)]:mt-4 mo:text-[.9375rem] mo:!mt-0">
       <span className="text-black font-bold">{p.label}:</span> {p.text}
     </div>
   );

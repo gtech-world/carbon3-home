@@ -1,12 +1,12 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
-import { SouringModal } from "@components/carbonActivities/sourcingModal";
+import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { useIsMobile } from "@components/common/context";
 import SvgArrowDown from "@public/arrow-down.svg";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { useToggle } from "react-use";
 
-export function Activity(p: { data: any }) {
+export function PcActivity(p: { data: any }) {
   const { data } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
@@ -17,12 +17,8 @@ export function Activity(p: { data: any }) {
       onClick={() => update({ activity: data, sourcing: 0 })}
     >
       <div
-        className={classNames(
-          "bg-white w-full h-full px-5 rounded-lg flex items-center justify-center border border-solid border-transparent",
-          {
-            "border-green-2": selected,
-          }
-        )}
+        style={{ border: selected ? "1px solid #227A30" : "1px solid transparent" }}
+        className={classNames("bg-white w-full h-full px-5 rounded-lg flex items-center justify-center")}
       >
         <div
           className={classNames(
@@ -53,15 +49,11 @@ export function MobileActivity(p: { data: any }) {
       className="bg-white grow-0 w-full h-[6.875rem] cursor-pointer px-5 rounded-lg flex items-center justify-center"
       onClick={() => toggle(true)}
     >
-      <div
-        className={classNames(
-          "font-bold grow-0 text-xl whitespace-normal text-center break-words overflow-hidden"
-        )}
-      >
+      <div className={classNames("font-bold grow-0 text-xl whitespace-normal text-center break-words overflow-hidden")}>
         {data.name}
       </div>
       {open && (
-        <SouringModal
+        <MobileActL2
           data={data}
           onBack={(e) => {
             toggle(false);
@@ -80,7 +72,7 @@ export function Activities(p: { data: any[] }) {
     <>
       {data.map((item, i) => (
         <Fragment key={`activites_root_${i}`}>
-          {isMobile ? <MobileActivity data={item} /> : <Activity data={item} />}
+          {isMobile ? <MobileActivity data={item} /> : <PcActivity data={item} />}
           {i < data.length - 1 && <SvgArrowDown className="text-green-2 text-lg my-[.625rem]" />}
         </Fragment>
       ))}
