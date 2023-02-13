@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  aicd-home-beta:
+    build:
+      context: ../../
+      dockerfile: docker/beta/Dockerfile
+    image: aicd-home-beta
+    ports:
+      - '3001:3000'

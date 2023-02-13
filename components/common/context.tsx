@@ -16,6 +16,5 @@ export function IsMobileProvider(p: { children?: React.ReactNode }) {
       window.removeEventListener("resize", onResize);
     };
   }, []);
-  console.info('mobild:', mobileState)
   return <IsMobileContext.Provider value={mobileState > 0}>{mobileState !== 0 && p.children}</IsMobileContext.Provider>;
 }
