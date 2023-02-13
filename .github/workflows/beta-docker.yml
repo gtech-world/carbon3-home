@@ -1,4 +1,4 @@
-name: Beta Release to Github Pages
+name: Beta Docker Image
 
 on:
   workflow_dispatch:
