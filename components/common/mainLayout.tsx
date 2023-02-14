@@ -1,10 +1,10 @@
 import SvgCO2 from "@public/co2.svg";
 import classNames from "classnames";
+import { useRouter } from "next/router";
 import { HTMLAttributes } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoCarSportOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
-import { Link, useLocation } from "react-router-dom";
 import { MainHeaderLayout } from "./headerLayout";
 
 interface IMenu {
@@ -22,22 +22,25 @@ const menus: IMenu[] = [
 
 export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
-  const lo = useLocation();
+  const { push, pathname } = useRouter();
 
   return (
     <MainHeaderLayout className="flex text-black !p-0 ">
       <div className="w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
         {menus.map((item, i) => (
-          <Link
-            to={item.to}
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              push(item.to);
+            }}
             key={`menus-${i}`}
-            className={classNames("w-full py-3 pl-4 flex items-center flex-nowrap text-black rounded-lg", {
-              "!text-green-2 bg-[#A4A4A4]/10": item.to === lo.pathname,
+            className={classNames("cursor-pointer w-full py-3 pl-4 flex items-center flex-nowrap text-black rounded-lg", {
+              "!text-green-2 bg-[#A4A4A4]/10": item.to === pathname,
             })}
           >
             <item.icon className="mr-3 text-2xl" />
             <span className="whitespace-nowrap text-lg font-medium">{item.txt}</span>
-          </Link>
+          </div>
         ))}
       </div>
       <div className={classNames("flex-1 p-5 min-h-full bg-[#F3F3F3]", className)} {...props}>

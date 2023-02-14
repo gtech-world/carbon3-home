@@ -1,10 +1,11 @@
+import { IsMobileProvider, ToastProvider, UserProvider } from "@components/common/context";
+import { Toast } from "@components/common/toast";
+import "@lib/env";
+import { Open_Sans } from "@next/font/google";
+import classNames from "classnames";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
-import "@lib/env";
-import { IsMobileProvider } from "@components/common/context";
-import { Open_Sans } from "@next/font/google";
-import classNames from "classnames";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -24,9 +25,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <IsMobileProvider>
-        <Component {...pageProps} />
-      </IsMobileProvider>
+      <ToastProvider>
+        <IsMobileProvider>
+          <UserProvider>
+            <Component {...pageProps} />
+          </UserProvider>
+        </IsMobileProvider>
+        <Toast />
+      </ToastProvider>
     </div>
   );
 }

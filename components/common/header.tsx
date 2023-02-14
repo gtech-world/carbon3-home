@@ -1,14 +1,15 @@
-import React, { HTMLAttributes } from "react";
-import { Link } from "react-router-dom";
-import SvgAICD from "@public/AICD.svg";
-import { HiOutlineMenu } from "react-icons/hi";
-import { AiOutlineUser } from "react-icons/ai";
-import { IoIosArrowBack } from "react-icons/io";
-import classNames from "classnames";
 import { useGoBack } from "@lib/hooks/useGoBack";
+import SvgAICD from "@public/AICD.svg";
+import classNames from "classnames";
+import { useRouter } from "next/router";
+import { HTMLAttributes } from "react";
+import { AiOutlineUser } from "react-icons/ai";
+import { HiOutlineMenu } from "react-icons/hi";
+import { IoIosArrowBack } from "react-icons/io";
 
 export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, string] }) {
   const { children, className, tits = ["Automotive Industry", "Carbon Database"], ...other } = p;
+  const { push } = useRouter()
   return (
     <div
       className={classNames(
@@ -17,13 +18,13 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, str
       )}
       {...other}
     >
-      <Link to="/" className="flex items-center">
+      <div onClick={() => push('/')} className="flex items-center cursor-pointer">
         <SvgAICD className="h-9 mo:h-[1.75rem]" />
         <div className="flex flex-col ml-4 text-base whitespace-nowrap mo:text-[.8rem] mo:ml-[.8rem]">
           <span className="leading-snug">{tits[0]}</span>
           <span className="leading-snug">{tits[1]}</span>
         </div>
-      </Link>
+      </div>
       <div className="flex-1" />
       <button className="text-[2rem] mr-4 mo:text-2xl">
         <HiOutlineMenu />

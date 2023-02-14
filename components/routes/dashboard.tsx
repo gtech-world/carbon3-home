@@ -1,7 +1,5 @@
-import { useIsMobile } from "@components/common/context";
+import { useIsMobile, useUser } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
-import React from "react";
-import { Link } from "react-router-dom";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -23,11 +21,12 @@ export function ProfileInfo(p: { label: string; text: string }) {
 
 function MLink(p: { to: string; text: string }) {
   return (
-    <Link to={p.to}>
-      <a className="inline-block whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]">
-        {p.text}
-      </a>
-    </Link>
+    <a
+      href={p.to}
+      className="inline-block whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]"
+    >
+      {p.text}
+    </a>
   );
 }
 function TargetInventory(p: { data: any }) {
@@ -55,21 +54,26 @@ Last Login
 2022-12-30 14:24
  */
 export function UserDashboard() {
+  const { user } = useUser();
+  if (!user) return null;
   return (
     <MainLayout className="text-black mo:w-full">
       <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
       <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
         <img className="h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]" />
         <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
-          <ProfileInfo label="Organization" text="ChangAn Ford CN" />
-          <ProfileInfo label="Orgnization Type" text="Auto - OEM" />
-          <ProfileInfo label="Site" text="CQM(Chong Qing Manufacturing)" />
-          <ProfileInfo label="Account Owner" text="tomlee2" />
+          <ProfileInfo label="Organization" text={user.organization.displayName} />
+          <ProfileInfo label="Orgnization Type" text={user.organization.type == "1" ? "Auto - Site" : "Auto - OEM"} />
+          <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />
+          <ProfileInfo label="Account Owner" text={user.name} />
         </div>
         <div className="py-1 ml-[5rem] mo:ml-0 mo:py-0">
-          <ProfileInfo label="Account Role" text="Regular User" />
-          <ProfileInfo label="Authorization Level" text="Read-Only / Specified Products" />
-          <ProfileInfo label="Last Login" text="2022-12-30 14:24" />
+          <ProfileInfo label="Account Role" text={user.role === "common" ? "Regular User" : "Admin User"} />
+          <ProfileInfo
+            label="Authorization Level"
+            text={user.authLevel === 0 ? "Read-Only / Specified Products" : "Read-Only"}
+          />
+          <ProfileInfo label="Last Login" text={user.lastLoginTime} />
         </div>
       </div>
       <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
@@ -83,4 +87,4 @@ export function UserDashboard() {
   );
 }
 
-export default UserDashboard
+export default UserDashboard;

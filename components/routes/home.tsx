@@ -1,8 +1,8 @@
 import { HomeHeaderLayout } from "@components/common/headerLayout";
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
+import { useRouter } from "next/router";
 import numbro from "numbro";
-import { useNavigate } from "react-router-dom";
 
 function NumData(p: { num: number; label: string }) {
   const { num, label } = p;
@@ -16,7 +16,7 @@ function NumData(p: { num: number; label: string }) {
 
 function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | string; bt?: string }) {
   const { icon, to, text, bt = "Enter" } = p;
-  const push = useNavigate();
+  const {push} = useRouter()
   const onClick = () => {
     if (to) {
       if (to.startsWith("/")) {
@@ -62,7 +62,7 @@ export function Home() {
       <div className="flex justify-between my-[3.75rem] mo:flex-col mo:mt-[3.125rem] mo:mb-0">
         <Card
           icon={<SvgQuery className="h-[6.125rem]" />}
-          to="/query"
+          to="/openquery"
           text={
             <div>
               <span className="font-bold">Open Query</span> for public
@@ -73,7 +73,7 @@ export function Home() {
         />
         <Card
           icon={<SvgSignIn className="h-[5.875rem]" />}
-          to="/sign"
+          to="/login"
           text={
             <div>
               <span className="font-bold">Sign in</span> with
