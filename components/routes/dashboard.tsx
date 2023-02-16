@@ -1,5 +1,8 @@
 import { useIsMobile, useUser } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { getProductList } from "@lib/http";
+import { Product } from "@lib/type";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -29,16 +32,16 @@ function MLink(p: { to: string; text: string }) {
     </a>
   );
 }
-function TargetInventory(p: { data: any }) {
+function TargetInventory(p: { data: Product }) {
   const { data } = p;
   return (
     <div className="bg-white rounded-lg overflow-hidden p-5 pb-8 mo:pb-5">
       <img className="bg-transparent outline-none border-none w-full aspect-[2/1] object-contain" />
-      <div className="font-semibold text-lg text-black mo:text-base">Model Mach-E RWD 2022</div>
+      <div className="font-semibold text-lg text-black mo:text-base">{data.displayName}</div>
       <div className="w-full flex flex-wrap">
-        <MLink to="" text="View Product Definition" />
-        <MLink to="" text="View PCF Template" />
-        <MLink to="" text="Query PCF Data" />
+        <MLink to={`/product?product_id=${data.id}`} text="View Product Definition" />
+        <MLink to={`/activites?product_id=${data.id}`} text="View PCF Template" />
+        <MLink to={`/pcf`} text="Query PCF Data" />
       </div>
     </div>
   );
@@ -55,6 +58,7 @@ Last Login
  */
 export function UserDashboard() {
   const { user } = useUser();
+  const { value: products } = useAsyncM(getProductList);
   if (!user) return null;
   return (
     <MainLayout className="text-black mo:w-full">
@@ -77,12 +81,13 @@ export function UserDashboard() {
         </div>
       </div>
       <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
-      <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]">
-        <TargetInventory data={1} />
-        <TargetInventory data={1} />
-        <TargetInventory data={1} />
-        <TargetInventory data={1} />
-      </div>
+      {products && (
+        <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]">
+          {products.map((product, i) => {
+            return <TargetInventory data={product} key={`product_item_${i}`} />;
+          })}
+        </div>
+      )}
     </MainLayout>
   );
 }

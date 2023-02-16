@@ -1,14 +1,14 @@
-import React from "react";
 import { BomItem } from "./bom";
+import { BomUIProps } from "./types";
 
-export function MobileBom(p: { data: any }) {
-  const { data } = p;
+export function MobileBom(p: BomUIProps) {
+  const { node } = p;
 
   return (
     <div className="w-full bg-white rounded-lg p-5 text-black">
-      <div className="text-base font-bold">{data.name}</div>
-      {(data.children as any[]).map((node, i) => (
-        <BomItem key={`bomItem_${i}`} data={node} />
+      <div className="text-base font-bold">{node.partDisplayName}</div>
+      {(node.children as any[]).map((item, i) => (
+        <BomItem key={`bomItem_${i}`} node={item} />
       ))}
     </div>
   );

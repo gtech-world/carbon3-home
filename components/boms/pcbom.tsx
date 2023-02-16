@@ -1,20 +1,26 @@
-import { Attrs, AttrsProps } from "@components/items/attrs";
+import { Attrs } from "@components/items/attrs";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { getProductBomActivityTypes } from "@lib/http";
+import { ProductBom } from "@lib/type";
 import classNames from "classnames";
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 //@ts-ignore
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
+import { BomUIProps } from "./types";
 
-const CurrentBomSelectContext = createContext<[string, (v: string) => void]>(["", () => {}]);
+type SelectState = [ProductBom, (v: ProductBom) => void];
+const CurrentBomSelectContext = createContext<SelectState|undefined>(undefined);
 
-const getNodeData = (node: any, nestingLevel: number) => ({
+const getNodeData = (node: ProductBom, nestingLevel: number) => ({
   data: {
     id: node.id.toString(), // mandatory
     isLeaf: node.children.length === 0,
     isOpenByDefault: nestingLevel === 0, // mandatory
-    name: node.name,
+    name: node.partDisplayName,
     nestingLevel,
+    node
   },
   nestingLevel,
   node,
@@ -23,18 +29,18 @@ const getNodeData = (node: any, nestingLevel: number) => ({
 function PcBomItem(p: any) {
   const {
     style,
-    data: { id, name, nestingLevel, isLeaf },
+    data: { name, nestingLevel, isLeaf, node },
     isOpen,
     setOpen,
   } = p;
-  const [sid, setSid] = useContext(CurrentBomSelectContext);
+  const [selectNode, setSelectNode] = useContext(CurrentBomSelectContext) as SelectState;
   return (
     <div
       style={{
         ...style,
         width: "max-content",
         marginLeft: `${nestingLevel * 2.25 + (isLeaf ? 2.25 : 0)}rem`,
-        background: sid === id ? "rgba(34, 122, 48, 0.1)" : "none",
+        background: node === selectNode ? "rgba(34, 122, 48, 0.1)" : "none",
       }}
       className="flex items-center px-5 py-3 rounded-lg"
     >
@@ -45,7 +51,7 @@ function PcBomItem(p: any) {
       )}
       <span
         className={classNames("whitespace-nowrap cursor-pointer", { "font-bold": nestingLevel === 0 })}
-        onClick={() => setSid(id)}
+        onClick={() => nestingLevel !== 0 && setSelectNode(node)}
       >
         {name}
       </span>
@@ -61,26 +67,27 @@ export function PartInfo(p: { label: string; text: string }) {
   );
 }
 
-export function PartInfos(p: { node: any }) {
+export function PartInfos(p: BomUIProps) {
+  const { node } = p;
   return (
     <>
-      <PartInfo label="Part Name" text="Climate System" />
-      <PartInfo label="Part Type" text="Sub-system" />
-      <PartInfo label="BOM Genealogy Level" text="1" />
-      <PartInfo label="Parent" text="Ford Mach-E RWD 2022" />
+      <PartInfo label="Part Name" text={node.partDisplayName} />
+      <PartInfo label="Part Type" text={node.children.length == 0 ? "Sub-system" : "Bom"} />
+      <PartInfo label="BOM Genealogy Level" text={`${node.deep + 1}`} />
+      <PartInfo label="Parent" text={node.parent?.partDisplayName || "-"} />
       <PartInfo label="Children" text="No child" />
-      <PartInfo label="From Supplier" text="AB Auto Thermo Inc,AB Auto Thermo Inc." />
-      <PartInfo label="Last Update" text="2023-01-04 18:43" />
+      <PartInfo label="From Supplier" text={node.supplierName} />
+      <PartInfo label="Last Update" text={node.updateTime} />
     </>
   );
 }
 
-export function PcBom(p: { data: any }) {
-  const { data } = p;
-  const [sid, setSid] = useState(data.children[0].id);
+export function PcBom(p: BomUIProps) {
+  const { node } = p;
+  const [selectNode, setSelectNode] = useState(node.children[0]);
   const treeworker = useCallback(
     function* () {
-      yield getNodeData(data, 0);
+      yield getNodeData(node, 0);
 
       while (true) {
         // Step [2]: Get the parent component back. It will be the object
@@ -94,47 +101,21 @@ export function PcBom(p: { data: any }) {
         }
       }
     },
-    [data]
+    [node]
   );
+  const { value:actTypes } = useAsyncM(() => getProductBomActivityTypes(selectNode.id),[selectNode])
+  const currentAttrs = useMemo(() => {
+    if(!actTypes) return []
+    return actTypes.map(item => ({
+        title: item.displayName,
+        sub: item.name,
+    }))
+  },[actTypes])
 
-  const currentAttrs: AttrsProps[] = [
-    {
-      title: "Sourcing - Emission from Purchasing Sourcing - Emission from Purchasing ",
-      sub: "Item #2: Climate SystemItem #2: Climate SystemItem #2: Climate SystemItem #2: Climate System",
-      badge: [
-        { type: "blue", txt: "2" },
-        { type: "orange", txt: "RefData" },
-      ],
-    },
-    {
-      title: "Sourcing - Emission from Purchasing Sourcing - Emission from Purchasing ",
-      sub: "Item #2: Climate SystemItem #2: Climate SystemItem #2: Climate SystemItem #2: Climate System",
-      badge: [
-        { type: "blue", txt: "2" },
-        { type: "orange", txt: "RefData" },
-      ],
-    },
-    {
-      title: "Sourcing - Emission from Purchasing Sourcing - Emission from Purchasing ",
-      sub: "Item #2: Climate SystemItem #2: Climate SystemItem #2: Climate SystemItem #2: Climate System",
-      badge: [
-        { type: "blue", txt: "2" },
-        { type: "orange", txt: "RefData" },
-      ],
-    },
-    {
-      title: "Sourcing - Emission from Purchasing Sourcing - Emission from Purchasing ",
-      sub: "Item #2",
-      badge: [
-        { type: "blue", txt: "2" },
-        { type: "orange", txt: "RefData" },
-      ],
-    },
-  ];
   return (
     <div className="w-full flex">
       <div className="p-5 bg-white rounded-l-lg mr-1 w-[20rem] h-[27rem] text-lg text-black">
-        <CurrentBomSelectContext.Provider value={[sid, setSid]}>
+        <CurrentBomSelectContext.Provider value={[selectNode, setSelectNode]}>
           <AutoSizer disableWidth>
             {({ height }: any) => (
               <MTree width={"100%"} height={height} itemSize={50} treeWalker={treeworker as any}>
@@ -146,7 +127,7 @@ export function PcBom(p: { data: any }) {
       </div>
       <div className="px-8 pt-[2.125rem] pb-8 flex-1 bg-white rounded-r-lg h-[27rem] flex justify-between">
         <div className="flex-1 w-0">
-          <PartInfos node={data}/>
+          <PartInfos node={node} />
         </div>
         <div className="w-[3.5rem]" />
         <div className="w-0 flex-1 flex flex-col">

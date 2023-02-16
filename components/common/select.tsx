@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 import { useClickAway, useToggle } from "react-use";
 export interface SelectItem {
@@ -14,12 +14,15 @@ export interface SelectProps {
 }
 export function useSelectState<T extends SelectItem>(items: T[], initIndex: number = 0): SelectProps {
   const [currentIndex, setCurrentIndex] = useState(initIndex);
+  useEffect(() => {
+    setCurrentIndex(initIndex);
+  }, [items, initIndex]);
   return { onChange: setCurrentIndex, items, current: currentIndex };
 }
 
 export function Select(p: SelectProps) {
   const { items, current, onChange, className } = p;
-  const cText = items[current].text;
+  const cText = items[current] ? items[current].text : "";
   const [open, onToggle] = useToggle(false);
   const onClickItem = useCallback(
     (index: number) => {
@@ -46,7 +49,10 @@ export function Select(p: SelectProps) {
         {open ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
       </div>
       {open && (
-        <div className="absolute left-0 top-full w-full bg-white rounded-lg overflow-hidden" style={{ border: "1px solid #DDDDDD" }}>
+        <div
+          className="absolute left-0 top-full w-full bg-white rounded-lg overflow-hidden"
+          style={{ border: "1px solid #DDDDDD" }}
+        >
           {items.map((item, index) => (
             <div
               key={`select_item_${index}`}

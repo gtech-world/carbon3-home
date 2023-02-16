@@ -51,7 +51,7 @@ export function ToastProvider(p: { children?: React.ReactNode }) {
 
 // ****************************** UserData *************************************
 
-function getUserData() {
+export function getUserData() {
   const ud = localStorage.getItem("user-data");
   if (!ud) return undefined;
   try {
@@ -74,6 +74,7 @@ export function UserProvider(p: { children?: React.ReactNode }) {
   const [ud, setUd] = useState<UserData>();
   const [init, setInit] = useState(false);
   const setUser = useCallback((user?: UserData) => {
+    if(user) user.loginTime = new Date().getTime();
     setUd(user);
     localStorage.setItem("user-data", user ? JSON.stringify(user) : "");
   }, []);
@@ -87,7 +88,7 @@ export function UserProvider(p: { children?: React.ReactNode }) {
       init &&
       pathname &&
       ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname) &&
-      (!ud || new Date().getTime() - new Date(ud.lastLoginTime).getTime() < 1000 * 60 * 60)
+      (!ud || (new Date().getTime() - ud.loginTime) > 1000 * 60 * 60)
     ) {
       push("/login");
     }

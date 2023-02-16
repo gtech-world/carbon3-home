@@ -2,16 +2,27 @@ import { MobileActivites } from "@components/carbonActivities/mobileActivities";
 import { PcActivities } from "@components/carbonActivities/pcActivities";
 import { useIsMobile } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
-import { Select, useSelectState } from "@components/common/select";
-import React, { useMemo } from "react";
+import { Select } from "@components/common/select";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { useProductsState } from "@lib/hooks/useProductsState";
+import { getProductActivityDefination } from "@lib/http";
+import { useMemo } from "react";
 
 export function CarbonActivities() {
-  const { current, onChange, items } = useSelectState([
-    { text: "Ford/CQM/Ford Match-E RWD 2022" },
-    { text: "Ford/CQM/Ford Match-E RWD 2022" },
-    { text: "Ford/CQM/Ford Match-E RWD 2022" },
-  ]);
+  const { current, items, onChange, current_product } = useProductsState()
   const isMobile = useIsMobile();
+  const { value: list } = useAsyncM(() => {
+    if(current_product){
+      return getProductActivityDefination(current_product.id)
+    }else{
+      return Promise.resolve(undefined)
+    }
+  },[current_product])
+  const mData = useMemo(() => {
+    if(!list || list.length === 0) return undefined
+    return list
+  },[list])
+
   const data = useMemo(() => {
     const boms: any[] = [
       { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true },
