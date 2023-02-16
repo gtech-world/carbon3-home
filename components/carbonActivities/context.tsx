@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export interface CurrentActivity {
   activity: any;
@@ -21,6 +21,9 @@ export function useCurrentActivity() {
 
 export function CurrentActivityProvider(p: { children?: React.ReactNode; init: Partial<CurrentActivity> }) {
   const [value, setValue] = useState<CurrentActivity>({ activity: null, sourcing: 0, ...p.init });
+  useEffect(() => {
+    setValue((old) => ({ ...old, ...p.init }));
+  }, [p.init]);
   const update = useCallback((data: Partial<CurrentActivity>) => {
     setValue((old) => ({ ...old, ...data }));
   }, []);

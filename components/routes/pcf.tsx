@@ -51,7 +51,7 @@ export function PCF() {
         quality,
         boms,
       },
-      { name: "Sourcing - Emission from Purchasing Activities", carbon_emission, items, quality },
+      { name: "Sourcing - Emission from Purchasing Activities", carbon_emission, items, quality, boms },
       {
         name: "Pre-Processing - Direct Emission from Physical and Chemical Processes",
         carbon_emission,
@@ -160,4 +160,4 @@ export function PCF() {
   );
 }
 
-export default PCF
+export default PCF;

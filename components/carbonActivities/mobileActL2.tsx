@@ -1,5 +1,4 @@
 import { Modal } from "@components/common/modal";
-import { ProductProcess } from "@lib/type";
 import classNames from "classnames";
 import { Fragment, MouseEventHandler } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
@@ -41,7 +40,7 @@ export function MobileActL2Item(p: { data: any; index: number }) {
   );
 }
 
-export function MobileActL2(p: { data: ProductProcess; onBack: MouseEventHandler<HTMLButtonElement> }) {
+export function MobileActL2(p: { data: any; onBack: MouseEventHandler<HTMLButtonElement> }) {
   const { data, onBack } = p;
   console.info("mobact2:", data);
   return (
@@ -54,7 +53,7 @@ export function MobileActL2(p: { data: ProductProcess; onBack: MouseEventHandler
         <div className="w-6" />
       </div>
       <div className="p-5 w-full">
-        {data.activityTypes.map((item, i) => (
+        {(data.sourcings as any[]).map((item, i) => (
           <Fragment key={`sourcing_item_${i}`}>
             <MobileActL2Item data={item} index={i} />
           </Fragment>
