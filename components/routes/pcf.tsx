@@ -4,6 +4,10 @@ import { MainLayout } from "@components/common/mainLayout";
 import { Select, useSelectState } from "@components/common/select";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { useVinCodesState } from "@lib/hooks/useVinCodesState";
+import { getPCFInventory, getProductByVIN } from "@lib/http";
+import { InventoryPhase } from "@lib/type";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
@@ -23,95 +27,58 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { current, onChange, items } = useSelectState([
-    { text: "221817392738975981" },
-    { text: "221817392738975678" },
-    { text: "221817399287475981" },
-  ]);
-  const data = useMemo(() => {
-    const carbon_emission = 230;
-    const items = 18;
-    const quality = 30;
-    const boms: any[] = [
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true, carbon_emission: 20 },
-      { name: "Front Glass", count: 2, calc: "RefData from Supplier YYY", refData: true, carbon_emission: 23 },
-      { name: "Front Glass", count: 1, calc: "RefData from Supplier YYY", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 3, calc: "RefData from Supplier YYY", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 1, calc: "Item #2: Climate System", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 4, calc: "Weight*Ref_Factor", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 3, calc: "Weight*Ref_Factor", refData: true, carbon_emission: 24 },
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true, carbon_emission: 24 },
-    ];
-    const sourcings = [
-      {
-        name: "Sourcing - Emission from Purchased Materials and Products,Sourcing - Emission from Purchased Materials and Products",
-        carbon_emission,
-        items,
-        quality,
-        boms,
-      },
-      { name: "Sourcing - Emission from Purchasing Activities", carbon_emission, items, quality, boms },
-      {
-        name: "Pre-Processing - Direct Emission from Physical and Chemical Processes",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-      {
-        name: "Pre-Processing - Indirect Emission from Electricity Consumption",
-        carbon_emission,
-        items,
-        boms,
-        quality,
-      },
-    ];
+  const { current, onChange, items, current_vin } = useVinCodesState();
+  const { value: pcfData } = useAsyncM(
+    () => (current_vin ? getPCFInventory(current_vin) : Promise.resolve(undefined)),
+    [current_vin]
+  );
+  const { value: productInfo } = useAsyncM(
+    () => (current_vin ? getProductByVIN(current_vin) : Promise.resolve(undefined)),
+    [current_vin]
+  );
 
-    const activities = [
-      { name: "mater acquisition & pre-processing", sourcings, carbon_emission, quality },
-      { name: "production", sourcings: JSON.parse(JSON.stringify(sourcings)), carbon_emission, quality },
-      { name: "distribution & storage", sourcings: JSON.parse(JSON.stringify(sourcings)), carbon_emission, quality },
-      { name: "use", sourcings: JSON.parse(JSON.stringify(sourcings)), carbon_emission, quality },
-    ];
+  const mData = useMemo(() => {
+    if (!pcfData || pcfData.length < 0) return undefined;
+    const phaseMap: { [k: string]: InventoryPhase } = {};
+    pcfData.forEach((p) => {
+      p.carbon_emission = 0;
+      p.activityTypes.forEach((act) => {
+        act.carbon_emission = 0;
+        act.inventoryActivityList.forEach((iAct) => {
+          act.carbon_emission += iAct.ghgEmission;
+        });
+        p.carbon_emission += act.carbon_emission;
+      });
 
-    return activities;
-  }, []);
+      if (!phaseMap[p.phase]) {
+        phaseMap[p.phase] = {
+          name: p.phase,
+          processList: [p],
+          progress: 30,
+          carbon_emission: 0,
+        };
+      } else {
+        phaseMap[p.phase].processList.push(p);
+      }
+    });
+    const list = Object.values(phaseMap);
+    list.forEach((p) => {
+      p.processList.forEach((item) => {
+        p.carbon_emission += item.carbon_emission;
+      });
+    });
+    return list;
+  }, [pcfData]);
+
+  const totalEmission = useMemo(() => {
+    if (!mData) return "-";
+    let total = 0;
+    mData.forEach((p) => {
+      total += p.carbon_emission;
+    });
+    return total;
+  }, [mData]);
+
   const isMobile = useIsMobile();
   return (
     <MainLayout className="text-black">
@@ -125,10 +92,10 @@ export function PCF() {
           <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
             <img className="w-[16.25rem] h-full object-cover rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]" />
             <div className="w-0 flex-1 ml-8 mo:ml-0 mo:w-full">
-              <PartInfo label="Product Name" text="Ford Match-E RWD 2022" />
-              <PartInfo label="Product UID" text="00104" />
-              <PartInfo label="Product Type" text="Vehicle Model" />
-              <PartInfo label="VIN Code" text="23598989890889" />
+              <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
+              <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
+              <PartInfo label="Product Type" text={productInfo?.type || "-"} />
+              <PartInfo label="VIN Code" text={current_vin || "-"} />
               <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
             </div>
           </div>
@@ -139,7 +106,7 @@ export function PCF() {
             <InventoryStat
               icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
               tit="Product CO2e Emission"
-              txt="1854.3 kg"
+              txt={`${totalEmission} kg`}
             />
             <InventoryStat
               icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
@@ -155,7 +122,7 @@ export function PCF() {
         </div>
       </div>
       <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
-      {isMobile ? <MobileInventoryBreakdown data={data} /> : <PcInventoryBreakdown data={data} />}
+      {mData && <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>}
     </MainLayout>
   );
 }

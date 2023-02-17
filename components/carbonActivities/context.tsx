@@ -1,7 +1,8 @@
+import { InventoryPhase, Phase } from "@lib/type";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export interface CurrentActivity {
-  activity: any;
+  activity: Phase | InventoryPhase | null;
   sourcing: number;
 }
 

@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 export function useProductsState() {
   const { value: products } = useAsyncM(getProductList);
-  const list = useMemo(() => (products || []).map((p) => ({ ...p, text: p.displayName })), products);
+  const list = useMemo(() => (products || []).map((p) => ({ ...p, text: p.displayName })), [products]);
   const { query } = useRouter();
   const initIndex = useMemo(() => {
     const pid = query["product_id"];

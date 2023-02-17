@@ -1,5 +1,6 @@
-import { ProductProcess } from "@lib/type";
+import { Phase } from './../../lib/type';
 
 export interface ActivityUIProps{
-    data: any[]
+    data: Phase[]
 }
+

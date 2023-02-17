@@ -1,7 +1,7 @@
 import { getUserData } from "@components/common/context";
 import axios, { AxiosRequestConfig } from "axios";
 import { API_BASE } from "./env";
-import { ActivityType, Product, ProductBom, ProductProcess, UserData } from "./type";
+import { ActivityType, InventoryProductProcess, Product, ProductBom, ProductProcess, UserData } from "./type";
 
 function creatUrl(path: `/${string}`) {
   return `${API_BASE}${path}`;
@@ -64,5 +64,23 @@ export async function getProductActivityDefination(product_id: number) {
       include_activity_types: true,
     },
   });
-  return res.data
+  return res.data;
+}
+
+export async function getVINCodes() {
+  const res = await axios.get<string[]>(creatUrl("/api/v1/inventory/product/serial_number/list"), authConfig());
+  return res.data;
+}
+
+export async function getProductByVIN(vin: string | number) {
+  const res = await axios.get<Product>(creatUrl(`/api/v1/npi/product/serial_number/${vin}/info`), authConfig());
+  return res.data;
+}
+
+export async function getPCFInventory(vin: string | number) {
+  const res = await axios.get<InventoryProductProcess[]>(
+    creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
+    authConfig()
+  );
+  return res.data;
 }

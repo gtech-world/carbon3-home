@@ -6,57 +6,34 @@ import { Select } from "@components/common/select";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
 import { getProductActivityDefination } from "@lib/http";
+import { Phase } from "@lib/type";
 import { useMemo } from "react";
 
 export function CarbonActivities() {
-  const { current, items, onChange, current_product } = useProductsState()
+  const { current, items, onChange, current_product } = useProductsState();
   const isMobile = useIsMobile();
   const { value: list } = useAsyncM(() => {
-    if(current_product){
-      return getProductActivityDefination(current_product.id)
-    }else{
-      return Promise.resolve(undefined)
+    if (current_product) {
+      return getProductActivityDefination(current_product.id);
+    } else {
+      return Promise.resolve(undefined);
     }
-  },[current_product])
+  }, [current_product]);
   const mData = useMemo(() => {
-    if(!list || list.length === 0) return undefined
-    return list
-  },[list])
-
-  const data = useMemo(() => {
-    const boms: any[] = [
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true },
-      { name: "Front Glass", count: 2, calc: "RefData from Supplier YYY", refData: true },
-      { name: "Front Glass", count: 1, calc: "RefData from Supplier YYY", refData: true },
-      { name: "Front Glass", count: 3, calc: "RefData from Supplier YYY", refData: true },
-      { name: "Front Glass", count: 1, calc: "Item #2: Climate System", refData: true },
-      { name: "Front Glass", count: 4, calc: "Weight*Ref_Factor", refData: true },
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true },
-      { name: "Front Glass", count: 3, calc: "Weight*Ref_Factor", refData: true },
-      { name: "Front Glass", count: 1, calc: "Weight*Ref_Factor", refData: true },
-    ];
-    const sourcings = [
-      {
-        name: "Sourcing - Emission from Purchased Materials and Products,Sourcing - Emission from Purchased Materials and Products",
-        boms,
-      },
-      { name: "Sourcing - Emission from Purchasing Activities", boms },
-      { name: "Pre-Processing - Direct Emission from Physical and Chemical Processes", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-      { name: "Pre-Processing - Indirect Emission from Electricity Consumption", boms },
-    ];
-    const activities = [
-      { name: "mater acquisition & pre-processing", sourcings },
-      { name: "production", sourcings: JSON.parse(JSON.stringify(sourcings)) },
-      { name: "distribution & storage", sourcings: JSON.parse(JSON.stringify(sourcings)) },
-      { name: "use", sourcings: JSON.parse(JSON.stringify(sourcings)) },
-    ];
-    return activities;
-  }, []);
+    if (!list || list.length === 0) return undefined;
+    const phaseMap: { [k: string]: Phase } = {};
+    list.forEach((p) => {
+      if (!phaseMap[p.phase]) {
+        phaseMap[p.phase] = {
+          name: p.phase,
+          processList: [p],
+        };
+      } else {
+        phaseMap[p.phase].processList.push(p);
+      }
+    });
+    return Object.values(phaseMap);
+  }, [list]);
 
   return (
     <MainLayout className="text-black">
@@ -66,9 +43,9 @@ export function CarbonActivities() {
       </div>
       <Select current={current} onChange={onChange} items={items} />
       <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">ACTIVITY DEFINITION</div>
-      {isMobile ? <MobileActivites data={data} /> : <PcActivities data={data} />}
+      {mData && <>{isMobile ? <MobileActivites data={mData} /> : <PcActivities data={mData} />}</>}
     </MainLayout>
   );
 }
 
-export default CarbonActivities
+export default CarbonActivities;

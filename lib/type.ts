@@ -59,6 +59,7 @@ export interface ProductBom {
   updateTime: string;
   children: ProductBom[];
 
+  // code add
   deep: number;
   parent: ProductBom;
 }
@@ -74,7 +75,6 @@ export interface ActivityType {
   processId: number;
   createTime: string;
   updateTime: string;
-  carbon_emission: number
 }
 
 export interface ProductProcess {
@@ -86,4 +86,40 @@ export interface ProductProcess {
   createTime: string;
   updateTime: string;
   activityTypes: ActivityType[];
+}
+
+export interface Phase {
+  name: string;
+  processList: ProductProcess[];
+}
+
+export interface InventoryActivity {
+  id: 0;
+  serialNumber: string;
+  partNumberId: 0;
+  activityTypeId: 0;
+  ghgEmission: 0;
+  orgId: 0;
+  createTime: "2023-02-15 09:21:23";
+  updateTime: "2023-02-15 09:21:23";
+}
+
+export interface InventoryActivityType extends ActivityType {
+  inventoryActivityList: InventoryActivity[];
+
+  // code add
+  carbon_emission: number;
+}
+
+export interface InventoryProductProcess extends ProductProcess {
+  activityTypes: InventoryActivityType[];
+
+  // code add
+  carbon_emission: number;
+}
+
+export interface InventoryPhase extends Phase {
+  processList: InventoryProductProcess[];
+  progress: number; // 0 -> 100
+  carbon_emission: number;
 }

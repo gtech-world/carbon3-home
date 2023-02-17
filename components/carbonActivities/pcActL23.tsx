@@ -1,9 +1,10 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { AttrsFull } from "@components/items/attrs";
+import { ProductProcess } from "@lib/type";
 import classNames from "classnames";
 import { Fragment } from "react";
 
-export function PcActL2Item(p: { data: any; index: number }) {
+export function PcActL2Item(p: { data: ProductProcess; index: number }) {
   const { data, index } = p;
   const { sourcing, update } = useCurrentActivity();
   const selected = sourcing === index;
@@ -51,7 +52,7 @@ export function PcActL2Item(p: { data: any; index: number }) {
   );
 }
 
-export function PcActL2(p: { data: any[] }) {
+export function PcActL2(p: { data: ProductProcess[] }) {
   const { data } = p;
   return (
     <div className="flex-1 w-0 h-full overflow-y-auto ml-[.625rem] bg-white p-5 rounded-lg">
@@ -64,7 +65,7 @@ export function PcActL2(p: { data: any[] }) {
   );
 }
 
-export function PcActL3(p: { data: any }) {
+export function PcActL3(p: { data: ProductProcess }) {
   const { data } = p;
   return (
     <div className="flex-1 w-0 h-full ml-[.625rem] flex flex-col bg-white p-5 rounded-lg overflow-y-auto">
@@ -72,14 +73,14 @@ export function PcActL3(p: { data: any }) {
         {data.name}
       </div>
       <div className="w-full h-0 flex-1 overflow-y-auto">
-        {(data.boms as any[]).map((item, i) => (
+        {data.activityTypes.map((item, i) => (
           <AttrsFull
             key={`attrs_source_${i}`}
-            title={`#${i+1} ${item.name}*${item.count}`}
-            sub={item.calc}
+            title={`#${i + 1} ${item.name}`}
+            sub={item.description}
             badge={[
-              { type: "blue", txt: `${item.count}` },
-              { type: "orange", txt: item.refData ? "RefData" : "Supplier" },
+              { type: "blue", txt: `${2}` },
+              { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
             ]}
           />
         ))}

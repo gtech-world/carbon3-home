@@ -1,10 +1,15 @@
 import { Modal } from "@components/common/modal";
 import { AttrsFull } from "@components/items/attrs";
+import { InventoryProductProcess, ProductProcess } from "@lib/type";
 import { MouseEventHandler } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 
-export function MobileActL3(p: { data: any; onBack: MouseEventHandler<HTMLButtonElement> }) {
+export function MobileActL3(p: {
+  data: ProductProcess | InventoryProductProcess;
+  onBack: MouseEventHandler<HTMLButtonElement>;
+}) {
   const { data, onBack } = p;
+  const iData = data as InventoryProductProcess;
   return (
     <Modal>
       <div className="sticky top-0 w-full bg-green-2 flex justify-between items-center h-[4.25rem] px-4 text-white">
@@ -18,19 +23,19 @@ export function MobileActL3(p: { data: any; onBack: MouseEventHandler<HTMLButton
         <div className="bg-white leading-normal text-black text-base font-semibold w-full whitespace-normal">
           {data.name}
         </div>
-        {data.carbon_emission !== undefined && (
-          <div className="text-sm mt-[.625rem] text-gray-6">{`${data.carbon_emission}kg / ${data.boms.length} items`}</div>
+        {iData.carbon_emission !== undefined && (
+          <div className="text-sm mt-[.625rem] text-gray-6">{`${iData.carbon_emission}kg / ${iData.activityTypes.length} items`}</div>
         )}
         <div className="w-full mt-5">
-          {(data.boms as any[]).map((item, i) => (
+          {iData.activityTypes.map((item, i) => (
             <AttrsFull
               key={`attrs_source_${i}`}
-              title={`#${i + 1} ${item.name}*${item.count}`}
+              title={`#${i + 1} ${item.name}`}
               tit_r={item.carbon_emission === undefined ? undefined : `${item.carbon_emission}kg`}
-              sub={item.calc}
+              sub={item.description}
               badge={[
-                { type: "blue", txt: `${item.count}` },
-                { type: "orange", txt: item.refData ? "RefData" : "Supplier" },
+                { type: "blue", txt: `${2}` },
+                { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
               ]}
             />
           ))}

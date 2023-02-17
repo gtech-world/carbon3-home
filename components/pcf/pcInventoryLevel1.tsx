@@ -1,9 +1,10 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { Progress } from "@components/common/progress";
+import { InventoryPhase } from "@lib/type";
 import classNames from "classnames";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
-export function PcInventoryLevel1Item(p: { data: any }) {
+export function PcInventoryLevel1Item(p: { data: InventoryPhase }) {
   const { data } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
@@ -16,8 +17,8 @@ export function PcInventoryLevel1Item(p: { data: any }) {
     >
       <Progress value={30} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-xl">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${data.carbon_emission} / ${data.quality}%`}</div>
-      {data.quality >= 100 ? (
+      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${data.carbon_emission} / ${data.progress}%`}</div>
+      {data.progress >= 100 ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />
       ) : (
         <IoEllipsisHorizontalCircle className="text-2xl mt-3" />
@@ -26,7 +27,7 @@ export function PcInventoryLevel1Item(p: { data: any }) {
   );
 }
 
-export function PcInventoryLevel1(p: { data: any[] }) {
+export function PcInventoryLevel1(p: { data: InventoryPhase[] }) {
   const { data } = p;
   return (
     <div className="bg-white p-5 rounded-lg w-full flex">

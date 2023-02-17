@@ -1,7 +1,8 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
+import { InventoryProductProcess } from "@lib/type";
 import classNames from "classnames";
 
-export function PcInventoryLevel2Item(p: { data: any; index: number }) {
+export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index: number }) {
   const { data, index } = p;
   const { sourcing, update } = useCurrentActivity();
   const selected = sourcing === index;
@@ -28,7 +29,7 @@ export function PcInventoryLevel2Item(p: { data: any; index: number }) {
             },
             "text-sm text-gray-6 mt-[.625rem]"
           )}
-        >{`${data.carbon_emission} / ${data.items} items`}</div>
+        >{`${data.carbon_emission} / ${data.activityTypes.length} items`}</div>
       </div>
       {selected && (
         <div
@@ -43,7 +44,7 @@ export function PcInventoryLevel2Item(p: { data: any; index: number }) {
   );
 }
 
-export function PcInventoryLevel2(p: { data: any[] }) {
+export function PcInventoryLevel2(p: { data: InventoryProductProcess[] }) {
   const { data } = p;
   return (
     <div className="bg-white p-5 rounded-lg w-0 flex-1">

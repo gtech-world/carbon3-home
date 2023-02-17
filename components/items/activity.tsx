@@ -2,13 +2,13 @@ import { useCurrentActivity } from "@components/carbonActivities/context";
 import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { ActivityUIProps } from "@components/carbonActivities/types";
 import { useIsMobile } from "@components/common/context";
-import { ProductProcess } from "@lib/type";
+import { Phase } from "@lib/type";
 import SvgArrowDown from "@public/arrow-down.svg";
 import classNames from "classnames";
 import { Fragment } from "react";
 import { useToggle } from "react-use";
 
-export function PcActivity(p: { data: ProductProcess }) {
+export function PcActivity(p: { data: Phase }) {
   const { data } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
@@ -43,7 +43,7 @@ export function PcActivity(p: { data: ProductProcess }) {
   );
 }
 
-export function MobileActivity(p: { data: ProductProcess }) {
+export function MobileActivity(p: { data: Phase }) {
   const { data } = p;
   const [open, toggle] = useToggle(false);
   return (
