@@ -16,7 +16,7 @@ module.exports = {
           6: "#666666",
           9: "#999999",
           14: "#DDDDDD",
-          16: "#f3f3f3"
+          16: "#f3f3f3",
         },
         green: {
           2: "#227A30",
@@ -24,11 +24,11 @@ module.exports = {
         },
         blue: {
           0: "#0084FF",
-
         },
         orange: {
-          16: "#FF8D00"
-        }
+          16: "#FF8D00",
+          169: "#FF9640",
+        },
       },
 
       unf: ":nth=child(n + 2)",
