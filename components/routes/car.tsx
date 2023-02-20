@@ -28,7 +28,7 @@ function ItemInfo(p: { label: string; text: string; link?: string }) {
     >
       <span className="text-black font-bold">{p.label}:</span>{" "}
       {p.link ? (
-        <a href={p.link} target="_blank">
+        <a href={p.link} target="_blank" rel="noreferrer">
           {p.text}
         </a>
       ) : (
