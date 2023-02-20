@@ -10,23 +10,30 @@ import SVGArrowRight from "@public/arrow-right.svg";
 import { useIsMobile } from "@components/common/context";
 import { useToggle } from "react-use";
 import classNames from "classnames";
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import { Progress } from "@components/common/progress";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
 function ItemInfo(p: { label: string; text: string; link?: string }) {
+  //onClick={() => p.link && window.open(p.link, "_blank")}
   return (
     <div
       className={classNames(
         "w-full text-base whitespace-normal leading-[1.8rem] mo:text-[.9375rem] mo:leading-[1.6875rem]",
         {
-          "text-green-2 cursor-pointer": p.link,
+          "text-green-2": p.link,
           "text-gray-6": !p.link,
         }
       )}
-      onClick={() => p.link && window.open(p.link, "_blank")}
     >
-      <span className="text-black font-bold">{p.label}:</span> {p.text}
+      <span className="text-black font-bold">{p.label}:</span>{" "}
+      {p.link ? (
+        <a href={p.link} target="_blank">
+          {p.text}
+        </a>
+      ) : (
+        p.text
+      )}
     </div>
   );
 }
@@ -122,9 +129,9 @@ function ItemQA(p: { type: number }) {
         {type === 1 ? (
           <>
             The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under{" "}
-            <span className="text-green-2">AIAG’s carbon reduction / Net Zero 2050 initiatives</span>. The Trust Label
-            guarantees that any raw data behind the label is verified and recorded in an immutable manner for the
-            ultimate transparency and traceability for the vehicle’s carbon performance.
+            <span className="text-green-2 cursor-pointer">AIAG’s carbon reduction / Net Zero 2050 initiatives</span>.
+            The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable
+            manner for the ultimate transparency and traceability for the vehicle’s carbon performance.
           </>
         ) : type === 2 ? (
           <>
@@ -158,8 +165,13 @@ function QAS() {
 
 function MobileCar(p: { data: any }) {
   const [show, setShow] = useToggle(false);
+  const ref = useRef<HTMLDivElement>();
+  const onClickShow = useCallback(() => {
+    setShow(true);
+    ref.current?.scrollIntoView({ block: "start" });
+  }, []);
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-5" ref={ref as any}>
       <div className="flex px-[.9375rem] mt-5 py-5 rounded-lg bg-white" onClick={() => setShow(false)}>
         <SVGCarbon3 className="mr-[.625rem] text-[5.375rem]" />
         <div className="flex-1 flex flex-col leading-normal">
@@ -179,7 +191,7 @@ function MobileCar(p: { data: any }) {
                 {"Ford Mach-E PWD 2023"}
               </div>
               <div className="text-base">{"VIN #111923789123"}</div>
-              <button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={() => setShow(true)}>
+              <button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={onClickShow}>
                 Check Details
               </button>
             </div>
@@ -213,7 +225,7 @@ function MobileCar(p: { data: any }) {
             <div />
           </div>
           <Phases />
-          <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={() => setShow(true)}>
+          <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={onClickShow}>
             Learn More about AIAG’s Carbon3 Trust Label
           </div>
         </div>
@@ -278,7 +290,9 @@ export function Car() {
   const isMobile = useIsMobile();
   if (!query.vin) return null;
   return (
-    <div className="bg-gray-16 w-full min-h-full text-black">{isMobile ? <MobileCar data={0} /> : <PcCar data={0} />}</div>
+    <div className="bg-gray-16 w-full min-h-full text-black">
+      {isMobile ? <MobileCar data={0} /> : <PcCar data={0} />}
+    </div>
   );
 }
 
