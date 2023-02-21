@@ -1,4 +1,6 @@
+import { Button } from "@components/common/button";
 import { HomeHeaderLayout } from "@components/common/headerLayout";
+import { AICD_SOLUTIONS } from "@lib/env";
 // @ts-ignore
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
@@ -32,12 +34,12 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
       {icon}
       <div className="flex-1 mo:hidden" />
       <div className="text-black text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{text}</div>
-      <button
+      <Button
         onClick={onClick}
         className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mt-8 mo:mt-[3.75rem] mo:text-lg"
       >
         {bt}
-      </button>
+      </Button>
     </div>
   );
 }
@@ -49,9 +51,13 @@ export function Home() {
         AICD is the global, industry-level database for long-term carbon performance traceability and visibility under
         the 2050 Net Zero commitment.
       </div>
-      <button className="mt-[3.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem] mo:w-[13.75rem] mo:self-center">{`Learn More >`}</button>
+      <button
+        onClick={() => window.open(AICD_SOLUTIONS, "_blank")}
+        className="mt-[3.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem] mo:w-[13.75rem] mo:self-center"
+      >{`Learn More >`}</button>
       <div
-        className="w-full rounded-2xl mt-[10.375rem] flex justify-around items-center py-[1.4375rem] bg-white mo:flex-col mo:mt-[4.375rem] mo:py-8"
+        className="invisible
+         w-full rounded-2xl mt-[10.375rem] flex justify-around items-center py-[1.4375rem] bg-white mo:flex-col mo:mt-[4.375rem] mo:py-8"
         style={{ boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.15)" }}
       >
         <NumData num={5569} label="Reporting Sites" />
@@ -85,6 +91,7 @@ export function Home() {
         />
         <Card
           icon={<img src="/earth.png" className="w-[6.25rem]" />}
+          to={AICD_SOLUTIONS}
           text={
             <div>
               Work with AICD for a Net

@@ -17,6 +17,7 @@ import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { genSbtPhase } from "@components/const";
 import { ftmTimestamp } from "@lib/utils";
+import { Button } from "@components/common/button";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -208,9 +209,9 @@ function MobileCar(p: CarUIProps) {
                 {"Ford Mach-E PWD 2023"}
               </div>
               <div className="text-base">{"VIN #111923789123"}</div>
-              <button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={onClickShow}>
+              <Button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={onClickShow}>
                 Check Details
-              </button>
+              </Button>
             </div>
           </div>
           <div className="bg-white rounded-lg mt-5 grid p-5 gap-y-8" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>

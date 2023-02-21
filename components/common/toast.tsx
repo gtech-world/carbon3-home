@@ -20,7 +20,7 @@ export function Toast() {
     <div className={classNames("fixed right-5 top-20 z-[60] ")}>
       <div
         className={classNames(
-          "flex items-center text-sm text-white bg-opacity-80 bg-gray-800 rounded-lg border-1 py-4 w-full px-5",
+          "flex items-center text-sm text-black rounded-lg border-1 py-4 w-full px-5 mo:mx-auto",
           current.type === "info" ? "border-[#32CB9D] bg-green-50" : "border-[#EF4C56] bg-rose-50"
         )}
       >

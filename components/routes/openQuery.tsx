@@ -1,3 +1,4 @@
+import { Button } from "@components/common/button";
 import { useIsMobile } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
@@ -28,9 +29,9 @@ export function OpenQuery() {
             style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
             className="flex-1 w-full p-4 whitespace-nowrap outline-none rounded-lg"
           />
-          <button onClick={onQuery} className="w-full mt-5 rounded-lg p-3 text-center text-lg text-white bg-green-2">
+          <Button onClick={onQuery} className="w-full mt-5 rounded-lg p-3 text-center text-lg text-white bg-green-2">
             Query
-          </button>
+          </Button>
         </div>
       ) : (
         <div
@@ -38,9 +39,9 @@ export function OpenQuery() {
           style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
         >
           <input value={vin} onChange={onVinChange} className="flex-1 h-full px-4 whitespace-nowrap outline-none" />
-          <button onClick={onQuery} className="w-[7.5rem] h-full text-center text-2xl text-white bg-green-2">
+          <Button onClick={onQuery} className="w-[7.5rem] h-full text-center text-2xl text-white bg-green-2">
             Query
-          </button>
+          </Button>
         </div>
       )}
     </HeaderLayout>

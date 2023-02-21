@@ -1,3 +1,4 @@
+import { Button } from "@components/common/button";
 import { useOnError, useUser } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
@@ -17,14 +18,14 @@ export function SignIn() {
   const onPwdChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setPwd(e.target.value || "");
   }, []);
-  const {push} = useRouter();
-  const onError = useOnError()
-  const {setUser} = useUser()
+  const { push } = useRouter();
+  const onError = useOnError();
+  const { setUser } = useUser();
   const onSign = () => {
     if (!account || !pwd) return;
     login(account, pwd)
       .then((ud) => {
-        setUser(ud)
+        setUser(ud);
         push("/dashboard");
       })
       .catch(onError);
@@ -51,12 +52,12 @@ export function SignIn() {
         className="outline-none w-full mb-5 max-w-[420px] min-h-[40px] h-[3.125rem] px-4 whitespace-nowrap rounded-lg mo:text-sm mo:px-5 mo:py-4"
         style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
       />
-      <button
+      <Button
         onClick={onSign}
         className="w-full max-w-[420px] min-h-[40px] h-[3.125rem] mb-40 text-center text-2xl text-white bg-green-2 rounded-lg mo:text-lg"
       >
         Sign in
-      </button>
+      </Button>
     </HeaderLayout>
   );
 }
