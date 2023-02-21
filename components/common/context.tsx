@@ -1,4 +1,4 @@
-import { UserData } from "@lib/type";
+import { UserData } from "@lib/@types/type";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";

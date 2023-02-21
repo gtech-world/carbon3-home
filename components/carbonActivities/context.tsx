@@ -1,4 +1,4 @@
-import { InventoryPhase, Phase } from "@lib/type";
+import { InventoryPhase, Phase } from "@lib/@types/type";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export interface CurrentActivity {

@@ -2,7 +2,7 @@ import { useCurrentActivity } from "@components/carbonActivities/context";
 import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { ActivityUIProps } from "@components/carbonActivities/types";
 import { useIsMobile } from "@components/common/context";
-import { Phase } from "@lib/type";
+import { Phase } from "@lib/@types/type";
 import SvgArrowDown from "@public/arrow-down.svg";
 import classNames from "classnames";
 import { Fragment } from "react";

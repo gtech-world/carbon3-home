@@ -1,6 +1,6 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { Progress } from "@components/common/progress";
-import { InventoryPhase } from "@lib/type";
+import { InventoryPhase } from "@lib/@types/type";
 import classNames from "classnames";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 

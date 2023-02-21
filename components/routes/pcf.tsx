@@ -1,14 +1,14 @@
 import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
-import { Select, useSelectState } from "@components/common/select";
+import { Select } from "@components/common/select";
 import { genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
+import { InventoryPhase } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useVinCodesState } from "@lib/hooks/useVinCodesState";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
-import { InventoryPhase } from "@lib/type";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";

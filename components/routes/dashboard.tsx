@@ -2,7 +2,7 @@ import { useIsMobile, useUser } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductList } from "@lib/http";
-import { Product } from "@lib/type";
+import { Product } from "@lib/@types/type";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();

@@ -1,5 +1,5 @@
 import { CurrentActivityProvider, CurrentActivitySelectContext } from "@components/carbonActivities/context";
-import { InventoryPhase } from "@lib/type";
+import { InventoryPhase } from "@lib/@types/type";
 import { PcInventoryLevel1 } from "./pcInventoryLevel1";
 import { PcInventoryLevel2 } from "./pcInventoryLevel2";
 import { PcInventoryLevel3 } from "./pcInventoryLevel3";

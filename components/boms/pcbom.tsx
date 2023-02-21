@@ -1,7 +1,7 @@
 import { Attrs } from "@components/items/attrs";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductBomActivityTypes } from "@lib/http";
-import { ProductBom } from "@lib/type";
+import { ProductBom } from "@lib/@types/type";
 import classNames from "classnames";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";

@@ -1,5 +1,5 @@
 import { Modal } from "@components/common/modal";
-import { InventoryPhase, InventoryProductProcess, Phase, ProductProcess } from "@lib/type";
+import { InventoryPhase, InventoryProductProcess, Phase, ProductProcess } from "@lib/@types/type";
 import classNames from "classnames";
 import { Fragment, MouseEventHandler } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";

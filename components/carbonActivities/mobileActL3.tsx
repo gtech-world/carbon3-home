@@ -1,6 +1,6 @@
 import { Modal } from "@components/common/modal";
 import { AttrsFull } from "@components/items/attrs";
-import { InventoryProductProcess, ProductProcess } from "@lib/type";
+import { InventoryProductProcess, ProductProcess } from "@lib/@types/type";
 import { MouseEventHandler } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 

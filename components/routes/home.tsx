@@ -1,4 +1,5 @@
 import { HomeHeaderLayout } from "@components/common/headerLayout";
+// @ts-ignore
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
 import { useRouter } from "next/router";
@@ -16,7 +17,7 @@ function NumData(p: { num: number; label: string }) {
 
 function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | string; bt?: string }) {
   const { icon, to, text, bt = "Enter" } = p;
-  const {push} = useRouter()
+  const { push } = useRouter();
   const onClick = () => {
     if (to) {
       if (to.startsWith("/")) {
@@ -97,4 +98,4 @@ export function Home() {
   );
 }
 
-export default Home
+export default Home;

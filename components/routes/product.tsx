@@ -6,7 +6,7 @@ import { Select } from "@components/common/select";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
 import { getProductBomList, getProductPcfAccountable } from "@lib/http";
-import { ProductBom } from "@lib/type";
+import { ProductBom } from "@lib/@types/type";
 import { useMemo } from "react";
 import { ProfileInfo } from "./dashboard";
 

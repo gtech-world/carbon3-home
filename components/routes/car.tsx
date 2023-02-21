@@ -14,7 +14,7 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { Progress } from "@components/common/progress";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
-import { SbtInfo, SbtPhase } from "@lib/type";
+import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { genSbtPhase } from "@components/const";
 import { ftmTimestamp } from "@lib/utils";
 interface CarUIProps {
@@ -52,7 +52,9 @@ function ItemInfo(p: { label: string; text: string; link?: string }) {
   );
 }
 function CarInfos(p: CarUIProps) {
-  const {data: { sbt }} = p
+  const {
+    data: { sbt },
+  } = p;
   return (
     <div className="w-full">
       <ItemInfo label="Label No" text={sbt.sbtTokenId} />

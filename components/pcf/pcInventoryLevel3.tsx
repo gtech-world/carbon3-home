@@ -1,5 +1,5 @@
 import { AttrsFull } from "@components/items/attrs";
-import { InventoryProductProcess } from "@lib/type";
+import { InventoryProductProcess } from "@lib/@types/type";
 
 export function PcInventoryLevel3(p: { data?: InventoryProductProcess }) {
   const { data } = p;

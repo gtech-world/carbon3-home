@@ -1,5 +1,5 @@
-import { Phase, SbtPhase } from "@lib/type";
-import { InventoryPhase } from "./../lib/type";
+import { Phase, SbtPhase } from "@lib/@types/type";
+import { InventoryPhase } from "../lib/@types/type";
 
 const phase = ["Material Acquisition & Pre-Processing", "Production", "Distribution & storage", "Use"];
 

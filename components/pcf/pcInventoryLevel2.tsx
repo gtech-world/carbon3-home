@@ -1,5 +1,5 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
-import { InventoryProductProcess } from "@lib/type";
+import { InventoryProductProcess } from "@lib/@types/type";
 import classNames from "classnames";
 
 export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index: number }) {

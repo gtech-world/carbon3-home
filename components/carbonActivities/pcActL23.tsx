@@ -1,6 +1,6 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { AttrsFull } from "@components/items/attrs";
-import { ProductProcess } from "@lib/type";
+import { ProductProcess } from "@lib/@types/type";
 import classNames from "classnames";
 import { Fragment } from "react";
 

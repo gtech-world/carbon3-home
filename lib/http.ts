@@ -10,7 +10,7 @@ import {
   SbtEmissionInventory,
   SbtInfo,
   UserData,
-} from "./type";
+} from "./@types/type";
 
 function creatUrl(path: `/${string}`) {
   return `${API_BASE}${path}`;

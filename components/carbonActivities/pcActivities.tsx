@@ -1,5 +1,5 @@
 import { Activities } from "@components/items/activity";
-import { Phase } from "@lib/type";
+import { Phase } from "@lib/@types/type";
 import { CurrentActivityProvider, CurrentActivitySelectContext } from "./context";
 import { PcActL3, PcActL2 } from "./pcActL23";
 import { ActivityUIProps } from "./types";

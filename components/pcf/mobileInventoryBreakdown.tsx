@@ -1,6 +1,6 @@
 import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { Progress } from "@components/common/progress";
-import { InventoryPhase } from "@lib/type";
+import { InventoryPhase } from "@lib/@types/type";
 import classNames from "classnames";
 import { BsArrowRightShort } from "react-icons/bs";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";

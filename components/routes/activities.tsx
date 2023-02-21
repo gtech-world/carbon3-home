@@ -7,7 +7,7 @@ import { genPhase } from "@components/const";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
 import { getProductActivityDefination } from "@lib/http";
-import { Phase } from "@lib/type";
+import { Phase } from "@lib/@types/type";
 import { useMemo } from "react";
 
 export function CarbonActivities() {
