@@ -3,6 +3,7 @@ import { PcActivities } from "@components/carbonActivities/pcActivities";
 import { useIsMobile } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
 import { Select } from "@components/common/select";
+import { genPhase } from "@components/const";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
 import { getProductActivityDefination } from "@lib/http";
@@ -20,19 +21,12 @@ export function CarbonActivities() {
     }
   }, [current_product]);
   const mData = useMemo(() => {
-    if (!list || list.length === 0) return undefined;
+    if (!list ) return undefined;
+    const phaseList = genPhase();
     const phaseMap: { [k: string]: Phase } = {};
-    list.forEach((p) => {
-      if (!phaseMap[p.phase]) {
-        phaseMap[p.phase] = {
-          name: p.phase,
-          processList: [p],
-        };
-      } else {
-        phaseMap[p.phase].processList.push(p);
-      }
-    });
-    return Object.values(phaseMap);
+    phaseList.forEach((item) => (phaseMap[item.name] = item));
+    list.forEach((p) => phaseMap[p.phase]?.processList?.push(p));
+    return phaseList;
   }, [list]);
 
   return (

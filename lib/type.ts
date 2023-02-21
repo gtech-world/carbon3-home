@@ -123,3 +123,38 @@ export interface InventoryPhase extends Phase {
   progress: number; // 0 -> 100
   carbon_emission: number;
 }
+
+export interface SbtInfo {
+  id: number;
+  serialNumber: string;
+  productId: number;
+  partNumberId: number;
+  orgId: number;
+  sbtNetwork: string;
+  sbtAddress: string;
+  sbtTokenId: string;
+  sbtMetadataUrl: string;
+  sbtMintTimestamp: number;
+  createTime: string;
+  updateTime: string;
+  productName: string;
+  imageUrl: string;
+}
+
+export interface SbtEmissionInventory {
+  id: number;
+  name: string;
+  phase: string;
+  displayName: string;
+  description: string;
+  createTime: string;
+  updateTime: string;
+  ghgEmission: number;
+}
+
+export interface SbtPhase {
+  name: string;
+  progress: number; // 0 -> 100
+  carbon_emission: number;
+  verified: boolean;
+}

@@ -1,7 +1,16 @@
 import { getUserData } from "@components/common/context";
 import axios, { AxiosRequestConfig } from "axios";
 import { API_BASE } from "./env";
-import { ActivityType, InventoryProductProcess, Product, ProductBom, ProductProcess, UserData } from "./type";
+import {
+  ActivityType,
+  InventoryProductProcess,
+  Product,
+  ProductBom,
+  ProductProcess,
+  SbtEmissionInventory,
+  SbtInfo,
+  UserData,
+} from "./type";
 
 function creatUrl(path: `/${string}`) {
   return `${API_BASE}${path}`;
@@ -82,5 +91,16 @@ export async function getPCFInventory(vin: string | number) {
     creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
     authConfig()
   );
+  return res.data;
+}
+
+//
+export async function getSbtInfo(tokenId: string | number) {
+  const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${tokenId}/info`));
+  return res.data;
+}
+
+export async function getSbgEmissionInventory(tokenId: string | number) {
+  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${tokenId}/emission/inventory`));
   return res.data;
 }

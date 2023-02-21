@@ -8,14 +8,28 @@ import SVGCar from "@public/car.svg";
 import SVGArrowRight from "@public/arrow-right.svg";
 
 import { useIsMobile } from "@components/common/context";
-import { useToggle } from "react-use";
+import { useAsync, useToggle } from "react-use";
 import classNames from "classnames";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Progress } from "@components/common/progress";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
+import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
+import { SbtInfo, SbtPhase } from "@lib/type";
+import { genSbtPhase } from "@components/const";
+import { ftmTimestamp } from "@lib/utils";
+interface CarUIProps {
+  data: {
+    sbt: SbtInfo;
+    sbtPhase: SbtPhase[];
+    totalEmission: number;
+    tonnes: string;
+    trees: string;
+    recyclable: string;
+    use: string;
+  };
+}
 
 function ItemInfo(p: { label: string; text: string; link?: string }) {
-  //onClick={() => p.link && window.open(p.link, "_blank")}
   return (
     <div
       className={classNames(
@@ -37,13 +51,14 @@ function ItemInfo(p: { label: string; text: string; link?: string }) {
     </div>
   );
 }
-function CarInfos(p: { data: any }) {
+function CarInfos(p: CarUIProps) {
+  const {data: { sbt }} = p
   return (
     <div className="w-full">
-      <ItemInfo label="Label No" text="25590909090" />
-      <ItemInfo label="Vehicle Identifier Number(VIN)" text="25590909090" />
-      <ItemInfo label="Vehicle Model" text="Ford Mach-E PWD 2023" />
-      <ItemInfo label="Label Printed Date" text="2022-12-14" />
+      <ItemInfo label="Label No" text={sbt.sbtTokenId} />
+      <ItemInfo label="Vehicle Identifier Number(VIN)" text={sbt.serialNumber} />
+      <ItemInfo label="Vehicle Model" text={sbt.productName} />
+      <ItemInfo label="Label Printed Date" text={ftmTimestamp(sbt.sbtMintTimestamp)} />
       <ItemInfo label="Label Certified by" text="AIAG Automotive Carbon Advisory Commmitee" link="/1234" />
       <ItemInfo label="Label SBT Address" text="View on blockchain explorer" link="/123" />
     </div>
@@ -61,7 +76,7 @@ function ItemEmission(p: { icon: React.ReactNode; value: string; sub: string }) 
   );
 }
 
-function ItemPhase(p: { data: any }) {
+function ItemPhase(p: { data: SbtPhase }) {
   const { data } = p;
   return (
     <div
@@ -69,7 +84,7 @@ function ItemPhase(p: { data: any }) {
         "flex flex-col w-0 flex-1 h-[11.5rem] p-5 bg-white rounded-lg text-black mo:h-auto mo:w-full mo:mt-5"
       )}
     >
-      <Progress value={30} className="mb-5 flex-shrink-0" />
+      <Progress value={data.progress} className="mb-5 flex-shrink-0" />
       <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${data.carbon_emission} / ${data.progress}%`}</div>
       <div className="flex-1" />
@@ -90,19 +105,18 @@ function ItemPhase(p: { data: any }) {
   );
 }
 
-function Phases() {
+function Phases(p: { data: SbtPhase[] }) {
   const isMobile = useIsMobile();
+  const { data } = p;
   return (
     <div className="flex items-center h-auto w-full mt-5 mo:flex-col mo:mt-0 bg-white rounded-lg mo:bg-transparent">
-      <ItemPhase
-        data={{ name: "Material Acquisition & Pre-Processing", carbon_emission: "557", progress: 30, verified: true }}
-      />
+      <ItemPhase data={data[0]} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={{ name: "Production", carbon_emission: "464", progress: 30, verified: true }} />
+      <ItemPhase data={data[1]} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={{ name: "Distribution & storage", carbon_emission: "298", progress: 30, verified: true }} />
+      <ItemPhase data={data[2]} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={{ name: "Use", carbon_emission: "876", progress: 30, verified: false }} />
+      <ItemPhase data={data[3]} />
     </div>
   );
 }
@@ -163,7 +177,8 @@ function QAS() {
   );
 }
 
-function MobileCar(p: { data: any }) {
+function MobileCar(p: CarUIProps) {
+  const { data } = p;
   const [show, setShow] = useToggle(false);
   const ref = useRef<HTMLDivElement>();
   const onClickShow = useCallback(() => {
@@ -200,31 +215,31 @@ function MobileCar(p: { data: any }) {
             <div />
             <ItemEmission
               icon={<SVGCO2 className="text-[2.9644rem]" />}
-              value="20.24"
+              value={data.tonnes}
               sub="tonnes of CO2e Cradle-to-Gate emission"
             />
             <div />
             <ItemEmission
               icon={<SVGLeaf2 className="text-[2.9506rem] my-[4px]" />}
-              value="675"
+              value={data.trees}
               sub="trees (8-yr old) to absorbe for one year"
             />
             <div />
             <div />
             <ItemEmission
               icon={<SVGLeaf3 className="text-[2.8213rem] mt-[1px]" />}
-              value="35%"
+              value={data.recyclable}
               sub="of the materials used in this vehicle is recyclable"
             />
             <div />
             <ItemEmission
               icon={<SVGCar className="text-[3.51rem] my-[4px]" />}
-              value="17.5"
+              value={data.use}
               sub="tonnes of CO2e emission estimated from use"
             />
             <div />
           </div>
-          <Phases />
+          <Phases data={data.sbtPhase} />
           <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={onClickShow}>
             Learn More about AIAG’s Carbon3 Trust Label
           </div>
@@ -233,7 +248,7 @@ function MobileCar(p: { data: any }) {
         <div className="w-full">
           <div className="w-full p-5 rounded-lg bg-white mt-5">
             <div className="text-lg font-bold mb-[.9375rem]">Label Information</div>
-            <CarInfos data={0} />
+            <CarInfos data={data} />
           </div>
           <QAS />
         </div>
@@ -242,7 +257,7 @@ function MobileCar(p: { data: any }) {
   );
 }
 
-function PcCar(p: { data: any }) {
+function PcCar(p: CarUIProps) {
   const { data } = p;
   return (
     <div className="w-full p-5 max-w-[90rem] mx-auto">
@@ -259,27 +274,27 @@ function PcCar(p: { data: any }) {
         <div className="w-0 flex-1 p-5 mt-5 bg-white rounded-lg flex justify-between items-center">
           <ItemEmission
             icon={<SVGCO2 className="text-[2.9644rem]" />}
-            value="20.24"
+            value={data.tonnes}
             sub="tonnes of CO2e Cradle-to-Gate emission"
           />
           <ItemEmission
             icon={<SVGLeaf2 className="text-[2.9506rem] my-1" />}
-            value="675"
+            value={data.trees}
             sub="trees (8-yr old) to absorbe for one year"
           />
           <ItemEmission
             icon={<SVGLeaf3 className="text-[2.8213rem] my-[1px]" />}
-            value="35%"
+            value={data.recyclable}
             sub="of the materials used in this vehicle is recyclable"
           />
           <ItemEmission
             icon={<SVGCar className="text-[3.51rem] my-1" />}
-            value="17.5"
+            value={data.use}
             sub="tonnes of CO2e emission estimated from use"
           />
         </div>
       </div>
-      <Phases />
+      <Phases data={data.sbtPhase} />
       <QAS />
     </div>
   );
@@ -287,11 +302,44 @@ function PcCar(p: { data: any }) {
 
 export function Car() {
   const { query } = useRouter();
+  const lno: string = query.lno as string;
   const isMobile = useIsMobile();
-  if (!query.vin) return null;
+  const { value, loading } = useAsync(
+    () => (!lno ? Promise.resolve(undefined) : Promise.all([getSbtInfo(lno), getSbgEmissionInventory(lno)])),
+    [lno]
+  );
+  const data = useMemo<CarUIProps["data"] | undefined>(() => {
+    if (!value) return undefined;
+    const [sbt, sbtEmissions] = value;
+    const sbtPhase = genSbtPhase();
+    const mapPhase: { [k: string]: SbtPhase } = {};
+    sbtPhase.forEach((item) => (mapPhase[item.name] = item));
+    let totalEmission = 0;
+    sbtEmissions.forEach((emi) => {
+      if (mapPhase[emi.phase]) {
+        mapPhase[emi.phase].carbon_emission += emi.ghgEmission;
+        totalEmission += emi.ghgEmission;
+      }
+    });
+    sbtPhase.forEach((p) => {
+      p.progress = totalEmission > 0 ? Math.round((p.carbon_emission / totalEmission) * 100) : 0;
+      p.verified = p.carbon_emission > 0 && p.name !== "Use";
+    });
+
+    return {
+      sbt,
+      sbtPhase,
+      totalEmission,
+      tonnes: `${totalEmission > 0 ? Math.round(totalEmission * 0.5) : 0}`,
+      trees: `${totalEmission > 0 ? Math.round(totalEmission * 10) : 0}`,
+      recyclable: "35%",
+      use: `${Math.round(sbtPhase[3].carbon_emission * 0.5 * 10) * 0.1}`,
+    };
+  }, [value]);
+  if (!query.lno || loading || !data) return null;
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
-      {isMobile ? <MobileCar data={0} /> : <PcCar data={0} />}
+      {isMobile ? <MobileCar data={data} /> : <PcCar data={data} />}
     </div>
   );
 }

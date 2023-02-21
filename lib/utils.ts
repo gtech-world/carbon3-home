@@ -11,3 +11,7 @@ export function ftmUTC(t: string) {
 export function parseUTC(t: string) {
   return Date.parse(t.includes("GMT") ? t : `${t} GMT`);
 }
+
+export function ftmTimestamp(t: number) {
+  return new Date(t).toLocaleString().replaceAll("/", "-");
+}

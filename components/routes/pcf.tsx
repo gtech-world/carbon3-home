@@ -2,6 +2,7 @@ import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
 import { Select, useSelectState } from "@components/common/select";
+import { genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
@@ -38,8 +39,10 @@ export function PCF() {
   );
 
   const mData = useMemo(() => {
-    if (!pcfData || pcfData.length < 0) return undefined;
+    if (!pcfData) return undefined;
+    const phaseList = genInventoryPhase();
     const phaseMap: { [k: string]: InventoryPhase } = {};
+    phaseList.forEach((item) => (phaseMap[item.name] = item));
     pcfData.forEach((p) => {
       p.carbon_emission = 0;
       p.activityTypes.forEach((act) => {
@@ -49,25 +52,14 @@ export function PCF() {
         });
         p.carbon_emission += act.carbon_emission;
       });
-
-      if (!phaseMap[p.phase]) {
-        phaseMap[p.phase] = {
-          name: p.phase,
-          processList: [p],
-          progress: 30,
-          carbon_emission: 0,
-        };
-      } else {
-        phaseMap[p.phase].processList.push(p);
-      }
+      phaseMap[p.phase]?.processList?.push(p);
     });
-    const list = Object.values(phaseMap);
-    list.forEach((p) => {
+    phaseList.forEach((p) => {
       p.processList.forEach((item) => {
         p.carbon_emission += item.carbon_emission;
       });
     });
-    return list;
+    return phaseList;
   }, [pcfData]);
 
   const totalEmission = useMemo(() => {
@@ -85,44 +77,48 @@ export function PCF() {
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
         Query PCF Data with Vehicle’s VIN Code:
       </div>
-      <Select current={current} onChange={onChange} items={items} />
-      <div className="w-full flex mo:flex-col">
-        <div className="w-0 flex-[2] mr-5 mo:w-full">
-          <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
-          <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
-            <img className="w-[16.25rem] h-full object-cover rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]" />
-            <div className="w-0 flex-1 ml-8 mo:ml-0 mo:w-full">
-              <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
-              <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
-              <PartInfo label="Product Type" text={productInfo?.type || "-"} />
-              <PartInfo label="VIN Code" text={current_vin || "-"} />
-              <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
+      {productInfo && (
+        <>
+          <Select current={current} onChange={onChange} items={items} />
+          <div className="w-full flex mo:flex-col">
+            <div className="w-0 flex-[2] mr-5 mo:w-full">
+              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
+              <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
+                <img className="w-[16.25rem] h-full object-cover rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]" />
+                <div className="w-0 flex-1 ml-8 mo:ml-0 mo:w-full">
+                  <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
+                  <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
+                  <PartInfo label="Product Type" text={productInfo?.type || "-"} />
+                  <PartInfo label="VIN Code" text={current_vin || "-"} />
+                  <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
+                </div>
+              </div>
+            </div>
+            <div className="w-0 flex-1 mo:w-full">
+              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">INVENTORY STATS</div>
+              <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
+                <InventoryStat
+                  icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                  tit="Product CO2e Emission"
+                  txt={`${totalEmission} kg`}
+                />
+                <InventoryStat
+                  icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
+                  tit="Emission Scope"
+                  txt="Gradle-to-Grave"
+                />
+                <InventoryStat
+                  icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                  tit="Overall Data Quality"
+                  txt="Primary Data=38.5%"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="w-0 flex-1 mo:w-full">
-          <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">INVENTORY STATS</div>
-          <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
-            <InventoryStat
-              icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-              tit="Product CO2e Emission"
-              txt={`${totalEmission} kg`}
-            />
-            <InventoryStat
-              icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
-              tit="Emission Scope"
-              txt="Gradle-to-Grave"
-            />
-            <InventoryStat
-              icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-              tit="Overall Data Quality"
-              txt="Primary Data=38.5%"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
-      {mData && <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>}
+          <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
+          {mData && <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>}
+        </>
+      )}
     </MainLayout>
   );
 }

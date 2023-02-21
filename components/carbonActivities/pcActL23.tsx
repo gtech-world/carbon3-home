@@ -65,15 +65,15 @@ export function PcActL2(p: { data: ProductProcess[] }) {
   );
 }
 
-export function PcActL3(p: { data: ProductProcess }) {
+export function PcActL3(p: { data?: ProductProcess }) {
   const { data } = p;
   return (
     <div className="flex-1 w-0 h-full ml-[.625rem] flex flex-col bg-white p-5 rounded-lg overflow-y-auto">
       <div className="bg-white shrink-0 leading-normal text-black text-base font-semibold w-full whitespace-normal pb-5">
-        {data.name}
+        {data?.name || ""}
       </div>
       <div className="w-full h-0 flex-1 overflow-y-auto">
-        {data.activityTypes.map((item, i) => (
+        {data?.activityTypes.map((item, i) => (
           <AttrsFull
             key={`attrs_source_${i}`}
             title={`#${i + 1} ${item.name}`}
