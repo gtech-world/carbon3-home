@@ -1,23 +1,23 @@
-import { useRouter } from "next/router";
-import SVGCarbon3 from "@public/carbon3.svg";
 import SVGAicdRound from "@public/aicd-round.svg";
+import SVGArrowRight from "@public/arrow-right.svg";
+import SVGCar from "@public/car.svg";
+import SVGCarbon3 from "@public/carbon3.svg";
 import SVGCO2 from "@public/co2.svg";
 import SVGLeaf2 from "@public/leaf2.svg";
 import SVGLeaf3 from "@public/leaf3.svg";
-import SVGCar from "@public/car.svg";
-import SVGArrowRight from "@public/arrow-right.svg";
+import { useRouter } from "next/router";
 
+import { Button } from "@components/common/button";
 import { useIsMobile } from "@components/common/context";
-import { useAsync, useToggle } from "react-use";
+import { Progress } from "@components/common/progress";
+import { genSbtPhase } from "@components/const";
+import { SbtInfo, SbtPhase } from "@lib/@types/type";
+import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
+import { ftmTimestamp, genScanTokenUrl } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo, useRef } from "react";
-import { Progress } from "@components/common/progress";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
-import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
-import { SbtInfo, SbtPhase } from "@lib/@types/type";
-import { genSbtPhase } from "@components/const";
-import { ftmTimestamp } from "@lib/utils";
-import { Button } from "@components/common/button";
+import { useAsync, useToggle } from "react-use";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -62,8 +62,12 @@ function CarInfos(p: CarUIProps) {
       <ItemInfo label="Vehicle Identifier Number(VIN)" text={sbt.serialNumber} />
       <ItemInfo label="Vehicle Model" text={sbt.productName} />
       <ItemInfo label="Label Printed Date" text={ftmTimestamp(sbt.sbtMintTimestamp)} />
-      <ItemInfo label="Label Certified by" text="AIAG Automotive Carbon Advisory Commmitee" link="/1234" />
-      <ItemInfo label="Label SBT Address" text="View on blockchain explorer" link="/123" />
+      <ItemInfo
+        label="Label Certified by"
+        text="AIAG Automotive Carbon Advisory Commmitee"
+        link="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"
+      />
+      <ItemInfo label="Label SBT Address" text="View on blockchain explorer" link={genScanTokenUrl(sbt.sbtTokenId)} />
     </div>
   );
 }
@@ -124,8 +128,8 @@ function Phases(p: { data: SbtPhase[] }) {
   );
 }
 
-function ItemQA(p: { type: number }) {
-  const { type } = p;
+function ItemQA(p: { type: number; sbt: SbtInfo }) {
+  const { type, sbt } = p;
   return (
     <div className="flex-1 w-0 p-5 bg-white rounded-lg flex flex-col items-center [&:nth-child(n+2)]:ml-5 mo:!ml-0 mo:w-full mo:mt-5">
       {type === 1 ? (
@@ -146,23 +150,34 @@ function ItemQA(p: { type: number }) {
         {type === 1 ? (
           <>
             The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under{" "}
-            <span className="text-green-2 cursor-pointer">AIAG’s carbon reduction / Net Zero 2050 initiatives</span>.
-            The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable
+            <a
+              className="text-green-2 cursor-pointer"
+              href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"
+            >
+              AIAG’s carbon reduction / Net Zero 2050 initiatives
+            </a>
+            . The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable
             manner for the ultimate transparency and traceability for the vehicle’s carbon performance.
           </>
         ) : type === 2 ? (
           <>
             AICD is the global, industry-level database for long-term carbon performance traceability and visibility
             under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon
-            Database. Click <span className="text-green-2 cursor-pointer">here</span> to query information about this
-            vehicle.
+            Database. Click{" "}
+            <a className="text-green-2 cursor-pointer" href="/openQuery">
+              here
+            </a>{" "}
+            to query information about this vehicle.
           </>
         ) : (
           <>
             A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been
             generated on blockchain to make sure the information in this label is immutable and will be maintain for
-            traceability forever. Check <span className="text-green-2 cursor-pointer">here</span> to verify the SBT on
-            blockchain explorer.
+            traceability forever. Check{" "}
+            <a className="text-green-2 cursor-pointer" href={genScanTokenUrl(sbt.sbtTokenId)}>
+              here
+            </a>{" "}
+            to verify the SBT on blockchain explorer.
           </>
         )}
       </div>
@@ -170,12 +185,13 @@ function ItemQA(p: { type: number }) {
   );
 }
 
-function QAS() {
+function QAS(p: { sbt: SbtInfo }) {
+  const { sbt } = p;
   return (
     <div className="w-full flex mt-5 mo:block mo:mt-0">
-      <ItemQA type={1} />
-      <ItemQA type={2} />
-      <ItemQA type={3} />
+      <ItemQA type={1} sbt={sbt} />
+      <ItemQA type={2} sbt={sbt} />
+      <ItemQA type={3} sbt={sbt} />
     </div>
   );
 }
@@ -253,7 +269,7 @@ function MobileCar(p: CarUIProps) {
             <div className="text-lg font-bold mb-[.9375rem]">Label Information</div>
             <CarInfos data={data} />
           </div>
-          <QAS />
+          <QAS sbt={data.sbt} />
         </div>
       )}
     </div>
@@ -298,7 +314,7 @@ function PcCar(p: CarUIProps) {
         </div>
       </div>
       <Phases data={data.sbtPhase} />
-      <QAS />
+      <QAS sbt={data.sbt} />
     </div>
   );
 }

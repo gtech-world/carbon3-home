@@ -1,3 +1,6 @@
+import { gunzip } from "zlib";
+import { LABEL_CONTRACT, SCAN_BASE } from "./env";
+
 export function getErrorMsg(error: any): string {
   if (!error) return "Unkown Error";
   if (typeof error === "string") return error as string;
@@ -14,4 +17,12 @@ export function parseUTC(t: string) {
 
 export function ftmTimestamp(t: number) {
   return new Date(t).toLocaleString().replaceAll("/", "-");
+}
+
+export function genScanUrl(type: "address" | "token" | "tx", address: string) {
+  return `${SCAN_BASE}/${type}/${address}`;
+}
+
+export function genScanTokenUrl(tokenId: string){
+  return `${SCAN_BASE}/token/${LABEL_CONTRACT}?a=${tokenId}`
 }
