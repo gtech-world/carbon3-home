@@ -26,7 +26,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
 
   return (
     <MainHeaderLayout className="flex text-black !p-0 ">
-      <div className="w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
+      <div className="sticky self-start top-[4.25rem] w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
         {menus.map((item, i) => (
           <div
             onClick={(e) => {

@@ -30,13 +30,13 @@ export function MobileActL3(p: {
           {iData.activityTypes.map((item, i) => (
             <AttrsFull
               key={`attrs_source_${i}`}
-              title={`#${i + 1} ${item.name}`}
+              title={`#${i + 1} ${item.displayName}`}
               tit_r={item.carbon_emission === undefined ? undefined : `${item.carbon_emission}kg`}
               sub={item.description}
-              badge={[
-                { type: "blue", txt: `${2}` },
-                { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
-              ]}
+              // badge={[
+              //   { type: "blue", txt: `${2}` },
+              //   { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
+              // ]}
             />
           ))}
         </div>

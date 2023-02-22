@@ -76,12 +76,12 @@ export function PcActL3(p: { data?: ProductProcess }) {
         {data?.activityTypes.map((item, i) => (
           <AttrsFull
             key={`attrs_source_${i}`}
-            title={`#${i + 1} ${item.name}`}
+            title={`#${i + 1} ${item.displayName}`}
             sub={item.description}
-            badge={[
-              { type: "blue", txt: `${2}` },
-              { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
-            ]}
+            // badge={[
+            //   { type: "blue", txt: `${2}` },
+            //   { type: "orange", txt: item.scope ? "RefData" : "Supplier" },
+            // ]}
           />
         ))}
       </div>

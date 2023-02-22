@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { Button } from "@components/common/button";
 import { useIsMobile } from "@components/common/context";
 import { Progress } from "@components/common/progress";
-import { genSbtPhase } from "@components/const";
+import { genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
 import { ftmTimestamp, genScanTokenUrl } from "@lib/utils";
@@ -18,6 +18,7 @@ import classNames from "classnames";
 import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
+import { HeaderLayout } from "@components/common/headerLayout";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -164,7 +165,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
             AICD is the global, industry-level database for long-term carbon performance traceability and visibility
             under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon
             Database. Click{" "}
-            <a className="text-green-2 cursor-pointer" href="/openQuery">
+            <a className="text-green-2 cursor-pointer" href="/openquery">
               here
             </a>{" "}
             to query information about this vehicle.
@@ -342,7 +343,7 @@ export function Car() {
     });
     sbtPhase.forEach((p) => {
       p.progress = totalEmission > 0 ? Math.round((p.carbon_emission / totalEmission) * 100) : 0;
-      p.verified = p.carbon_emission > 0 && p.name !== "Use";
+      p.verified = p.carbon_emission > 0 && p.name !== PHASE.at(PHASE.length - 1);
     });
 
     return {
@@ -358,7 +359,13 @@ export function Car() {
   if (!query.lno || loading || !data) return null;
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
-      {isMobile ? <MobileCar data={data} /> : <PcCar data={data} />}
+      {isMobile ? (
+        <MobileCar data={data} />
+      ) : (
+        <HeaderLayout>
+          <PcCar data={data} />
+        </HeaderLayout>
+      )}
     </div>
   );
 }

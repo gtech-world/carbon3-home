@@ -61,7 +61,10 @@ export function getUserData() {
   }
 }
 
-export const UserContext = createContext<{ user?: UserData; setUser: (user?: UserData) => void }>({
+export const UserContext = createContext<{
+  user?: UserData;
+  setUser: (user?: UserData, onlyStorage?: boolean) => void;
+}>({
   // user,
   setUser: () => {},
 });
@@ -73,9 +76,9 @@ export function useUser() {
 export function UserProvider(p: { children?: React.ReactNode }) {
   const [ud, setUd] = useState<UserData>();
   const [init, setInit] = useState(false);
-  const setUser = useCallback((user?: UserData) => {
-    if(user) user.loginTime = new Date().getTime();
-    setUd(user);
+  const setUser = useCallback((user?: UserData, onlyStorage?: boolean) => {
+    if (user) user.loginTime = new Date().getTime();
+    !onlyStorage && setUd(user);
     localStorage.setItem("user-data", user ? JSON.stringify(user) : "");
   }, []);
   useEffect(() => {
@@ -88,7 +91,7 @@ export function UserProvider(p: { children?: React.ReactNode }) {
       init &&
       pathname &&
       ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname) &&
-      (!ud || (new Date().getTime() - ud.loginTime) > 1000 * 60 * 60)
+      (!ud || new Date().getTime() - ud.loginTime > 1000 * 60 * 60)
     ) {
       push("/login");
     }

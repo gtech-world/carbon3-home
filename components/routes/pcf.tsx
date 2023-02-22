@@ -43,12 +43,14 @@ export function PCF() {
     const phaseList = genInventoryPhase();
     const phaseMap: { [k: string]: InventoryPhase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
+    let total = 0;
     pcfData.forEach((p) => {
       p.carbon_emission = 0;
       p.activityTypes.forEach((act) => {
         act.carbon_emission = 0;
         act.inventoryActivityList.forEach((iAct) => {
           act.carbon_emission += iAct.ghgEmission;
+          total += iAct.ghgEmission;
         });
         p.carbon_emission += act.carbon_emission;
       });
@@ -58,6 +60,7 @@ export function PCF() {
       p.processList.forEach((item) => {
         p.carbon_emission += item.carbon_emission;
       });
+      p.progress = total > 0 ? Math.round((p.carbon_emission / total) * 100) : 0;
     });
     return phaseList;
   }, [pcfData]);

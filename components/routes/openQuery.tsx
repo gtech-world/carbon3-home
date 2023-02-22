@@ -3,6 +3,7 @@ import { useIsMobile } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgQuery from "@public/query.svg";
+import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useState } from "react";
 
 export function OpenQuery() {
@@ -11,7 +12,11 @@ export function OpenQuery() {
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value || "");
   }, []);
-  const onQuery = () => {};
+  const { push } = useRouter();
+  const onQuery = () => {
+    if (!vin) return;
+    push(`car?lno=${vin}`);
+  };
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
@@ -48,4 +53,4 @@ export function OpenQuery() {
   );
 }
 
-export default OpenQuery
+export default OpenQuery;

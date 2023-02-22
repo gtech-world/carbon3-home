@@ -72,11 +72,11 @@ export function PartInfos(p: BomUIProps) {
   return (
     <>
       <PartInfo label="Part Name" text={node.partDisplayName} />
-      <PartInfo label="Part Type" text={node.children.length == 0 ? "Sub-system" : "Bom"} />
+      <PartInfo label="Part Type" text={node.children.length > 0 ? "Sub-system" : "Bom"} />
       <PartInfo label="BOM Genealogy Level" text={`${node.deep + 1}`} />
       <PartInfo label="Parent" text={node.parent?.partDisplayName || "-"} />
-      <PartInfo label="Children" text="No child" />
-      <PartInfo label="From Supplier" text={node.supplierName} />
+      <PartInfo label="Children" text={`${node.children.length || 'No'} Child`} />
+      <PartInfo label="From Supplier" text={node.supplierName || "-" } />
       <PartInfo label="Last Update" text={node.updateTime} />
     </>
   );
@@ -127,7 +127,7 @@ export function PcBom(p: BomUIProps) {
       </div>
       <div className="px-8 pt-[2.125rem] pb-8 flex-1 bg-white rounded-r-lg h-[27rem] flex justify-between">
         <div className="flex-1 w-0">
-          <PartInfos node={node} />
+          <PartInfos node={selectNode} />
         </div>
         <div className="w-[3.5rem]" />
         <div className="w-0 flex-1 flex flex-col">

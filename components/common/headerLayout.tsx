@@ -9,7 +9,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   return (
     <div className="h-full w-full bg-slate-50 relative overflow-y-auto">
       {isMobile ? (
-        <div className="absolute z-0 top-0 w-full h-[43rem] bg-green-2 ">
+        <div className="absolute z-0 top-0 w-full h-[43rem] overflow-hidden bg-green-2 ">
           <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.png" />
           <div
             className="w-full h-full absolute ssm:top-[calc(21.5rem_-_75vw)]"
@@ -35,10 +35,10 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
           />
         </div>
       )}
-      <Header className="mo:sticky mo:bg-white mo:text-green-2 mo:p-4" />
+      <Header className="h-[6.75rem] mo:h-[4.25rem] mo:sticky mo:bg-white mo:text-green-2 mo:p-4" />
       <div
         className={classNames(
-          "z-[2] relative w-full py-6 max-w-[90rem] px-[7.5rem] mx-auto mo:px-5 mo:flex mo:flex-col",
+          "z-[2] relative w-full py-6 max-w-[90rem] px-[7.5rem] mx-auto mo:mx-0 mo:px-5 mo:flex mo:flex-col",
           className
         )}
         {...props}
@@ -72,7 +72,7 @@ export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
       />
       <div
         className={classNames(
-          "z-[2] min-h-[calc(100%_-_4.75rem)] relative w-full py-6 px-[3.125rem] mx-auto",
+          "z-[2] h-max min-h-[calc(100%_-_4.75rem)] w-full py-6 px-[3.125rem] mx-auto",
           className
         )}
         {...props}

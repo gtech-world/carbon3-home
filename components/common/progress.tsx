@@ -8,3 +8,16 @@ export function Progress(p: { value: number; bg?: string; color?: string; classN
     </div>
   );
 }
+
+export function StepProgress(p: { index: number; full?: boolean; bg?: string; color?: string; className?: string }) {
+  const { index, full, bg = "#dddddd", color = "#227A30", className } = p;
+  // const isMobile = useIsMobile();
+  return (
+    <div className={classNames(className, "w-full h-[.625rem]")} style={{ background: bg }}>
+      <div
+        style={{ marginLeft: !full ? `${index * 25}%` : "0", width: full ? "100%" : "25%", background: color }}
+        className="h-full"
+      />
+    </div>
+  );
+}

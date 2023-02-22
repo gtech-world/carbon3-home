@@ -47,15 +47,17 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
 export function Home() {
   return (
     <HomeHeaderLayout>
-      <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
-        AICD is the global, industry-level database for long-term carbon performance traceability and visibility under
-        the 2050 Net Zero commitment.
+      <div className="flex flex-col mo:items-center mo:h-[37.25rem]">
+        <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
+          AICD is the global, industry-level database for long-term carbon performance traceability and visibility under
+          the 2050 Net Zero commitment.
+        </div>
+        <button
+          onClick={() => window.open(AICD_SOLUTIONS, "_blank")}
+          className="mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem]  mo:self-center"
+        >{`Learn More >`}</button>
       </div>
-      <button
-        onClick={() => window.open(AICD_SOLUTIONS, "_blank")}
-        className="mt-[3.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem] mo:w-[13.75rem] mo:self-center"
-      >{`Learn More >`}</button>
-      <div
+      {/* <div
         className="invisible
          w-full rounded-2xl mt-[10.375rem] flex justify-around items-center py-[1.4375rem] bg-white mo:flex-col mo:mt-[4.375rem] mo:py-8"
         style={{ boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.15)" }}
@@ -64,9 +66,9 @@ export function Home() {
         <NumData num={63} label="Collaborative Partners" />
         <NumData num={277148} label="Labelled Vehicles" />
         <NumData num={909128401} label="Piece of Data Collected" />
-      </div>
+      </div> */}
 
-      <div className="flex justify-between my-[3.75rem] mo:flex-col mo:mt-[3.125rem] mo:mb-0">
+      <div className="flex justify-between mt-[20rem] my-[3.75rem] mo:flex-col mo:mt-11 mo:mb-0">
         <Card
           icon={<SvgQuery className="h-[6.125rem]" />}
           to="/openquery"

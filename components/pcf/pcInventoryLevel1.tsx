@@ -1,11 +1,12 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
-import { Progress } from "@components/common/progress";
+import { StepProgress } from "@components/common/progress";
+import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
 import classNames from "classnames";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
-export function PcInventoryLevel1Item(p: { data: InventoryPhase }) {
-  const { data } = p;
+export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }) {
+  const { data, index } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
   return (
@@ -15,10 +16,10 @@ export function PcInventoryLevel1Item(p: { data: InventoryPhase }) {
       })}
       onClick={() => update({ activity: data, sourcing: 0 })}
     >
-      <Progress value={30} className="my-5" />
+      <StepProgress full={true} color={selected ? "#227A30" : "transparent"} index={index} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-xl">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${data.carbon_emission} / ${data.progress}%`}</div>
-      {data.progress >= 100 ? (
+      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${data.carbon_emission}kg / ${data.progress}%`}</div>
+      {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />
       ) : (
         <IoEllipsisHorizontalCircle className="text-2xl mt-3" />
@@ -32,7 +33,7 @@ export function PcInventoryLevel1(p: { data: InventoryPhase[] }) {
   return (
     <div className="bg-white p-5 rounded-lg w-full flex">
       {data.map((item, i) => (
-        <PcInventoryLevel1Item key={`pc_inventory_item_${i}`} data={item} />
+        <PcInventoryLevel1Item index={i} key={`pc_inventory_item_${i}`} data={item} />
       ))}
     </div>
   );
