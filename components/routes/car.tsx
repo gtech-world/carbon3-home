@@ -154,6 +154,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
             <a
               className="text-green-2 cursor-pointer"
               href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"
+              rel="noreferrer"
             >
               AIAG’s carbon reduction / Net Zero 2050 initiatives
             </a>
@@ -165,7 +166,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
             AICD is the global, industry-level database for long-term carbon performance traceability and visibility
             under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon
             Database. Click{" "}
-            <a className="text-green-2 cursor-pointer" href="/openquery">
+            <a className="text-green-2 cursor-pointer" href="/openquery" rel="noreferrer">
               here
             </a>{" "}
             to query information about this vehicle.
@@ -175,7 +176,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
             A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been
             generated on blockchain to make sure the information in this label is immutable and will be maintain for
             traceability forever. Check{" "}
-            <a className="text-green-2 cursor-pointer" href={genScanTokenUrl(sbt.sbtTokenId)}>
+            <a className="text-green-2 cursor-pointer" href={genScanTokenUrl(sbt.sbtTokenId)} rel="noreferrer">
               here
             </a>{" "}
             to verify the SBT on blockchain explorer.
