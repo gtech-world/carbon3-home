@@ -27,3 +27,6 @@ export function genSbtPhase(): SbtPhase[] {
     verified: false,
   }));
 }
+
+export const CAR_SRC = "/car.png";
+export const ORG_SRC = "/org.png"

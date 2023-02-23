@@ -9,9 +9,10 @@ import { getProductBomList, getProductPcfAccountable } from "@lib/http";
 import { ProductBom } from "@lib/@types/type";
 import { useMemo } from "react";
 import { ProfileInfo } from "./dashboard";
+import { CAR_SRC } from "@components/const";
 
 export function ProductDefinition() {
-  const { current, items, onChange, current_product } = useProductsState()
+  const { current, items, onChange, current_product } = useProductsState();
   const { value: pcfAccountable } = useAsyncM(
     () => (current_product ? getProductPcfAccountable(current_product.id) : Promise.resolve(undefined)),
     [current_product]
@@ -26,7 +27,7 @@ export function ProductDefinition() {
     let rootBomPartNumber: string = "";
     boms.forEach((bom) => {
       if (bom.parentPartNumberId === null) {
-        rootBomPartNumber = bom.id + '';
+        rootBomPartNumber = bom.id + "";
       }
       bom.children = [];
       if (!map[bom.id]) map[bom.id] = [];
@@ -66,7 +67,10 @@ export function ProductDefinition() {
           <Select current={current} items={items} onChange={onChange} />
           <div className="text-2xl font-bold my-5 mo:text-lg">PRODUCT INFO</div>
           <div className="w-full bg-white rounded-lg p-5 flex items-center justify-between mo:flex-col mo:items-start">
-            <img className="w-[15.625rem] aspect-square rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]" />
+            <img
+              className="object-contain w-[15.625rem] aspect-square rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
+              src={current_product.imageUrl || CAR_SRC}
+            />
             <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
               <ProfileInfo label="Product Name" text={current_product.name || "-"} />
               <ProfileInfo label="Display Name" text={current_product.displayName} />

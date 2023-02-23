@@ -3,6 +3,8 @@ import { MainLayout } from "@components/common/mainLayout";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductList } from "@lib/http";
 import { Product } from "@lib/@types/type";
+import { CAR_SRC, ORG_SRC } from "@components/const";
+import { SiFord } from "react-icons/si"
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -36,7 +38,10 @@ function TargetInventory(p: { data: Product }) {
   const { data } = p;
   return (
     <div className="bg-white rounded-lg overflow-hidden p-5 pb-8 mo:pb-5">
-      <img className="bg-transparent outline-none border-none w-full aspect-[2/1] object-contain" src={data.imageUrl} />
+      <img
+        className="bg-transparent outline-none border-none w-full aspect-[2/1] object-contain"
+        src={data.imageUrl || CAR_SRC}
+      />
       <div className="font-semibold text-lg text-black mo:text-base">{data.displayName}</div>
       <div className="w-full flex flex-wrap">
         <MLink to={`/product?product_id=${data.id}`} text="View Product Definition" />
@@ -65,8 +70,8 @@ export function UserDashboard() {
       <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
       <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
         <img
-          className="h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
-          src={user.organization.imageUrl}
+          className="object-scale-down h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
+          src={user.organization.imageUrl || ORG_SRC}
         />
         <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
           <ProfileInfo label="Organization" text={user.organization.displayName} />

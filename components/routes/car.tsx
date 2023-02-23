@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { Button } from "@components/common/button";
 import { useIsMobile } from "@components/common/context";
 import { Progress } from "@components/common/progress";
-import { genSbtPhase, PHASE } from "@components/const";
+import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
 import { ftmTimestamp, genScanTokenUrl } from "@lib/utils";
@@ -218,7 +218,7 @@ function MobileCar(p: CarUIProps) {
       {!show ? (
         <div className="w-full">
           <div className="flex items-center p-4 w-full bg-white rounded-lg mt-5">
-            <img className="w-[8.75rem]" />
+            <img className="object-contain w-[8.75rem]" src={data.sbt.imageUrl || CAR_SRC} />
             <div className="w-0 flex-1 ml-5 whitespace-normal">
               <div
                 className="font-semibold text-lg"
@@ -287,7 +287,7 @@ function PcCar(p: CarUIProps) {
       </div>
       <div className="flex">
         <div className="w-0 flex-1 p-5 mt-5 mr-5 bg-white rounded-lg flex items-center">
-          <img className="w-[16.25rem] h-[12.375rem] mr-5" />
+          <img className="object-contain w-[16.25rem] h-[12.375rem] mr-5" src={data.sbt.imageUrl || CAR_SRC} />
           <div className="w-0 flex-1">
             <CarInfos data={data} />
           </div>

@@ -2,7 +2,7 @@ import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile } from "@components/common/context";
 import { MainLayout } from "@components/common/mainLayout";
 import { Select } from "@components/common/select";
-import { genInventoryPhase } from "@components/const";
+import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
@@ -87,7 +87,10 @@ export function PCF() {
             <div className="w-0 flex-[2] mr-5 mo:w-full">
               <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
               <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
-                <img className="w-[16.25rem] h-full object-cover rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]" />
+                <img
+                  className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
+                  src={productInfo?.imageUrl || CAR_SRC}
+                />
                 <div className="w-0 flex-1 ml-8 mo:ml-0 mo:w-full">
                   <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
                   <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
