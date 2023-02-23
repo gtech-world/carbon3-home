@@ -31,6 +31,7 @@ function useMenus() {
       menus.push({ icon: <RiPieChartLine />, text: "PCF Inventories", to: "/pcf" });
     }
     menus.push({
+      topSplit: true,
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? "Log Out" : "Sign in",
       to: user ? undefined : "/login",
