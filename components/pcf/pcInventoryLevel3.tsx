@@ -14,7 +14,7 @@ export function PcInventoryLevel3(p: { data?: InventoryProductProcess }) {
         <AttrsFull
           key={`attrs_source_${i}`}
           title={`#${i + 1} ${item.displayName}`}
-          tit_r={`${item.carbon_emission}kg`}
+          tit_r={`${ftmCarbonEmission(item.carbon_emission)}`}
           sub={item.description}
           // badge={[
           //   { type: "blue", txt: `${2}` },

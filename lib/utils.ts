@@ -27,9 +27,11 @@ export function genScanTokenUrl(tokenId: string) {
   return `${SCAN_BASE}/token/${LABEL_CONTRACT}?a=${tokenId}`;
 }
 
-export function ftmCarbonEmission(ce: number) {
-  const mCe = Math.round(ce);
-  if (mCe < 1000) return `${mCe}g`;
-  if (mCe < 1000000) return `${Math.round(mCe / 100) * 0.1}kg`;
-  return `${Math.round(mCe / 10000) * 0.01}t`;
+export function ftmCarbonEmission(ce: number | any, space: boolean = false) {
+  if (ce === "-") return ce;
+  return `${ce}${space ? " " : ""}kg`;
+  // const mCe = Math.round(ce);
+  // if (mCe < 1000) return `${mCe}g`;
+  // if (mCe < 1000) return `${Math.round(mCe / 100) * 0.1}kg`;
+  // return `${Math.round(mCe / 10000) * 0.01}t`;
 }

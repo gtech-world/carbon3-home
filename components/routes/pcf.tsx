@@ -9,6 +9,7 @@ import { InventoryPhase } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useVinCodesState } from "@lib/hooks/useVinCodesState";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
+import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
@@ -106,7 +107,7 @@ export function PCF() {
                 <InventoryStat
                   icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
                   tit="Product CO2e Emission"
-                  txt={`${totalEmission} kg`}
+                  txt={`${ftmCarbonEmission(totalEmission)}`}
                 />
                 <InventoryStat
                   icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
