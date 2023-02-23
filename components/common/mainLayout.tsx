@@ -25,8 +25,8 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { push, pathname } = useRouter();
 
   return (
-    <MainHeaderLayout className="flex text-black !p-0 ">
-      <div className="sticky self-start top-[4.25rem] w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
+    <MainHeaderLayout className="flex text-black !p-0 bg-white">
+      <div className="sticky self-start top-[4.25rem] w-[16.25rem] p-5 min-h-full mo:hidden">
         {menus.map((item, i) => (
           <div
             onClick={(e) => {
@@ -35,7 +35,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
             }}
             key={`menus-${i}`}
             className={classNames("cursor-pointer w-full py-3 pl-4 flex items-center flex-nowrap text-black rounded-lg", {
-              "!text-green-2 bg-[#A4A4A4]/10": item.to === pathname,
+              "!text-green-2 bg-green-2/10": item.to === pathname,
             })}
           >
             <item.icon className="mr-3 text-2xl" />
@@ -43,7 +43,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
           </div>
         ))}
       </div>
-      <div className={classNames("flex-1 p-5 min-h-full bg-[#F3F3F3]", className)} {...props}>
+      <div className={classNames("flex-1 p-5 min-h-full bg-gray-16", className)} {...props}>
         {children}
       </div>
     </MainHeaderLayout>

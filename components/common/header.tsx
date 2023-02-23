@@ -21,7 +21,7 @@ function useMenus() {
   const { push } = useRouter();
   return useMemo(() => {
     const menus: MenuItem[] = [];
-    menus.push({ icon: <FiHome />, text: "Home", to: "/" });
+    menus.push({ icon: <FiHome />, text: "AICD Home", to: "/" });
     menus.push({ icon: <FiSearch />, text: "AICD Open Query", to: "/openquery" });
     if (user) menus.push({ icon: <VscAccount />, text: "AICD Traceability", to: "/dashboard" });
     if (isMobile && user) {

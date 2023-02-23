@@ -19,6 +19,7 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
 import { HeaderLayout } from "@components/common/headerLayout";
+import { useGoBack } from "@lib/hooks/useGoBack";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -147,7 +148,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           ? "The Raw Data Behind Trust Label"
           : "Immutability and Traceability"}
       </div>
-      <div className="text-[.9375rem] font-medium">
+      <div className="text-[.9375rem] font-medium text-center">
         {type === 1 ? (
           <>
             The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under{" "}
@@ -281,13 +282,13 @@ function MobileCar(p: CarUIProps) {
 function PcCar(p: CarUIProps) {
   const { data } = p;
   return (
-    <div className="w-full p-5 max-w-[90rem] mx-auto">
+    <div className="w-full p-5 max-w-[1480px] mx-auto">
       <div className="text-2xl leading-normal font-bold ">
         Product Carbon Footprint Certified <span className="text-base font-medium">by AIAG</span>
       </div>
       <div className="flex">
         <div className="w-0 flex-1 p-5 mt-5 mr-5 bg-white rounded-lg flex items-center">
-          <img className="object-contain w-[16.25rem] h-[12.375rem] mr-5" src={data.sbt.imageUrl || CAR_SRC} />
+          <img className="object-contain w-[16.25rem] h-[12.375rem] mr-5 rounded-lg border-black border border-solid" src={data.sbt.imageUrl || CAR_SRC} />
           <div className="w-0 flex-1">
             <CarInfos data={data} />
           </div>
@@ -357,12 +358,18 @@ export function Car() {
       use: `${Math.round(sbtPhase[3].carbon_emission * 5) * 0.1}`,
     };
   }, [value]);
+  const onBack = useGoBack();
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
       {isMobile ? (
         <>{data && <MobileCar data={data} />} </>
       ) : (
-        <HeaderLayout>{data && <PcCar data={data} />}</HeaderLayout>
+        <HeaderLayout className="!px-7">
+          <div className="w-full px-5 max-w-[1480px] mx-auto">
+            <button onClick={onBack} className="self-start ml-1">{`< back`}</button>
+          </div>
+          {data && <PcCar data={data} />}
+        </HeaderLayout>
       )}
     </div>
   );

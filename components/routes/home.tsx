@@ -1,4 +1,5 @@
 import { Button } from "@components/common/button";
+import { useUser } from "@components/common/context";
 import { HomeHeaderLayout } from "@components/common/headerLayout";
 import { AICD_SOLUTIONS } from "@lib/env";
 // @ts-ignore
@@ -30,7 +31,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
     }
   };
   return (
-    <div className="flex flex-col items-center p-5 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto">
+    <div className="flex flex-col items-center p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto">
       {icon}
       <div className="flex-1 mo:hidden" />
       <div className="text-black text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{text}</div>
@@ -45,6 +46,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
 }
 
 export function Home() {
+  const user = useUser();
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col mo:items-center mo:h-[37.25rem]">
@@ -82,7 +84,7 @@ export function Home() {
         />
         <Card
           icon={<SvgSignIn className="h-[5.875rem]" />}
-          to="/login"
+          to={user ? "/dashboard" : "/login"}
           text={
             <div>
               <span className="font-bold">Sign in</span> with
@@ -94,6 +96,7 @@ export function Home() {
         <Card
           icon={<img src="/earth.png" className="w-[6.25rem]" />}
           to={AICD_SOLUTIONS}
+          bt="Explore"
           text={
             <div>
               Work with AICD for a Net

@@ -11,7 +11,7 @@ import { FixedSizeTree as MTree } from "react-vtree";
 import { BomUIProps } from "./types";
 
 type SelectState = [ProductBom, (v: ProductBom) => void];
-const CurrentBomSelectContext = createContext<SelectState|undefined>(undefined);
+const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
 
 const getNodeData = (node: ProductBom, nestingLevel: number) => ({
   data: {
@@ -20,7 +20,7 @@ const getNodeData = (node: ProductBom, nestingLevel: number) => ({
     isOpenByDefault: nestingLevel === 0, // mandatory
     name: node.partDisplayName,
     nestingLevel,
-    node
+    node,
   },
   nestingLevel,
   node,
@@ -42,7 +42,9 @@ function PcBomItem(p: any) {
         marginLeft: `${nestingLevel * 2.25 + (isLeaf ? 2.25 : 0)}rem`,
         background: node === selectNode ? "rgba(34, 122, 48, 0.1)" : "none",
       }}
-      className="flex items-center px-5 py-3 rounded-lg"
+      className={classNames("flex items-center px-5 py-3 rounded-lg", {
+        "text-green-2": node === selectNode,
+      })}
     >
       {!isLeaf && (
         <button onClick={() => setOpen(!isOpen)} className="text-2xl mr-3">
@@ -50,7 +52,9 @@ function PcBomItem(p: any) {
         </button>
       )}
       <span
-        className={classNames("whitespace-nowrap cursor-pointer", { "font-bold": nestingLevel === 0 })}
+        className={classNames("whitespace-nowrap cursor-pointer", {
+          "font-bold": nestingLevel === 0,
+        })}
         onClick={() => nestingLevel !== 0 && setSelectNode(node)}
       >
         {name}
@@ -75,8 +79,8 @@ export function PartInfos(p: BomUIProps) {
       <PartInfo label="Part Type" text={node.children.length > 0 ? "Sub-system" : "Bom"} />
       <PartInfo label="BOM Genealogy Level" text={`${node.deep + 1}`} />
       <PartInfo label="Parent" text={node.parent?.partDisplayName || "-"} />
-      <PartInfo label="Children" text={`${node.children.length || 'No'} Child`} />
-      <PartInfo label="From Supplier" text={node.supplierName || "-" } />
+      <PartInfo label="Children" text={`${node.children.length || "No"} Child`} />
+      <PartInfo label="From Supplier" text={node.supplierName || "-"} />
       <PartInfo label="Last Update" text={node.updateTime} />
     </>
   );
@@ -103,14 +107,14 @@ export function PcBom(p: BomUIProps) {
     },
     [node]
   );
-  const { value:actTypes } = useAsyncM(() => getProductBomActivityTypes(selectNode.id),[selectNode])
+  const { value: actTypes } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
   const currentAttrs = useMemo(() => {
-    if(!actTypes) return []
-    return actTypes.map(item => ({
-        title: item.displayName,
-        sub: item.name,
-    }))
-  },[actTypes])
+    if (!actTypes) return [];
+    return actTypes.map((item) => ({
+      title: item.displayName,
+      sub: item.name,
+    }));
+  }, [actTypes]);
 
   return (
     <div className="w-full flex">

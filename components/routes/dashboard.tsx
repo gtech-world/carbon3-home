@@ -28,7 +28,7 @@ function MLink(p: { to: string; text: string }) {
   return (
     <a
       href={p.to}
-      className="inline-block whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]"
+      className="inline-block underline whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]"
     >
       {p.text}
     </a>
