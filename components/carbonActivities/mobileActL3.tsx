@@ -1,6 +1,7 @@
 import { Modal } from "@components/common/modal";
 import { AttrsFull } from "@components/items/attrs";
 import { InventoryProductProcess, ProductProcess } from "@lib/@types/type";
+import { ftmCarbonEmission } from "@lib/utils";
 import { MouseEventHandler } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 
@@ -24,7 +25,7 @@ export function MobileActL3(p: {
           {data.name}
         </div>
         {iData.carbon_emission !== undefined && (
-          <div className="text-sm mt-[.625rem] text-gray-6">{`${iData.carbon_emission}kg / ${iData.activityTypes.length} items`}</div>
+          <div className="text-sm mt-[.625rem] text-gray-6">{`${ftmCarbonEmission(iData.carbon_emission)} / ${iData.activityTypes.length} items`}</div>
         )}
         <div className="w-full mt-5">
           {iData.activityTypes.map((item, i) => (

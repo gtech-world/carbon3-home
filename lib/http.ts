@@ -95,12 +95,12 @@ export async function getPCFInventory(vin: string | number) {
 }
 
 //
-export async function getSbtInfo(tokenId: string | number) {
-  const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${tokenId}/info`));
+export async function getSbtInfo(vin: string | number) {
+  const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${vin}/info`));
   return res.data;
 }
 
-export async function getSbgEmissionInventory(tokenId: string | number) {
-  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${tokenId}/emission/inventory`));
+export async function getSbgEmissionInventory(vin: string | number) {
+  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
   return res.data;
 }

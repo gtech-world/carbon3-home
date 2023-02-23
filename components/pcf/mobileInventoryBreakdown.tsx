@@ -2,6 +2,7 @@ import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { StepProgress } from "@components/common/progress";
 import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
+import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
 import { BsArrowRightShort } from "react-icons/bs";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
@@ -17,7 +18,7 @@ export function MobleInventoryLevel1Item(p: { data: InventoryPhase; index: numbe
     >
       <StepProgress index={index} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${data.carbon_emission}kg / ${data.progress}%`}</div>
+      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       <div className="flex justify-between items-center mt-3">
         {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
           <IoCheckmarkCircleOutline className="text-2xl " />

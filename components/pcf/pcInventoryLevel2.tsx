@@ -1,5 +1,6 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { InventoryProductProcess } from "@lib/@types/type";
+import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
 
 export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index: number }) {
@@ -29,7 +30,7 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
             },
             "text-sm text-gray-6 mt-[.625rem]"
           )}
-        >{`${data.carbon_emission} / ${data.activityTypes.length} items`}</div>
+        >{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} items`}</div>
       </div>
       {selected && (
         <div

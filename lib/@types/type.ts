@@ -3,6 +3,17 @@ export interface Site {
   displayName: string;
 }
 
+export interface Organization {
+  id: number;
+  name: string;
+  imageUrl: string;
+  displayName: string;
+  type: string;
+  sitList: Site[];
+  createTime: string;
+  updateTime: string;
+}
+
 export interface UserData {
   id: number;
   apiKeyId: number;
@@ -15,16 +26,7 @@ export interface UserData {
   createTime: string;
   updateTime: string;
   loginToken: string;
-  organization: {
-    id: number;
-    name: string;
-    imageUrl: string;
-    displayName: string;
-    type: string;
-    sitList: Site[];
-    createTime: string;
-    updateTime: string;
-  };
+  organization: Organization;
 }
 
 export interface Product {
@@ -37,6 +39,7 @@ export interface Product {
   displayName: string;
   topLevelPartNumberId: number;
   orgId: number;
+  organization: Organization;
   createTime: string;
   updateTime: string;
 }

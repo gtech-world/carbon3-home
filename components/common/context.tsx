@@ -91,9 +91,10 @@ export function UserProvider(p: { children?: React.ReactNode }) {
       init &&
       pathname &&
       ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname) &&
-      (!ud || new Date().getTime() - ud.loginTime > 1000 * 60 * 60)
+      (!ud || new Date().getTime() - ud.loginTime > 1000 * 60 * 60 * 24)
     ) {
-      push("/login");
+      setUser(undefined, true);
+      push("/login").then(() => setUser(undefined));
     }
   }, [pathname, init, ud]);
   if (!init) return null;

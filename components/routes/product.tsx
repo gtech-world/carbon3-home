@@ -73,7 +73,7 @@ export function ProductDefinition() {
               <ProfileInfo label="Product UID" text={current_product.id + ""} />
             </div>
             <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
-              <ProfileInfo label="From Organization" text={current_product.orgId + ""} />
+              <ProfileInfo label="From Organization" text={current_product.organization.displayName + ""} />
               <ProfileInfo label="Product Type" text={current_product.type} />
               <ProfileInfo
                 label="PCF Accountable"

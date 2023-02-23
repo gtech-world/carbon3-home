@@ -15,7 +15,7 @@ export function OpenQuery() {
   const { push } = useRouter();
   const onQuery = () => {
     if (!vin) return;
-    push(`car?lno=${vin}`);
+    push(`car?vin=${vin}`);
   };
   const isMobile = useIsMobile();
   return (

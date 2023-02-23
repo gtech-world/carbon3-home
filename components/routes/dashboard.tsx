@@ -70,15 +70,15 @@ export function UserDashboard() {
         />
         <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
           <ProfileInfo label="Organization" text={user.organization.displayName} />
-          <ProfileInfo label="Orgnization Type" text={user.organization.type == "1" ? "Auto - Site" : "Auto - OEM"} />
+          <ProfileInfo label="Orgnization Type" text={user.organization.type} />
           <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />
           <ProfileInfo label="Account Owner" text={user.name} />
         </div>
         <div className="py-1 ml-[5rem] mo:ml-0 mo:py-0">
-          <ProfileInfo label="Account Role" text={user.role === "common" ? "Regular User" : "Admin User"} />
+          <ProfileInfo label="Account Role" text={user.role} />
           <ProfileInfo
             label="Authorization Level"
-            text={user.authLevel === 0 ? "Read-Only / Specified Products" : "Read-Only"}
+            text={user.authLevel === 0 ? "Read-Only" : "Read-Only / Specified Products"}
           />
           <ProfileInfo label="Last Login" text={user.lastLoginTime} />
         </div>

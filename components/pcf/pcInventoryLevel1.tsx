@@ -2,6 +2,7 @@ import { useCurrentActivity } from "@components/carbonActivities/context";
 import { StepProgress } from "@components/common/progress";
 import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
+import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
@@ -18,7 +19,7 @@ export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }
     >
       <StepProgress full={true} color={selected ? "#227A30" : "transparent"} index={index} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-xl">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${data.carbon_emission}kg / ${data.progress}%`}</div>
+      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />
       ) : (

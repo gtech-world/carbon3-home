@@ -1,5 +1,6 @@
 import { Modal } from "@components/common/modal";
 import { InventoryPhase, InventoryProductProcess, Phase, ProductProcess } from "@lib/@types/type";
+import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
 import { Fragment, MouseEventHandler } from "react";
 import { IoChevronBackOutline, IoChevronForward } from "react-icons/io5";
@@ -31,7 +32,7 @@ export function MobileActL2Item(p: { data: ProductProcess | InventoryProductProc
             {data.name}
           </div>
           {iData.carbon_emission !== undefined && (
-            <div className="text-sm mt-[.625rem] text-gray-6">{`${iData.carbon_emission}kg / ${iData.activityTypes.length} items`}</div>
+            <div className="text-sm mt-[.625rem] text-gray-6">{`${ftmCarbonEmission(iData.carbon_emission)} / ${iData.activityTypes.length} items`}</div>
           )}
         </div>
         <IoChevronForward className="text-2xl" />

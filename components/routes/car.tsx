@@ -227,9 +227,9 @@ function MobileCar(p: CarUIProps) {
                 {"Ford Mach-E PWD 2023"}
               </div>
               <div className="text-base">{"VIN #111923789123"}</div>
-              <Button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={onClickShow}>
+              <button className="mt-[.625rem] text-green-2 text-base font-semibold" onClick={onClickShow}>
                 Check Details
-              </Button>
+              </button>
             </div>
           </div>
           <div className="bg-white rounded-lg mt-5 grid p-5 gap-y-8" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
@@ -323,11 +323,11 @@ function PcCar(p: CarUIProps) {
 
 export function Car() {
   const { query } = useRouter();
-  const lno: string = query.lno as string;
+  const vin: string = query.vin as string;
   const isMobile = useIsMobile();
-  const { value, loading } = useAsync(
-    () => (!lno ? Promise.resolve(undefined) : Promise.all([getSbtInfo(lno), getSbgEmissionInventory(lno)])),
-    [lno]
+  const { value } = useAsync(
+    () => (!vin ? Promise.resolve(undefined) : Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)])),
+    [vin]
   );
   const data = useMemo<CarUIProps["data"] | undefined>(() => {
     if (!value) return undefined;
@@ -351,21 +351,18 @@ export function Car() {
       sbt,
       sbtPhase,
       totalEmission,
-      tonnes: `${totalEmission > 0 ? Math.round(totalEmission * 0.5) : 0}`,
-      trees: `${totalEmission > 0 ? Math.round(totalEmission * 10) : 0}`,
+      tonnes: `${totalEmission > 0 ? Math.round(totalEmission * 0.04) : 0}`,
+      trees: `${totalEmission > 0 ? Math.round(totalEmission * 0.08) : 0}`,
       recyclable: "35%",
-      use: `${Math.round(sbtPhase[3].carbon_emission * 0.5 * 10) * 0.1}`,
+      use: `${Math.round(sbtPhase[3].carbon_emission * 5) * 0.1}`,
     };
   }, [value]);
-  if (!query.lno || loading || !data) return null;
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
       {isMobile ? (
-        <MobileCar data={data} />
+        <>{data && <MobileCar data={data} />} </>
       ) : (
-        <HeaderLayout>
-          <PcCar data={data} />
-        </HeaderLayout>
+        <HeaderLayout>{data && <PcCar data={data} />}</HeaderLayout>
       )}
     </div>
   );
