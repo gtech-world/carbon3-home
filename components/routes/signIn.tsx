@@ -22,7 +22,7 @@ export function SignIn() {
   const onError = useOnError();
   const { setUser } = useUser();
   const onSign = () => {
-    if (!account || !pwd) return;
+    if (!account || !pwd) return onError("Please input account and password");
     login(account, pwd)
       .then((ud) => {
         setUser(ud);

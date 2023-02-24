@@ -31,7 +31,7 @@ export function CarbonActivities() {
 
   return (
     <MainLayout className="text-black">
-      <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
+      <div className="text-lg font-medium text-gray-6 mb-5 mo:leading-5 mo:text-[.9375rem]">
         Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the
         PCF Inventory.
       </div>

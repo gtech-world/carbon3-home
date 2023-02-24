@@ -1,9 +1,13 @@
+import { AxiosError } from "axios";
 import { LABEL_CONTRACT, SCAN_BASE } from "./env";
 import numbro from "numbro";
 
-export function getErrorMsg(error: any): string {
+export function getErrorMsg(error: AxiosError | any): string {
   if (!error) return "Unkown Error";
   if (typeof error === "string") return error as string;
+  if (error instanceof AxiosError) {
+    return error.response?.data?.msg || error.response?.data?.message || error.message || "Unkown Error";
+  }
   return error.message || "Unkown Error";
 }
 

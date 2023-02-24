@@ -13,7 +13,7 @@ import { Progress } from "@components/common/progress";
 import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
-import { ftmTimestamp, genScanTokenUrl } from "@lib/utils";
+import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
@@ -95,7 +95,7 @@ function ItemPhase(p: { data: SbtPhase }) {
     >
       <Progress value={data.progress} className="mb-5 flex-shrink-0" />
       <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${data.carbon_emission} / ${data.progress}%`}</div>
+      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       <div className="flex-1" />
       <div className="flex items-center mt-3">
         {data.verified ? (
@@ -326,7 +326,7 @@ export function Car() {
   const { query } = useRouter();
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
-  const { value } = useAsync(
+  const { value, error } = useAsync(
     () => (!vin ? Promise.resolve(undefined) : Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)])),
     [vin]
   );
@@ -352,10 +352,10 @@ export function Car() {
       sbt,
       sbtPhase,
       totalEmission,
-      tonnes: `${totalEmission > 0 ? Math.round(totalEmission * 0.04) : 0}`,
-      trees: `${totalEmission > 0 ? Math.round(totalEmission * 0.08) : 0}`,
+      tonnes: '1000',
+      trees: '80',
       recyclable: "35%",
-      use: `${Math.round(sbtPhase[3].carbon_emission * 5) * 0.1}`,
+      use: '100',
     };
   }, [value]);
   const onBack = useGoBack();

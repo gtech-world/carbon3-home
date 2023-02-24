@@ -1,5 +1,5 @@
 import { Button } from "@components/common/button";
-import { useIsMobile } from "@components/common/context";
+import { useIsMobile, useOnError } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgQuery from "@public/query.svg";
@@ -13,8 +13,9 @@ export function OpenQuery() {
     setVin(e.target.value || "");
   }, []);
   const { push } = useRouter();
+  const onError = useOnError();
   const onQuery = () => {
-    if (!vin) return;
+    if (!vin) return onError("Please input vin code");
     push(`car?vin=${vin}`);
   };
   const isMobile = useIsMobile();

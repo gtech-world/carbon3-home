@@ -6,17 +6,6 @@ import { AICD_SOLUTIONS } from "@lib/env";
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
 import { useRouter } from "next/router";
-import numbro from "numbro";
-
-function NumData(p: { num: number; label: string }) {
-  const { num, label } = p;
-  return (
-    <div className="flex flex-col items-center leading-normal mo:[&:nth-child(n+2)]:mt-[3.125rem]">
-      <span className="text-green-3 text-[2rem]">{numbro(num).format({ thousandSeparated: true })}</span>
-      <span className=" text-black text-xl">{label}</span>
-    </div>
-  );
-}
 
 function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | string; bt?: string }) {
   const { icon, to, text, bt = "Enter" } = p;
@@ -24,6 +13,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
   const onClick = () => {
     if (to) {
       if (to.startsWith("/")) {
+        console.info("to:", to);
         push(to);
       } else {
         window.open(to, "_blank");
@@ -46,7 +36,7 @@ function Card(p: { icon: React.ReactNode; to?: string; text: React.ReactNode | s
 }
 
 export function Home() {
-  const user = useUser();
+  const { user } = useUser();
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col mo:items-center mo:h-[37.25rem]">
