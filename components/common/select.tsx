@@ -60,7 +60,7 @@ export function Select(p: SelectProps) {
                 borderTop: index > 0 ? "1px solid #DDDDDD" : undefined,
                 backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
               }}
-              className={classNames("w-full px-5 py-2 text-base mo:text-xs")}
+              className={classNames("w-full px-[20px] py-[8px] text-[16px] mo:text-xs")}
               onClick={() => onClickItem(index)}
             >
               {item.text}
