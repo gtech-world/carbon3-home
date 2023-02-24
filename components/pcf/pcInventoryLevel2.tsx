@@ -24,7 +24,7 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
           {data.name}
         </div>
         <div
-          className={classNames(selected ? "text-green-2" : "text-gray-6", "text-sm text-gray-6 mt-[.625rem]")}
+          className={classNames(selected ? "text-green-2" : "text-gray-6", "text-sm mt-[.625rem]")}
         >{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} items`}</div>
       </div>
       {selected && (
