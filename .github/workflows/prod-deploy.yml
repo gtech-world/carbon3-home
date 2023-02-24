@@ -1,13 +1,11 @@
 name: Beta Release to Github Pages
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
-    if: github.repository == 'gtech-world/carbon3-home'
+    if: ${{github.repository == 'gtech-world/carbon3-home' && github.ref == 'refs/heads/prod'}}
     runs-on: ubuntu-latest
 
     steps:
@@ -31,6 +29,7 @@ jobs:
       - name: Deploy Gh-Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: onelandworld/oneland-home-deploy
           publish_dir: ./out
-          cname: beta-aicd.gtech.world
+          cname: aicd.gtech.world
