@@ -73,7 +73,7 @@ export function UserDashboard() {
           className="object-scale-down h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
           src={user.organization.imageUrl || ORG_SRC}
         />
-        <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
+        <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
           <ProfileInfo label="Organization" text={user.organization.displayName} />
           <ProfileInfo label="Orgnization Type" text={user.organization.type} />
           <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />

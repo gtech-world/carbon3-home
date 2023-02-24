@@ -92,7 +92,7 @@ export function PCF() {
                   className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
                   src={productInfo?.imageUrl || CAR_SRC}
                 />
-                <div className="w-0 flex-1 ml-8 mo:ml-0 mo:w-full">
+                <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
                   <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
                   <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
                   <PartInfo label="Product Type" text={productInfo?.type || "-"} />

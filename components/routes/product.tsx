@@ -71,7 +71,7 @@ export function ProductDefinition() {
               className="object-contain w-[15.625rem] aspect-square rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
               src={current_product.imageUrl || CAR_SRC}
             />
-            <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
+            <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
               <ProfileInfo label="Product Name" text={current_product.name || "-"} />
               <ProfileInfo label="Display Name" text={current_product.displayName} />
               <ProfileInfo label="Product UID" text={current_product.id + ""} />
