@@ -32,7 +32,7 @@ export function SignIn() {
   };
   return (
     <HeaderLayout className="flex flex-col items-center text-black">
-      <button onClick={onBack} className="self-start mb-[5.625rem] mo:hidden">{`< back`}</button>
+      <button onClick={onBack} className="self-start mb-[5.625rem] mo:hidden">{`< Back`}</button>
       <SvgSignIn className="h-[6.125rem] mo:mt-[5.125rem] mo:h-[5rem]" />
       <input
         value={account}

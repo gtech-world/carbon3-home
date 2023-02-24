@@ -105,7 +105,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
         <IoIosArrowBack />
       </button>
       <div className="flex-1" />
-      <SvgAICD className="h-[1.75rem] ml-10" />
+      <SvgAICD className="h-[1.75rem]" />
       <div className="flex-1" />
       <PoperMenu menus={menus}>
         <button className="text-2xl">

@@ -21,7 +21,7 @@ export function OpenQuery() {
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
-      {!isMobile && <button onClick={onBack} className="self-start mb-[5.625rem]">{`< back`}</button>}
+      {!isMobile && <button onClick={onBack} className="self-start mb-[5.625rem]">{`< Back`}</button>}
       <SvgQuery className="h-[6.125rem] mo:mt-[5.125rem]" />
       <div className="mt-8 text-[2rem] font-bold mo:text-lg">Open Query</div>
       <div className="mt-3 text-2xl text-center font-medium mo:text-base">

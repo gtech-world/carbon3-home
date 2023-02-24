@@ -366,7 +366,7 @@ export function Car() {
       ) : (
         <HeaderLayout className="!px-7">
           <div className="w-full px-5 max-w-[1480px] mx-auto">
-            <button onClick={onBack} className="self-start ml-1">{`< back`}</button>
+            <button onClick={onBack} className="self-start ml-1">{`< Back`}</button>
           </div>
           {data && <PcCar data={data} />}
         </HeaderLayout>
