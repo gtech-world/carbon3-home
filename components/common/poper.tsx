@@ -10,6 +10,7 @@ export interface MenuItem {
   icon?: any;
   text: string;
   to?: string;
+  selected?: boolean;
   onClick?: () => void;
 }
 export interface PoperMenuProps {
@@ -46,9 +47,14 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
           <div className="py-[.625rem] mo:py-[.375rem] w-full bg-white mt-[.625rem] mo:mt-[.625rem] rounded-lg z-10 relative">
             {menus.map((item, i) => (
               <Fragment key={`poper_menu_item${i}`}>
-                { item.topSplit && i > 0 && <div className="h-[1px] my-[.625rem] mo:my-[2px] mx-4 bg-[#eeeeee]"/>}
+                {item.topSplit && i > 0 && <div className="h-[1px] my-[.625rem] mo:my-[2px] mx-4 bg-[#eeeeee]" />}
                 <div
-                  className="flex items-center py-[.625rem] mo:py-[.875rem] px-4 text-black hover:text-green-2 cursor-pointer"
+                  className={classNames(
+                    "flex items-center py-[.625rem] mo:py-[.875rem] px-4 text-black hover:text-green-2 cursor-pointer",
+                    {
+                      "text-green-2": item.selected,
+                    }
+                  )}
                   onClick={() => onClickItem(item)}
                 >
                   {!!item.icon && <div className="text-xl mo:text-2xl">{item.icon}</div>}

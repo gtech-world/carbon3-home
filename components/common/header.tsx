@@ -18,17 +18,37 @@ import { VscAccount } from "react-icons/vsc";
 function useMenus() {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
-  const { push } = useRouter();
+  const { push, pathname } = useRouter();
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: "AICD Home", to: "/" });
     menus.push({ icon: <FiSearch />, text: "AICD Open Query", to: "/openquery" });
     if (user) menus.push({ icon: <VscAccount />, text: "AICD Traceability", to: "/dashboard" });
     if (isMobile && user) {
-      menus.push({ icon: <AiOutlineUser />, text: "User Dashboard", to: "/dashboard" });
-      menus.push({ icon: <IoCarSportOutline />, text: "Product Definition", to: "/product" });
-      menus.push({ icon: <SvgCO2 />, text: "Carbon Activities", to: "/activities" });
-      menus.push({ icon: <RiPieChartLine />, text: "PCF Inventories", to: "/pcf" });
+      menus.push({
+        icon: <AiOutlineUser />,
+        text: "User Dashboard",
+        to: "/dashboard",
+        selected: pathname === "/dashboard",
+      });
+      menus.push({
+        icon: <IoCarSportOutline />,
+        text: "Product Definition",
+        to: "/product",
+        selected: pathname == "/product",
+      });
+      menus.push({
+        icon: <SvgCO2 />,
+        text: "Carbon Activities",
+        to: "/activities",
+        selected: pathname == "/activities",
+      });
+      menus.push({ 
+        icon: <RiPieChartLine />, 
+        text: "PCF Inventories", 
+        to: "/pcf", 
+        selected: pathname == "/pcf" 
+      });
     }
     menus.push({
       topSplit: true,
@@ -40,7 +60,7 @@ function useMenus() {
       },
     });
     return menus;
-  }, [user, isMobile]);
+  }, [user, isMobile, pathname]);
 }
 
 export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, string] }) {
