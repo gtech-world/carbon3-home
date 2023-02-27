@@ -66,7 +66,7 @@ export function UserDashboard() {
   const { value: products } = useAsyncM(getProductList);
   if (!user) return null;
   return (
-    <MainLayout className="text-black mo:w-full">
+    <MainLayout className="text-black">
       <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
       <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
         <img

@@ -20,7 +20,7 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   return (
     <div className="flex items-center w-full">
       {icon}
-      <div className="ml-[2.6875rem] w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-6">
+      <div className="ml-5 w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-6">
         <div className="font-bold text-lg text-black mo:text-base">{tit}</div>
         <div className="text-gray-6 text-lg mo:text-base">{txt}</div>
       </div>
