@@ -7,7 +7,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const isMobile = useIsMobile();
   return (
-    <div className="h-full w-full bg-slate-50 relative overflow-y-auto">
+    <div className="h-full w-full bg-gray-16 relative overflow-y-auto">
       {isMobile ? (
         <div className="absolute z-0 top-0 w-full h-[43rem] overflow-hidden bg-green-2 ">
           <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.png" />
@@ -65,16 +65,13 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   return (
-    <div className="h-full w-full overflow-y-auto bg-slate-50 relative">
+    <div className="h-full w-full overflow-y-auto bg-gray-16 relative">
       <Header
         tits={["AICD Supply Chain", "Traceability System"]}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
       <div
-        className={classNames(
-          "z-[2] h-max min-h-[calc(100%_-_4.75rem)] w-full py-6 px-[3.125rem] mx-auto",
-          className
-        )}
+        className={classNames("z-[2] h-max min-h-[calc(100%_-_4.75rem)] w-full py-6 px-[3.125rem] mx-auto", className)}
         {...props}
       >
         {children}
