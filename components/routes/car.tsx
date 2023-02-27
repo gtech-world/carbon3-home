@@ -7,19 +7,18 @@ import SVGLeaf2 from "@public/leaf2.svg";
 import SVGLeaf3 from "@public/leaf3.svg";
 import { useRouter } from "next/router";
 
-import { Button } from "@components/common/button";
 import { useIsMobile } from "@components/common/context";
-import { Progress } from "@components/common/progress";
+import { HeaderLayout } from "@components/common/headerLayout";
+import { StepProgress } from "@components/common/progress";
 import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
+import { useGoBack } from "@lib/hooks/useGoBack";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
 import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
-import { HeaderLayout } from "@components/common/headerLayout";
-import { useGoBack } from "@lib/hooks/useGoBack";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -85,15 +84,15 @@ function ItemEmission(p: { icon: React.ReactNode; value: string; sub: string }) 
   );
 }
 
-function ItemPhase(p: { data: SbtPhase }) {
-  const { data } = p;
+function ItemPhase(p: { data: SbtPhase, index: number }) {
+  const { data, index } = p;
   return (
     <div
       className={classNames(
         "flex flex-col w-0 flex-1 h-[11.5rem] p-5 bg-white rounded-lg text-black mo:h-auto mo:w-full mo:mt-5"
       )}
     >
-      <Progress value={data.progress} className="mb-5 flex-shrink-0" />
+      <StepProgress index={index} className="mb-5 flex-shrink-0" />
       <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       <div className="flex-1" />
@@ -119,13 +118,13 @@ function Phases(p: { data: SbtPhase[] }) {
   const { data } = p;
   return (
     <div className="flex items-center h-auto w-full mt-5 mo:flex-col mo:mt-0 bg-white rounded-lg mo:bg-transparent">
-      <ItemPhase data={data[0]} />
+      <ItemPhase data={data[0]} index={0} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[1]} />
+      <ItemPhase data={data[1]} index={1}/>
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[2]} />
+      <ItemPhase data={data[2]} index={2}/>
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[3]} />
+      <ItemPhase data={data[3]} index={3}/>
     </div>
   );
 }
