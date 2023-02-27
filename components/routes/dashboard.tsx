@@ -95,7 +95,7 @@ export function UserDashboard() {
           </div>
           <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
           {products && (
-            <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]">
+            <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] mo:grid-cols-1">
               {products.map((product, i) => {
                 return <TargetInventory data={product} key={`product_item_${i}`} />;
               })}
