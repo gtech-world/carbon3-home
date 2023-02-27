@@ -17,7 +17,7 @@ export function MobileActL3(p: {
         <button className="text-2xl" onClick={onBack}>
           <IoChevronBackOutline />
         </button>
-        <span className="flex-grow-0 overflow-hidden text-ellipsis whitespace-nowrap mx-4">{data.name}</span>
+        <span className="flex-grow-0 font-medium overflow-hidden text-ellipsis whitespace-nowrap mx-4">{data.name}</span>
         <div className="w-6" />
       </div>
       <div className="p-5 w-full">
