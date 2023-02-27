@@ -1,5 +1,6 @@
 import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile } from "@components/common/context";
+import { Loading } from "@components/common/loading";
 import { MainLayout } from "@components/common/mainLayout";
 import { Select } from "@components/common/select";
 import { CAR_SRC, genInventoryPhase } from "@components/const";
@@ -29,12 +30,12 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { current, onChange, items, current_vin } = useVinCodesState();
-  const { value: pcfData } = useAsyncM(
+  const { current, onChange, items, current_vin, loading: load0 } = useVinCodesState();
+  const { value: pcfData, loading: load1 } = useAsyncM(
     () => (current_vin ? getPCFInventory(current_vin) : Promise.resolve(undefined)),
     [current_vin]
   );
-  const { value: productInfo } = useAsyncM(
+  const { value: productInfo, loading: load2 } = useAsyncM(
     () => (current_vin ? getProductByVIN(current_vin) : Promise.resolve(undefined)),
     [current_vin]
   );
@@ -74,56 +75,64 @@ export function PCF() {
     });
     return total;
   }, [mData]);
-
+  const loading = load0 || load1 || pcfData == undefined || load2 || productInfo == undefined;
   const isMobile = useIsMobile();
   return (
     <MainLayout className="text-black">
-      <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
-        Query PCF Data with Vehicle’s VIN Code:
-      </div>
-      {productInfo && (
+      {loading ? (
+        <Loading />
+      ) : (
         <>
-          <Select current={current} onChange={onChange} items={items} />
-          <div className="w-full flex mo:flex-col">
-            <div className="w-0 flex-[2] mr-5 mo:w-full">
-              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
-              <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
-                <img
-                  className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
-                  src={productInfo?.imageUrl || CAR_SRC}
-                />
-                <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
-                  <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
-                  <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
-                  <PartInfo label="Product Type" text={productInfo?.type || "-"} />
-                  <PartInfo label="VIN Code" text={current_vin || "-"} />
-                  <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
+          <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
+            Query PCF Data with Vehicle’s VIN Code:
+          </div>
+          {productInfo && (
+            <>
+              <Select current={current} onChange={onChange} items={items} />
+              <div className="w-full flex mo:flex-col">
+                <div className="w-0 flex-[2] mr-5 mo:w-full">
+                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
+                  <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
+                    <img
+                      className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
+                      src={productInfo?.imageUrl || CAR_SRC}
+                    />
+                    <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
+                      <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
+                      <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
+                      <PartInfo label="Product Type" text={productInfo?.type || "-"} />
+                      <PartInfo label="VIN Code" text={current_vin || "-"} />
+                      <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-0 flex-1 mo:w-full">
+                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">INVENTORY STATS</div>
+                  <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
+                    <InventoryStat
+                      icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      tit="Product CO2e Emission"
+                      txt={`${ftmCarbonEmission(totalEmission)}`}
+                    />
+                    <InventoryStat
+                      icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
+                      tit="Emission Scope"
+                      txt="Gradle-to-Grave"
+                    />
+                    <InventoryStat
+                      icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      tit="Overall Data Quality"
+                      txt="Primary Data=38.5%"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-0 flex-1 mo:w-full">
-              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">INVENTORY STATS</div>
-              <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
-                <InventoryStat
-                  icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-                  tit="Product CO2e Emission"
-                  txt={`${ftmCarbonEmission(totalEmission)}`}
-                />
-                <InventoryStat
-                  icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
-                  tit="Emission Scope"
-                  txt="Gradle-to-Grave"
-                />
-                <InventoryStat
-                  icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-                  tit="Overall Data Quality"
-                  txt="Primary Data=38.5%"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
-          {mData && <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>}
+              <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
+              {mData && (
+                <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
+              )}
+            </>
+          )}
         </>
       )}
     </MainLayout>

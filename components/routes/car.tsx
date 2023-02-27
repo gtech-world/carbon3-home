@@ -19,6 +19,7 @@ import classNames from "classnames";
 import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
+import { Loading } from "@components/common/loading";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -84,7 +85,7 @@ function ItemEmission(p: { icon: React.ReactNode; value: string; sub: string }) 
   );
 }
 
-function ItemPhase(p: { data: SbtPhase, index: number }) {
+function ItemPhase(p: { data: SbtPhase; index: number }) {
   const { data, index } = p;
   return (
     <div
@@ -94,7 +95,9 @@ function ItemPhase(p: { data: SbtPhase, index: number }) {
     >
       <StepProgress index={index} className="mb-5 flex-shrink-0" />
       <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
-      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
+      <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${
+        data.progress
+      }%`}</div>
       <div className="flex-1" />
       <div className="flex items-center mt-3">
         {data.verified ? (
@@ -120,11 +123,11 @@ function Phases(p: { data: SbtPhase[] }) {
     <div className="flex items-center h-auto w-full mt-5 mo:flex-col mo:mt-0 bg-white rounded-lg mo:bg-transparent">
       <ItemPhase data={data[0]} index={0} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[1]} index={1}/>
+      <ItemPhase data={data[1]} index={1} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[2]} index={2}/>
+      <ItemPhase data={data[2]} index={2} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
-      <ItemPhase data={data[3]} index={3}/>
+      <ItemPhase data={data[3]} index={3} />
     </div>
   );
 }
@@ -287,7 +290,10 @@ function PcCar(p: CarUIProps) {
       </div>
       <div className="flex">
         <div className="w-0 flex-1 p-5 mt-5 mr-5 bg-white rounded-lg flex items-center">
-          <img className="object-contain w-[16.25rem] h-[12.375rem] mr-5 rounded-lg border-black border border-solid" src={data.sbt.imageUrl || CAR_SRC} />
+          <img
+            className="object-contain w-[16.25rem] h-[12.375rem] mr-5 rounded-lg border-black border border-solid"
+            src={data.sbt.imageUrl || CAR_SRC}
+          />
           <div className="w-0 flex-1">
             <CarInfos data={data} />
           </div>
@@ -325,7 +331,7 @@ export function Car() {
   const { query } = useRouter();
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
-  const { value, error } = useAsync(
+  const { value, loading } = useAsync(
     () => (!vin ? Promise.resolve(undefined) : Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)])),
     [vin]
   );
@@ -351,23 +357,33 @@ export function Car() {
       sbt,
       sbtPhase,
       totalEmission,
-      tonnes: '1000',
-      trees: '80',
+      tonnes: "1000",
+      trees: "80",
       recyclable: "35%",
-      use: '100',
+      use: "100",
     };
   }, [value]);
   const onBack = useGoBack();
+
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
       {isMobile ? (
-        <>{data && <MobileCar data={data} />} </>
+        <>
+          {loading && <Loading style={{ minHeight: "calc(100vh - 4.25rem)"}}/>}
+          {data && <MobileCar data={data} />}
+        </>
       ) : (
-        <HeaderLayout className="!px-7">
-          <div className="w-full px-5 max-w-[1480px] mx-auto">
-            <button onClick={onBack} className="self-start ml-1">{`< Back`}</button>
-          </div>
-          {data && <PcCar data={data} />}
+        <HeaderLayout style={{ minHeight: "calc(100vh - 4.25rem)"}} className="!px-7">
+          {loading ? (
+            <Loading style={{ minHeight: "calc(100vh - 4.25rem)"}}/>
+          ) : (
+            <>
+              <div className="w-full px-5 max-w-[1480px] mx-auto">
+                <button onClick={onBack} className="self-start ml-1">{`< Back`}</button>
+              </div>
+              {data && <PcCar data={data} />}
+            </>
+          )}
         </HeaderLayout>
       )}
     </div>

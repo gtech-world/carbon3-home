@@ -4,7 +4,8 @@ import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductList } from "@lib/http";
 import { Product } from "@lib/@types/type";
 import { CAR_SRC, ORG_SRC } from "@components/const";
-import { SiFord } from "react-icons/si"
+import { SiFord } from "react-icons/si";
+import { Loading } from "@components/common/loading";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -63,38 +64,44 @@ Last Login
  */
 export function UserDashboard() {
   const { user } = useUser();
-  const { value: products } = useAsyncM(getProductList);
+  const { value: products, loading } = useAsyncM(getProductList);
   if (!user) return null;
   return (
     <MainLayout className="text-black">
-      <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
-      <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
-        <img
-          className="object-scale-down h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
-          src={user.organization.imageUrl || ORG_SRC}
-        />
-        <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
-          <ProfileInfo label="Organization" text={user.organization.displayName} />
-          <ProfileInfo label="Orgnization Type" text={user.organization.type} />
-          <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />
-          <ProfileInfo label="Account Owner" text={user.name} />
-        </div>
-        <div className="py-1 ml-[5rem] mo:ml-0 mo:py-0">
-          <ProfileInfo label="Account Role" text={user.role} />
-          <ProfileInfo
-            label="Authorization Level"
-            text={user.authLevel === 0 ? "Read-Only" : "Read-Only / Specified Products"}
-          />
-          <ProfileInfo label="Last Login" text={user.lastLoginTime} />
-        </div>
-      </div>
-      <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
-      {products && (
-        <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]">
-          {products.map((product, i) => {
-            return <TargetInventory data={product} key={`product_item_${i}`} />;
-          })}
-        </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
+          <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
+            <img
+              className="object-scale-down h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
+              src={user.organization.imageUrl || ORG_SRC}
+            />
+            <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
+              <ProfileInfo label="Organization" text={user.organization.displayName} />
+              <ProfileInfo label="Orgnization Type" text={user.organization.type} />
+              <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />
+              <ProfileInfo label="Account Owner" text={user.name} />
+            </div>
+            <div className="py-1 ml-[5rem] mo:ml-0 mo:py-0">
+              <ProfileInfo label="Account Role" text={user.role} />
+              <ProfileInfo
+                label="Authorization Level"
+                text={user.authLevel === 0 ? "Read-Only" : "Read-Only / Specified Products"}
+              />
+              <ProfileInfo label="Last Login" text={user.lastLoginTime} />
+            </div>
+          </div>
+          <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
+          {products && (
+            <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]">
+              {products.map((product, i) => {
+                return <TargetInventory data={product} key={`product_item_${i}`} />;
+              })}
+            </div>
+          )}
+        </>
       )}
     </MainLayout>
   );

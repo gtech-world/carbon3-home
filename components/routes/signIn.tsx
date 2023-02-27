@@ -1,11 +1,13 @@
 import { Button } from "@components/common/button";
 import { useOnError, useUser } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
+import { LoadingFull } from "@components/common/loading";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { login } from "@lib/http";
 import SvgSignIn from "@public/sign-in.svg";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useState } from "react";
+import { useToggle } from "react-use";
 
 export function SignIn() {
   const onBack = useGoBack();
@@ -21,14 +23,17 @@ export function SignIn() {
   const { push } = useRouter();
   const onError = useOnError();
   const { setUser } = useUser();
+  const [loading, setLoading] = useToggle(false);
   const onSign = () => {
     if (!account || !pwd) return onError("Please input account and password");
+    setLoading(true);
     login(account, pwd)
       .then((ud) => {
         setUser(ud);
-        push("/dashboard");
+        push("/dashboard").then(() => setLoading(false));
       })
-      .catch(onError);
+      .catch(onError)
+      .then(() => setLoading(false));
   };
   return (
     <HeaderLayout className="flex flex-col items-center text-black">
@@ -58,6 +63,7 @@ export function SignIn() {
       >
         Sign in
       </Button>
+      {loading && <LoadingFull />}
     </HeaderLayout>
   );
 }

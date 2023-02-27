@@ -50,17 +50,21 @@ export function Select(p: SelectProps) {
       </div>
       {open && (
         <div
-          className="absolute left-0 top-full w-full bg-white rounded-lg overflow-hidden"
-          style={{ border: "1px solid #DDDDDD" }}
+          className="absolute left-0 w-full bg-white rounded-lg overflow-hidden py-3"
+          style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
         >
           {items.map((item, index) => (
             <div
               key={`select_item_${index}`}
-              style={{
-                borderTop: index > 0 ? "1px solid #DDDDDD" : undefined,
-                backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
-              }}
-              className={classNames("w-full px-[20px] py-[8px] text-[16px] mo:text-xs")}
+              style={
+                {
+                  // borderTop: index > 0 ? "1px solid #DDDDDD" : undefined,
+                  // backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
+                }
+              }
+              className={classNames("w-full px-5 py-2 text-sm", {
+                "text-green-2": index === current,
+              })}
               onClick={() => onClickItem(index)}
             >
               {item.text}

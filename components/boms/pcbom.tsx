@@ -9,6 +9,7 @@ import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { BomUIProps } from "./types";
+import { Loading } from "@components/common/loading";
 
 type SelectState = [ProductBom, (v: ProductBom) => void];
 const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
@@ -107,7 +108,7 @@ export function PcBom(p: BomUIProps) {
     },
     [node]
   );
-  const { value: actTypes } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
+  const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
     return actTypes.map((item) => ({
@@ -136,11 +137,15 @@ export function PcBom(p: BomUIProps) {
         <div className="w-[3.5rem]" />
         <div className="w-0 flex-1 flex flex-col">
           <div className="text-lg font-bold mb-5">Attributable to Carbon Activities:</div>
-          <div className="flex-1 w-full overflow-y-auto">
-            {currentAttrs.map((attr, i) => (
-              <Attrs key={`attrs_${i}`} {...attr} />
-            ))}
-          </div>
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="flex-1 w-full overflow-y-auto">
+              {currentAttrs.map((attr, i) => (
+                <Attrs key={`attrs_${i}`} {...attr} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
