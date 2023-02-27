@@ -15,7 +15,7 @@ export function OpenQuery() {
   const { push } = useRouter();
   const onError = useOnError();
   const onQuery = () => {
-    if (!vin) return onError("Please input vin code");
+    if (!vin) return onError("Please input VIN Code");
     push(`car?vin=${vin}`);
   };
   const isMobile = useIsMobile();
