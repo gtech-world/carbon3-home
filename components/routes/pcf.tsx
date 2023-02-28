@@ -1,20 +1,21 @@
 import { PartInfo } from "@components/boms/pcbom";
-import { useIsMobile } from "@components/common/context";
+import { useIsMobile, useOnError } from "@components/common/context";
+import { Empty } from "@components/common/empty";
 import { Loading } from "@components/common/loading";
 import { MainLayout } from "@components/common/mainLayout";
-import { Select } from "@components/common/select";
 import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { useVinCodesState } from "@lib/hooks/useVinCodesState";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
 import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
-import React, { useMemo } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { FiSearch } from "react-icons/fi";
+import { useAsyncFn } from "react-use";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
@@ -30,15 +31,29 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { current, onChange, items, current_vin, loading: load0 } = useVinCodesState();
-  const { value: pcfData, loading: load1 } = useAsyncM(
-    () => (current_vin ? getPCFInventory(current_vin) : Promise.resolve(undefined)),
-    [current_vin]
+  const { query } = useRouter();
+  const qVin = query["vin"] as string;
+  const [vin, setVin] = useState(qVin || "");
+  const onError = useOnError();
+  const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
+    (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
+    [onError]
   );
-  const { value: productInfo, loading: load2 } = useAsyncM(
-    () => (current_vin ? getProductByVIN(current_vin) : Promise.resolve(undefined)),
-    [current_vin]
-  );
+  const ref = useRef("");
+  const onSearch = (mVin: string = vin) => {
+    if (loading) return;
+    if (!mVin) return onError("Please input VIN Code");
+    if (ref.current === mVin) return onError("Please enter different VIN Code");
+    doGet(mVin).then(() => {
+      ref.current = mVin;
+    });
+  };
+  useEffect(() => {
+    if (qVin) {
+      setVin(qVin);
+      onSearch(qVin);
+    }
+  }, [qVin]);
 
   const mData = useMemo(() => {
     if (!pcfData) return undefined;
@@ -75,21 +90,31 @@ export function PCF() {
     });
     return total;
   }, [mData]);
-  const loading = load0 || load1 || pcfData == undefined || load2 || productInfo == undefined;
+
   const isMobile = useIsMobile();
   return (
-    <MainLayout className="text-black">
+    <MainLayout className="text-black flex flex-col">
+      <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
+        Query PCF Data with Vehicle’s VIN Code:
+      </div>
+      <div className="relative w-[31.25rem] mo:w-auto rounded-lg bg-white">
+        <input
+          className="h-full w-full py-3 pl-5 pr-14 text-lg outline-none"
+          maxLength={32}
+          type="text"
+          onKeyDown={(e) => e.code === "Enter" && onSearch()}
+          value={vin}
+          onChange={(e) => setVin(e.target.value)}
+        />
+        <FiSearch className="absolute text-lg top-[1.0625rem] right-5 cursor-pointer" onClick={() => onSearch()} />
+      </div>
       {loading ? (
-        <Loading />
+        <Loading className="flex-1" />
       ) : (
         <>
-          <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
-            Query PCF Data with Vehicle’s VIN Code:
-          </div>
-          {productInfo && (
+          {productInfo ? (
             <>
-              <Select current={current} onChange={onChange} items={items} />
-              <div className="w-full flex mo:flex-col">
+              <div className="flex mo:flex-col">
                 <div className="w-0 flex-[2] mr-5 mo:w-full">
                   <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
                   <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
@@ -101,7 +126,7 @@ export function PCF() {
                       <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
                       <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
                       <PartInfo label="Product Type" text={productInfo?.type || "-"} />
-                      <PartInfo label="VIN Code" text={current_vin || "-"} />
+                      <PartInfo label="VIN Code" text={vin || "-"} />
                       <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
                     </div>
                   </div>
@@ -132,6 +157,8 @@ export function PCF() {
                 <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
               )}
             </>
+          ) : (
+            <Empty className="flex-1" />
           )}
         </>
       )}

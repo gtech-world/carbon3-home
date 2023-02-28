@@ -36,9 +36,12 @@ export function useToast() {
 
 export function useOnError() {
   const { toast } = useToast();
-  return (err: any) => {
-    toast({ type: "error", msg: getErrorMsg(err) });
-  };
+  return useCallback(
+    (err: any) => {
+      toast({ type: "error", msg: getErrorMsg(err) });
+    },
+    [toast]
+  );
 }
 
 export function ToastProvider(p: { children?: React.ReactNode }) {
