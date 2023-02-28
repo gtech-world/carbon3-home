@@ -20,6 +20,7 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
 import { Loading } from "@components/common/loading";
+import { Empty } from "@components/common/empty";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -369,19 +370,22 @@ export function Car() {
     <div className="bg-gray-16 w-full min-h-full text-black">
       {isMobile ? (
         <>
-          {loading && <Loading style={{ minHeight: "calc(100vh - 4.25rem)"}}/>}
-          {data && <MobileCar data={data} />}
+          {loading ? (
+            <Loading style={{ minHeight: "calc(100vh - 4.25rem)" }} />
+          ) : (
+            <>{data ? <MobileCar data={data} /> : <Empty style={{ minHeight: "calc(100vh - 9rem)" }} />}</>
+          )}
         </>
       ) : (
-        <HeaderLayout style={{ minHeight: "calc(100vh - 4.25rem)"}} className="!px-7">
+        <HeaderLayout style={{ minHeight: "calc(100vh - 4.25rem)" }} className="!px-7">
           {loading ? (
-            <Loading style={{ minHeight: "calc(100vh - 4.25rem)"}}/>
+            <Loading style={{ minHeight: "calc(100vh - 4.25rem)" }} />
           ) : (
             <>
               <div className="w-full px-5 max-w-[1480px] mx-auto">
                 <button onClick={onBack} className="self-start ml-1">{`< Back`}</button>
               </div>
-              {data && <PcCar data={data} />}
+              {data ? <PcCar data={data} /> : <Empty style={{ minHeight: "calc(100vh - 9rem)" }} />}
             </>
           )}
         </HeaderLayout>
