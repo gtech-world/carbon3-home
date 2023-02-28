@@ -44,6 +44,7 @@ export function SignIn() {
         type="text"
         maxLength={24}
         onChange={onAccountChange}
+        onKeyDown={(e) => e.code === "Enter" && onSign()}
         placeholder="Account"
         className="outline-none w-full mt-[5.75rem] mb-5 max-w-[420px] min-h-[40px] h-[3.125rem] px-4 whitespace-nowrap rounded-lg mo:text-sm mo:px-5 mo:py-4"
         style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
@@ -53,6 +54,7 @@ export function SignIn() {
         type="password"
         maxLength={32}
         onChange={onPwdChange}
+        onKeyDown={(e) => e.code === "Enter" && onSign()}
         placeholder="Password"
         className="outline-none w-full mb-5 max-w-[420px] min-h-[40px] h-[3.125rem] px-4 whitespace-nowrap rounded-lg mo:text-sm mo:px-5 mo:py-4"
         style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}

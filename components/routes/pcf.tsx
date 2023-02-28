@@ -39,19 +39,27 @@ export function PCF() {
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
     [onError]
   );
+  // 记录上次输入用于防止连续两次查询相同的VIN
   const ref = useRef("");
-  const onSearch = (mVin: string = vin) => {
+  const onSearch = (mVin: string = vin || "") => {
     if (loading) return;
     if (!mVin) return onError("Please input VIN Code");
     if (ref.current === mVin) return onError("Please enter different VIN Code");
-    doGet(mVin).then(() => {
-      ref.current = mVin;
-    });
+    doGet(mVin)
+      .then((value) => {
+        ref.current = mVin;
+        if (value[0]) { // 缓存上次有结果的VIN Code
+          localStorage.setItem("last_vin", mVin);
+        }
+      })
+      .catch(onError);
   };
   useEffect(() => {
-    if (qVin) {
-      setVin(qVin);
-      onSearch(qVin);
+    const lastVin = localStorage.getItem("last_vin") || "";
+    const mVin = qVin || lastVin;
+    if (mVin) {
+      setVin(mVin);
+      onSearch(mVin);
     }
   }, [qVin]);
 
@@ -97,7 +105,7 @@ export function PCF() {
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
         Query PCF Data with Vehicle’s VIN Code:
       </div>
-      <div className="relative w-[31.25rem] mo:w-auto rounded-lg bg-white">
+      <div className="relative w-[31.25rem] mo:w-auto rounded-lg overflow-hidden bg-white">
         <input
           className="h-full w-full py-3 pl-5 pr-14 text-lg outline-none"
           maxLength={32}

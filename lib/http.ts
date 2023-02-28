@@ -44,17 +44,17 @@ function authConfig(): AxiosRequestConfig {
 
 export async function getProductList() {
   const res = await axios.get<Product[]>(creatUrl("/api/v1/npi/product/list"), authConfig());
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getProductPcfAccountable(product_id: number) {
   const res = await axios.get<boolean>(creatUrl(`/api/v1/npi/product/${product_id}/pcf_accountable`), authConfig());
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getProductBomList(product_id: number) {
   const res = await axios.get<ProductBom[]>(creatUrl(`/api/v1/npi/product/${product_id}/bom/list`), authConfig());
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
@@ -62,7 +62,7 @@ export async function getProductBomActivityTypes(product_bom_id: number | string
     creatUrl(`/api/v1/npi/product_bom/${product_bom_id}/activity_types`),
     authConfig()
   );
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getProductActivityDefination(product_id: number) {
@@ -73,7 +73,7 @@ export async function getProductActivityDefination(product_id: number) {
       include_activity_types: true,
     },
   });
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getVINCodes() {
@@ -83,7 +83,7 @@ export async function getVINCodes() {
 
 export async function getProductByVIN(vin: string | number) {
   const res = await axios.get<Product>(creatUrl(`/api/v1/npi/product/serial_number/${vin}/info`), authConfig());
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getPCFInventory(vin: string | number) {
@@ -91,16 +91,16 @@ export async function getPCFInventory(vin: string | number) {
     creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
     authConfig()
   );
-  return res.data;
+  return res.data || undefined;
 }
 
 //
 export async function getSbtInfo(vin: string | number) {
   const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${vin}/info`));
-  return res.data;
+  return res.data || undefined;
 }
 
 export async function getSbgEmissionInventory(vin: string | number) {
   const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
-  return res.data;
+  return res.data || undefined;
 }
