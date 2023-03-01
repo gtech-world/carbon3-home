@@ -1,5 +1,5 @@
 import { getUserData } from "@components/common/context";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { API_BASE } from "./env";
 import {
   ActivityType,
@@ -11,6 +11,7 @@ import {
   SbtInfo,
   UserData,
 } from "./@types/type";
+import Error from "next/error";
 
 function creatUrl(path: `/${string}`) {
   return `${API_BASE}${path}`;
@@ -27,13 +28,16 @@ export interface Res<T> {
 //   throw { _type: "ResError", ...res.data };
 // }
 
-// function getData<T>(res: AxiosResponse<T>) {
-//   return res.data;
-// }
+function getData<T>(res: AxiosResponse<T>) {
+  const mRes = res.data as { code: number; msg: string; data: T };
+  if (!mRes) return undefined;
+  if (mRes.code && mRes.code !== 200) throw mRes.msg;
+  return res.data;
+}
 
 export async function login(name: string, password: string) {
   const res = await axios.post<UserData>(creatUrl("/api/v1/base/login"), { name, password });
-  return res.data;
+  return getData(res);
 }
 
 function authConfig(): AxiosRequestConfig {
@@ -44,17 +48,17 @@ function authConfig(): AxiosRequestConfig {
 
 export async function getProductList() {
   const res = await axios.get<Product[]>(creatUrl("/api/v1/npi/product/list"), authConfig());
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getProductPcfAccountable(product_id: number) {
   const res = await axios.get<boolean>(creatUrl(`/api/v1/npi/product/${product_id}/pcf_accountable`), authConfig());
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getProductBomList(product_id: number) {
   const res = await axios.get<ProductBom[]>(creatUrl(`/api/v1/npi/product/${product_id}/bom/list`), authConfig());
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
@@ -62,7 +66,7 @@ export async function getProductBomActivityTypes(product_bom_id: number | string
     creatUrl(`/api/v1/npi/product_bom/${product_bom_id}/activity_types`),
     authConfig()
   );
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getProductActivityDefination(product_id: number) {
@@ -73,7 +77,7 @@ export async function getProductActivityDefination(product_id: number) {
       include_activity_types: true,
     },
   });
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getVINCodes() {
@@ -83,7 +87,7 @@ export async function getVINCodes() {
 
 export async function getProductByVIN(vin: string | number) {
   const res = await axios.get<Product>(creatUrl(`/api/v1/npi/product/serial_number/${vin}/info`), authConfig());
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getPCFInventory(vin: string | number) {
@@ -91,16 +95,16 @@ export async function getPCFInventory(vin: string | number) {
     creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
     authConfig()
   );
-  return res.data || undefined;
+  return getData(res);
 }
 
 //
 export async function getSbtInfo(vin: string | number) {
   const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${vin}/info`));
-  return res.data || undefined;
+  return getData(res);
 }
 
 export async function getSbgEmissionInventory(vin: string | number) {
   const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
-  return res.data || undefined;
+  return getData(res);
 }

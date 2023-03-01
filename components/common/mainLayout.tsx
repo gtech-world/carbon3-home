@@ -2,7 +2,7 @@ import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import SvgCO2 from "@public/co2.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { HTMLAttributes, useRef } from "react";
+import { HTMLAttributes } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoCarSportOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
@@ -24,8 +24,7 @@ const menus: IMenu[] = [
 export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const { push, pathname } = useRouter();
-  const ref = useRef(null)
-  useAutoAnim(ref)
+  const ref = useAutoAnim()
   return (
     <MainHeaderLayout className="flex text-black !p-0 bg-white">
       <div className="sticky self-start top-[4.25rem] w-[16.25rem] p-5 min-h-full mo:hidden">
@@ -45,7 +44,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
           </div>
         ))}
       </div>
-      <div ref={ref} className={classNames("flex-1 p-5 min-h-full bg-gray-16 mo:w-full", className)} {...props}>
+      <div ref={ref as any} className={classNames("flex-1 p-5 min-h-full bg-gray-16 mo:w-full", className)} {...props}>
         {children}
       </div>
     </MainHeaderLayout>

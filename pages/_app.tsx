@@ -1,7 +1,9 @@
 import { IsMobileProvider, ToastProvider, UserProvider } from "@components/common/context";
 import { LoadingFull } from "@components/common/loading";
+import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
 import "@lib/env";
+import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
 import i18n from "i18next";
@@ -37,6 +39,14 @@ function WrapI18nProvider(p: { children: React.ReactNode }) {
   return <I18nextProvider i18n={i18n}>{p.children}</I18nextProvider>;
 }
 
+function ModalRoot() {
+  const ref = useAutoAnim(undefined, 'r-side');
+  useEffect(() => {
+    modalRootRef.current = ref.current as any;
+  }, [ref]);
+  return <div ref={ref as any} id="modal_root" style={{ position: "absolute", top: 0, right: 0 }} />;
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
@@ -56,6 +66,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Toast />
         </ToastProvider>
       </WrapI18nProvider>
+      <ModalRoot />
     </div>
   );
 }
