@@ -10,7 +10,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
     <div className="h-full w-full bg-gray-16 relative overflow-y-auto">
       {isMobile ? (
         <div className="absolute z-0 top-0 w-full h-[43rem] overflow-hidden bg-green-2 ">
-          <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.png" />
+          <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute ssm:top-[calc(21.5rem_-_75vw)]"
             style={{ background: "linear-gradient(180deg, #227A30 48.84%, rgba(34, 122, 48, 0) 96.76%)" }}
@@ -18,7 +18,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
         </div>
       ) : (
         <div className="absolute z-0 top-0 w-full h-[48.75rem] bg-green-2 overflow-hidden">
-          <img className="object-cover h-full absolute right-0 top-0" src="/home-bg-r.png" />
+          <img className="object-cover h-full absolute right-0 top-0" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute lg:left-[calc(50%_-_45rem)]"
             style={{
