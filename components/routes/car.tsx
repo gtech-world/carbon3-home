@@ -11,7 +11,7 @@ import { useIsMobile } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { StepProgress } from "@components/common/progress";
 import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
-import { SbtInfo, SbtPhase } from "@lib/@types/type";
+import { SbtEmissionInventory, SbtInfo, SbtPhase } from "@lib/@types/type";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
 import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
@@ -339,6 +339,7 @@ export function Car() {
   const data = useMemo<CarUIProps["data"] | undefined>(() => {
     if (!value) return undefined;
     const [sbt, sbtEmissions] = value;
+    if(!sbt || !sbtEmissions) return undefined;
     const sbtPhase = genSbtPhase();
     const mapPhase: { [k: string]: SbtPhase } = {};
     sbtPhase.forEach((item) => (mapPhase[item.name] = item));
