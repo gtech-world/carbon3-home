@@ -1,10 +1,10 @@
+import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { Fragment, HTMLAttributes, useRef } from "react";
 import { RxTriangleUp } from "react-icons/rx";
 import { useClickAway, useToggle } from "react-use";
 import { useIsMobile } from "./context";
-
 export interface MenuItem {
   topSplit?: boolean;
   icon?: any;
@@ -23,6 +23,7 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   //   const refChild = useRef<HTMLDivElement>(null);
   //   const hover = useHoverDirty(refChild);
   const ref = useRef(null);
+  useAutoAnim(ref, 'rt-scale')
   useClickAway(ref, () => show && toggleShow(false));
   const { push } = useRouter();
   const onClickItem = (item: MenuItem) => {
@@ -33,6 +34,7 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     }
   };
   const isMobile = useIsMobile();
+  
   return (
     <div {...other} style={{ position: isMobile ? "initial" : "relative" }} className={classNames(className)} ref={ref}>
       <div className="flex" onClick={() => toggleShow()}>

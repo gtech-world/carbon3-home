@@ -48,7 +48,8 @@ export function PCF() {
     doGet(mVin)
       .then((value) => {
         ref.current = mVin;
-        if (value[0]) { // 缓存上次有结果的VIN Code
+        if (value[0]) {
+          // 缓存上次有结果的VIN Code
           localStorage.setItem("last_vin", mVin);
         }
       })
@@ -165,9 +166,9 @@ export function PCF() {
                 <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
               )}
             </>
-          ) : (
+          ) : vin ? (
             <Empty className="flex-1" />
-          )}
+          ) : null}
         </>
       )}
     </MainLayout>

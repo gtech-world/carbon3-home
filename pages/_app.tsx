@@ -1,23 +1,23 @@
 import { IsMobileProvider, ToastProvider, UserProvider } from "@components/common/context";
+import { LoadingFull } from "@components/common/loading";
 import { Toast } from "@components/common/toast";
 import "@lib/env";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
+import i18n from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import Backend from "i18next-http-backend";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
-import "../styles/globals.css";
-import i18n from "i18next";
-import { initReactI18next, I18nextProvider } from "react-i18next";
-import Backend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
+import { I18nextProvider, initReactI18next } from "react-i18next";
 import { useToggle } from "react-use";
-import { LoadingFull } from "@components/common/loading";
+import "../styles/globals.css";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
   display: "auto",
-  preload: true,
+  preload: false,
   variable: "--open-sans",
 });
 

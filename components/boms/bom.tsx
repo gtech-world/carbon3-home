@@ -21,7 +21,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
   }, [actTypes]);
 
   return (
-    <Modal>
+    <Modal className="">
       <div className="sticky top-0 w-full bg-green-2 flex justify-between items-center h-[4.25rem] px-4 text-white">
         <button className="text-2xl" onClick={onBack}>
           <IoChevronBackOutline />
