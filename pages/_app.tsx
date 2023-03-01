@@ -40,11 +40,11 @@ function WrapI18nProvider(p: { children: React.ReactNode }) {
 }
 
 function ModalRoot() {
-  const ref = useAutoAnim(undefined, 'r-side');
+  const ref = useAutoAnim<HTMLDivElement>('r-side');
   useEffect(() => {
-    modalRootRef.current = ref.current as any;
+    modalRootRef.current = ref.current;
   }, [ref]);
-  return <div ref={ref as any} id="modal_root" style={{ position: "absolute", top: 0, right: 0 }} />;
+  return <div ref={ref} id="modal_root" style={{ position: "absolute", top: 0, right: 0 }} />;
 }
 
 export default function App({ Component, pageProps }: AppProps) {

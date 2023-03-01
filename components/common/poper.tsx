@@ -20,10 +20,7 @@ export interface PoperMenuProps {
 export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   const { className, children, arrow = {}, menus, ...other } = p;
   const [show, toggleShow] = useToggle(false);
-  //   const refChild = useRef<HTMLDivElement>(null);
-  //   const hover = useHoverDirty(refChild);
-  const ref = useRef(null);
-  useAutoAnim(ref, 'rt-scale')
+  const ref = useAutoAnim<HTMLDivElement>('t-side')
   useClickAway(ref, () => show && toggleShow(false));
   const { push } = useRouter();
   const onClickItem = (item: MenuItem) => {
@@ -43,7 +40,7 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
       {show && menus.length > 0 && (
         <div
           style={{ filter: "drop-shadow(0 0 15px rgba(0, 0, 0, 0.2))" }}
-          className={classNames("absolute w-[13.75rem] top-full right-0")}
+          className={classNames("absolute w-[13.75rem] top-full right-0 mo:right-[-1rem]")}
         >
           <RxTriangleUp className="absolute text-white text-2xl right-4 top-[-4px] hidden mo:block" />
           <div className="py-[.625rem] mo:py-[.375rem] w-full bg-white mt-[.625rem] mo:mt-[.625rem] rounded-lg z-10 relative">

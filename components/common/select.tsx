@@ -33,8 +33,7 @@ export function Select(p: SelectProps) {
     },
     [current]
   );
-  const ref = useRef(null);
-  useAutoAnim(ref, 't-side')
+  const ref = useAutoAnim<HTMLDivElement>('t-side')
   useClickAway(ref, () => open && onToggle(false));
   if (items.length === 0) return null;
   return (
