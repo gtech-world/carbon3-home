@@ -5,8 +5,10 @@ import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgQuery from "@public/query.svg";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function OpenQuery() {
+  const {t} = useTranslation()
   const onBack = useGoBack();
   const [vin, setVin] = useState("");
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -21,11 +23,11 @@ export function OpenQuery() {
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
-      {!isMobile && <button onClick={onBack} className="self-start mb-[5.625rem]">{`< Back`}</button>}
+      {!isMobile && <button onClick={onBack} className="self-start mb-[5.625rem]">{`< ${t("Back")}`}</button>}
       <SvgQuery className="h-[6.125rem] mo:mt-[5.125rem]" />
-      <div className="mt-8 text-[2rem] font-bold mo:text-lg">Open Query</div>
+      <div className="mt-8 text-[2rem] font-bold mo:text-lg">{t("Open Query")}</div>
       <div className="mt-3 text-2xl text-center font-medium mo:text-base">
-        Please enter the VIN Code or scan with your phone
+        {t("Please enter the VIN Code or scan with your phone")}
       </div>
       {isMobile ? (
         <div className="w-full mt-[3.75rem] text-sm">
@@ -37,7 +39,7 @@ export function OpenQuery() {
             className="flex-1 w-full p-4 whitespace-nowrap outline-none rounded-lg"
           />
           <Button onClick={onQuery} className="w-full mt-5 rounded-lg p-3 text-center text-lg text-white bg-green-2">
-            Query
+            {t("Query")}
           </Button>
         </div>
       ) : (
@@ -58,7 +60,7 @@ export function OpenQuery() {
             onClick={onQuery}
             className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2"
           >
-            Query
+            {t("Query")}
           </Button>
         </div>
       )}

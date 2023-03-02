@@ -6,13 +6,14 @@ import { Phase } from "@lib/@types/type";
 import SvgArrowDown from "@public/arrow-down.svg";
 import classNames from "classnames";
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { useToggle } from "react-use";
 
 export function PcActivity(p: { data: Phase }) {
   const { data } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
-
+  const { t } = useTranslation();
   return (
     <div
       className="w-full h-[6.875rem] pr-[.625rem] relative cursor-pointer "
@@ -28,7 +29,7 @@ export function PcActivity(p: { data: Phase }) {
             { "text-green-2": selected }
           )}
         >
-          {data.name}
+          {t(data.name)}
         </div>
       </div>
       <div
@@ -45,6 +46,7 @@ export function PcActivity(p: { data: Phase }) {
 
 export function MobileActivity(p: { data: Phase }) {
   const { data } = p;
+  const { t } = useTranslation();
   const [open, toggle] = useToggle(false);
   return (
     <div
@@ -52,7 +54,7 @@ export function MobileActivity(p: { data: Phase }) {
       onClick={() => toggle(true)}
     >
       <div className={classNames("font-bold grow-0 text-xl whitespace-normal text-center break-words overflow-hidden")}>
-        {data.name}
+        {t(data.name)}
       </div>
       {open && (
         <MobileActL2

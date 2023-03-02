@@ -4,6 +4,7 @@ import { Attrs } from "@components/items/attrs";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductBomActivityTypes } from "@lib/http";
 import { HTMLAttributes, MouseEventHandler, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { useToggle } from "react-use";
 import { PartInfos } from "./pcbom";
@@ -11,6 +12,7 @@ import { BomUIProps } from "./types";
 
 export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLButtonElement> }) {
   const { node, onBack } = p;
+  const { t } = useTranslation();
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(node.id), [node.id]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
@@ -37,7 +39,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
         ))}
         {(node.children as any[]).length > 0 && <div className="h-5" />}
         <PartInfos node={node} />
-        <div className="text-[.9375rem] font-bold mt-5 mb-[.875rem]">Attributable to Carbon Activities:</div>
+        <div className="text-[.9375rem] font-bold mt-5 mb-[.875rem]">{t("Attributable to Carbon Activities")}:</div>
         {loading && <Loading />}
         {currentAttrs.map((attr, i) => (
           <Attrs key={`attrs_${i}`} {...attr} />

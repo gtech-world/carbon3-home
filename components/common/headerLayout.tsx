@@ -1,5 +1,7 @@
+import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import classNames from "classnames";
-import React, { HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
+import { useTranslation } from "react-i18next";
 import { useIsMobile } from "./context";
 import { Header, MobileHeader } from "./header";
 
@@ -52,10 +54,11 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const isMobile = useIsMobile();
+  const ref = useAutoAnim<HTMLDivElement>()
   return (
     <div className="h-full w-full relative">
       {isMobile ? <MobileHeader /> : <Header className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />}
-      <div className={classNames("z-[2] relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)} {...props}>
+      <div ref={ref} className={classNames("z-[2] relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)} {...props}>
         {children}
       </div>
     </div>
@@ -64,10 +67,11 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 
 export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
+  const { t } = useTranslation();
   return (
     <div className="h-full w-full overflow-y-auto bg-gray-16 relative">
       <Header
-        tits={["AICD Supply Chain", "Traceability System"]}
+        tits={t("AICD Supply Chain Traceability System")}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
       <div

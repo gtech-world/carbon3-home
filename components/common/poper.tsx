@@ -1,7 +1,7 @@
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { Fragment, HTMLAttributes, useRef } from "react";
+import React, { Fragment, HTMLAttributes } from "react";
 import { RxTriangleUp } from "react-icons/rx";
 import { useClickAway, useToggle } from "react-use";
 import { useIsMobile } from "./context";
@@ -17,10 +17,10 @@ export interface PoperMenuProps {
   arrow?: HTMLAttributes<HTMLDivElement>;
   menus: MenuItem[];
 }
-export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
+function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   const { className, children, arrow = {}, menus, ...other } = p;
   const [show, toggleShow] = useToggle(false);
-  const ref = useAutoAnim<HTMLDivElement>('t-side')
+  const ref = useAutoAnim<HTMLDivElement>("t-side");
   useClickAway(ref, () => show && toggleShow(false));
   const { push } = useRouter();
   const onClickItem = (item: MenuItem) => {
@@ -29,12 +29,17 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     } else if (item.onClick) {
       item.onClick();
     }
+    toggleShow()
   };
-  const isMobile = useIsMobile();
-  
+
   return (
-    <div {...other} style={{ position: isMobile ? "initial" : "relative" }} className={classNames(className)} ref={ref}>
-      <div className="flex" onClick={() => toggleShow()}>
+    <div {...other} style={{ position: "relative" }} className={classNames(className)} ref={ref}>
+      <div
+        className="flex"
+        onClick={(e) => {
+          toggleShow();
+        }}
+      >
         {children}
       </div>
       {show && menus.length > 0 && (
@@ -67,3 +72,5 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     </div>
   );
 }
+
+export const PoperMenu = React.memo(_PoperMenu);

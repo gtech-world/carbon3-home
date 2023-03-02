@@ -3,12 +3,14 @@ import { AttrsFull } from "@components/items/attrs";
 import { InventoryProductProcess, ProductProcess } from "@lib/@types/type";
 import { ftmCarbonEmission } from "@lib/utils";
 import { MouseEventHandler } from "react";
+import { useTranslation } from "react-i18next";
 import { IoChevronBackOutline } from "react-icons/io5";
 
 export function MobileActL3(p: {
   data: ProductProcess | InventoryProductProcess;
   onBack: MouseEventHandler<HTMLButtonElement>;
 }) {
+  const { t } = useTranslation();
   const { data, onBack } = p;
   const iData = data as InventoryProductProcess;
   return (
@@ -17,7 +19,9 @@ export function MobileActL3(p: {
         <button className="text-2xl" onClick={onBack}>
           <IoChevronBackOutline />
         </button>
-        <span className="flex-grow-0 font-medium overflow-hidden text-ellipsis whitespace-nowrap mx-4">{data.name}</span>
+        <span className="flex-grow-0 font-medium overflow-hidden text-ellipsis whitespace-nowrap mx-4">
+          {data.name}
+        </span>
         <div className="w-6" />
       </div>
       <div className="p-5 w-full">
@@ -25,9 +29,9 @@ export function MobileActL3(p: {
           {data.name}
         </div>
         {iData.carbon_emission !== undefined && (
-          <div className="text-sm mt-[.625rem] text-gray-6">{`Total: ${ftmCarbonEmission(iData.carbon_emission)} / ${
-            iData.activityTypes.length
-          } items`}</div>
+          <div className="text-sm mt-[.625rem] text-gray-6">{`${t("Total")}: ${ftmCarbonEmission(
+            iData.carbon_emission
+          )} / ${iData.activityTypes.length} ${t("items")}`}</div>
         )}
         <div className="w-full mt-5">
           {iData.activityTypes.map((item, i) => (

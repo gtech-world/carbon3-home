@@ -2,6 +2,7 @@ import { UserData } from "@lib/@types/type";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // ****************************** IsMobile *************************************
 export const IsMobileContext = createContext<boolean>(false);
@@ -36,11 +37,12 @@ export function useToast() {
 
 export function useOnError() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   return useCallback(
     (err: any) => {
-      toast({ type: "error", msg: getErrorMsg(err) });
+      toast({ type: "error", msg: t(getErrorMsg(err)) });
     },
-    [toast]
+    [toast, t]
   );
 }
 

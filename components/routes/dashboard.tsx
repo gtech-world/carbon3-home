@@ -6,6 +6,7 @@ import { Product } from "@lib/@types/type";
 import { CAR_SRC, ORG_SRC } from "@components/const";
 import { SiFord } from "react-icons/si";
 import { Loading } from "@components/common/loading";
+import { useTranslation } from "react-i18next";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -37,6 +38,7 @@ function MLink(p: { to: string; text: string }) {
 }
 function TargetInventory(p: { data: Product }) {
   const { data } = p;
+  const { t } = useTranslation();
   return (
     <div className="bg-white rounded-lg overflow-hidden p-5 pb-8 mo:pb-5">
       <img
@@ -45,26 +47,18 @@ function TargetInventory(p: { data: Product }) {
       />
       <div className="font-semibold text-lg text-black mo:text-base">{data.displayName}</div>
       <div className="w-full flex flex-wrap">
-        <MLink to={`/product?product_id=${data.id}`} text="View Product Definition" />
-        <MLink to={`/activities?product_id=${data.id}`} text="View PCF Template" />
-        <MLink to={`/pcf`} text="Query PCF Data" />
+        <MLink to={`/product?product_id=${data.id}`} text={t("View Product Definition")} />
+        <MLink to={`/activities?product_id=${data.id}`} text={t("View PCF Template")} />
+        <MLink to={`/pcf`} text={t("Query PCF Data")} />
       </div>
     </div>
   );
 }
-/**
-Account Role
-Regular User
 
-Authorization Level
-Read-Only / Specified Products
-
-Last Login
-2022-12-30 14:24
- */
 export function UserDashboard() {
   const { user } = useUser();
   const { value: products, loading } = useAsyncM(getProductList);
+  const { t } = useTranslation();
   if (!user) return null;
   return (
     <MainLayout className="text-black">
@@ -72,28 +66,28 @@ export function UserDashboard() {
         <Loading />
       ) : (
         <>
-          <span className="text-2xl font-bold mo:text-lg">PROFILE</span>
+          <span className="text-2xl font-bold mo:text-lg">{t("PROFILE")}</span>
           <div className="mt-5 mb-8 w-full bg-white h-[21.5625rem] rounded-lg p-5 flex mo:flex-col mo:h-auto mo:p-[.9375rem] mo:mb-5">
             <img
               className="object-scale-down h-full aspect-square bg-transparent rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
               src={user.organization.imageUrl || ORG_SRC}
             />
             <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
-              <ProfileInfo label="Organization" text={user.organization.displayName} />
-              <ProfileInfo label="Orgnization Type" text={user.organization.type} />
-              <ProfileInfo label="Site" text={user.organization.sitList[0]?.displayName || "-"} />
-              <ProfileInfo label="Account Owner" text={user.name} />
+              <ProfileInfo label={t("Organization")} text={user.organization.displayName} />
+              <ProfileInfo label={t("Orgnization Type")} text={user.organization.type} />
+              <ProfileInfo label={t("Site")} text={user.organization.sitList[0]?.displayName || "-"} />
+              <ProfileInfo label={t("Account Owner")} text={user.name} />
             </div>
             <div className="py-1 ml-[5rem] mo:ml-0 mo:py-0">
-              <ProfileInfo label="Account Role" text={user.role} />
+              <ProfileInfo label={t("Account Role")} text={user.role} />
               <ProfileInfo
-                label="Authorization Level"
+                label={t("Authorization Level")}
                 text={user.authLevel === 0 ? "Read-Only" : "Read-Only / Specified Products"}
               />
-              <ProfileInfo label="Last Login" text={user.lastLoginTime} />
+              <ProfileInfo label={t("Last Login")} text={user.lastLoginTime} />
             </div>
           </div>
-          <span className="text-2xl font-bold mo:text-lg">TARGET INVENTORIES</span>
+          <span className="text-2xl font-bold mo:text-lg">{t("TARGET INVENTORIES")}</span>
           {products && (
             <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] mo:grid-cols-1">
               {products.map((product, i) => {

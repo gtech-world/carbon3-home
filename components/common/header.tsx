@@ -11,62 +11,83 @@ import { MenuItem, PoperMenu } from "./poper";
 import SvgCO2 from "@public/co2.svg";
 
 import { FiLogOut, FiLogIn, FiHome, FiSearch } from "react-icons/fi";
-import { IoCarSportOutline } from "react-icons/io5";
+import { IoCarSportOutline, IoLanguageOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
+import { useTranslation } from "react-i18next";
+import { LngsText, SupportLngs } from "@components/const";
+import { textTo2 } from "@lib/utils";
 
 function useMenus() {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
+  const { t } = useTranslation();
   return useMemo(() => {
     const menus: MenuItem[] = [];
-    menus.push({ icon: <FiHome />, text: "AICD Home", to: "/" });
-    menus.push({ icon: <FiSearch />, text: "AICD Open Query", to: "/openquery" });
-    if (user) menus.push({ icon: <VscAccount />, text: "AICD Traceability", to: "/dashboard" });
+    menus.push({ icon: <FiHome />, text: t("AICD Home"), to: "/" });
+    menus.push({ icon: <FiSearch />, text: t("AICD Open Query"), to: "/openquery" });
+    if (user) menus.push({ icon: <VscAccount />, text: t("AICD Traceability"), to: "/dashboard" });
     if (isMobile && user) {
       menus.push({
         icon: <AiOutlineUser />,
-        text: "User Dashboard",
+        text: t("User Dashboard"),
         to: "/dashboard",
         selected: pathname === "/dashboard",
       });
       menus.push({
         icon: <IoCarSportOutline />,
-        text: "Product Definition",
+        text: t("Product Definition"),
         to: "/product",
         selected: pathname == "/product",
       });
       menus.push({
         icon: <SvgCO2 />,
-        text: "Carbon Activities",
+        text: t("Carbon Activities"),
         to: "/activities",
         selected: pathname == "/activities",
       });
-      menus.push({ 
-        icon: <RiPieChartLine />, 
-        text: "PCF Inventories", 
-        to: "/pcf", 
-        selected: pathname == "/pcf" 
+      menus.push({
+        icon: <RiPieChartLine />,
+        text: t("PCF Inventories"),
+        to: "/pcf",
+        selected: pathname == "/pcf",
       });
     }
     menus.push({
       topSplit: true,
       icon: user ? <FiLogOut /> : <FiLogIn />,
-      text: user ? "Log Out" : "Sign in",
+      text: user ? t("Log Out") : t("Log In"),
       to: user ? undefined : "/login",
       onClick: () => {
         push("/").then(() => setUser(undefined));
       },
     });
     return menus;
-  }, [user, isMobile, pathname]);
+  }, [user, isMobile, pathname, t]);
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, string] }) {
-  const { children, className, tits = ["Automotive Industry", "Carbon Database"], ...other } = p;
+function useLangsMenus() {
+  const { t, i18n } = useTranslation();
+  return useMemo(
+    () =>
+      SupportLngs.map<MenuItem>((lng) => ({
+        text: LngsText[lng],
+        selected: i18n.language === lng,
+        onClick: () => i18n.changeLanguage(lng),
+      })),
+    [t, i18n]
+  );
+}
+
+export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null }) {
+  const { children, className, tits, ...other } = p;
+  const { t } = useTranslation();
+  const mTit = tits || t("Automotive Industry Carbon Database") || "";
+  const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
   const menus = useMenus();
+  const langs = useLangsMenus();
   return (
     <div
       className={classNames(
@@ -77,12 +98,18 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, str
     >
       <div onClick={() => push("/")} className="flex items-center cursor-pointer">
         <SvgAICD className="h-9 mo:h-[1.75rem]" />
-        <div className="flex flex-col ml-4 text-base whitespace-nowrap mo:text-[.8rem] mo:ml-[.8rem]">
-          <span className="leading-snug">{tits[0]}</span>
-          <span className="leading-snug">{tits[1]}</span>
+        <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
+          {mTits.map((tit, i) => (
+            <span key={`tit_${i}`}>{tit}</span>
+          ))}
         </div>
       </div>
       <div className="flex-1" />
+      <PoperMenu menus={langs} className="mr-3">
+        <button className="text-[1.75rem] mo:text-2xl">
+          <IoLanguageOutline />
+        </button>
+      </PoperMenu>
       <PoperMenu menus={menus}>
         <button className="text-[2rem] mo:text-2xl">
           <HiOutlineMenu />

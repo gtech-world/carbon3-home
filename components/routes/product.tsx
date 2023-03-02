@@ -11,8 +11,10 @@ import { useMemo } from "react";
 import { ProfileInfo } from "./dashboard";
 import { CAR_SRC } from "@components/const";
 import { Loading } from "@components/common/loading";
+import { useTranslation } from "react-i18next";
 
 export function ProductDefinition() {
+  const { t } = useTranslation();
   const { current, items, onChange, current_product, loading: load0 } = useProductsState();
   const { value: pcfAccountable, loading: load1 } = useAsyncM(
     () => (current_product ? getProductPcfAccountable(current_product.id) : Promise.resolve(undefined)),
@@ -71,35 +73,35 @@ export function ProductDefinition() {
           {current_product && (
             <>
               <Select current={current} items={items} onChange={onChange} />
-              <div className="text-2xl font-bold my-5 mo:text-lg">PRODUCT INFO</div>
+              <div className="text-2xl font-bold my-5 mo:text-lg">{t("PRODUCT INFO")}</div>
               <div className="w-full bg-white rounded-lg p-5 flex items-center justify-between mo:flex-col mo:items-start">
                 <img
                   className="object-contain w-[15.625rem] aspect-square rounded-lg border border-black border-solid mo:w-full mo:aspect-[3/2]"
                   src={current_product.imageUrl || CAR_SRC}
                 />
                 <div className="py-1 ml-[3.75rem] mo:mt-5 mo:ml-0 mo:py-0">
-                  <ProfileInfo label="Product Name" text={current_product.name || "-"} />
-                  <ProfileInfo label="Display Name" text={current_product.displayName} />
-                  <ProfileInfo label="Product UID" text={current_product.id + ""} />
+                  <ProfileInfo label={t("Product Name")} text={current_product.name || "-"} />
+                  <ProfileInfo label={t("Display Name")} text={current_product.displayName} />
+                  <ProfileInfo label={t("Product UID")} text={current_product.id + ""} />
                 </div>
                 <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
-                  <ProfileInfo label="From Organization" text={current_product.organization.displayName + ""} />
-                  <ProfileInfo label="Product Type" text={current_product.type} />
+                  <ProfileInfo label={t("From Organization")} text={current_product.organization.displayName + ""} />
+                  <ProfileInfo label={t("Product Type")} text={current_product.type} />
                   <ProfileInfo
-                    label="PCF Accountable"
+                    label={t("PCF Accountable")}
                     text={pcfAccountable === undefined ? "-" : pcfAccountable ? "YES" : "NO"}
                   />
                 </div>
                 <div className="py-1 ml-[3.75rem] mo:ml-0 mo:py-0">
                   <ProfileInfo
-                    label="Manufacturing Status"
+                    label={t("Manufacturing Status")}
                     text={current_product.manufacturingStatus === 1 ? "Active" : "Inactive"}
                   />
-                  <ProfileInfo label="Created At" text={current_product.createTime} />
-                  <ProfileInfo label="Last Update" text={current_product.updateTime} />
+                  <ProfileInfo label={t("Created At")} text={current_product.createTime} />
+                  <ProfileInfo label={t("Last Update")} text={current_product.updateTime} />
                 </div>
               </div>
-              <div className="text-2xl font-bold my-5 mo:text-lg">PRODUCT BOM</div>
+              <div className="text-2xl font-bold my-5 mo:text-lg">{t("PRODUCT BOM")}</div>
               {root && <BomUI node={root} />}
             </>
           )}

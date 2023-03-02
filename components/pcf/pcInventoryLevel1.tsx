@@ -4,10 +4,12 @@ import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
 export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }) {
   const { data, index } = p;
+  const { t } = useTranslation();
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
   return (
@@ -18,7 +20,7 @@ export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }
       onClick={() => update({ activity: data, sourcing: 0 })}
     >
       <StepProgress full={true} color={selected ? "#227A30" : "transparent"} index={index} className="my-5" />
-      <div className="w-full whitespace-normal font-bold text-xl">{data.name}</div>
+      <div className="w-full whitespace-normal font-bold text-xl">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />

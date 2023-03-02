@@ -4,12 +4,14 @@ import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 import { BsArrowRightShort } from "react-icons/bs";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useToggle } from "react-use";
 
 export function MobleInventoryLevel1Item(p: { data: InventoryPhase; index: number }) {
   const { data, index } = p;
+  const { t } = useTranslation();
   const [open, toggle] = useToggle(false);
   return (
     <div
@@ -17,7 +19,7 @@ export function MobleInventoryLevel1Item(p: { data: InventoryPhase; index: numbe
       onClick={() => toggle(true)}
     >
       <StepProgress index={index} className="my-5" />
-      <div className="w-full whitespace-normal font-bold text-base">{data.name}</div>
+      <div className="w-full whitespace-normal font-bold text-base">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       <div className="flex justify-between items-center mt-3">
         {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (

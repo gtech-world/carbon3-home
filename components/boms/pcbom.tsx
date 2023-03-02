@@ -10,6 +10,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { BomUIProps } from "./types";
 import { Loading } from "@components/common/loading";
+import { useTranslation } from "react-i18next";
 
 type SelectState = [ProductBom, (v: ProductBom) => void];
 const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
@@ -74,21 +75,23 @@ export function PartInfo(p: { label: string; text: string }) {
 
 export function PartInfos(p: BomUIProps) {
   const { node } = p;
+  const { t } = useTranslation();
   return (
     <>
-      <PartInfo label="Part Name" text={node.partDisplayName} />
-      <PartInfo label="Part Type" text={node.children.length > 0 ? "Sub-system" : "Bom"} />
-      <PartInfo label="BOM Genealogy Level" text={`${node.deep + 1}`} />
-      <PartInfo label="Parent" text={node.parent?.partDisplayName || "-"} />
-      <PartInfo label="Children" text={`${node.children.length || "No"} Child`} />
-      <PartInfo label="From Supplier" text={node.supplierName || "-"} />
-      <PartInfo label="Last Update" text={node.updateTime} />
+      <PartInfo label={t("Part Name")} text={node.partDisplayName} />
+      <PartInfo label={t("Part Type")} text={node.children.length > 0 ? "Sub-system" : "Bom"} />
+      <PartInfo label={t("BOM Genealogy Level")} text={`${node.deep + 1}`} />
+      <PartInfo label={t("Parent")} text={node.parent?.partDisplayName || "-"} />
+      <PartInfo label={t("Children")} text={`${node.children.length || "No"} Child`} />
+      <PartInfo label={t("From Supplier")} text={node.supplierName || "-"} />
+      <PartInfo label={t("Last Update")} text={node.updateTime} />
     </>
   );
 }
 
 export function PcBom(p: BomUIProps) {
   const { node } = p;
+  const { t } = useTranslation();
   const [selectNode, setSelectNode] = useState(node.children[0]);
   const treeworker = useCallback(
     function* () {
@@ -136,7 +139,7 @@ export function PcBom(p: BomUIProps) {
         </div>
         <div className="w-[3.5rem]" />
         <div className="w-0 flex-1 flex flex-col">
-          <div className="text-lg font-bold mb-5">Attributable to Carbon Activities:</div>
+          <div className="text-lg font-bold mb-5">{t("Attributable to Carbon Activities")}:</div>
           {loading ? (
             <Loading />
           ) : (

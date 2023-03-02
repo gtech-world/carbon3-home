@@ -2,6 +2,7 @@ import { IsMobileProvider, ToastProvider, UserProvider } from "@components/commo
 import { LoadingFull } from "@components/common/loading";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
+import { SupportLngs } from "@components/const";
 import "@lib/env";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { Open_Sans } from "@next/font/google";
@@ -28,19 +29,43 @@ const font_classes = [open_sans].map((f) => f.variable).join(" ");
 function WrapI18nProvider(p: { children: React.ReactNode }) {
   const [inited, setInited] = useToggle(false);
   useEffect(() => {
+    const ns = ["frontend", "backend"];
     i18n
       .use(Backend)
       .use(LanguageDetector)
       .use(initReactI18next)
-      .init({})
-      .then(() => setInited(true));
+      .init({
+        initImmediate: false,
+        load: "currentOnly",
+        preload: SupportLngs,
+        supportedLngs: SupportLngs,
+        ns: ns,
+        fallbackLng: SupportLngs[0],
+        defaultNS: ns[0],
+        backend: {
+          loadPath: "https://static-i18n.gtech.world/I18N/{{lng}}/{{ns}}.json",
+          crossDomain: true,
+        },
+      });
+    i18n.on("loaded", (data) => {
+      let loaded = 0;
+      SupportLngs.forEach((lng) => {
+        ns.forEach((ns) => {
+          if (data[lng] && data[lng][ns]) loaded++;
+        });
+      });
+      if (loaded === SupportLngs.length * ns.length) {
+        setInited(true);
+        console.info("loaded:", i18n.store.data);
+      }
+    });
   });
   if (!inited) return <LoadingFull />;
   return <I18nextProvider i18n={i18n}>{p.children}</I18nextProvider>;
 }
 
 function ModalRoot() {
-  const ref = useAutoAnim<HTMLDivElement>('r-side');
+  const ref = useAutoAnim<HTMLDivElement>("r-side");
   useEffect(() => {
     modalRootRef.current = ref.current;
   }, [ref]);
