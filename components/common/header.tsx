@@ -121,7 +121,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
       </div>
       <div className="flex-1" />
       {showQuery && (
-        <div className="relative text-white text-lg mr-4">
+        <div className="relative text-white text-lg mr-4 mo:hidden">
           <input
             style={{ border: "2px solid #fff" }}
             className="w-[17.5rem] h-[2.25rem] rounded-sm outline-none bg-transparent pl-10 pr-4"

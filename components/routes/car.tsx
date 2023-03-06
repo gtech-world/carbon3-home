@@ -23,6 +23,7 @@ import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
+import { useT } from "@lib/hooks/useT";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -112,12 +113,12 @@ function ItemPhase(p: { data: SbtPhase; index: number }) {
         {data.verified ? (
           <>
             <IoCheckmarkCircleOutline className="text-2xl mr-3" />
-            <div className="text-sm text-green-2">{"verified"}</div>
+            <div className="text-sm text-green-2">{t("verified")}</div>
           </>
         ) : (
           <>
             <IoEllipsisHorizontalCircle className="text-2xl mr-3" />
-            <div className="text-sm text-orange-169">{"estimated"}</div>
+            <div className="text-sm text-orange-169">{t("estimated")}</div>
           </>
         )}
       </div>
@@ -372,6 +373,7 @@ export function Car() {
     };
   }, [value]);
   const onBack = useGoBack();
+  const { t } = useT();
   return (
     <div className="bg-gray-16 w-full min-h-full text-black">
       {isMobile ? (
@@ -389,7 +391,7 @@ export function Car() {
           ) : (
             <>
               <div className="w-full px-5 max-w-[1480px] mx-auto">
-                <button onClick={onBack} className="self-start ml-1">{`< Back`}</button>
+                <button onClick={onBack} className="self-start ml-1">{`< ${t("Back")}`}</button>
               </div>
               {data ? <PcCar data={data} /> : <Empty style={{ minHeight: "calc(100vh - 9rem)" }} />}
             </>
