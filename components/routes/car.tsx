@@ -305,7 +305,7 @@ function PcCar(p: CarUIProps) {
             <CarInfos data={data} />
           </div>
         </div>
-        <div className="w-0 flex-1 p-5 mt-5 bg-white rounded-lg flex justify-between items-center">
+        <div className="w-0 flex-1 p-5 mt-5 pt-12 bg-white rounded-lg flex justify-between">
           <ItemEmission
             icon={<SVGCO2 className="text-[2.9644rem]" />}
             value={data.tonnes}
