@@ -66,6 +66,19 @@ export function textTo2(str: string) {
     });
     return [tits.slice(0, mid).join(" "), tits.slice(mid).join(" ")];
   }
+  if (str.length < 2) return [str];
+  let total = 0;
+  for (let i = 0; i < str.length; i++) {
+    total += str.charCodeAt(i) > 255 ? 2 : 1;
+  }
   let mid = Math.round(str.length / 2);
+  let tmp = 0;
+  for (let i = 0; i < str.length; i++) {
+    tmp += str.charCodeAt(i) > 255 ? 2 : 1;
+    if (tmp > total / 2) {
+      mid = i;
+      break;
+    }
+  }
   return [str.slice(0, mid), str.slice(mid)];
 }
