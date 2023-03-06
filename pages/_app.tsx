@@ -56,7 +56,7 @@ function WrapI18nProvider(p: { children: React.ReactNode }) {
       });
       if (loaded === SupportLngs.length * ns.length) {
         setInited(true);
-        console.info("loaded:", i18n.store.data);
+        // console.info("loaded:", i18n.store.data);
       }
     });
   });

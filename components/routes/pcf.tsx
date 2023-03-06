@@ -7,13 +7,14 @@ import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
+import { useOn } from "@lib/hooks/useOn";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
 import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useAsyncFn } from "react-use";
@@ -39,11 +40,11 @@ export function PCF() {
   const onError = useOnError();
   const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
-    [onError]
+    []
   );
-  // // 记录上次输入用于防止连续两次查询相同的VIN
+  // 记录上次输入用于防止连续两次查询相同的VIN
   // const ref = useRef("");
-  const onSearch = (mVin: string = vin || "") => {
+  const onSearch = useOn((mVin: string = vin || "") => {
     if (loading) return;
     if (!mVin) return onError("Please input VIN Code");
     // if (ref.current === mVin) return onError("Please enter different VIN Code");
@@ -56,7 +57,7 @@ export function PCF() {
         }
       })
       .catch(onError);
-  };
+  });
   useEffect(() => {
     const lastVin = localStorage.getItem("last_vin") || "";
     const mVin = qVin || lastVin;

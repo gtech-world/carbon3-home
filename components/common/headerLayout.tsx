@@ -71,6 +71,7 @@ export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   return (
     <div className="h-full w-full overflow-y-auto bg-gray-16 relative">
       <Header
+        showQuery={true}
         tits={t("AICD Supply Chain Traceability System")}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />

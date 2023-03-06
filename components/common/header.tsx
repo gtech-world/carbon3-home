@@ -2,11 +2,11 @@ import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgAICD from "@public/AICD.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { HTMLAttributes, useMemo } from "react";
+import { ChangeEvent, HTMLAttributes, useCallback, useEffect, useMemo, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
-import { useIsMobile, useUser } from "./context";
+import { useIsMobile, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 import SvgCO2 from "@public/co2.svg";
 
@@ -80,14 +80,29 @@ function useLangsMenus() {
   );
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null }) {
-  const { children, className, tits, ...other } = p;
+export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean }) {
+  const { children, className, tits, showQuery, ...other } = p;
   const { t } = useTranslation();
   const mTit = tits || t("Automotive Industry Carbon Database") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
   const menus = useMenus();
   const langs = useLangsMenus();
+
+  const [vin, setVin] = useState("");
+  const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setVin(e.target.value || "");
+    e.target.value && localStorage.setItem("h_last_input_vin", e.target.value);
+  }, []);
+  useEffect(() => {
+    let lastVin = localStorage.getItem("h_last_input_vin");
+    if (!vin && lastVin) setVin(lastVin);
+  });
+  const onError = useOnError();
+  const onQuery = () => {
+    if (!vin) return onError("Please input VIN Code");
+    push(`pcf?vin=${vin}`);
+  };
   return (
     <div
       className={classNames(
@@ -105,6 +120,19 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
         </div>
       </div>
       <div className="flex-1" />
+      {showQuery && (
+        <div className="relative text-white text-lg mr-4">
+          <input
+            style={{ border: "2px solid #fff" }}
+            className="w-[17.5rem] h-[2.25rem] rounded-sm outline-none bg-transparent pl-10 pr-4"
+            value={vin}
+            maxLength={24}
+            onChange={onVinChange}
+            onKeyDown={(e) => e.code === "Enter" && onQuery()}
+          />
+          <FiSearch className="text-[1.75rem] top-1 left-2 absolute cursor-pointer" onClick={onQuery} />
+        </div>
+      )}
       <PoperMenu menus={langs} className="mr-3">
         <button className="text-[1.75rem] mo:text-2xl">
           <IoLanguageOutline />

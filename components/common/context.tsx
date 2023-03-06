@@ -1,4 +1,5 @@
 import { UserData } from "@lib/@types/type";
+import { useOn } from "@lib/hooks/useOn";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
@@ -38,12 +39,9 @@ export function useToast() {
 export function useOnError() {
   const { toast } = useToast();
   const { t } = useTranslation();
-  return useCallback(
-    (err: any) => {
-      toast({ type: "error", msg: t(getErrorMsg(err)) });
-    },
-    [toast, t]
-  );
+  return useOn((err: any) => {
+    toast({ type: "error", msg: t(getErrorMsg(err)) });
+  });
 }
 
 export function ToastProvider(p: { children?: React.ReactNode }) {
