@@ -9,7 +9,7 @@ export function Empty(p: HtmlHTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...other}
-      className={classNames(className, "w-full text-center text-lg text-black flex flex-col items-center")}
+      className={classNames(className, "w-full h-full text-center text-lg text-black flex flex-col items-center")}
     >
       <div className="flex-1" />
       {child}

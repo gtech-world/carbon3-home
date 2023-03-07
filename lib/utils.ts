@@ -40,13 +40,6 @@ export function ftmCarbonEmission(ce: number | any, space: boolean = false) {
   // return `${Math.round(mCe / 10000) * 0.01}t`;
 }
 
-let el: HTMLDivElement | null = null;
-export function htmlDecode(content: string): string {
-  if (!el) el = document.createElement("div");
-  el.innerHTML = content;
-  return el.childNodes.length === 0 ? "" : (el.childNodes[0].nodeValue as string);
-}
-
 export function textTo2(str: string) {
   if (str.includes(" ")) {
     const strMid = Math.round(str.length / 2);

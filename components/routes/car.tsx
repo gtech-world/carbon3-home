@@ -16,14 +16,14 @@ import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
+import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
-import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl, htmlDecode } from "@lib/utils";
+import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useAsync, useToggle } from "react-use";
-import { useT } from "@lib/hooks/useT";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -146,32 +146,30 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
   const { type, sbt } = p;
   const { t } = useTranslation();
   const content = useMemo(() => {
-    const trans =
-      type == 1
-        ? t(
-            "The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance.",
-            {
-              value: `<a class="text-green-2 cursor-pointer" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
-                "AIAG’s carbon reduction / Net Zero 2050 initiatives"
-              )}</a>`,
-            }
-          )
-        : type == 2
-        ? t(
-            "AICD is the global, industry-level database for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Database. Click {{value}} to query information about this vehicle.",
-            {
-              value: `<a class="text-green-2 cursor-pointer" href="/openquery" rel="noreferrer">${t("here")}</a>`,
-            }
-          )
-        : t(
-            "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",
-            {
-              value: `<a class="text-green-2 cursor-pointer" href="${genScanTokenUrl(
-                sbt.sbtTokenId
-              )}" rel="noreferrer">${t("here")}</a>`,
-            }
-          );
-    return htmlDecode(trans);
+    return type == 1
+      ? t(
+          "The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance."
+        ).replace(
+          "{{value}}",
+          `<a class="text-green-2 cursor-pointer" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
+            "AIAG’s carbon reduction / Net Zero 2050 initiatives"
+          )}</a>`
+        )
+      : type == 2
+      ? t(
+          "AICD is the global, industry-level database for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Database. Click {{value}} to query information about this vehicle."
+        ).replace(
+          "{{value}}",
+          `<a class="text-green-2 cursor-pointer" href="/openquery" rel="noreferrer">${t("here")}</a>`
+        )
+      : t(
+          "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
+        ).replace(
+          "{{value}}",
+          `<a class="text-green-2 cursor-pointer" href="${genScanTokenUrl(sbt.sbtTokenId)}" rel="noreferrer">${t(
+            "here"
+          )}</a>`
+        );
   }, [type, sbt, t]);
   return (
     <div className="flex-1 w-0 p-5 bg-white rounded-lg flex flex-col items-center [&:nth-child(n+2)]:ml-5 mo:!ml-0 mo:w-full mo:mt-5">
@@ -375,25 +373,19 @@ export function Car() {
   const onBack = useGoBack();
   const { t } = useT();
   return (
-    <div className="bg-gray-16 w-full min-h-full text-black">
+    <div className="bg-gray-16 flex-1 flex flex-col w-full text-black">
       {isMobile ? (
-        <>
-          {loading ? (
-            <Loading style={{ minHeight: "calc(100vh - 4.25rem)" }} />
-          ) : (
-            <>{data ? <MobileCar data={data} /> : <Empty style={{ minHeight: "calc(100vh - 9rem)" }} />}</>
-          )}
-        </>
+        <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : <Empty />}</>}</>
       ) : (
-        <HeaderLayout style={{ minHeight: "calc(100vh - 4.25rem)" }} className="!px-7">
+        <HeaderLayout className="!px-7">
           {loading ? (
-            <Loading style={{ minHeight: "calc(100vh - 4.25rem)" }} />
+            <Loading />
           ) : (
             <>
               <div className="w-full px-5 max-w-[1480px] mx-auto">
                 <button onClick={onBack} className="self-start ml-1">{`< ${t("Back")}`}</button>
               </div>
-              {data ? <PcCar data={data} /> : <Empty style={{ minHeight: "calc(100vh - 9rem)" }} />}
+              {data ? <PcCar data={data} /> : <Empty />}
             </>
           )}
         </HeaderLayout>

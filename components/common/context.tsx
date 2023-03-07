@@ -14,6 +14,7 @@ export interface Store {
   toast?: Toast;
   last_input_vin: string;
   isMobile: boolean;
+  show_header_tip: boolean;
 }
 
 export function getUserData() {
@@ -72,6 +73,7 @@ export async function initStore() {
   const store: Store = {
     isMobile: window.innerWidth <= 900,
     last_input_vin: localStorage.getItem("last_input_vin") || "",
+    show_header_tip: !sessionStorage.getItem("hidden_header_tip"),
   };
   const ud = getUserData();
   if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
@@ -104,9 +106,9 @@ export function useOnError() {
 
 export function useUser() {
   const { userData, update } = useStore();
-  const setUser = useCallback((user?: UserData, onlyStorage?: boolean) => {
-    if (user) user.loginTime = new Date().getTime();
-    !onlyStorage && update({ userData: user });
+  const setUser = useCallback((user?: UserData, login?: boolean) => {
+    if (user && login) user.loginTime = new Date().getTime();
+    update({ userData: user });
     localStorage.setItem("user-data", user ? JSON.stringify(user) : "");
   }, []);
   return { user: userData, setUser };
@@ -122,4 +124,16 @@ export function useLastInputVin() {
     [update]
   );
   return { last_input_vin, setLastInputVin };
+}
+
+export function useShowHeadTip() {
+  const { show_header_tip, update } = useStore();
+  const setShowHeaderTip = useCallback(
+    (show: boolean) => {
+      update({ show_header_tip: show });
+      sessionStorage.setItem("hidden_header_tip", show ? "" : "1");
+    },
+    [update]
+  );
+  return { show_header_tip, setShowHeaderTip };
 }

@@ -14,7 +14,7 @@ import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
 import { useRouter } from "next/router";
-import React, { ChangeEventHandler, EventHandler, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useAsyncFn, useToggle } from "react-use";
@@ -112,7 +112,7 @@ export function PCF() {
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
         {t("Query PCF Data with Vehicle’s VIN Code")}:
       </div>
-      <div className="relative w-[31.25rem] mo:w-auto rounded-lg overflow-hidden bg-white">
+      <div className="relative flex-shrink-0 w-[31.25rem] mo:w-auto rounded-lg overflow-hidden bg-white">
         <input
           className="h-full w-full py-3 pl-5 pr-14 text-lg outline-none"
           maxLength={32}

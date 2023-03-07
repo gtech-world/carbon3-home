@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useToggle } from "react-use";
 
 export function SignIn() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const onBack = useGoBack();
   const [account, setAccount] = useState("");
   const onAccountChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -31,15 +31,15 @@ export function SignIn() {
     setLoading(true);
     login(account, pwd)
       .then((ud) => {
-        setUser(ud);
-        push("/dashboard").then(() => setLoading(false));
+        setUser(ud, true);
+        return push("/dashboard");
       })
       .catch(onError)
       .then(() => setLoading(false));
   };
   return (
     <HeaderLayout className="flex flex-col items-center text-black">
-      <button onClick={onBack} className="self-start mb-[5.625rem] mo:hidden">{`< ${t('Back')}`}</button>
+      <button onClick={onBack} className="self-start mb-[5.625rem] mo:hidden">{`< ${t("Back")}`}</button>
       <SvgSignIn className="h-[6.125rem] mo:mt-[5.125rem] mo:h-[5rem]" />
       <input
         value={account}
@@ -47,7 +47,7 @@ export function SignIn() {
         maxLength={24}
         onChange={onAccountChange}
         onKeyDown={(e) => e.code === "Enter" && onSign()}
-        placeholder={t("Account") || ''}
+        placeholder={t("Account") || ""}
         className="outline-none w-full mt-[5.75rem] mb-5 max-w-[420px] min-h-[40px] h-[3.125rem] px-4 whitespace-nowrap rounded-lg mo:text-sm mo:px-5 mo:py-4"
         style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
       />
@@ -57,7 +57,7 @@ export function SignIn() {
         maxLength={32}
         onChange={onPwdChange}
         onKeyDown={(e) => e.code === "Enter" && onSign()}
-        placeholder={t("Password") || ''}
+        placeholder={t("Password") || ""}
         className="outline-none w-full mb-5 max-w-[420px] min-h-[40px] h-[3.125rem] px-4 whitespace-nowrap rounded-lg mo:text-sm mo:px-5 mo:py-4"
         style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
       />

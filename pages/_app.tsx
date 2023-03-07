@@ -1,7 +1,5 @@
-import {
-  initStore, Store,
-  StoreProvider
-} from "@components/common/context";
+import { initStore, Store, StoreProvider } from "@components/common/context";
+import { HeaderTip } from "@components/common/headerTip";
 import { LoadingFull } from "@components/common/loading";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
@@ -57,6 +55,8 @@ async function initI18n() {
       });
       if (loaded === SupportLngs.length * ns.length) {
         resolve(i18n);
+        const data = i18n.store.data["zh-CN"].frontend as any;
+        if (data) data["{{value}} with authenticated account*"] = "使用经认证的专业账户*</br>{{value}}";
       }
     });
   });
@@ -94,6 +94,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <InitProvider>
+        <HeaderTip/>
         <Component {...pageProps} />
         <Toast />
       </InitProvider>

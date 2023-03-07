@@ -1,22 +1,22 @@
 import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgAICD from "@public/AICD.svg";
+import SvgCO2 from "@public/co2.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ChangeEvent, HTMLAttributes, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
 import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
-import SvgCO2 from "@public/co2.svg";
 
-import { FiLogOut, FiLogIn, FiHome, FiSearch } from "react-icons/fi";
+import { LngsText, SupportLngs } from "@components/const";
+import { textTo2 } from "@lib/utils";
+import { useTranslation } from "react-i18next";
+import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { IoCarSportOutline, IoLanguageOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
-import { useTranslation } from "react-i18next";
-import { LngsText, SupportLngs } from "@components/const";
-import { textTo2 } from "@lib/utils";
 
 function useMenus() {
   const isMobile = useIsMobile();
@@ -88,7 +88,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
   const { push } = useRouter();
   const menus = useMenus();
   const langs = useLangsMenus();
-  const {last_input_vin, setLastInputVin} = useLastInputVin()
+  const { last_input_vin, setLastInputVin } = useLastInputVin();
   const [vin, setVin] = useState(last_input_vin);
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value || "");
@@ -100,46 +100,48 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
     push(`pcf?vin=${vin}`);
   };
   return (
-    <div
-      className={classNames(
-        "relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
-        className
-      )}
-      {...other}
-    >
-      <div onClick={() => push("/")} className="flex items-center cursor-pointer">
-        <SvgAICD className="h-9 mo:h-[1.75rem]" />
-        <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
-          {mTits.map((tit, i) => (
-            <span key={`tit_${i}`}>{tit}</span>
-          ))}
+    <>
+      <div
+        className={classNames(
+          "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
+          className
+        )}
+        {...other}
+      >
+        <div onClick={() => push("/")} className="flex items-center cursor-pointer">
+          <SvgAICD className="h-9 mo:h-[1.75rem]" />
+          <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
+            {mTits.map((tit, i) => (
+              <span key={`tit_${i}`}>{tit}</span>
+            ))}
+          </div>
         </div>
+        <div className="flex-1" />
+        {showQuery && (
+          <div className="relative text-white text-lg mr-4 mo:hidden">
+            <input
+              style={{ border: "2px solid #fff" }}
+              className="w-[17.5rem] h-[2.25rem] rounded-sm outline-none bg-transparent pl-10 pr-4"
+              value={vin}
+              maxLength={24}
+              onChange={onVinChange}
+              onKeyDown={(e) => e.code === "Enter" && onQuery()}
+            />
+            <FiSearch className="text-[1.75rem] top-1 left-2 absolute cursor-pointer" onClick={onQuery} />
+          </div>
+        )}
+        <PoperMenu menus={langs} className="mr-3">
+          <button className="text-[1.75rem] mo:text-2xl">
+            <IoLanguageOutline />
+          </button>
+        </PoperMenu>
+        <PoperMenu menus={menus}>
+          <button className="text-[2rem] mo:text-2xl">
+            <HiOutlineMenu />
+          </button>
+        </PoperMenu>
       </div>
-      <div className="flex-1" />
-      {showQuery && (
-        <div className="relative text-white text-lg mr-4 mo:hidden">
-          <input
-            style={{ border: "2px solid #fff" }}
-            className="w-[17.5rem] h-[2.25rem] rounded-sm outline-none bg-transparent pl-10 pr-4"
-            value={vin}
-            maxLength={24}
-            onChange={onVinChange}
-            onKeyDown={(e) => e.code === "Enter" && onQuery()}
-          />
-          <FiSearch className="text-[1.75rem] top-1 left-2 absolute cursor-pointer" onClick={onQuery} />
-        </div>
-      )}
-      <PoperMenu menus={langs} className="mr-3">
-        <button className="text-[1.75rem] mo:text-2xl">
-          <IoLanguageOutline />
-        </button>
-      </PoperMenu>
-      <PoperMenu menus={menus}>
-        <button className="text-[2rem] mo:text-2xl">
-          <HiOutlineMenu />
-        </button>
-      </PoperMenu>
-    </div>
+    </>
   );
 }
 
