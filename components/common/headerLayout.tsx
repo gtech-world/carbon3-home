@@ -54,11 +54,10 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const isMobile = useIsMobile();
-  const ref = useAutoAnim<HTMLDivElement>()
   return (
     <div className="h-full w-full relative">
       {isMobile ? <MobileHeader /> : <Header className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />}
-      <div ref={ref} className={classNames("z-[2] relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)} {...props}>
+      <div className={classNames("z-[2] relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)} {...props}>
         {children}
       </div>
     </div>

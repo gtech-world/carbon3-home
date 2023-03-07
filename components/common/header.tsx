@@ -6,7 +6,7 @@ import { ChangeEvent, HTMLAttributes, useCallback, useEffect, useMemo, useState 
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
-import { useIsMobile, useOnError, useUser } from "./context";
+import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 import SvgCO2 from "@public/co2.svg";
 
@@ -88,16 +88,12 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
   const { push } = useRouter();
   const menus = useMenus();
   const langs = useLangsMenus();
-
-  const [vin, setVin] = useState("");
+  const {last_input_vin, setLastInputVin} = useLastInputVin()
+  const [vin, setVin] = useState(last_input_vin);
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setVin(e.target.value || "");
-    e.target.value && localStorage.setItem("h_last_input_vin", e.target.value);
+    setLastInputVin(e.target.value);
   }, []);
-  useEffect(() => {
-    let lastVin = localStorage.getItem("h_last_input_vin");
-    if (!vin && lastVin) setVin(lastVin);
-  });
   const onError = useOnError();
   const onQuery = () => {
     if (!vin) return onError("Please input VIN Code");

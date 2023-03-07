@@ -1,4 +1,7 @@
-import { IsMobileProvider, ToastProvider, UserProvider } from "@components/common/context";
+import {
+  initStore, Store,
+  StoreProvider
+} from "@components/common/context";
 import { LoadingFull } from "@components/common/loading";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
@@ -12,9 +15,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useEffect } from "react";
-import { I18nextProvider, initReactI18next } from "react-i18next";
-import { useToggle } from "react-use";
+import { useEffect, useState } from "react";
+import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
 import "../styles/globals.css";
 
 const open_sans = Open_Sans({
@@ -26,9 +28,8 @@ const open_sans = Open_Sans({
 
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
-function WrapI18nProvider(p: { children: React.ReactNode }) {
-  const [inited, setInited] = useToggle(false);
-  useEffect(() => {
+async function initI18n() {
+  return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {
     const ns = ["frontend", "backend"];
     i18n
       .use(Backend)
@@ -55,13 +56,10 @@ function WrapI18nProvider(p: { children: React.ReactNode }) {
         });
       });
       if (loaded === SupportLngs.length * ns.length) {
-        setInited(true);
-        // console.info("loaded:", i18n.store.data);
+        resolve(i18n);
       }
     });
   });
-  if (!inited) return <LoadingFull />;
-  return <I18nextProvider i18n={i18n}>{p.children}</I18nextProvider>;
 }
 
 function ModalRoot() {
@@ -70,6 +68,20 @@ function ModalRoot() {
     modalRootRef.current = ref.current;
   }, [ref]);
   return <div ref={ref} id="modal_root" style={{ position: "absolute", top: 0, right: 0 }} />;
+}
+
+function InitProvider(p: { children: React.ReactNode }) {
+  const [data, setData] = useState<[I18nextProviderProps["i18n"], Store]>();
+  useEffect(() => {
+    Promise.all([initI18n(), initStore()]).then(setData);
+  }, []);
+  if (!data) return <LoadingFull />;
+  const [i18n, store] = data;
+  return (
+    <I18nextProvider i18n={i18n}>
+      <StoreProvider init={store}>{p.children}</StoreProvider>
+    </I18nextProvider>
+  );
 }
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -81,16 +93,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <WrapI18nProvider>
-        <ToastProvider>
-          <IsMobileProvider>
-            <UserProvider>
-              <Component {...pageProps} />
-            </UserProvider>
-          </IsMobileProvider>
-          <Toast />
-        </ToastProvider>
-      </WrapI18nProvider>
+      <InitProvider>
+        <Component {...pageProps} />
+        <Toast />
+      </InitProvider>
       <ModalRoot />
     </div>
   );

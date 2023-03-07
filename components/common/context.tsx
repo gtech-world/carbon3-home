@@ -2,57 +2,19 @@ import { UserData } from "@lib/@types/type";
 import { useOn } from "@lib/hooks/useOn";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// ****************************** IsMobile *************************************
-export const IsMobileContext = createContext<boolean>(false);
-
-export function useIsMobile() {
-  return useContext(IsMobileContext);
-}
-
-export function IsMobileProvider(p: { children?: React.ReactNode }) {
-  const [mobileState, setMobileState] = useState(0);
-  useEffect(() => {
-    const onResize = () => setMobileState(window.innerWidth <= 900 ? 1 : -1);
-    window.addEventListener("resize", onResize);
-    onResize();
-    return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-  return <IsMobileContext.Provider value={mobileState > 0}>{mobileState !== 0 && p.children}</IsMobileContext.Provider>;
-}
-
-// ****************************** Toast *************************************
 export interface Toast {
   type: "info" | "error";
   msg: string;
 }
-export const ToastContext = createContext<{ current?: Toast; toast: (t?: Toast) => void }>({ toast: () => {} });
-
-export function useToast() {
-  return useContext(ToastContext);
+export interface Store {
+  userData?: UserData;
+  toast?: Toast;
+  last_input_vin: string;
+  isMobile: boolean;
 }
-
-export function useOnError() {
-  const { toast } = useToast();
-  const { t } = useTranslation();
-  return useOn((err: any) => {
-    toast({ type: "error", msg: t(getErrorMsg(err)) });
-  });
-}
-
-export function ToastProvider(p: { children?: React.ReactNode }) {
-  const [current, setToast] = useState<Toast>();
-  const toast = useCallback((t?: Toast) => {
-    setToast(t);
-  }, []);
-  return <ToastContext.Provider value={{ current, toast }}>{p.children}</ToastContext.Provider>;
-}
-
-// ****************************** UserData *************************************
 
 export function getUserData() {
   const ud = localStorage.getItem("user-data");
@@ -64,42 +26,100 @@ export function getUserData() {
   }
 }
 
-export const UserContext = createContext<{
-  user?: UserData;
-  setUser: (user?: UserData, onlyStorage?: boolean) => void;
-}>({
-  // user,
-  setUser: () => {},
-});
+export const StoreContext = createContext<any>({});
 
-export function useUser() {
-  return useContext(UserContext);
+export interface UpStore extends Store {
+  update: (data: Partial<Store>) => void;
 }
 
-export function UserProvider(p: { children?: React.ReactNode }) {
-  const [ud, setUd] = useState<UserData>();
-  const [init, setInit] = useState(false);
+export function useStore() {
+  return useContext(StoreContext) as UpStore;
+}
+
+function Redrect(p: { children?: React.ReactNode }) {
+  const { pathname, replace } = useRouter();
+  const { userData } = useStore();
+  if (!userData && ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname)) {
+    replace("/login");
+    return null;
+  }
+  return <>{p.children}</>;
+}
+
+export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
+  const [state, setState] = useState(p.init || {});
+  const update = useCallback((data: Partial<Store>) => {
+    setState((old: any) => ({ ...old, ...data }));
+  }, []);
+  const value = useMemo(() => ({ ...state, update }), [state]);
+
+  // update IsMobile
+  useEffect(() => {
+    const onResize = () => update({ isMobile: window.innerWidth <= 900 });
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+  return (
+    <StoreContext.Provider value={value}>
+      <Redrect>{p.children}</Redrect>
+    </StoreContext.Provider>
+  );
+}
+
+export async function initStore() {
+  const store: Store = {
+    isMobile: window.innerWidth <= 900,
+    last_input_vin: localStorage.getItem("last_input_vin") || "",
+  };
+  const ud = getUserData();
+  if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
+  return store;
+}
+
+export function useIsMobile() {
+  const { isMobile } = useStore();
+  return isMobile;
+}
+
+export function useToast() {
+  const { toast: current, update } = useStore();
+  const toast = useCallback(
+    (t?: Toast) => {
+      update({ toast: t });
+    },
+    [update]
+  );
+  return { current, toast };
+}
+
+export function useOnError() {
+  const { toast } = useToast();
+  const { t } = useTranslation();
+  return useOn((err: any) => {
+    toast({ type: "error", msg: t(getErrorMsg(err)) });
+  });
+}
+
+export function useUser() {
+  const { userData, update } = useStore();
   const setUser = useCallback((user?: UserData, onlyStorage?: boolean) => {
     if (user) user.loginTime = new Date().getTime();
-    !onlyStorage && setUd(user);
+    !onlyStorage && update({ userData: user });
     localStorage.setItem("user-data", user ? JSON.stringify(user) : "");
   }, []);
-  useEffect(() => {
-    setUd(getUserData());
-    setInit(true);
-  }, []);
-  const { push, pathname } = useRouter();
-  useEffect(() => {
-    if (
-      init &&
-      pathname &&
-      ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname) &&
-      (!ud || new Date().getTime() - ud.loginTime > 1000 * 60 * 60 * 24)
-    ) {
-      setUser(undefined, true);
-      push("/login").then(() => setUser(undefined));
-    }
-  }, [pathname, init, ud]);
-  if (!init) return null;
-  return <UserContext.Provider value={{ user: ud, setUser }}>{p.children}</UserContext.Provider>;
+  return { user: userData, setUser };
+}
+
+export function useLastInputVin() {
+  const { last_input_vin, update } = useStore();
+  const setLastInputVin = useCallback(
+    (vin: string) => {
+      update({ last_input_vin: vin });
+      localStorage.setItem("last_input_vin", vin);
+    },
+    [update]
+  );
+  return { last_input_vin, setLastInputVin };
 }

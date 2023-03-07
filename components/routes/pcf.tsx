@@ -14,10 +14,10 @@ import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { ChangeEventHandler, EventHandler, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
-import { useAsyncFn } from "react-use";
+import { useAsyncFn, useToggle } from "react-use";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
@@ -36,27 +36,30 @@ export function PCF() {
   const { t } = useTranslation();
   const { query } = useRouter();
   const qVin = query["vin"] as string;
+  const [loaded, setLoaded] = useToggle(false);
   const [vin, setVin] = useState(qVin || "");
   const onError = useOnError();
   const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
     []
   );
-  // 记录上次输入用于防止连续两次查询相同的VIN
-  // const ref = useRef("");
+  const onVinChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    setVin(e.target.value || "");
+    setLoaded(false);
+  }, []);
   const onSearch = useOn((mVin: string = vin || "") => {
     if (loading) return;
     if (!mVin) return onError("Please input VIN Code");
-    // if (ref.current === mVin) return onError("Please enter different VIN Code");
     doGet(mVin)
       .then((value) => {
-        // ref.current = mVin;
         if (value[0]) {
-          // 缓存上次有结果的VIN Code
           localStorage.setItem("last_vin", mVin);
         }
       })
-      .catch(onError);
+      .catch(onError)
+      .then(() => {
+        setLoaded(true);
+      });
   });
   useEffect(() => {
     const lastVin = localStorage.getItem("last_vin") || "";
@@ -116,7 +119,7 @@ export function PCF() {
           type="text"
           onKeyDown={(e) => e.code === "Enter" && onSearch()}
           value={vin}
-          onChange={(e) => setVin(e.target.value)}
+          onChange={onVinChange}
         />
         <FiSearch className="absolute text-lg top-[1.0625rem] right-5 cursor-pointer" onClick={() => onSearch()} />
       </div>
@@ -127,7 +130,7 @@ export function PCF() {
           {productInfo ? (
             <>
               <div className="flex mo:flex-col">
-                <div className="w-0 flex-[2] mr-5 mo:w-full">
+                <div className="w-0 flex-[5] mr-5 mo:w-full">
                   <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("PRODUCT INFO")}</div>
                   <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
                     <img
@@ -143,7 +146,7 @@ export function PCF() {
                     </div>
                   </div>
                 </div>
-                <div className="w-0 flex-1 mo:w-full">
+                <div className="w-0 flex-[3] mo:w-full">
                   <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("INVENTORY STATS")}</div>
                   <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
                     <InventoryStat
@@ -169,7 +172,7 @@ export function PCF() {
                 <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
               )}
             </>
-          ) : vin ? (
+          ) : vin && loaded ? (
             <Empty className="flex-1" />
           ) : null}
         </>
