@@ -131,7 +131,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
           </div>
         )}
         <PoperMenu menus={langs} className="mr-3">
-          <button className="text-[1.75rem] mo:text-2xl">
+          <button className="text-[1.75rem] mo:text-xl">
             <IoLanguageOutline />
           </button>
         </PoperMenu>
@@ -149,6 +149,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
   const { children, className, tits = ["Automotive Industry", "Carbon Database"], ...other } = p;
   const goBack = useGoBack();
   const menus = useMenus();
+  const langs = useLangsMenus();
   return (
     <div
       className={classNames("sticky z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
@@ -160,6 +161,11 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
       <div className="flex-1" />
       <SvgAICD className="h-[1.75rem]" />
       <div className="flex-1" />
+      <PoperMenu menus={langs} className="mr-3">
+        <button className="text-xl">
+          <IoLanguageOutline />
+        </button>
+      </PoperMenu>
       <PoperMenu menus={menus}>
         <button className="text-2xl">
           <HiOutlineMenu />
