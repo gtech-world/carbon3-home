@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { HTMLAttributes, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { MainHeaderLayout } from "./headerLayout";
+import { useHeaderTipHeight } from "./headerTip";
 
 interface IMenu {
   icon: any;
@@ -22,10 +23,11 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { push, pathname } = useRouter();
   const menus = useMenus();
   const ref = useAutoAnim<HTMLDivElement>();
+  const h = useHeaderTipHeight();
   return (
     <MainHeaderLayout className="flex text-black bg-white">
       <div className="self-start relative w-[16.25rem] p-5 min-h-full mo:hidden">
-        <div className="w-full sticky top-[5.5rem]">
+        <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
           {menus.map((item, i) => (
             <div
               onClick={(e) => {

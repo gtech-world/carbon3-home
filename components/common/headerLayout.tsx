@@ -3,6 +3,7 @@ import { HTMLAttributes } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsMobile } from "./context";
 import { Header, MobileHeader } from "./header";
+import { useHeaderTipHeight } from "./headerTip";
 
 export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
@@ -53,10 +54,18 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const isMobile = useIsMobile();
+  const h = useHeaderTipHeight();
   return (
     <div className="flex-1 flex flex-col w-full relative">
-      {isMobile ? <MobileHeader /> : <Header className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />}
-      <div className={classNames("z-[2] flex-1 relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)} {...props}>
+      {isMobile ? (
+        <MobileHeader />
+      ) : (
+        <Header style={{ top: `${h}px` }} className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />
+      )}
+      <div
+        className={classNames("z-[2] flex-1 relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)}
+        {...props}
+      >
         {children}
       </div>
     </div>
@@ -66,17 +75,16 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
 export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const { t } = useTranslation();
+  const h = useHeaderTipHeight();
   return (
     <div className="flex-1 w-full flex flex-col bg-gray-16 relative">
       <Header
         showQuery={true}
         tits={t("AICD Supply Chain Traceability System")}
+        style={{ top: `${h}px` }}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
-      <div
-        className={classNames("z-[2] flex-1 w-full", className)}
-        {...props}
-      >
+      <div className={classNames("z-[2] flex-1 w-full", className)} {...props}>
         {children}
       </div>
     </div>
