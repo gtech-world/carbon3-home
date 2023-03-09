@@ -22,7 +22,8 @@ function useMenus() {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n} = useTranslation();
+  const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICD Home"), to: "/" });
@@ -56,6 +57,13 @@ function useMenus() {
     }
     menus.push({
       topSplit: true,
+      icon: <IoLanguageOutline/>,
+      text: LngsText[lng],
+      onClick: () => {
+        i18n.changeLanguage(SupportLngs.find(item => item !== lng))
+      }
+    })
+    menus.push({
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? t("Log Out") : t("Log In"),
       to: user ? undefined : "/login",
@@ -64,20 +72,7 @@ function useMenus() {
       },
     });
     return menus;
-  }, [user, isMobile, pathname, t]);
-}
-
-function useLangsMenus() {
-  const { t, i18n } = useTranslation();
-  return useMemo(
-    () =>
-      SupportLngs.map<MenuItem>((lng) => ({
-        text: LngsText[lng],
-        selected: i18n.language === lng,
-        onClick: () => i18n.changeLanguage(lng),
-      })),
-    [t, i18n]
-  );
+  }, [user, isMobile, pathname, t, lng]);
 }
 
 export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean }) {
@@ -87,7 +82,6 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
   const menus = useMenus();
-  const langs = useLangsMenus();
   const { last_input_vin, setLastInputVin } = useLastInputVin();
   const [vin, setVin] = useState(last_input_vin);
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -130,11 +124,6 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
             <FiSearch className="text-[1.75rem] top-1 left-2 absolute cursor-pointer" onClick={onQuery} />
           </div>
         )}
-        <PoperMenu menus={langs} className="mr-3">
-          <button className="text-[1.75rem] mo:text-xl">
-            <IoLanguageOutline />
-          </button>
-        </PoperMenu>
         <PoperMenu menus={menus}>
           <button className="text-[2rem] mo:text-2xl">
             <HiOutlineMenu />
@@ -149,7 +138,6 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
   const { children, className, tits = ["Automotive Industry", "Carbon Database"], ...other } = p;
   const goBack = useGoBack();
   const menus = useMenus();
-  const langs = useLangsMenus();
   return (
     <div
       className={classNames("sticky z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
@@ -161,11 +149,6 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
       <div className="flex-1" />
       <SvgAICD className="h-[1.75rem]" />
       <div className="flex-1" />
-      <PoperMenu menus={langs} className="mr-3">
-        <button className="text-xl">
-          <IoLanguageOutline />
-        </button>
-      </PoperMenu>
       <PoperMenu menus={menus}>
         <button className="text-2xl">
           <HiOutlineMenu />
