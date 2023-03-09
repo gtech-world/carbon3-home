@@ -1,68 +1,49 @@
 import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgAICD from "@public/AICD.svg";
-import SvgCO2 from "@public/co2.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
-import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
 import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
-import { LngsText, SupportLngs } from "@components/const";
+import { LngsText, MAIN_PAGES, SupportLngs } from "@components/const";
 import { textTo2 } from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
-import { IoCarSportOutline, IoLanguageOutline } from "react-icons/io5";
-import { RiPieChartLine } from "react-icons/ri";
+import { IoLanguageOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 
 function useMenus() {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICD Home"), to: "/" });
     menus.push({ icon: <FiSearch />, text: t("AICD Open Query"), to: "/openquery" });
-    if (user) menus.push({ icon: <VscAccount />, text: t("AICD Traceability"), to: "/dashboard" });
+    if (user && !MAIN_PAGES.find((item) => item.to === pathname)) {
+      menus.push({ icon: <VscAccount />, text: t("AICD Traceability"), to: MAIN_PAGES[0].to });
+    }
     if (isMobile && user) {
-      menus.push({
-        icon: <AiOutlineUser />,
-        text: t("User Dashboard"),
-        to: "/dashboard",
-        selected: pathname === "/dashboard",
-      });
-      menus.push({
-        icon: <IoCarSportOutline />,
-        text: t("Product Definition"),
-        to: "/product",
-        selected: pathname == "/product",
-      });
-      menus.push({
-        icon: <SvgCO2 />,
-        text: t("Carbon Activities"),
-        to: "/activities",
-        selected: pathname == "/activities",
-      });
-      menus.push({
-        icon: <RiPieChartLine />,
-        text: t("PCF Inventories"),
-        to: "/pcf",
-        selected: pathname == "/pcf",
-      });
+      MAIN_PAGES.map<MenuItem>((item) => ({
+        icon: <item.icon />,
+        text: t(item.txt),
+        to: item.to,
+        selected: pathname === item.to,
+      })).forEach((item) => menus.push(item));
     }
     menus.push({
       topSplit: true,
-      icon: <IoLanguageOutline/>,
+      icon: <IoLanguageOutline />,
       text: LngsText[lng],
       onClick: () => {
-        i18n.changeLanguage(SupportLngs.find(item => item !== lng))
-      }
-    })
+        i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
+      },
+    });
     menus.push({
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? t("Log Out") : t("Log In"),
