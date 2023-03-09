@@ -10,7 +10,7 @@ export function HeaderTip() {
   return (
     <div
       style={{ boxShadow: isMobile ? "0px -3px 15px rgba(0, 0, 0, 0.1)" : "none" }}
-      className="w-full h-[4.25rem] relative z-50 flex p-6 bg-white text-black mo:px-5 mo:pt-[.625rem] mo:pb-8 mo:flex mo:flex-col-reverse mo:h-auto mo:fixed mo:bottom-0"
+      className="w-full h-[4.25rem] z-50 flex p-6 bg-white text-black mo:px-5 mo:pt-[.625rem] mo:pb-8 mo:flex mo:flex-col-reverse mo:h-auto mo:fixed mo:bottom-0"
     >
       <div className="flex-1" />
       <div

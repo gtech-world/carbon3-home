@@ -92,7 +92,7 @@ export function Home() {
         </Card>
       </div>
       <div
-        className="text-base mt-6"
+        className="text-base mt-6 mb-11"
         dangerouslySetInnerHTML={{
           __html: t(
             "＊ AICD Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."
