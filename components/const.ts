@@ -29,4 +29,10 @@ export function genSbtPhase(): SbtPhase[] {
 }
 
 export const CAR_SRC = "/car.png";
-export const ORG_SRC = "/org.png"
+export const ORG_SRC = "/org.png";
+
+export const SupportLngs = ["en-US", "zh-CN"];
+export const LngsText: { [k: string]: string } = {
+  "en-US": "English",
+  "zh-CN": "简体中文",
+};

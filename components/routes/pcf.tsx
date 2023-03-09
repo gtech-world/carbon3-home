@@ -1,26 +1,30 @@
 import { PartInfo } from "@components/boms/pcbom";
-import { useIsMobile } from "@components/common/context";
+import { useIsMobile, useOnError } from "@components/common/context";
+import { Empty } from "@components/common/empty";
+import { Loading } from "@components/common/loading";
 import { MainLayout } from "@components/common/mainLayout";
-import { Select } from "@components/common/select";
 import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { useVinCodesState } from "@lib/hooks/useVinCodesState";
+import { useOn } from "@lib/hooks/useOn";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
 import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
 import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
-import React, { useMemo } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FiSearch } from "react-icons/fi";
+import { useAsyncFn, useToggle } from "react-use";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
   return (
     <div className="flex items-center w-full">
       {icon}
-      <div className="ml-[2.6875rem] w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-6">
+      <div className="ml-5 w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-6">
         <div className="font-bold text-lg text-black mo:text-base">{tit}</div>
         <div className="text-gray-6 text-lg mo:text-base">{txt}</div>
       </div>
@@ -29,15 +33,42 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { current, onChange, items, current_vin } = useVinCodesState();
-  const { value: pcfData } = useAsyncM(
-    () => (current_vin ? getPCFInventory(current_vin) : Promise.resolve(undefined)),
-    [current_vin]
+  const { t } = useTranslation();
+  const { query } = useRouter();
+  const qVin = query["vin"] as string;
+  const [loaded, setLoaded] = useToggle(false);
+  const [vin, setVin] = useState(qVin || "");
+  const onError = useOnError();
+  const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
+    (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
+    []
   );
-  const { value: productInfo } = useAsyncM(
-    () => (current_vin ? getProductByVIN(current_vin) : Promise.resolve(undefined)),
-    [current_vin]
-  );
+  const onVinChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
+    setVin(e.target.value || "");
+    setLoaded(false);
+  }, []);
+  const onSearch = useOn((mVin: string = vin || "") => {
+    if (loading) return;
+    if (!mVin) return onError("Please input VIN Code");
+    doGet(mVin)
+      .then((value) => {
+        if (value[0]) {
+          localStorage.setItem("last_vin", mVin);
+        }
+      })
+      .catch(onError)
+      .then(() => {
+        setLoaded(true);
+      });
+  });
+  useEffect(() => {
+    const lastVin = localStorage.getItem("last_vin") || "";
+    const mVin = qVin || lastVin;
+    if (mVin) {
+      setVin(mVin);
+      onSearch(mVin);
+    }
+  }, [qVin]);
 
   const mData = useMemo(() => {
     if (!pcfData) return undefined;
@@ -77,53 +108,73 @@ export function PCF() {
 
   const isMobile = useIsMobile();
   return (
-    <MainLayout className="text-black">
+    <MainLayout className="text-black flex flex-col">
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
-        Query PCF Data with Vehicle’s VIN Code:
+        {t("Query PCF Data with Vehicle’s VIN Code")}:
       </div>
-      {productInfo && (
+      <div className="relative flex-shrink-0 w-[31.25rem] mo:w-auto rounded-lg overflow-hidden bg-white">
+        <input
+          className="h-full w-full py-3 pl-5 pr-14 text-lg outline-none"
+          maxLength={32}
+          type="text"
+          onKeyDown={(e) => e.code === "Enter" && onSearch()}
+          value={vin}
+          onChange={onVinChange}
+        />
+        <FiSearch className="absolute text-lg top-[1.0625rem] right-5 cursor-pointer" onClick={() => onSearch()} />
+      </div>
+      {loading ? (
+        <Loading className="flex-1" />
+      ) : (
         <>
-          <Select current={current} onChange={onChange} items={items} />
-          <div className="w-full flex mo:flex-col">
-            <div className="w-0 flex-[2] mr-5 mo:w-full">
-              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">PRODUCT INFO</div>
-              <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
-                <img
-                  className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
-                  src={productInfo?.imageUrl || CAR_SRC}
-                />
-                <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
-                  <PartInfo label="Product Name" text={productInfo?.displayName || "-"} />
-                  <PartInfo label="Product UID" text={productInfo?.uuid || "-"} />
-                  <PartInfo label="Product Type" text={productInfo?.type || "-"} />
-                  <PartInfo label="VIN Code" text={current_vin || "-"} />
-                  <PartInfo label="Status" text="In Use/Ship-out on 2022-01-18" />
+          {productInfo ? (
+            <>
+              <div className="flex mo:flex-col">
+                <div className="w-0 flex-[5] mr-5 mo:w-full">
+                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("PRODUCT INFO")}</div>
+                  <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
+                    <img
+                      className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
+                      src={productInfo?.imageUrl || CAR_SRC}
+                    />
+                    <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
+                      <PartInfo label={t("Product Name")} text={productInfo?.displayName || "-"} />
+                      <PartInfo label={t("Product UID")} text={productInfo?.uuid || "-"} />
+                      <PartInfo label={t("Product Type")} text={productInfo?.type || "-"} />
+                      <PartInfo label={t("VIN Code")} text={vin || "-"} />
+                      <PartInfo label={t("Status")} text="In Use/Ship-out on 2022-01-18" />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-0 flex-[3] mo:w-full">
+                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("INVENTORY STATS")}</div>
+                  <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
+                    <InventoryStat
+                      icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      tit={t("Product CO2e Emission")}
+                      txt={`${ftmCarbonEmission(totalEmission)}`}
+                    />
+                    <InventoryStat
+                      icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
+                      tit={t("Emission Scope")}
+                      txt="Gradle-to-Grave"
+                    />
+                    <InventoryStat
+                      icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      tit={t("Overall Data Quality")}
+                      txt="Primary Data=38.5%"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-0 flex-1 mo:w-full">
-              <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">INVENTORY STATS</div>
-              <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
-                <InventoryStat
-                  icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-                  tit="Product CO2e Emission"
-                  txt={`${ftmCarbonEmission(totalEmission)}`}
-                />
-                <InventoryStat
-                  icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
-                  tit="Emission Scope"
-                  txt="Gradle-to-Grave"
-                />
-                <InventoryStat
-                  icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
-                  tit="Overall Data Quality"
-                  txt="Primary Data=38.5%"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">INVENTORY BREAKDOWN</div>
-          {mData && <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>}
+              <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">{t("INVENTORY BREAKDOWN")}</div>
+              {mData && (
+                <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
+              )}
+            </>
+          ) : vin && loaded ? (
+            <Empty className="flex-1" />
+          ) : null}
         </>
       )}
     </MainLayout>

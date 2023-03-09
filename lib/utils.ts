@@ -39,3 +39,39 @@ export function ftmCarbonEmission(ce: number | any, space: boolean = false) {
   // if (mCe < 1000) return `${Math.round(mCe / 100) * 0.1}kg`;
   // return `${Math.round(mCe / 10000) * 0.01}t`;
 }
+
+export function textTo2(str: string) {
+  if (str.includes(" ")) {
+    const strMid = Math.round(str.length / 2);
+    const tits = str.split(" ");
+    let mid = Math.round(tits.length / 2);
+    let cLength = 0;
+    tits.forEach((t, i) => {
+      const lastLength = cLength;
+      cLength = t.length + cLength + 1;
+      if (cLength > strMid) {
+        if (cLength - strMid <= strMid - lastLength) {
+          mid = i;
+        } else {
+          mid = i - 1;
+        }
+      }
+    });
+    return [tits.slice(0, mid).join(" "), tits.slice(mid).join(" ")];
+  }
+  if (str.length < 2) return [str];
+  let total = 0;
+  for (let i = 0; i < str.length; i++) {
+    total += str.charCodeAt(i) > 255 ? 2 : 1;
+  }
+  let mid = Math.round(str.length / 2);
+  let tmp = 0;
+  for (let i = 0; i < str.length; i++) {
+    tmp += str.charCodeAt(i) > 255 ? 2 : 1;
+    if (tmp > total / 2) {
+      mid = i;
+      break;
+    }
+  }
+  return [str.slice(0, mid), str.slice(mid)];
+}

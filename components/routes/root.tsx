@@ -1,18 +1,15 @@
-import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import { OpenQuery } from "./openQuery";
-import { SignIn } from "./signIn";
-import { Home } from "./home";
-import { UserDashboard } from "./dashboard";
-import { ProductDefinition } from "./product";
 import { CarbonActivities } from "./activities";
+import { UserDashboard } from "./dashboard";
+import { Home } from "./home";
+import { OpenQuery } from "./openQuery";
 import { PCF } from "./pcf";
-import { UserProvider } from "@components/common/context";
+import { ProductDefinition } from "./product";
+import { SignIn } from "./signIn";
 
 export function Root() {
   return (
     <HashRouter>
-      <UserProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/query" element={<OpenQuery />} />
@@ -22,7 +19,6 @@ export function Root() {
           <Route path="/activities" element={<CarbonActivities />} />
           <Route path="/pcf" element={<PCF />} />
         </Routes>
-      </UserProvider>
     </HashRouter>
   );
 }

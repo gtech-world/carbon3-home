@@ -2,11 +2,13 @@ import { useCurrentActivity } from "@components/carbonActivities/context";
 import { InventoryProductProcess } from "@lib/@types/type";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 
 export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index: number }) {
   const { data, index } = p;
   const { sourcing, update } = useCurrentActivity();
   const selected = sourcing === index;
+  const { t } = useTranslation();
   return (
     <div
       className={classNames("relative w-full pr-[.625rem] cursor-pointer [&:nth-child(n+2)]:mt-5")}
@@ -24,8 +26,8 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
           {data.name}
         </div>
         <div
-          className={classNames(selected ? "text-green-2" : "text-gray-6", "text-sm text-gray-6 mt-[.625rem]")}
-        >{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} items`}</div>
+          className={classNames(selected ? "text-green-2" : "text-gray-6", "text-sm mt-[.625rem]")}
+        >{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} ${t("items")}`}</div>
       </div>
       {selected && (
         <div

@@ -1,10 +1,10 @@
+import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { Fragment, HTMLAttributes, useRef } from "react";
+import React, { Fragment, HTMLAttributes } from "react";
 import { RxTriangleUp } from "react-icons/rx";
 import { useClickAway, useToggle } from "react-use";
 import { useIsMobile } from "./context";
-
 export interface MenuItem {
   topSplit?: boolean;
   icon?: any;
@@ -17,12 +17,10 @@ export interface PoperMenuProps {
   arrow?: HTMLAttributes<HTMLDivElement>;
   menus: MenuItem[];
 }
-export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
+function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   const { className, children, arrow = {}, menus, ...other } = p;
   const [show, toggleShow] = useToggle(false);
-  //   const refChild = useRef<HTMLDivElement>(null);
-  //   const hover = useHoverDirty(refChild);
-  const ref = useRef(null);
+  const ref = useAutoAnim<HTMLDivElement>("t-side");
   useClickAway(ref, () => show && toggleShow(false));
   const { push } = useRouter();
   const onClickItem = (item: MenuItem) => {
@@ -31,17 +29,23 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     } else if (item.onClick) {
       item.onClick();
     }
+    toggleShow()
   };
-  const isMobile = useIsMobile();
+
   return (
-    <div {...other} style={{ position: isMobile ? "initial" : "relative" }} className={classNames(className)} ref={ref}>
-      <div className="flex" onClick={() => toggleShow()}>
+    <div {...other} style={{ position: "relative" }} className={classNames(className)} ref={ref}>
+      <div
+        className="flex"
+        onClick={(e) => {
+          toggleShow();
+        }}
+      >
         {children}
       </div>
       {show && menus.length > 0 && (
         <div
           style={{ filter: "drop-shadow(0 0 15px rgba(0, 0, 0, 0.2))" }}
-          className={classNames("absolute w-[13.75rem] top-full right-0")}
+          className={classNames("absolute w-[13.75rem] top-full right-0 mo:right-[-1rem]")}
         >
           <RxTriangleUp className="absolute text-white text-2xl right-4 top-[-4px] hidden mo:block" />
           <div className="py-[.625rem] mo:py-[.375rem] w-full bg-white mt-[.625rem] mo:mt-[.625rem] rounded-lg z-10 relative">
@@ -68,3 +72,5 @@ export function PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     </div>
   );
 }
+
+export const PoperMenu = React.memo(_PoperMenu);

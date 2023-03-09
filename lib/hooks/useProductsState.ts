@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 export function useProductsState() {
-  const { value: products } = useAsyncM(getProductList);
+  const { value: products, loading } = useAsyncM(getProductList);
   const list = useMemo(() => (products || []).map((p) => ({ ...p, text: p.displayName })), [products]);
   const { query } = useRouter();
   const initIndex = useMemo(() => {
@@ -19,5 +19,5 @@ export function useProductsState() {
   const { current, items, onChange } = useSelectState(list, initIndex);
   const current_product = list[current];
 
-  return { products, current, items, onChange, current_product }
+  return { products, current, items, onChange, current_product, loading }
 }

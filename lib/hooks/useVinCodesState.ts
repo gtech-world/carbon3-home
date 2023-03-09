@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 export function useVinCodesState() {
-  const { value: vins } = useAsyncM(getVINCodes);
+  const { value: vins, loading } = useAsyncM(getVINCodes);
   const list = useMemo(() => (vins || []).map((p) => ({ text: p })), [vins]);
   const { query } = useRouter();
   const initIndex = useMemo(() => {
@@ -19,5 +19,5 @@ export function useVinCodesState() {
   const { current, items, onChange } = useSelectState(list, initIndex);
   const current_vin = list[current]?.text || "";
 
-  return { vins, current, items, onChange, current_vin };
+  return { vins, current, items, onChange, current_vin, loading };
 }

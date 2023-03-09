@@ -9,11 +9,14 @@ import { useProductsState } from "@lib/hooks/useProductsState";
 import { getProductActivityDefination } from "@lib/http";
 import { Phase } from "@lib/@types/type";
 import { useMemo } from "react";
+import { Loading } from "@components/common/loading";
+import { useTranslation } from "react-i18next";
 
 export function CarbonActivities() {
-  const { current, items, onChange, current_product } = useProductsState();
+  const { t } = useTranslation();
+  const { current, items, onChange, current_product, loading: load0 } = useProductsState();
   const isMobile = useIsMobile();
-  const { value: list } = useAsyncM(() => {
+  const { value: list, loading: load1 } = useAsyncM(() => {
     if (current_product) {
       return getProductActivityDefination(current_product.id);
     } else {
@@ -21,23 +24,30 @@ export function CarbonActivities() {
     }
   }, [current_product]);
   const mData = useMemo(() => {
-    if (!list ) return undefined;
+    if (!list) return undefined;
     const phaseList = genPhase();
     const phaseMap: { [k: string]: Phase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
     list.forEach((p) => phaseMap[p.phase]?.processList?.push(p));
     return phaseList;
   }, [list]);
-
+  const loading = load0 || load1 || list == undefined;
   return (
     <MainLayout className="text-black">
-      <div className="text-lg font-medium text-gray-6 mb-5 mo:leading-5 mo:text-[.9375rem]">
-        Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the
-        PCF Inventory.
-      </div>
-      <Select current={current} onChange={onChange} items={items} />
-      <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">ACTIVITY DEFINITION</div>
-      {mData && <>{isMobile ? <MobileActivites data={mData} /> : <PcActivities data={mData} />}</>}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="text-lg font-medium text-gray-6 mb-5 mo:leading-5 mo:text-[.9375rem]">
+            {t(
+              "Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the PCF Inventory."
+            )}
+          </div>
+          <Select current={current} onChange={onChange} items={items} />
+          <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">{t("ACTIVITY DEFINITION")}</div>
+          {mData && <>{isMobile ? <MobileActivites data={mData} /> : <PcActivities data={mData} />}</>}
+        </>
+      )}
     </MainLayout>
   );
 }
