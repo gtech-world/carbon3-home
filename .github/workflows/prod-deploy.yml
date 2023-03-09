@@ -30,6 +30,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: onelandworld/oneland-home-deploy
+          external_repository: gtech-world/aicd-home-deploy
           publish_dir: ./out
           cname: aicd.gtech.world
