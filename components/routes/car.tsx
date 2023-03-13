@@ -151,7 +151,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           "The AIAG Carbon3 Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
             "AIAG’s carbon reduction / Net Zero 2050 initiatives"
           )}</a>`
         )
@@ -160,13 +160,13 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           "AICD is the global, industry-level database for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Database. Click {{value}} to query information about this vehicle."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" href="/openquery" rel="noreferrer">${t("here")}</a>`
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="/openquery" rel="noreferrer">${t("here")}</a>`
         )
       : t(
           "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" href="${genScanTokenUrl(sbt.sbtTokenId)}" rel="noreferrer">${t(
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="${genScanTokenUrl(sbt.sbtTokenId)}" rel="noreferrer">${t(
             "here"
           )}</a>`
         );

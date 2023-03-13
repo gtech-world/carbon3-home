@@ -24,7 +24,7 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   return (
     <div className="flex items-center w-full">
       {icon}
-      <div className="ml-5 w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-6">
+      <div className="ml-5 w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-2">
         <div className="font-bold text-lg text-black mo:text-base">{tit}</div>
         <div className="text-gray-6 text-lg mo:text-base">{txt}</div>
       </div>
@@ -148,19 +148,19 @@ export function PCF() {
                 </div>
                 <div className="w-0 flex-[3] mo:w-full">
                   <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("INVENTORY STATS")}</div>
-                  <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-6">
+                  <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-5">
                     <InventoryStat
-                      icon={<SvgCO2e className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      icon={<SvgCO2e className="text-[3.125rem] mo:text-[2.5rem] text-green-2 mr-[.625rem]" />}
                       tit={t("Product CO2e Emission")}
                       txt={`${ftmCarbonEmission(totalEmission)}`}
                     />
                     <InventoryStat
-                      icon={<SvgLoop className="text-[3.75rem] text-green-2" />}
+                      icon={<SvgLoop className="text-[3.75rem] mo:text-[3rem] text-green-2" />}
                       tit={t("Emission Scope")}
                       txt="Gradle-to-Grave"
                     />
                     <InventoryStat
-                      icon={<SvgQuality className="text-[3.125rem] text-green-2 mr-[.625rem]" />}
+                      icon={<SvgQuality className="text-[3.125rem] mo:text-[2.5rem] text-green-2 mr-[.625rem]" />}
                       tit={t("Overall Data Quality")}
                       txt="Primary Data=38.5%"
                     />
