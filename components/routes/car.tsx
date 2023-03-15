@@ -14,6 +14,7 @@ import { Loading } from "@components/common/loading";
 import { StepProgress } from "@components/common/progress";
 import { CAR_SRC, genSbtPhase, PHASE } from "@components/const";
 import { SbtInfo, SbtPhase } from "@lib/@types/type";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
@@ -23,7 +24,7 @@ import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
-import { useAsync, useToggle } from "react-use";
+import { useToggle } from "react-use";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -166,9 +167,9 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" target="_blank" href="${genScanTokenUrl(sbt.sbtTokenId)}" rel="noreferrer">${t(
-            "here"
-          )}</a>`
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="${genScanTokenUrl(
+            sbt.sbtTokenId
+          )}" rel="noreferrer">${t("here")}</a>`
         );
   }, [type, sbt, t]);
   return (
@@ -337,7 +338,7 @@ export function Car() {
   const { query } = useRouter();
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
-  const { value, loading } = useAsync(
+  const { value, loading } = useAsyncM(
     () => (!vin ? Promise.resolve(undefined) : Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)])),
     [vin]
   );
@@ -375,7 +376,7 @@ export function Car() {
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full text-black">
       {isMobile ? (
-        <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : <Empty />}</>}</>
+        <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : vin ? <Empty /> : null}</>}</>
       ) : (
         <HeaderLayout className="!px-7">
           {loading ? (
@@ -385,7 +386,7 @@ export function Car() {
               <div className="w-full px-5 max-w-[1480px] mx-auto">
                 <button onClick={onBack} className="self-start ml-1">{`< ${t("Back")}`}</button>
               </div>
-              {data ? <PcCar data={data} /> : <Empty />}
+              {data ? <PcCar data={data} /> : vin ? <Empty /> : null}
             </>
           )}
         </HeaderLayout>

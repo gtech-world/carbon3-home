@@ -87,7 +87,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
           <SvgAICD className="h-9 mo:h-[1.75rem]" />
           <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
             {mTits.map((tit, i) => (
-              <span key={`tit_${i}`}>{tit}</span>
+              <span className="whitespace-nowrap" key={`tit_${i}`}>{tit}</span>
             ))}
           </div>
         </div>
