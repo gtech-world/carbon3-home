@@ -1,7 +1,7 @@
 import autoAnimate, { AutoAnimateOptions, AutoAnimationPlugin } from "@formkit/auto-animate";
 import { MutableRefObject, useEffect, useRef } from "react";
 
-export type AutoAnimPluginsKeys = "t-side" | "scale";
+export type AutoAnimPluginsKeys = "t-side" | "r-side" | "scale";
 export const AutoAnimPlugins: { [k in AutoAnimPluginsKeys]: AutoAnimationPlugin } = {
   "t-side": (el, action) => {
     return new KeyframeEffect(
@@ -15,6 +15,23 @@ export const AutoAnimPlugins: { [k in AutoAnimPluginsKeys]: AutoAnimationPlugin 
         ? [
             { transform: "scaleY(1)", transformOrigin: "0 0", opacity: 1 },
             { transform: "scaleY(0)", transformOrigin: "0 0", opacity: 0 },
+          ]
+        : [],
+      { duration: 300, easing: "ease-in-out" }
+    );
+  },
+  "r-side": (el, action) => {
+    return new KeyframeEffect(
+      el,
+      action === "add"
+        ? [
+            { transform: "scaleX(0)", transformOrigin: "100% 0", opacity: 0 },
+            { transform: "scaleX(1)", transformOrigin: "100% 0", opacity: 1 },
+          ]
+        : action === "remove"
+        ? [
+            { transform: "scaleX(1)", transformOrigin: "100% 0", opacity: 1 },
+            { transform: "scaleX(0)", transformOrigin: "100% 0", opacity: 0 },
           ]
         : [],
       { duration: 300, easing: "ease-in-out" }
