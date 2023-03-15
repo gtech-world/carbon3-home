@@ -357,7 +357,7 @@ export function Car() {
     });
     sbtPhase.forEach((p) => {
       p.progress = totalEmission > 0 ? Math.round((p.carbon_emission / totalEmission) * 100) : 0;
-      p.verified = p.carbon_emission > 0 && p.name !== PHASE.at(PHASE.length - 1);
+      p.verified = p.carbon_emission > 0 && p.name !== PHASE[PHASE.length - 1];
     });
 
     return {
