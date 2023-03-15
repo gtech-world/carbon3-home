@@ -22,7 +22,7 @@ export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }
       <StepProgress full={true} color={selected ? "#227A30" : "transparent"} index={index} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-xl">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
-      {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
+      {data.carbon_emission > 0 && data.name !== PHASE[PHASE.length - 1] ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />
       ) : (
         <IoEllipsisHorizontalCircle className="text-2xl mt-3" />

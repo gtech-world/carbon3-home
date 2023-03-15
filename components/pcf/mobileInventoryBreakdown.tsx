@@ -22,7 +22,7 @@ export function MobleInventoryLevel1Item(p: { data: InventoryPhase; index: numbe
       <div className="w-full whitespace-normal font-bold text-base">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
       <div className="flex justify-between items-center mt-3">
-        {data.carbon_emission > 0 && data.name !== PHASE.at(PHASE.length - 1) ? (
+        {data.carbon_emission > 0 && data.name !== PHASE[PHASE.length - 1] ? (
           <IoCheckmarkCircleOutline className="text-2xl " />
         ) : (
           <IoEllipsisHorizontalCircle className="text-2xl" />
