@@ -56,7 +56,7 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const isMobile = useIsMobile();
   const h = useHeaderTipHeight();
   return (
-    <div className="flex-1 flex flex-col w-full relative">
+    <div className="flex-1 flex flex-col min-h-fit w-full relative">
       {isMobile ? (
         <MobileHeader />
       ) : (
@@ -77,7 +77,7 @@ export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { t } = useTranslation();
   const h = useHeaderTipHeight();
   return (
-    <div className="flex-1 w-full flex flex-col min-h-full h-fit bg-gray-16 relative">
+    <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">
       <Header
         showQuery={true}
         tits={t("AICD Supply Chain Traceability System")}
