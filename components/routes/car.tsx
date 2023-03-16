@@ -374,7 +374,7 @@ export function Car() {
   const onBack = useGoBack();
   const { t } = useT();
   return (
-    <div className="bg-gray-16 flex-1 flex flex-col w-full text-black">
+    <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       {isMobile ? (
         <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : vin ? <Empty /> : null}</>}</>
       ) : (
