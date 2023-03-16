@@ -4,6 +4,7 @@ import { FunctionReturningPromise } from "react-use/lib/misc/types";
 
 export function useAsyncM<T extends FunctionReturningPromise>(fn: T, deeps: DependencyList = []) {
   const ref = useRef(true);
+  const ids = useRef(0);
   const [, freshUI] = useState(1);
   const setLoading = useCallback((loading: boolean) => {
     ref.current = loading;
@@ -11,11 +12,10 @@ export function useAsyncM<T extends FunctionReturningPromise>(fn: T, deeps: Depe
   }, []);
   const [state, req] = useAsyncFn(fn, deeps);
   const mReq = () => {
-    // if (deeps.length && deeps.includes(undefined)) {
-    //   setLoading(false);
-    // }
     if (!ref.current) setLoading(true);
-    req().finally(() => setLoading(false));
+    const cId = ids.current + 1 > 100000 ? 0 : ids.current + 1;
+    ids.current = cId;
+    req().finally(() => ids.current == cId && setLoading(false));
   };
   useEffect(() => {
     mReq();

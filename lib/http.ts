@@ -1,6 +1,5 @@
 import { getUserData } from "@components/common/context";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { API_BASE } from "./env";
 import {
   ActivityType,
   InventoryProductProcess,
@@ -11,7 +10,8 @@ import {
   SbtInfo,
   UserData,
 } from "./@types/type";
-import Error from "next/error";
+import { API_BASE } from "./env";
+import { sleep } from "./utils";
 
 function creatUrl(path: `/${string}`) {
   return `${API_BASE}${path}`;
@@ -33,6 +33,13 @@ function getData<T>(res: AxiosResponse<T>) {
   if (!mRes) return undefined;
   if (mRes.code && mRes.code !== 200) throw mRes.msg;
   return res.data;
+}
+
+export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
+  return () => {
+    if (deeps.some((item) => !item)) return sleep();
+    return fn();
+  };
 }
 
 export async function login(name: string, password: string) {

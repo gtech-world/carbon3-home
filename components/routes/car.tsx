@@ -18,7 +18,7 @@ import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
-import { getSbgEmissionInventory, getSbtInfo } from "@lib/http";
+import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/http";
 import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
@@ -339,7 +339,7 @@ export function Car() {
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
   const { value, loading } = useAsyncM(
-    () => (!vin ? Promise.resolve(undefined) : Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)])),
+    noArgs(() => Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)]), [vin]),
     [vin]
   );
   const data = useMemo<CarUIProps["data"] | undefined>(() => {
