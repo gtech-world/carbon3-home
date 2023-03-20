@@ -75,3 +75,9 @@ export function textTo2(str: string) {
   }
   return [str.slice(0, mid), str.slice(mid)];
 }
+
+export function sleep(t: number = 0) {
+  return new Promise<undefined>((resolve) => {
+    setTimeout(() => resolve(undefined), t);
+  });
+}

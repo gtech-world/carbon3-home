@@ -44,7 +44,7 @@ export function Home() {
   const isMobile = useIsMobile();
   return (
     <HomeHeaderLayout>
-      <div className="flex flex-col mo:items-center mo:h-[37.25rem]">
+      <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
         <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
           {t(
             "AICD is the global, industry-level database for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment."
@@ -66,7 +66,7 @@ export function Home() {
         <NumData num={909128401} label="Piece of Data Collected" />
       </div> */}
 
-      <div className="flex justify-between mt-[20rem] mo:flex-col mo:mt-11 mo:mb-0">
+      <div className="flex justify-between flex-shrink-0 mt-[20rem] mo:flex-col mo:mt-11 mo:mb-0">
         <Card icon={<SvgQuery className="h-[6.125rem]" />} to="/openquery">
           <div
             dangerouslySetInnerHTML={{
@@ -92,7 +92,7 @@ export function Home() {
         </Card>
       </div>
       <div
-        className="text-base mt-6 mb-11"
+        className="text-base mt-6 mb-11 flex-shrink-0"
         dangerouslySetInnerHTML={{
           __html: t(
             "＊ AICD Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."

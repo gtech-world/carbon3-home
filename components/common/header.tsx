@@ -121,7 +121,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
   const menus = useMenus();
   return (
     <div
-      className={classNames("sticky z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
+      className={classNames("sticky top-0 z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
       {...other}
     >
       <button className="text-[2rem]" onClick={goBack}>

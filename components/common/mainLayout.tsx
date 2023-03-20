@@ -48,7 +48,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
           ))}
         </div>
       </div>
-      <div ref={ref} className={classNames("flex-1 p-5 min-h-full bg-gray-16 mo:w-full", className)} {...props}>
+      <div ref={ref} className={classNames("flex-1 p-5 bg-gray-16 mo:w-full", className)} {...props}>
         {children}
       </div>
     </MainHeaderLayout>
