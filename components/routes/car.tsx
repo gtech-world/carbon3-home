@@ -365,10 +365,10 @@ export function Car() {
       sbt,
       sbtPhase,
       totalEmission,
-      tonnes: "1000",
-      trees: "80",
+      tonnes: "19.33",
+      trees: "773",
       recyclable: "35%",
-      use: "100",
+      use: "12.9",
     };
   }, [value]);
   const onBack = useGoBack();
