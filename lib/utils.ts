@@ -20,7 +20,7 @@ export function parseUTC(t: string) {
 }
 
 export function ftmTimestamp(t: number) {
-  return new Date(t).toLocaleString().replaceAll("/", "-");
+  return new Date(t * 1000).toLocaleString().replaceAll("/", "-");
 }
 
 export function genScanUrl(type: "address" | "token" | "tx", address: string) {
