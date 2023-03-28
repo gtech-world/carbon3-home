@@ -5,7 +5,7 @@ import {
   InventoryProductProcess,
   Product,
   ProductBom,
-  ProductProcess,
+  ProductProcess, SbtDetail,
   SbtEmissionInventory,
   SbtInfo,
   UserData,
@@ -115,3 +115,16 @@ export async function getSbgEmissionInventory(vin: string | number) {
   const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
   return getData(res);
 }
+export async function getSbtDetail(vin: string | number) {
+  const res = await axios.get<SbtDetail>(creatUrl(`/api/v1/sbt/token/3000000/detail`));
+  return getData(res);
+}
+
+
+// export async function getSbtDetail(product_bom_id: number | string) {
+//   const res = await axios.get<ActivityType[]>(
+//     creatUrl(`/api/v1/sbt/token/${product_bom_id}/detail`),
+//     // authConfig()
+//   );
+//   return getData(res);
+// }

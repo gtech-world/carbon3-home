@@ -155,6 +155,10 @@ export interface SbtEmissionInventory {
   ghgEmission: number;
 }
 
+export interface SbtDetail {
+  sbtTokenId: string
+}
+
 export interface SbtPhase {
   name: string;
   progress: number; // 0 -> 100

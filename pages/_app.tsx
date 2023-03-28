@@ -13,9 +13,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
 import "../styles/globals.css";
+import {Tooltip} from "react-tooltip";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -99,6 +100,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <Toast />
       </InitProvider>
       <ModalRoot />
+      <Tooltip
+        className="z-10 shadow-lg"
+        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
+        id="tooltip"
+      />
     </div>
   );
 }
