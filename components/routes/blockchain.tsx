@@ -149,7 +149,7 @@ export function Blockchain() {
                 </div>
                 <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
                   <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
-                  <CardInfo data={value} />
+                  {/*<CardInfo data={value} />*/}
                 </div>
               </div>
             </div>
