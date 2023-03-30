@@ -12,7 +12,7 @@ import {useRouter} from "next/router";
 // import {Table} from "@components/common/table";
 // import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
 // import Link from "next/link";
-import 'react-tooltip/dist/react-tooltip.css'
+// import 'react-tooltip/dist/react-tooltip.css'
 // import SVGAICD from '/public/AICD.svg'
 // import SVGPolygon from '/public/polygon.svg'
 // import moment from 'moment'
