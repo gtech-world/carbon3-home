@@ -4,7 +4,7 @@
 import React, { useMemo } from "react";
 // import { Loading } from "@components/common/loading";
 // import { useTranslation } from "react-i18next";
-import {HeaderLayout} from "@components/common/headerLayout";
+// import {HeaderLayout} from "@components/common/headerLayout";
 import {useRouter} from "next/router";
 // import {ProductQrcode} from "@components/common/productQrcode";
 // import { VscVerified,VscQuestion } from "react-icons/vsc";
@@ -120,7 +120,7 @@ export function Blockchain() {
   // ]
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
-      <HeaderLayout className="">
+      {/*<HeaderLayout className="">*/}
         {/*{loading ? (*/}
         {/*  <Loading />*/}
         {/*) : (*/}
@@ -186,7 +186,7 @@ export function Blockchain() {
             {/*</div>*/}
           {/*</div>*/}
         {/*)}*/}
-      </HeaderLayout>
+      {/*</HeaderLayout>*/}
     </div>
   );
 }
