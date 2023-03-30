@@ -1,20 +1,20 @@
-import { useIsMobile } from "@components/common/context";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import {getSbtDetail, noArgs} from "@lib/http";
+// import { useIsMobile } from "@components/common/context";
+// import { useAsyncM } from "@lib/hooks/useAsyncM";
+// import {getSbtDetail, noArgs} from "@lib/http";
 // import React, { useMemo } from "react";
-import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
-import {HeaderLayout} from "@components/common/headerLayout";
-import {useRouter} from "next/router";
-import {ProductQrcode} from "@components/common/productQrcode";
-import { VscVerified,VscQuestion } from "react-icons/vsc";
-import classNames from "classnames";
-import {Table} from "@components/common/table";
-import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
-import Link from "next/link";
-import SVGAICD from '/public/AICD.svg'
-import SVGPolygon from '/public/polygon.svg'
-import moment from 'moment'
+// import { Loading } from "@components/common/loading";
+// import { useTranslation } from "react-i18next";
+// import {HeaderLayout} from "@components/common/headerLayout";
+// import {useRouter} from "next/router";
+// import {ProductQrcode} from "@components/common/productQrcode";
+// import { VscVerified,VscQuestion } from "react-icons/vsc";
+// import classNames from "classnames";
+// import {Table} from "@components/common/table";
+// import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
+// import Link from "next/link";
+// import SVGAICD from '/public/AICD.svg'
+// import SVGPolygon from '/public/polygon.svg'
+// import moment from 'moment'
 
 // function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
 //   return (
