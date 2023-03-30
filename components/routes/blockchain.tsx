@@ -126,34 +126,34 @@ export function Blockchain() {
           <Loading />
         ) : (
           <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
-            <div className="flex mo:flex-col">
-              <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
-                <ProductQrcode className="ml-2" />
-              </div>
-              <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
-                <div className="flex mb-5">
-                  <VscVerified className="text-3xl mt-1 mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />
-                  <div className="flex text-lg mo:flex-col">
-                    <div className="flex flex-col">
-                      <span className="font-bold">
-                        {t('Automotive Carbon Footprint Trust Label')}
-                        {
-                          isMobile && <span className="font-medium ml-3">#1940327340</span>
-                        }
-                      </span>
-                      {
-                        !isMobile && <p>#1940327340</p>
-                      }
-                    </div>
-                    <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>
-                  </div>
-                </div>
-                <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
-                  <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
-                  <CardInfo data={value} />
-                </div>
-              </div>
-            </div>
+            {/*<div className="flex mo:flex-col">*/}
+            {/*  <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">*/}
+            {/*    <ProductQrcode className="ml-2" />*/}
+            {/*  </div>*/}
+            {/*  <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">*/}
+            {/*    <div className="flex mb-5">*/}
+            {/*      <VscVerified className="text-3xl mt-1 mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />*/}
+            {/*      <div className="flex text-lg mo:flex-col">*/}
+            {/*        <div className="flex flex-col">*/}
+            {/*          <span className="font-bold">*/}
+            {/*            {t('Automotive Carbon Footprint Trust Label')}*/}
+            {/*            {*/}
+            {/*              isMobile && <span className="font-medium ml-3">#1940327340</span>*/}
+            {/*            }*/}
+            {/*          </span>*/}
+            {/*          {*/}
+            {/*            !isMobile && <p>#1940327340</p>*/}
+            {/*          }*/}
+            {/*        </div>*/}
+            {/*        <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>*/}
+            {/*      </div>*/}
+            {/*    </div>*/}
+            {/*    <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">*/}
+            {/*      <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>*/}
+            {/*      <CardInfo data={value} />*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
             {/*<div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">*/}
             {/*  <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>*/}
