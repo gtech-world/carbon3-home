@@ -79,8 +79,8 @@ import SVGPolygon from '/public/polygon.svg'
 export function Blockchain() {
   const { query } = useRouter();
   const tokenId: string = query.tokenId as string;
-  const { t } = useTranslation();
-  const isMobile = useIsMobile();
+  // const { t } = useTranslation();
+  // const isMobile = useIsMobile();
   const { value, loading }:any = useAsyncM(
     noArgs(() => getSbtDetail(tokenId), [tokenId]),
     [tokenId]
