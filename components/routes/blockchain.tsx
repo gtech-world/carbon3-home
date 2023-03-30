@@ -1,11 +1,11 @@
-import { useIsMobile } from "@components/common/context";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import {getSbtDetail, noArgs} from "@lib/http";
+// import { useIsMobile } from "@components/common/context";
+// import { useAsyncM } from "@lib/hooks/useAsyncM";
+// import {getSbtDetail, noArgs} from "@lib/http";
 import React, { useMemo } from "react";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
 import {HeaderLayout} from "@components/common/headerLayout";
-// import {useRouter} from "next/router";
+import {useRouter} from "next/router";
 import {ProductQrcode} from "@components/common/productQrcode";
 // import { VscVerified,VscQuestion } from "react-icons/vsc";
 import classNames from "classnames";
@@ -121,10 +121,10 @@ export function Blockchain() {
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <HeaderLayout className="">
-        {false ? (
-          <Loading />
-        ) : (
-          <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
+        {/*{loading ? (*/}
+        {/*  <Loading />*/}
+        {/*) : (*/}
+        {/*  <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">*/}
             {/*<div className="flex mo:flex-col">*/}
             {/*  <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">*/}
             {/*    <ProductQrcode className="ml-2" />*/}
@@ -184,8 +184,8 @@ export function Blockchain() {
             {/*    {t('You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.')}*/}
             {/*  </p>*/}
             {/*</div>*/}
-          </div>
-        )}
+          {/*</div>*/}
+        {/*)}*/}
       </HeaderLayout>
     </div>
   );
