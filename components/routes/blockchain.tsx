@@ -98,7 +98,7 @@ export function Blockchain() {
     },
     {title: t('Action'), dataIndex: 'action',tip: t('The business implication of the on-chain activity'),},
     {title: t('Age'), dataIndex: 'blockTimestamp'},
-    {title: t('Blockchain'), dataIndex: 'chain',false:t('The name of the blockchain and the code for its network or version'),
+    {title: t('Blockchain'), dataIndex: 'chain',tip:t('The name of the blockchain and the code for its network or version'),
       render:(text:string)=>{
         return <span className="whitespace-nowrap">{text}</span>
       }
@@ -141,7 +141,7 @@ export function Blockchain() {
               </div>
               <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
                 <div className="flex mb-5">
-                  <VscVerified className="text-3xl mt-1 mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />
+                  <VscVerified className="text-3xl mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />
                   <div className="flex text-lg mo:flex-col">
                     <div className="flex flex-col">
                       <span className="font-bold">
@@ -167,7 +167,7 @@ export function Blockchain() {
             <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
               <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
               <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
-                <Table className="mt-5" columns={columns} data={value.activityList} />
+                <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value.activityList} />
               </div>
             </div>
             <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">

@@ -17,7 +17,7 @@ export function Table(p: ITable) {
           {
             columns.map((v,i)=>{
               return(
-                <th key={`columns${i}`} className={classNames('px-3 py-2',i===0 && 'rounded-l overflow-hidden', i===(columns.length-1) && 'rounded-r overflow-hidden')}>
+                <th key={`columns${i}`} className={classNames('px-3 py-2 relative',i===0 && 'rounded-l overflow-hidden', i===(columns.length-1) && 'rounded-r overflow-hidden')}>
                   {
                     !!v.tip &&
                     <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={v.tip} className="inline-block text-xl mt-[-0.15rem] mr-1" />

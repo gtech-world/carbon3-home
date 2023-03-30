@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </InitProvider>
       <ModalRoot />
       <Tooltip
-        className="z-10 shadow-lg max-w-[22.5rem]"
+        className="z-10 shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
         style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
         id="tooltip"
       />
