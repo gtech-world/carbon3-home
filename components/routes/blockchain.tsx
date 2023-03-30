@@ -10,7 +10,7 @@ import {ProductQrcode} from "@components/common/productQrcode";
 import { VscVerified,VscQuestion } from "react-icons/vsc";
 import classNames from "classnames";
 import {Table} from "@components/common/table";
-import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
+import {genScanTokenUrl, genScanUrl, shortStr,titleCase} from "@lib/utils";
 import Link from "next/link";
 import SVGAICD from '/public/AICD.svg'
 import SVGPolygon from '/public/polygon.svg'
@@ -96,7 +96,12 @@ export function Blockchain() {
         )
       }
     },
-    {title: t('Action'), dataIndex: 'action',tip: t('The business implication of the on-chain activity'),},
+    {
+      title: t('Action'), dataIndex: 'action',tip: t('The business implication of the on-chain activity'),
+      render: (text:string)=>{
+        return text?t(titleCase(text)):''
+      }
+    },
     {title: t('Age'), dataIndex: 'blockTimestamp'},
     {title: t('Blockchain'), dataIndex: 'chain',tip:t('The name of the blockchain and the code for its network or version'),
       render:(text:string)=>{
