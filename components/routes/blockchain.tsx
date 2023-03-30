@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
 import {HeaderLayout} from "@components/common/headerLayout";
-import {useRouter} from "next/router";
+// import {useRouter} from "next/router";
 import {ProductQrcode} from "@components/common/productQrcode";
 // import { VscVerified,VscQuestion } from "react-icons/vsc";
 import classNames from "classnames";
@@ -77,14 +77,14 @@ import SVGPolygon from '/public/polygon.svg'
 
 
 export function Blockchain() {
-  const { query } = useRouter();
-  const tokenId: string = query.tokenId as string;
+  // const { query } = useRouter();
+  // const tokenId: string = query.tokenId as string;
   // const { t } = useTranslation();
   // const isMobile = useIsMobile();
-  const { value, loading }:any = useAsyncM(
-    noArgs(() => getSbtDetail(tokenId), [tokenId]),
-    [tokenId]
-  );
+  // const { value, loading }:any = useAsyncM(
+  //   noArgs(() => getSbtDetail(tokenId), [tokenId]),
+  //   [tokenId]
+  // );
   // const columns = [
   //   {
   //     title: t('Activity Hash'),
@@ -121,7 +121,7 @@ export function Blockchain() {
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <HeaderLayout className="">
-        {loading ? (
+        {false ? (
           <Loading />
         ) : (
           <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
