@@ -10,8 +10,8 @@ import {ProductQrcode} from "@components/common/productQrcode";
 import { VscVerified,VscQuestion } from "react-icons/vsc";
 import classNames from "classnames";
 // import {Table} from "@components/common/table";
-import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
-import Link from "next/link";
+// import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
+// import Link from "next/link";
 import SVGAICD from '/public/AICD.svg'
 import SVGPolygon from '/public/polygon.svg'
 // import moment from 'moment'
