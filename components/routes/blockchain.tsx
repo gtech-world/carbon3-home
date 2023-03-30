@@ -14,7 +14,7 @@ import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
 import Link from "next/link";
 import SVGAICD from '/public/AICD.svg'
 import SVGPolygon from '/public/polygon.svg'
-import moment from 'moment'
+// import moment from 'moment'
 
 // function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
 //   return (
