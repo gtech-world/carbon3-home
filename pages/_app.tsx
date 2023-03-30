@@ -16,7 +16,8 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
 import "../styles/globals.css";
-// import {Tooltip} from "react-tooltip";
+import 'react-tooltip/dist/react-tooltip.css'
+import {Tooltip} from "react-tooltip";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -100,11 +101,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <Toast />
       </InitProvider>
       <ModalRoot />
-      {/*<Tooltip*/}
-      {/*  className="z-10 shadow-lg max-w-[22.5rem]"*/}
-      {/*  style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}*/}
-      {/*  id="tooltip"*/}
-      {/*/>*/}
+      <Tooltip
+        className="z-10 shadow-lg max-w-[22.5rem]"
+        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
+        id="tooltip"
+      />
     </div>
   );
 }
