@@ -17,108 +17,108 @@ import SVGAICD from '/public/AICD.svg'
 import SVGPolygon from '/public/polygon.svg'
 import moment from 'moment'
 
-function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
-  return (
-    <div
-      className={classNames(
-        "w-full text-base whitespace-normal leading-[1.8rem] mo:text-[.9375rem] mo:leading-[1.6875rem] relative",
-        {
-          "text-green-2": p.link,
-          "text-gray-6": !p.link,
-        }
-      ,p.className)}
-    >
-      {
-        !!p.tip &&
-        <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={p.tip} className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
-      }
-      <span className="text-black font-bold">{p.label}:</span>{" "}
-      {p.link ? (
-        <a href={p.link} target="_blank" rel="noreferrer">
-          {p.text}
-        </a>
-      ) : (
-        p.text
-      )}
-    </div>
-  );
-}
-interface LabelDetail{
-  data:{
-    sbtTokenId: string
-    labelNumber: string
-    productName: string
-    ownerAddress: string
-    metadata: string
-    labelPrintDate: number
-  }
-}
-function CardInfo(p: LabelDetail){
-  const {data} = p
-  const attributes = JSON.parse(data.metadata)?.attributes
-  const obj:any = {}
-  attributes && attributes.map((v:any)=>{
-    obj[v.trait_type] = v.value
-  })
-  const { t } = useTranslation();
-  return(
-    <div className="break-all">
-      <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.')} />
-      <ItemInfo label={t("Label No")} text={data.labelNumber} />
-      <ItemInfo label={t("Label Owner")} text={data.productName} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners.')} />
-      <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.')} />
-      <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
-      <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
-      <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
-    </div>
-  )
-}
+// function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
+//   return (
+//     <div
+//       className={classNames(
+//         "w-full text-base whitespace-normal leading-[1.8rem] mo:text-[.9375rem] mo:leading-[1.6875rem] relative",
+//         {
+//           "text-green-2": p.link,
+//           "text-gray-6": !p.link,
+//         }
+//       ,p.className)}
+//     >
+//       {
+//         !!p.tip &&
+//         <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={p.tip} className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
+//       }
+//       <span className="text-black font-bold">{p.label}:</span>{" "}
+//       {p.link ? (
+//         <a href={p.link} target="_blank" rel="noreferrer">
+//           {p.text}
+//         </a>
+//       ) : (
+//         p.text
+//       )}
+//     </div>
+//   );
+// }
+// interface LabelDetail{
+//   data:{
+//     sbtTokenId: string
+//     labelNumber: string
+//     productName: string
+//     ownerAddress: string
+//     metadata: string
+//     labelPrintDate: number
+//   }
+// }
+// function CardInfo(p: LabelDetail){
+//   const {data} = p
+//   const attributes = JSON.parse(data.metadata)?.attributes
+//   const obj:any = {}
+//   attributes && attributes.map((v:any)=>{
+//     obj[v.trait_type] = v.value
+//   })
+//   const { t } = useTranslation();
+//   return(
+//     <div className="break-all">
+//       <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.')} />
+//       <ItemInfo label={t("Label No")} text={data.labelNumber} />
+//       <ItemInfo label={t("Label Owner")} text={data.productName} />
+//       <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners.')} />
+//       <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
+//       <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.')} />
+//       <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
+//       <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
+//       <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
+//     </div>
+//   )
+// }
 
 
 export function Blockchain() {
   const { query } = useRouter();
   const tokenId: string = query.tokenId as string;
   const { t } = useTranslation();
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
   const { value, loading }:any = useAsyncM(
     noArgs(() => getSbtDetail(tokenId), [tokenId]),
     [tokenId]
   );
-  const columns = [
-    {
-      title: t('Activity Hash'),
-      dataIndex: 'txHash',
-      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
-        )
-      }
-    },
-    {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
-    {title: t('Age'), dataIndex: 'blockTimestamp'},
-    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
-    {
-      title: t('From'),
-      dataIndex: 'fromAddress',
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
-        )
-      }
-    },
-    {
-      title: t('To'),
-      dataIndex: 'toAddress',
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
-        )
-      }
-    }
-  ]
+  // const columns = [
+  //   {
+  //     title: t('Activity Hash'),
+  //     dataIndex: 'txHash',
+  //     tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   },
+  //   {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
+  //   {title: t('Age'), dataIndex: 'blockTimestamp'},
+  //   {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
+  //   {
+  //     title: t('From'),
+  //     dataIndex: 'fromAddress',
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   },
+  //   {
+  //     title: t('To'),
+  //     dataIndex: 'toAddress',
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   }
+  // ]
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <HeaderLayout className="">
