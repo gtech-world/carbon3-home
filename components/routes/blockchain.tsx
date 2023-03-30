@@ -69,7 +69,7 @@ function CardInfo(p: LabelDetail){
       <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
       <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.')} />
       <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
-      <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
+      <ItemInfo label={t("Data Scope")} text={'Cradle-to-Grave'} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
       <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
     </div>
   )
@@ -98,7 +98,11 @@ export function Blockchain() {
     },
     {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
     {title: t('Age'), dataIndex: 'blockTimestamp'},
-    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
+    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),
+      render:(text:string)=>{
+        return <span className="whitespace-nowrap">{text}</span>
+      }
+    },
     {
       title: t('From'),
       dataIndex: 'fromAddress',
