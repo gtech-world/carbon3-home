@@ -4,7 +4,6 @@ import {getSbtDetail, noArgs} from "@lib/http";
 import React, { useMemo } from "react";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
-import {Empty} from "@components/common/empty";
 import {HeaderLayout} from "@components/common/headerLayout";
 import {useRouter} from "next/router";
 import {ProductQrcode} from "@components/common/productQrcode";
@@ -18,7 +17,7 @@ import SVGAICD from '/public/AICD.svg'
 import SVGPolygon from '/public/polygon.svg'
 import moment from 'moment'
 
-function ItemInfo(p: { label: string; text: string; link?: string; tip?: string; className?:string }) {
+function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
   return (
     <div
       className={classNames(
@@ -31,7 +30,7 @@ function ItemInfo(p: { label: string; text: string; link?: string; tip?: string;
     >
       {
         !!p.tip &&
-        <VscQuestion data-tooltip-id="tooltip" data-tooltip-content="Hello world!" className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
+        <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={p.tip} className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
       }
       <span className="text-black font-bold">{p.label}:</span>{" "}
       {p.link ? (
@@ -64,14 +63,14 @@ function CardInfo(p: LabelDetail){
   const { t } = useTranslation();
   return(
     <div className="break-all">
-      <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip="abc" />
-      <ItemInfo label={t("Label No.")} text={data.labelNumber} />
+      <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID')} />
+      <ItemInfo label={t("Label No")} text={data.labelNumber} />
       <ItemInfo label={t("Label Owner")} text={data.productName} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip="abc" />
+      <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners')} />
       <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip="abc" />
-      <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip="abc" />
-      <ItemInfo label={t("Data Scope")} text={''} tip="abc" />
+      <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle')} />
+      <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
+      <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate')} />
       <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
     </div>
   )
@@ -80,29 +79,29 @@ function CardInfo(p: LabelDetail){
 
 export function Blockchain() {
   const { query } = useRouter();
-  const vin: string = query.vin as string;
+  const tokenId: string = query.tokenId as string;
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const { value, loading }:any = useAsyncM(
-    noArgs(() => getSbtDetail(vin), [vin]),
-    [vin]
+    noArgs(() => getSbtDetail(tokenId), [tokenId]),
+    [tokenId]
   );
   const columns = [
     {
-      title: 'Activity Hash',
+      title: t('Activity Hash'),
       dataIndex: 'txHash',
-      tip: isMobile?false:'aaa',
+      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain'),
       render: (text:string)=>{
         return(
           <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
         )
       }
     },
-    {title: 'Action', dataIndex: 'action',tip: isMobile?false:'aaa',},
-    {title: 'Age', dataIndex: 'blockTimestamp'},
-    {title: 'Blockchain', dataIndex: 'chain',tip: isMobile?false:'aaa',},
+    {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
+    {title: t('Age'), dataIndex: 'blockTimestamp'},
+    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
     {
-      title: 'From',
+      title: t('From'),
       dataIndex: 'fromAddress',
       render: (text:string)=>{
         return(
@@ -111,7 +110,7 @@ export function Blockchain() {
       }
     },
     {
-      title: 'To',
+      title: t('To'),
       dataIndex: 'toAddress',
       render: (text:string)=>{
         return(
@@ -137,7 +136,7 @@ export function Blockchain() {
                   <div className="flex text-lg mo:flex-col">
                     <div className="flex flex-col">
                       <span className="font-bold">
-                        Automotive Carbon Footprint Trust Label
+                        {t('Automotive Carbon Footprint Trust Label')}
                         {
                           isMobile && <span className="font-medium ml-3">#1940327340</span>
                         }
@@ -146,18 +145,18 @@ export function Blockchain() {
                         !isMobile && <p>#1940327340</p>
                       }
                     </div>
-                    <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">Certified by AIAG</span>
+                    <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>
                   </div>
                 </div>
                 <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
-                  <h5 className="text-xl mb-3.5 font-bold mo:text-lg">Label Details </h5>
+                  <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
                   <CardInfo data={value} />
                 </div>
               </div>
             </div>
 
             <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
-              <h3 className="font-bold">Item Activity on Blockchain </h3>
+              <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
               <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
                 <Table className="mt-5" columns={columns} data={value.activityList} />
               </div>
@@ -165,25 +164,25 @@ export function Blockchain() {
             <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
               <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />
               <p className="font-bold">
-                Database powered by:
+                {t('Database powered by:')}
               </p>
               <p className="text-green-2">
-                <Link href="https://aicd.gtech.world/" target="_blank">Automotive Industry Carbon Database</Link>
+                <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>
               </p>
               <p>
-                AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).
+                {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}
               </p>
             </div>
             <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
               <SVGPolygon className="mb-5" />
               <p className="font-bold">
-                Blockchain powered by:
+                {t('Blockchain powered by:')}
               </p>
               <p className="text-green-2">
-                <Link href="https://polygon.technology/" target="_blank">Polygon Blockchain</Link>
+                <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
               </p>
               <p>
-                You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.
+                {t('You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.')}
               </p>
             </div>
           </div>

@@ -78,7 +78,8 @@ function CarInfos(p: CarUIProps) {
       <ItemInfo
         label={t("Label SBT Address")}
         text={t("View on blockchain explorer")}
-        link={genScanTokenUrl(sbt.sbtTokenId)}
+        // link={genScanTokenUrl(sbt.sbtTokenId)}
+        link={'/blockchain?tokenId='+sbt.sbtTokenId}
       />
     </div>
   );

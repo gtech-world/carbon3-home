@@ -115,8 +115,8 @@ export async function getSbgEmissionInventory(vin: string | number) {
   const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
   return getData(res);
 }
-export async function getSbtDetail(vin: string | number) {
-  const res = await axios.get<SbtDetail>(creatUrl(`/api/v1/sbt/token/3000000/detail`));
+export async function getSbtDetail(tokenId: string | number) {
+  const res = await axios.get<SbtDetail>(creatUrl(`/api/v1/sbt/token/${tokenId}/detail`));
   return getData(res);
 }
 
