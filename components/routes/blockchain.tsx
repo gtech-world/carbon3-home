@@ -1,7 +1,7 @@
 // import { useIsMobile } from "@components/common/context";
 // import { useAsyncM } from "@lib/hooks/useAsyncM";
 // import {getSbtDetail, noArgs} from "@lib/http";
-import React, { useMemo } from "react";
+// import React, { useMemo } from "react";
 // import { Loading } from "@components/common/loading";
 // import { useTranslation } from "react-i18next";
 // import {HeaderLayout} from "@components/common/headerLayout";
