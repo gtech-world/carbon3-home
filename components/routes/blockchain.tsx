@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {HeaderLayout} from "@components/common/headerLayout";
 import {useRouter} from "next/router";
 import {ProductQrcode} from "@components/common/productQrcode";
-import { VscVerified,VscQuestion } from "react-icons/vsc";
+// import { VscVerified,VscQuestion } from "react-icons/vsc";
 import classNames from "classnames";
 // import {Table} from "@components/common/table";
 // import {genScanTokenUrl, genScanUrl, shortStr} from "@lib/utils";
@@ -127,11 +127,11 @@ export function Blockchain() {
           <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
             <div className="flex mo:flex-col">
               <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
-                <ProductQrcode className="ml-2" />
+                {/*<ProductQrcode className="ml-2" />*/}
               </div>
               <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
                 <div className="flex mb-5">
-                  <VscVerified className="text-3xl mt-1 mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />
+                  {/*<VscVerified className="text-3xl mt-1 mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />*/}
                   <div className="flex text-lg mo:flex-col">
                     <div className="flex flex-col">
                       <span className="font-bold">
