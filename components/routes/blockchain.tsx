@@ -63,12 +63,12 @@ function CardInfo(p: LabelDetail){
   return(
     <div className="break-all">
       <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.')} />
-      <ItemInfo label={t("Label No")} text={data.labelNumber} />
+      <ItemInfo label={t("Label No.")} text={data.labelNumber} />
       <ItemInfo label={t("Label Owner")} text={data.productName} />
       <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners.')} />
       <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
       <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.')} />
-      <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
+      <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint.')} />
       <ItemInfo label={t("Data Scope")} text={'Cradle-to-Grave'} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
       <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
     </div>
@@ -89,16 +89,16 @@ export function Blockchain() {
     {
       title: t('Activity Hash'),
       dataIndex: 'txHash',
-      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
+      tip: t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
       render: (text:string)=>{
         return(
           <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
         )
       }
     },
-    {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
+    {title: t('Action'), dataIndex: 'action',tip: t('The business implication of the on-chain activity'),},
     {title: t('Age'), dataIndex: 'blockTimestamp'},
-    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),
+    {title: t('Blockchain'), dataIndex: 'chain',false:t('The name of the blockchain and the code for its network or version'),
       render:(text:string)=>{
         return <span className="whitespace-nowrap">{text}</span>
       }
@@ -122,6 +122,12 @@ export function Blockchain() {
       }
     }
   ]
+  const polygonscanDesc = t(
+    "You can also view raw data on the Polygon Blockchain via {{value}}. Notice polygonscan’s service may not be accessible from certain countries or regions."
+  ).replace(
+    "{{value}}",
+    `<span class="text-green-2">polygonscan</span>`
+  )
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <HeaderLayout className="">
@@ -184,8 +190,7 @@ export function Blockchain() {
               <p className="text-green-2">
                 <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
               </p>
-              <p>
-                {t('You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.')}
+              <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}>
               </p>
             </div>
           </div>
