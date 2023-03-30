@@ -63,14 +63,14 @@ function CardInfo(p: LabelDetail){
   const { t } = useTranslation();
   return(
     <div className="break-all">
-      <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID')} />
+      <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.')} />
       <ItemInfo label={t("Label No")} text={data.labelNumber} />
       <ItemInfo label={t("Label Owner")} text={data.productName} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners')} />
+      <ItemInfo className="mo:flex mo:flex-col" label={t("Owner Address")} text={data.ownerAddress} link={genScanUrl('address',data.ownerAddress)} tip={t('Trust Labels are minted by their owners. Owner Addresses stand for verified identity credentials for the label owners.')} />
       <ItemInfo label={t("Product Model")} text={obj['Product Model']} />
-      <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle')} />
+      <ItemInfo className="mo:flex mo:flex-col" label={t("Product Unique Identifier")} text={obj['VIN']} link={`/car?vin=${obj['VIN']}`} tip={t('The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.')} />
       <ItemInfo label={t("Label Type")} text={obj['Label Type']} tip={t('PCF Type stands for Product Carbon Footprint')} />
-      <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate')} />
+      <ItemInfo label={t("Data Scope")} text={''} tip={t('The life cycle scope that the PCF data covers, typically Cradle-to-Grave (full-life-cycle) or Cradle-to-Gate.')} />
       <ItemInfo label={t("Print Timestamp")} text={moment(data.labelPrintDate*1000).format('YYYY-MM-DD HH:mm:ss')} />
     </div>
   )
@@ -90,7 +90,7 @@ export function Blockchain() {
     {
       title: t('Activity Hash'),
       dataIndex: 'txHash',
-      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain'),
+      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
       render: (text:string)=>{
         return(
           <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
