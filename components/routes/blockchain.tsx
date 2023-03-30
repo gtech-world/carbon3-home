@@ -85,39 +85,39 @@ export function Blockchain() {
     noArgs(() => getSbtDetail(tokenId), [tokenId]),
     [tokenId]
   );
-  const columns = [
-    {
-      title: t('Activity Hash'),
-      dataIndex: 'txHash',
-      tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
-        )
-      }
-    },
-    {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
-    {title: t('Age'), dataIndex: 'blockTimestamp'},
-    {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
-    {
-      title: t('From'),
-      dataIndex: 'fromAddress',
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
-        )
-      }
-    },
-    {
-      title: t('To'),
-      dataIndex: 'toAddress',
-      render: (text:string)=>{
-        return(
-          <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
-        )
-      }
-    }
-  ]
+  // const columns = [
+  //   {
+  //     title: t('Activity Hash'),
+  //     dataIndex: 'txHash',
+  //     tip: isMobile?false:t('The cryptographic hash of an on-chain activity can be used to identify and verify the transaction information on the blockchain.'),
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('tx',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   },
+  //   {title: t('Action'), dataIndex: 'action',tip: isMobile?false:t('The business implication of the on-chain activity'),},
+  //   {title: t('Age'), dataIndex: 'blockTimestamp'},
+  //   {title: t('Blockchain'), dataIndex: 'chain',tip: isMobile?false:t('The name of the blockchain and the code for its network or version'),},
+  //   {
+  //     title: t('From'),
+  //     dataIndex: 'fromAddress',
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   },
+  //   {
+  //     title: t('To'),
+  //     dataIndex: 'toAddress',
+  //     render: (text:string)=>{
+  //       return(
+  //         <Link className="text-green-2" target="_blank" href={genScanUrl('address',text)}>{shortStr(text)}</Link>
+  //       )
+  //     }
+  //   }
+  // ]
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <HeaderLayout className="">
@@ -154,36 +154,36 @@ export function Blockchain() {
               </div>
             </div>
 
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
-              <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
-              <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
-                <Table className="mt-5" columns={columns} data={value.activityList} />
-              </div>
-            </div>
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-              <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />
-              <p className="font-bold">
-                {t('Database powered by:')}
-              </p>
-              <p className="text-green-2">
-                <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>
-              </p>
-              <p>
-                {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}
-              </p>
-            </div>
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-              <SVGPolygon className="mb-5" />
-              <p className="font-bold">
-                {t('Blockchain powered by:')}
-              </p>
-              <p className="text-green-2">
-                <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
-              </p>
-              <p>
-                {t('You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.')}
-              </p>
-            </div>
+            {/*<div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">*/}
+            {/*  <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>*/}
+            {/*  <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">*/}
+            {/*    <Table className="mt-5" columns={columns} data={value.activityList} />*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+            {/*<div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">*/}
+            {/*  <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />*/}
+            {/*  <p className="font-bold">*/}
+            {/*    {t('Database powered by:')}*/}
+            {/*  </p>*/}
+            {/*  <p className="text-green-2">*/}
+            {/*    <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>*/}
+            {/*  </p>*/}
+            {/*  <p>*/}
+            {/*    {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}*/}
+            {/*  </p>*/}
+            {/*</div>*/}
+            {/*<div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">*/}
+            {/*  <SVGPolygon className="mb-5" />*/}
+            {/*  <p className="font-bold">*/}
+            {/*    {t('Blockchain powered by:')}*/}
+            {/*  </p>*/}
+            {/*  <p className="text-green-2">*/}
+            {/*    <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>*/}
+            {/*  </p>*/}
+            {/*  <p>*/}
+            {/*    {t('You can also view raw data on the Polygon Blockchain via polygonscan. Notice polygonscan’s service may not be accessible from certain countries or regions.')}*/}
+            {/*  </p>*/}
+            {/*</div>*/}
           </div>
         )}
       </HeaderLayout>
