@@ -137,7 +137,7 @@ export function Blockchain() {
           <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
             <div className="flex mo:flex-col">
               <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
-                <ProductQrcode className="ml-2" />
+                <ProductQrcode className="" />
               </div>
               <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
                 <div className="flex mb-5">
