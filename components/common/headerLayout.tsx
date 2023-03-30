@@ -51,8 +51,8 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   );
 }
 
-export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
-  const { className, children, ...props } = p;
+export function HeaderLayout(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null }) {
+  const { className,tits, children, ...props } = p;
   const isMobile = useIsMobile();
   const h = useHeaderTipHeight();
   return (
@@ -60,7 +60,7 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
       {isMobile ? (
         <MobileHeader />
       ) : (
-        <Header style={{ top: `${h}px` }} className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />
+        <Header tits={tits} style={{ top: `${h}px` }} className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />
       )}
       <div
         className={classNames("z-[2] flex-1 relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)}

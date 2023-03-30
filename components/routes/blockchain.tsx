@@ -130,7 +130,7 @@ export function Blockchain() {
   )
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
-      <HeaderLayout className="">
+      <HeaderLayout className="" tits={t("Trust Label NFT Viewer")}>
         {loading ? (
           <Loading />
         ) : (
@@ -141,10 +141,10 @@ export function Blockchain() {
               </div>
               <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
                 <div className="flex mb-5">
-                  <VscVerified className="text-3xl mr-2 mo:mt-[-0.25rem] mo:text-[2.8rem]" />
+                  <VscVerified className="text-3xl mr-2 mo:mt-[-0.45rem] mo:text-[2.8rem]" />
                   <div className="flex text-lg mo:flex-col">
                     <div className="flex flex-col">
-                      <span className="font-bold">
+                      <span className="w-full">
                         {t('Automotive Carbon Footprint Trust Label')}
                         {
                           isMobile && <span className="font-medium ml-3">#1940327340</span>
