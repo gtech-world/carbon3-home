@@ -26,7 +26,7 @@ specifiers:
   react-i18next: ^12.2.0
   react-icons: ^4.7.1
   react-router-dom: ^6.6.2
-  react-tooltip: ^4.5.1
+  react-tooltip: ^5.10.1
   react-use: ^17.4.0
   react-virtualized-auto-sizer: ^1.0.7
   react-vtree: 3.0.0-beta.3
@@ -55,7 +55,7 @@ dependencies:
   react-i18next: 12.2.0_3yopsigl4h4eb2nqrqfsy65uwi
   react-icons: 4.7.1_react@18.2.0
   react-router-dom: 6.6.2_biqbaboplfbrettd7655fr4n2y
-  react-tooltip: 4.5.1_biqbaboplfbrettd7655fr4n2y
+  react-tooltip: 5.10.4_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   react-virtualized-auto-sizer: 1.0.7_biqbaboplfbrettd7655fr4n2y
   react-vtree: 3.0.0-beta.3_bgu4ymtj2f6gbdjyrvl3ycsuia
@@ -1353,6 +1353,16 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@floating-ui/core/1.2.5:
+    resolution: {integrity: sha512-qrcbyfnRVziRlB6IYwjCopYhO7Vud750JlJyuljruIXcPxr22y8zdckcJGsuOdnQ639uVD1tTXddrcH3t3QYIQ==}
+    dev: false
+
+  /@floating-ui/dom/1.2.5:
+    resolution: {integrity: sha512-+sAUfpQ3Frz+VCbPCqj+cZzvEESy3fjSeT/pDWkYCWOBXYNNKZfuVsHuv8/JO2zze8+Eb/Q7a6hZVgzS81fLbQ==}
+    dependencies:
+      '@floating-ui/core': 1.2.5
     dev: false
 
   /@formkit/auto-animate/1.0.0-beta.6:
@@ -4084,17 +4094,16 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-tooltip/4.5.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Zo+CSFUGXar1uV+bgXFFDe7VeS2iByeIp5rTgTcc2HqtuOS5D76QapejNNfx320MCY91TlhTQat36KGFTqgcvw==}
-    engines: {npm: '>=6.13'}
+  /react-tooltip/5.10.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-QUBX6k3+qjOyAy64ntV/NkwzZqaghjcEpZ6Q5pqVbYUYS8kGcmIgXznRc2syQDlffCtzeWJGGMz93JYKjGo2Pw==}
     peerDependencies:
-      react: '>=16.0.0'
-      react-dom: '>=16.0.0'
+      react: '>=16.14.0'
+      react-dom: '>=16.14.0'
     dependencies:
-      prop-types: 15.8.1
+      '@floating-ui/dom': 1.2.5
+      classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      uuid: 7.0.3
     dev: false
 
   /react-universal-interface/0.6.2_react@18.2.0+tslib@2.4.1:
@@ -4718,11 +4727,6 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
-
-  /uuid/7.0.3:
-    resolution: {integrity: sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==}
-    hasBin: true
-    dev: false
 
   /void-elements/3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
