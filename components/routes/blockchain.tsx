@@ -137,7 +137,7 @@ export function Blockchain() {
         <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
             {/*<HeaderLayout className="" tits={t("Trust Label NFT Viewer")}>*/}
             <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
-                <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mh:ml-5 mo:ml-4" />
+                <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
                 <div className="w-[6rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
                     Trust Label
                     NFT Viewer
@@ -146,7 +146,7 @@ export function Blockchain() {
             {loading ? (
                 <Loading />
             ) : (
-                <div className="w-full p-5 max-w-[1480px] mx-auto">
+                <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
                     <div className="flex mo:flex-col">
                         <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
                             <ProductQrcode className="" />
