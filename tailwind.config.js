@@ -7,6 +7,7 @@ module.exports = {
         lg: { min: "90rem" },
         ssm: { max: "460px" },
         mo: { max: "900px" },
+        mh: { max: "1550px" },
       },
       fontFamily: {
         OpenSans: "var(--open-sans)",
