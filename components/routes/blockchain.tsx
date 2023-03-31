@@ -102,7 +102,13 @@ export function Blockchain() {
                 return text?t(titleCase(text)):''
             }
         },
-        {title: t('Age'), dataIndex: 'blockTimestamp'},
+        {title: t('Age'), dataIndex: 'blockTimestamp',
+            render:(text:number)=>{
+                return(
+                    moment(text*1000).fromNow()
+                )
+            }
+        },
         {title: t('Blockchain'), dataIndex: 'chain',tip:t('The name of the blockchain and the code for its network or version'),
             render:(text:string)=>{
                 return <span className="whitespace-nowrap">{text}</span>
@@ -138,9 +144,9 @@ export function Blockchain() {
             {/*<HeaderLayout className="" tits={t("Trust Label NFT Viewer")}>*/}
             <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
                 <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
-                <div className="w-[5.8rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
+                <div className="w-[5.9rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
                     {
-                        t('Trust Label NFT Viewer')
+                        t("Trust Label NFT Viewer")
                     }
                 </div>
             </header>
