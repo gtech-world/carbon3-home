@@ -102,7 +102,13 @@ export function Blockchain() {
                 return text?t(titleCase(text)):''
             }
         },
-        {title: t('Age'), dataIndex: 'blockTimestamp'},
+        {title: t('Age'), dataIndex: 'blockTimestamp',
+            render:(text:number)=>{
+                return(
+                    moment(text*1000).fromNow()
+                )
+            }
+        },
         {title: t('Blockchain'), dataIndex: 'chain',tip:t('The name of the blockchain and the code for its network or version'),
             render:(text:string)=>{
                 return <span className="whitespace-nowrap">{text}</span>

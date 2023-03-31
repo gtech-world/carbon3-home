@@ -18,6 +18,9 @@ import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i
 import "../styles/globals.css";
 import 'react-tooltip/dist/react-tooltip.css'
 import {Tooltip} from "react-tooltip";
+import moment from "moment";
+// import 'moment/locale/zh-cn'
+
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -79,6 +82,10 @@ function InitProvider(p: { children: React.ReactNode }) {
   }, []);
   if (!data) return <LoadingFull />;
   const [i18n, store] = data;
+  setTimeout(() => {
+    // @ts-ignore
+    i18n.language === 'zh-CN' && import('moment/locale/zh-cn').then(() => {})
+  }, 200);
   return (
     <I18nextProvider i18n={i18n}>
       <StoreProvider init={store}>{p.children}</StoreProvider>

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 import { VscQuestion } from "react-icons/vsc";
+import moment from "moment/moment";
 
 interface ITable{
   columns: any[];
@@ -9,7 +10,7 @@ interface ITable{
 }
 export function Table(p: ITable) {
   const {columns,data,className} = p
-  return (
+    return (
       <div className={classNames("w-full mo:text-[.9375rem]",className)}>
         <table className="w-full text-left">
           <thead className="bg-gray-14 ">
