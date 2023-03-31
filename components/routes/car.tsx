@@ -66,7 +66,7 @@ function CarInfos(p: CarUIProps) {
   const { t } = useTranslation();
   return (
     <div className="w-full">
-      <ItemInfo label={t("Label No")} text={sbt.sbtTokenId} />
+      <ItemInfo label={t("Label No.")} text={sbt.sbtTokenId} />
       <ItemInfo label={t("Vehicle Identifier Number(VIN)")} text={sbt.serialNumber} />
       <ItemInfo label={t("Vehicle Model")} text={sbt.productName} />
       <ItemInfo label={t("Label Printed Date")} text={ftmTimestamp(sbt.sbtMintTimestamp)} />
@@ -78,7 +78,8 @@ function CarInfos(p: CarUIProps) {
       <ItemInfo
         label={t("Label SBT Address")}
         text={t("View on blockchain explorer")}
-        link={genScanTokenUrl(sbt.sbtTokenId)}
+        // link={genScanTokenUrl(sbt.sbtTokenId)}
+        link={'/blockchain?tokenId='+sbt.sbtTokenId}
       />
     </div>
   );

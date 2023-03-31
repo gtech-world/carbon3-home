@@ -81,3 +81,12 @@ export function sleep(t: number = 0) {
     setTimeout(() => resolve(undefined), t);
   });
 }
+export function shortStr(str:string,startLen:number=6,endLen:number=6) {
+  const start = str.substring(0,startLen)
+  const end = str.substring(str.length-endLen)
+  return `${start}...${end}`
+}
+
+export function titleCase(str:string) {
+  return str.slice(0,1).toUpperCase() +str.slice(1).toLowerCase();
+}
