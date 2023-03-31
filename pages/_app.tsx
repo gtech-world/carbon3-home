@@ -16,8 +16,8 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
 import "../styles/globals.css";
-import 'react-tooltip/dist/react-tooltip.css'
-import {Tooltip} from "react-tooltip";
+// import 'react-tooltip/dist/react-tooltip.css'
+import ReactTooltip from "react-tooltip";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -87,7 +87,7 @@ function InitProvider(p: { children: React.ReactNode }) {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
+    return (
     <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
       <Head>
         <title>AICD</title>
@@ -101,14 +101,20 @@ export default function App({ Component, pageProps }: AppProps) {
         <Toast />
       </InitProvider>
       <ModalRoot />
-      <Tooltip
-        className="z-10 shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
-        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
-        id="tooltip"
-        data-tooltip-delay-hide={200}
-        delayHide={200}
-        clickable={true}
+      {/*@ts-ignore*/}
+      <ReactTooltip
+          effect="solid"
+          isCapture={true}
+          delayHide={250}
+          clickable={true}
+          backgroundColor={"#fff"}
+          className={"z-10 shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"}
+          textColor="#000"
+          border={true}
+          borderColor="#eee"
+          id="tooltip"
       />
+
     </div>
   );
 }

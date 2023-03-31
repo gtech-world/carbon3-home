@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { VscQuestion } from "react-icons/vsc";
+import ReactTooltip from "react-tooltip";
 
 interface ITable{
   columns: any[];
@@ -20,7 +21,7 @@ export function Table(p: ITable) {
                 <th key={`columns${i}`} className={classNames('px-3 py-2 relative',i===0 && 'rounded-l overflow-hidden', i===(columns.length-1) && 'rounded-r overflow-hidden')}>
                   {
                     !!v.tip &&
-                    <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={v.tip} className="inline-block text-xl mt-[-0.15rem] mr-1" />
+                    <VscQuestion data-for="tooltip" data-tip={v.tip} className="inline-block text-xl mt-[-0.15rem] mr-1" />
                   }
                   <span>{v.title}</span>
                 </th>

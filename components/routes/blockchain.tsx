@@ -29,7 +29,7 @@ function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; cl
       >
         {
             !!p.tip &&
-            <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={p.tip} className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
+            <VscQuestion data-tip={p.tip} data-for="tooltip" className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
         }
         <span className="text-black font-bold">{p.label}:</span>{" "}
         {p.link ? (
