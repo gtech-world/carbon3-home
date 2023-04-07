@@ -53,7 +53,6 @@ interface LabelDetail{
 }
 function CardInfo(p: LabelDetail){
   const {data} = p
-  if(!data?.metadata) return null
   const attributes = JSON.parse(data.metadata)?.attributes
   const obj:any = {}
   attributes && attributes.map((v:any)=>{
@@ -85,6 +84,13 @@ export function Blockchain() {
     noArgs(() => getSbtDetail(tokenId), [tokenId]),
     [tokenId]
   );
+  const data = useMemo(()=>{
+    const obj = {
+      activityList: [],
+      metadata: '{}'
+    }
+    return Object.assign(obj,value)
+  },[value])
   const columns = [
     {
       title: t('Activity Hash'),
@@ -143,7 +149,7 @@ export function Blockchain() {
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
         <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
-        <div className="w-[5.8rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
+        <div className="w-[5.9rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
           {
             t("Trust Label NFT Viewer")
           }
@@ -177,7 +183,7 @@ export function Blockchain() {
               </div>
               <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
                 <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
-                <CardInfo data={value} />
+                <CardInfo data={data} />
               </div>
             </div>
           </div>
@@ -185,7 +191,7 @@ export function Blockchain() {
           <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
             <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
             <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
-              <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value?.activityList || []} />
+              <Table className="mt-5 mo:w-[52rem]" columns={columns} data={data.activityList} />
             </div>
           </div>
           <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">

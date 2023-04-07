@@ -18,8 +18,6 @@ import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i
 import "../styles/globals.css";
 import 'react-tooltip/dist/react-tooltip.css'
 import {Tooltip} from "react-tooltip";
-import moment from "moment";
-// import 'moment/locale/zh-cn'
 
 
 const open_sans = Open_Sans({
@@ -92,6 +90,7 @@ function InitProvider(p: { children: React.ReactNode }) {
     </I18nextProvider>
   );
 }
+
 function InitToolTip(){
   const [isMounted,setIsMounted] = useState(false);
   useEffect(() => {
@@ -99,16 +98,14 @@ function InitToolTip(){
   },[]);
   return(
     isMounted ?
-    <Tooltip
-      className="z-10 shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
-      style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
-      id="tooltip"
-    />:null
+      <Tooltip
+        className="z-10 shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
+        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
+        id="tooltip"
+      />:null
   )
 }
-
 export default function App({ Component, pageProps }: AppProps) {
-
   return (
     <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
       <Head>
