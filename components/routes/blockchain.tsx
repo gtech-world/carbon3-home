@@ -173,7 +173,7 @@ export function Blockchain() {
             <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
               <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
               <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
-                <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value.activityList} />
+                <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value?.activityList || []} />
               </div>
             </div>
             <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
