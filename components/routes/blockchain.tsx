@@ -4,7 +4,6 @@ import {getSbtDetail, noArgs} from "@lib/http";
 import React, { useMemo } from "react";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
-import {HeaderLayout} from "@components/common/headerLayout";
 import {useRouter} from "next/router";
 import {ProductQrcode} from "@components/common/productQrcode";
 import { VscVerified,VscQuestion } from "react-icons/vsc";
@@ -25,7 +24,7 @@ function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; cl
           "text-green-2": p.link,
           "text-gray-6": !p.link,
         }
-      ,p.className)}
+        ,p.className)}
     >
       {
         !!p.tip &&
@@ -55,7 +54,7 @@ interface LabelDetail{
 function CardInfo(p: LabelDetail){
   const {data} = p
   if(!data?.metadata) return null
-  const attributes = JSON.parse(data?.metadata)?.attributes
+  const attributes = JSON.parse(data.metadata)?.attributes
   const obj:any = {}
   attributes && attributes.map((v:any)=>{
     obj[v.trait_type] = v.value
@@ -103,7 +102,13 @@ export function Blockchain() {
         return text?t(titleCase(text)):''
       }
     },
-    {title: t('Age'), dataIndex: 'blockTimestamp'},
+    {title: t('Age'), dataIndex: 'blockTimestamp',
+      render:(text:number)=>{
+        return(
+          moment(text*1000).fromNow()
+        )
+      }
+    },
     {title: t('Blockchain'), dataIndex: 'chain',tip:t('The name of the blockchain and the code for its network or version'),
       render:(text:string)=>{
         return <span className="whitespace-nowrap">{text}</span>
@@ -132,76 +137,82 @@ export function Blockchain() {
     "You can also view raw data on the Polygon Blockchain via {{value}}. Notice polygonscan’s service may not be accessible from certain countries or regions."
   ).replace(
     "{{value}}",
-    `<span class="text-green-2">polygonscan</span>`
+    `<a href="https://polygonscan.com/" target="_blank" rel="noreferrer" class="text-green-2">polygonscan</a>`
   )
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
-      <HeaderLayout className="" tits={t("Trust Label NFT Viewer")}>
-        {loading ? (
-          <Loading />
-        ) : (
-          <div className="w-full p-5 max-w-[1480px] mx-auto mo:p-0">
-            <div className="flex mo:flex-col">
-              <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
-                <ProductQrcode className="" />
-              </div>
-              <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
-                <div className="flex mb-5">
-                  <VscVerified className="text-3xl mr-2 mo:mt-[-0.45rem] mo:text-[2.8rem]" />
-                  <div className="flex text-lg mo:flex-col">
-                    <div className="flex flex-col">
-                      <span className="w-full">
+      <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
+        <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
+        <div className="w-[5.8rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem] mo:w-[5rem]">
+          {
+            t("Trust Label NFT Viewer")
+          }
+        </div>
+      </header>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
+          <div className="flex mo:flex-col">
+            <div className="bg-white flex justify-center px-10 flex items-center rounded-lg mo:h-[21rem] mo:px-0">
+              <ProductQrcode className="" />
+            </div>
+            <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
+              <div className="flex mb-5">
+                <VscVerified className="text-3xl mr-2 mo:mt-[-0.45rem] mo:text-[2.8rem]" />
+                <div className="flex text-lg mo:flex-col">
+                  <div className="flex flex-col">
+                      <span className="w-full font-bold">
                         {t('Automotive Carbon Footprint Trust Label')}
                         {
                           isMobile && <span className="font-medium ml-3">#1940327340</span>
                         }
                       </span>
-                      {
-                        !isMobile && <p>#1940327340</p>
-                      }
-                    </div>
-                    <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>
+                    {
+                      !isMobile && <p>#1940327340</p>
+                    }
                   </div>
-                </div>
-                <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
-                  <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
-                  <CardInfo data={value} />
+                  <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>
                 </div>
               </div>
-            </div>
-
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
-              <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
-              <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
-                <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value?.activityList || []} />
+              <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
+                <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
+                <CardInfo data={value} />
               </div>
-            </div>
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-              <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />
-              <p className="font-bold">
-                {t('Database powered by:')}
-              </p>
-              <p className="text-green-2">
-                <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>
-              </p>
-              <p>
-                {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}
-              </p>
-            </div>
-            <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-              <SVGPolygon className="mb-5" />
-              <p className="font-bold">
-                {t('Blockchain powered by:')}
-              </p>
-              <p className="text-green-2">
-                <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
-              </p>
-              <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}>
-              </p>
             </div>
           </div>
-        )}
-      </HeaderLayout>
+
+          <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
+            <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
+            <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
+              <Table className="mt-5 mo:w-[52rem]" columns={columns} data={value?.activityList || []} />
+            </div>
+          </div>
+          <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
+            <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />
+            <p className="font-bold">
+              {t('Database powered by:')}
+            </p>
+            <p className="text-green-2">
+              <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>
+            </p>
+            <p>
+              {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}
+            </p>
+          </div>
+          <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
+            <SVGPolygon className="mb-5" />
+            <p className="font-bold">
+              {t('Blockchain powered by:')}
+            </p>
+            <p className="text-green-2">
+              <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
+            </p>
+            <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
