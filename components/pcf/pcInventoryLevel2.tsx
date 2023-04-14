@@ -14,7 +14,7 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
       className={classNames("relative w-full pr-[.625rem] cursor-pointer [&:nth-child(n+2)]:mt-5")}
       onClick={() => update({ sourcing: index })}
     >
-      <div className="w-full p-3 rounded-lg" style={{ border: selected ? "1px solid #227A30" : "1px solid #000000" }}>
+      <div className="w-full p-3 rounded-lg" style={{ border: selected ? "1px solid #29953A" : "1px solid #000000" }}>
         <div
           className={classNames(
             {
@@ -32,8 +32,8 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
       {selected && (
         <div
           style={{
-            borderTop: "1px solid #227A30",
-            borderRight: "1px solid #227A30",
+            borderTop: "1px solid #29953A",
+            borderRight: "1px solid #29953A",
           }}
           className="w-[.8839rem] h-[.8839rem] bg-white absolute right-[.1875rem] top-[calc(50%_-_.4419rem)] rotate-45"
         />

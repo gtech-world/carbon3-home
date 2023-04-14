@@ -195,7 +195,7 @@ export function Blockchain() {
             </div>
           </div>
           <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-            <SVGAICD fill="#227A30" className="w-[6.125rem] mb-5" />
+            <SVGAICD fill="#29953A" className="w-[6.125rem] mb-5" />
             <p className="font-bold">
               {t('Database powered by:')}
             </p>
