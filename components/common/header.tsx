@@ -41,8 +41,8 @@ function useMenus() {
       icon: <IoLanguageOutline />,
       text: LngsText[lng],
       onClick: () => {
-        // alert(11)
-        // alert(SupportLngs.find((item) => item !== lng))
+        alert(11)
+        alert(SupportLngs.find((item) => item !== lng))
         i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
       },
     });
