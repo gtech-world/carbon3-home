@@ -73,7 +73,7 @@ export async function initStore() {
   const store: Store = {
     isMobile: window.innerWidth <= 900,
     last_input_vin: localStorage.getItem("last_input_vin") || "",
-    show_header_tip: !sessionStorage.getItem("hidden_header_tip"),
+    show_header_tip: !localStorage.getItem("hidden_header_tip"),
   };
   const ud = getUserData();
   if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
@@ -131,7 +131,7 @@ export function useShowHeadTip() {
   const setShowHeaderTip = useCallback(
     (show: boolean) => {
       update({ show_header_tip: show });
-      sessionStorage.setItem("hidden_header_tip", show ? "" : "1");
+      localStorage.setItem("hidden_header_tip", show ? "" : "1");
     },
     [update]
   );

@@ -42,8 +42,8 @@ export function PcActL2Item(p: { data: ProductProcess; index: number }) {
       {selected && (
         <div
           style={{
-            borderTop: "1px solid #227A30",
-            borderRight: "1px solid #227A30",
+            borderTop: "1px solid #29953A",
+            borderRight: "1px solid #29953A",
           }}
           className="w-[.8839rem] h-[.8839rem] bg-white absolute right-[.1875rem] top-[1.81rem] rotate-45"
         />

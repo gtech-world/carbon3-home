@@ -20,7 +20,7 @@ export function PcActivity(p: { data: Phase }) {
       onClick={() => update({ activity: data, sourcing: 0 })}
     >
       <div
-        style={{ border: selected ? "1px solid #227A30" : "1px solid transparent" }}
+        style={{ border: selected ? "1px solid #29953A" : "1px solid transparent" }}
         className={classNames("bg-white w-full h-full px-5 rounded-lg flex items-center justify-center")}
       >
         <div
@@ -34,8 +34,8 @@ export function PcActivity(p: { data: Phase }) {
       </div>
       <div
         style={{
-          borderTop: "1px solid #227A30",
-          borderRight: "1px solid #227A30",
+          borderTop: "1px solid #29953A",
+          borderRight: "1px solid #29953A",
           display: selected ? "block" : "none",
         }}
         className="w-[.8839rem] h-[.8839rem] bg-white absolute right-[.1875rem] top-[2.99555rem] rotate-45"

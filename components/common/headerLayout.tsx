@@ -15,7 +15,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
           <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute ssm:top-[calc(21.5rem_-_75vw)]"
-            style={{ background: "linear-gradient(180deg, #227A30 48.84%, rgba(34, 122, 48, 0) 96.76%)" }}
+            style={{ background: "linear-gradient(180deg, #29953A 48.84%, rgba(34, 122, 48, 0) 96.76%)" }}
           />
         </div>
       ) : (
@@ -31,7 +31,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
           <div
             className="w-full h-full absolute lg:left-[calc(50%_-_45rem)]"
             style={{
-              background: "linear-gradient(270deg, #227A30 38.28%, rgba(34, 122, 48, 0) 77.8%)",
+              background: "linear-gradient(270deg, #29953A 38.28%, rgba(34, 122, 48, 0) 77.8%)",
               transform: "matrix(-1, 0, 0, 1, 0, 0)",
             }}
           />
