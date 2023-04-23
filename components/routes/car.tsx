@@ -19,7 +19,7 @@ import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/http";
-import { ftmCarbonEmission, ftmTimestamp, genScanTokenUrl } from "@lib/utils";
+import {ftmCarbonEmission, ftmTimestamp, genScanTokenUrl, handleCarbonStr} from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -149,14 +149,14 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
   const { t } = useTranslation();
   const content = useMemo(() => {
     return type == 1
-      ? t(
+      ? handleCarbonStr(t(
           "The AIAG Digital3 Carbon Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance."
         ).replace(
           "{{value}}",
           `<a class="text-green-2 cursor-pointer" target="_blank" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
             "AIAG’s carbon reduction / Net Zero 2050 initiatives"
           )}</a>`
-        )
+        ))
       : type == 2
       ? t(
           "AICP is the global, industry-level platform for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Platform. Click {{value}} to query information about this vehicle."
@@ -182,14 +182,13 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
       ) : (
         <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
       )}
-      <div className="text-lg font-bold mb-[.9375rem]">
-        {t(
+      <div className="text-lg font-bold mb-[.9375rem]" dangerouslySetInnerHTML={{__html:handleCarbonStr(t(
           type === 1
             ? "What is AIAG Digital3 Carbon Trust Label?"
             : type === 2
-            ? "The Raw Data Behind Trust Label"
-            : "Immutability and Traceability"
-        )}
+              ? "The Raw Data Behind Trust Label"
+              : "Immutability and Traceability"
+        ))}}>
       </div>
       <div className="text-[.9375rem] font-medium text-center" dangerouslySetInnerHTML={{ __html: content }} />
     </div>
@@ -271,8 +270,7 @@ function MobileCar(p: CarUIProps) {
             <div />
           </div>
           <Phases data={data.sbtPhase} />
-          <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={onClickShow}>
-            {t("Learn More about AIAG’s Digital3 Carbon Trust Label")}
+          <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={onClickShow} dangerouslySetInnerHTML={{__html:handleCarbonStr(t("Learn More about AIAG’s Digital3 Carbon Trust Label"))}}>
           </div>
         </div>
       ) : (

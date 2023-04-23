@@ -90,3 +90,9 @@ export function shortStr(str:string,startLen:number=6,endLen:number=6) {
 export function titleCase(str:string) {
   return str.slice(0,1).toUpperCase() +str.slice(1).toLowerCase();
 }
+export function handleCarbonStr(str:string) {
+  return str.replace(
+    "Digital3 Carbon",
+    `Digital<sup>3</sup> Carbon`
+  )
+}
