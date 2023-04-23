@@ -46,5 +46,5 @@ jobs:
       - name: Uplaod to CDN
         run: |
           coscmd upload -rs --delete -f ./out/ /
-          tccli cdn PurgePathCache --cli-unfold-argument --Paths https://aicd.gtech.world/ --FlushType flush
+          tccli cdn PurgePathCache --cli-unfold-argument --Paths https://aicp.gtech.world/ --FlushType flush
 

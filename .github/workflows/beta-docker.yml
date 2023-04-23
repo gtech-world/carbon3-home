@@ -28,4 +28,4 @@ jobs:
         with:
           file: ./docker/beta/Dockerfile
           push: true
-          tags: gavfu/aicd-home-beta:latest
+          tags: gavfu/aicp-home-beta:latest
