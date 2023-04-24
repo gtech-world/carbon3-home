@@ -178,7 +178,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
       {type === 1 ? (
         <SVGCarbon3 className="text-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
       ) : type === 2 ? (
-        <SVGAicdRound className="text-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
+        <SVGAicdRound className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
       ) : (
         <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
       )}

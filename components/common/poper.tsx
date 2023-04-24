@@ -62,7 +62,9 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
                   onClick={() => onClickItem(item)}
                 >
                   {!!item.icon && <div className="text-xl mo:text-2xl">{item.icon}</div>}
-                  <div className="text-sm mo:text-base font-medium ml-3">{item.text}</div>
+                  <div className="text-sm mo:text-base font-medium ml-3" dangerouslySetInnerHTML={{__html:item.text}}>
+
+                  </div>
                 </div>
               </Fragment>
             ))}

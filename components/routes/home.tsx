@@ -47,7 +47,7 @@ export function Home() {
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
         <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
           {t(
-            "AICP is the global, industry-level platform for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment."
+            "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative."
           )}
         </div>
         <button

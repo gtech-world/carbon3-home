@@ -9,7 +9,7 @@ import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
 import { LngsText, MAIN_PAGES, SupportLngs } from "@components/const";
-import { textTo2 } from "@lib/utils";
+import {handleCarbonStr, textTo2} from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { IoLanguageOutline } from "react-icons/io5";
@@ -26,7 +26,7 @@ function useMenus() {
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
     menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
     if (user && !MAIN_PAGES.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: t("AICP Traceability"), to: MAIN_PAGES[0].to });
+      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: MAIN_PAGES[0].to });
     }
     if (isMobile && user) {
       MAIN_PAGES.map<MenuItem>((item) => ({
@@ -89,7 +89,9 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
           <SvgAICP className="h-9 mo:h-[1.75rem]" />
           <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
             {mTits.map((tit, i) => (
-              <span className="whitespace-nowrap" key={`tit_${i}`}>{tit}</span>
+              <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
+
+              </span>
             ))}
           </div>
         </div>
