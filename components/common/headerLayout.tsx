@@ -79,8 +79,8 @@ export function MainHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   return (
     <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">
       <Header
+        isManager={true}
         showQuery={true}
-        tits={t("AICP Digital3 Carbon System")}
         style={{ top: `${h}px` }}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />

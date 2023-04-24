@@ -1,5 +1,6 @@
 import { useGoBack } from "@lib/hooks/useGoBack";
 import SvgAICP from "@public/AICP.svg";
+import SvgDigital3 from "@public/digital3.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
@@ -58,8 +59,8 @@ function useMenus() {
   }, [user, isMobile, pathname, t, lng]);
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean }) {
-  const { children, className, tits, showQuery, ...other } = p;
+export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean }) {
+  const { children, className, tits, showQuery,isManager, ...other } = p;
   const { t } = useTranslation();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
@@ -85,15 +86,21 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
         )}
         {...other}
       >
-        <div onClick={() => push("/")} className="flex items-center cursor-pointer">
-          <SvgAICP className="h-9 mo:h-[1.75rem]" />
-          <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
-            {mTits.map((tit, i) => (
-              <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
+        {
+          isManager?
+            <SvgDigital3 onClick={() => push("/")} className="h-[2.25rem] cursor-pointer" />
+            :
+            <div onClick={() => push("/")} className="flex items-center cursor-pointer">
+              <SvgAICP className="h-9 mo:h-[1.75rem]" />
+              <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
+                {mTits.map((tit, i) => (
+                  <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
               </span>
-            ))}
-          </div>
-        </div>
+                ))}
+              </div>
+            </div>
+        }
+
         <div className="flex-1" />
         {showQuery && (
           <div className="relative text-white text-lg mr-4 mo:hidden">
