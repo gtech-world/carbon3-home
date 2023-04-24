@@ -90,7 +90,6 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
           <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
             {mTits.map((tit, i) => (
               <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
-
               </span>
             ))}
           </div>

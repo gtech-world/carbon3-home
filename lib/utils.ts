@@ -92,7 +92,7 @@ export function titleCase(str:string) {
 }
 export function handleCarbonStr(str:string) {
   return str.replace(
-    "Digital3 Carbon",
-    `Digital<sup>3</sup> Carbon`
+    "Digital3",
+    `Digital<sup>3</sup>`
   )
 }
