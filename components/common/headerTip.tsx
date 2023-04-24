@@ -43,7 +43,7 @@ export function HeaderTip() {
         className="text-base mo:text-center mo:px-5"
         dangerouslySetInnerHTML={{
           __html: t(
-            "The AICD site is under development. This version is for demonstration purpose only and the data is not real. For more information, please contract email hi@gtech.world."
+            "The AICP site is under development. This version is for demonstration purpose only and the data is not real. For more information, please contract email hi@gtech.world."
           ).replace(
             "hi@gtech.world",
             `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`

@@ -109,8 +109,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div suppressHydrationWarning id="__app" className={classNames("App font-OpenSans relative", font_classes)}>
       <Head>
-        <title>AICD</title>
-        <meta name="description" content="AICD Home" />
+        <title>AICP</title>
+        <meta name="description" content="AICP Home" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

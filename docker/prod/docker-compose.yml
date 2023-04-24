@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  aicd-home-prod:
+  aicp-home-prod:
     build:
       context: ../../
       dockerfile: docker/prod/Dockerfile
-    image: aicd-home-prod
+    image: aicp-home-prod
     ports:
       - '3002:3000'

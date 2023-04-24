@@ -32,4 +32,4 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: gtech-world/aicd-home-deploy
           publish_dir: ./out
-          cname: aicd.gtech.world
+          cname: aicp.gtech.world

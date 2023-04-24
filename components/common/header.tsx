@@ -1,5 +1,6 @@
 import { useGoBack } from "@lib/hooks/useGoBack";
-import SvgAICD from "@public/AICD.svg";
+import SvgAICP from "@public/AICP.svg";
+import SvgDigital3 from "@public/digital3.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
@@ -9,7 +10,7 @@ import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
 import { LngsText, MAIN_PAGES, SupportLngs } from "@components/const";
-import { textTo2 } from "@lib/utils";
+import {handleCarbonStr, textTo2} from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { IoLanguageOutline } from "react-icons/io5";
@@ -23,10 +24,10 @@ function useMenus() {
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
-    menus.push({ icon: <FiHome />, text: t("AICD Home"), to: "/" });
-    menus.push({ icon: <FiSearch />, text: t("AICD Open Query"), to: "/openquery" });
+    menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
+    menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
     if (user && !MAIN_PAGES.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: t("AICD Traceability"), to: MAIN_PAGES[0].to });
+      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: MAIN_PAGES[0].to });
     }
     if (isMobile && user) {
       MAIN_PAGES.map<MenuItem>((item) => ({
@@ -58,10 +59,10 @@ function useMenus() {
   }, [user, isMobile, pathname, t, lng]);
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean }) {
-  const { children, className, tits, showQuery, ...other } = p;
+export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean }) {
+  const { children, className, tits, showQuery,isManager, ...other } = p;
   const { t } = useTranslation();
-  const mTit = tits || t("Automotive Industry Carbon Database") || "";
+  const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
   const menus = useMenus();
@@ -85,14 +86,21 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
         )}
         {...other}
       >
-        <div onClick={() => push("/")} className="flex items-center cursor-pointer">
-          <SvgAICD className="h-9 mo:h-[1.75rem]" />
-          <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
-            {mTits.map((tit, i) => (
-              <span className="whitespace-nowrap" key={`tit_${i}`}>{tit}</span>
-            ))}
-          </div>
-        </div>
+        {
+          isManager?
+            <SvgDigital3 onClick={() => push("/")} className="h-[2.25rem] mo:h-[1.75rem] cursor-pointer" />
+            :
+            <div onClick={() => push("/")} className="flex items-center cursor-pointer">
+              <SvgAICP className="h-9 mo:h-[1.75rem]" />
+              <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
+                {mTits.map((tit, i) => (
+                  <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
+              </span>
+                ))}
+              </div>
+            </div>
+        }
+
         <div className="flex-1" />
         {showQuery && (
           <div className="relative text-white text-lg mr-4 mo:hidden">
@@ -118,7 +126,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
 }
 
 export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [string, string] }) {
-  const { children, className, tits = ["Automotive Industry", "Carbon Database"], ...other } = p;
+  const { children, className, tits = ["Automotive Industry", "Carbon Platform"], ...other } = p;
   const goBack = useGoBack();
   const menus = useMenus();
   return (
@@ -130,7 +138,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
         <IoIosArrowBack />
       </button>
       <div className="flex-1" />
-      <SvgAICD className="h-[1.75rem]" />
+      <SvgAICP className="h-[1.75rem]" />
       <div className="flex-1" />
       <PoperMenu menus={menus}>
         <button className="text-2xl">

@@ -1,7 +1,7 @@
 import { Button } from "@components/common/button";
 import { useIsMobile, useUser } from "@components/common/context";
 import { HomeHeaderLayout } from "@components/common/headerLayout";
-import { AICD_SOLUTIONS } from "@lib/env";
+import { AICP_SOLUTIONS } from "@lib/env";
 // @ts-ignore
 import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
@@ -47,11 +47,11 @@ export function Home() {
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
         <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
           {t(
-            "AICD is the global, industry-level database for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment."
+            "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative."
           )}
         </div>
         <button
-          onClick={() => window.open(AICD_SOLUTIONS, "_blank")}
+          onClick={() => window.open(AICP_SOLUTIONS, "_blank")}
           className="mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem]  mo:self-center"
         >{`${t("Learn More")} >`}</button>
       </div>
@@ -87,15 +87,15 @@ export function Home() {
             }}
           />
         </Card>
-        <Card icon={<img src="/earth.png" className="w-[6.25rem]" />} to={AICD_SOLUTIONS} bt={t("Explore")}>
-          {t("Work with AICD for a Net Zero future")}
+        <Card icon={<img src="/earth.png" className="w-[6.25rem]" />} to={AICP_SOLUTIONS} bt={t("Explore")}>
+          {t("Work with AICP for a Net Zero future")}
         </Card>
       </div>
       <div
         className="text-base mt-6 mb-11 flex-shrink-0"
         dangerouslySetInnerHTML={{
           __html: t(
-            "＊ AICD Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."
+            "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."
           ).replace(
             "hi@gtech.world",
             `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`

@@ -11,7 +11,7 @@ import classNames from "classnames";
 import {Table} from "@components/common/table";
 import {genScanTokenUrl, genScanUrl, shortStr,titleCase} from "@lib/utils";
 import Link from "next/link";
-import SVGAICD from '/public/AICD.svg'
+import SVGAICP from '/public/AICP.svg'
 import SVGPolygon from '/public/polygon.svg'
 import moment from 'moment'
 
@@ -148,7 +148,7 @@ export function Blockchain() {
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
       <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
-        <SVGAICD className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
+        <SVGAICP fill="#29953A" className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
         <div className="w-[5.9rem] mo:w-[4.5rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem]">
           {
             t("Trust Label NFT Viewer")
@@ -195,15 +195,15 @@ export function Blockchain() {
             </div>
           </div>
           <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
-            <SVGAICD fill="#29953A" className="w-[6.125rem] mb-5" />
+            <SVGAICP fill="#29953A" className="w-[6.125rem] mb-5" />
             <p className="font-bold">
-              {t('Database powered by:')}
+              {t('Platform powered by:')}
             </p>
             <p className="text-green-2">
-              <Link href="https://aicd.gtech.world/" target="_blank">{t('Automotive Industry Carbon Database')}</Link>
+              <Link href="https://aicp.gtech.world/" target="_blank">{t('Automotive Industry Carbon Platform')}</Link>
             </p>
             <p>
-              {t('AICD is the global, industry-level database designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICD offers public view mode and supply chain view mode (Traceability).')}
+              {t('AICP is the global, industry-level platform designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICP offers public view mode and supply chain view mode.')}
             </p>
           </div>
           <div className="bg-white mt-5 px-8 py-5 rounded-lg leading-[1.8rem] mo:leading-[1.6875rem] mo:px-4 mo:text-[.9375rem]">
