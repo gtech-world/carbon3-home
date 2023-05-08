@@ -163,11 +163,11 @@ function CardTabsItem3(){
 
 function CardTabs(){
   const [selected,setSelected] = useState(0)
-  const tabsItemComponent = [<CardTabsItem1 />,<CardTabsItem2 />,<CardTabsItem3 />]
+  const tabsItemComponent = [<CardTabsItem1 key={`CardTabsItem1`} />,<CardTabsItem2 key={`CardTabsItem2`} />,<CardTabsItem3 key={`CardTabsItem3`} />]
   const tabsList = [
     {
       title: '培训、策略与解决方案',
-      icon: <SvgTeacher />,
+      icon: <SvgTeacher/>,
       text:'在开始着手实施双碳活动之前，您可能需要获取相关的培训、建议与咨询服务。AICP组织行业领域内的专家，为用户解决疑难、明确方向。',
       items:[
         {text:'双碳与数字化培训'},
