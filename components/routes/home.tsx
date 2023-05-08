@@ -105,14 +105,14 @@ function CardTabsItem2(){
         {
           data.map((v,i)=>{
             return(
-              <div key={`cardTabsItem2${i}`} className="flex justify-between mb-6 last:mb-0">
+              <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-6 last:mb-0">
                 <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
                   <div style={{color:v.color}} className={classNames('z-10 relative font-medium mb-3')}>{v.title}</div>
                   <SvgPentagon className="absolute left-0 top-0" fill={v.bgColor} />
                 </div>
                 <div className="w-[22.25rem] mt-1">{v.listText}</div>
                 <div className="w-[19.375rem] mt-1">{v.resultText}</div>
-                <div className="h-[3.375rem] scale-[0.3] mt-[-1.25rem] mr-[-5rem] ml-[-8rem]">
+                <div className="h-[3.375rem] scale-[0.3] mt-[-2.55rem] mr-[-5rem] ml-[-8rem]">
                   <ProductQrcode qrcodeDisable={true} className="" />
                 </div>
               </div>
@@ -198,10 +198,10 @@ function CardTabs(){
     }
   ]
   return(
-    <div className="w-full flex justify-center pb-8">
+    <div className="w-full flex justify-center">
       <a href="#" id="secondView" />
-      <div className="flex text-lg flex-shrink-0 max-w-[90rem] pt-10 flex-col px-[7.5rem] w-full mo:flex-col mo:mt-11 mo:mb-0">
-        <ul className="flex justify-between w-full mb-8">
+      <div className="flex text-lg flex-shrink-0 max-w-[90rem] pt-10 pb-5 flex-col px-[7.5rem] w-full mo:flex-col mo:mt-11 mo:mb-0">
+        <ul className="flex justify-between w-full pb-8">
           {
             tabsList.map((v,i)=>{
               return(
@@ -238,8 +238,14 @@ function CardTabs(){
           }
         </ul>
         {
-          selected>-1 && tabsItemComponent[selected]
+          selected>-1 &&
+          <div className="mb-10">
+            {
+              tabsItemComponent[selected]
+            }
+          </div>
         }
+
       </div>
     </div>
   )
