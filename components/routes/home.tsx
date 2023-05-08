@@ -206,7 +206,7 @@ function CardTabs(){
             tabsList.map((v,i)=>{
               return(
                 <li key={`tabsList${i}`} className={classNames('w-[22.5rem] flex flex-col justify-between bg-white p-5 rounded-2xl border-2',i===selected? 'border-green-2 bubble-box':'border-transparent')}>
-                  <div className="flex flex-col justify-between h-[22.5rem]">
+                  <div className="flex flex-col justify-between h-[24.8rem]">
                     <div className="flex flex-col">
                       <div className="flex items-center">
                         {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
