@@ -112,7 +112,7 @@ function CardTabsItem2(){
                 </div>
                 <div className="w-[22.25rem] mt-1">{v.listText}</div>
                 <div className="w-[19.375rem] mt-1">{v.resultText}</div>
-                <div className="h-[3.375rem] scale-[0.3] mt-[-1.25rem] mr-[-7rem] ml-[-8rem]">
+                <div className="h-[3.375rem] scale-[0.3] mt-[-1.25rem] mr-[-5rem] ml-[-8rem]">
                   <ProductQrcode qrcodeDisable={true} className="" />
                 </div>
               </div>
@@ -198,7 +198,7 @@ function CardTabs(){
     }
   ]
   return(
-    <div className="w-full flex justify-center pb-14">
+    <div className="w-full flex justify-center pb-8">
       <a href="#" id="secondView" />
       <div className="flex text-lg flex-shrink-0 max-w-[90rem] pt-10 flex-col px-[7.5rem] w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full mb-8">
