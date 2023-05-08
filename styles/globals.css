@@ -70,3 +70,32 @@ img[src=""] {
 *{
   -webkit-tap-highlight-color: transparent;
 }
+
+.bubble-box {
+  position: relative;
+}
+
+.bubble-box::before {
+  position: absolute;
+  bottom: -1.20rem;
+  left: 50%;
+  transform: rotate(180deg);
+  margin-left: -10px;
+  border-bottom: 18px solid #29953A;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  content: "";
+}
+
+.bubble-box:after {
+  content: "";
+  bottom: -1rem;
+  left: 50%;
+  margin-left: -9px;
+  transform: rotate(180deg);
+  background: transparent;
+  border-bottom: 16px solid #fff;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  position: absolute;
+}

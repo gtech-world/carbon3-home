@@ -96,3 +96,13 @@ export function handleCarbonStr(str:string) {
     `Digital<sup>3</sup>`
   )
 }
+export const scrollToAnchor = (anchorName:any) => {
+  if (anchorName) {
+    let anchorElement = document.getElementById(anchorName);
+    if(anchorElement) {
+      anchorElement.scrollIntoView(
+        {behavior: 'smooth'}
+      );
+    }
+  }
+}

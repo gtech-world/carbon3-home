@@ -37,16 +37,16 @@ function useMenus() {
         selected: pathname === item.to,
       })).forEach((item) => menus.push(item));
     }
-    menus.push({
-      topSplit: true,
-      icon: <IoLanguageOutline />,
-      text: LngsText[lng],
-      onClick: () => {
-        // alert(11)
-        // alert(SupportLngs.find((item) => item !== lng))
-        i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
-      },
-    });
+    // menus.push({
+    //   topSplit: true,
+    //   icon: <IoLanguageOutline />,
+    //   text: LngsText[lng],
+    //   onClick: () => {
+    //     // alert(11)
+    //     // alert(SupportLngs.find((item) => item !== lng))
+    //     i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
+    //   },
+    // });
     menus.push({
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? t("Log Out") : t("Log In"),

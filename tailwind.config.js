@@ -18,6 +18,7 @@ module.exports = {
           14: "#DDDDDD",
           16: "#f3f3f3",
           18: "#4A4A4A",
+          bg: "#f1f1f1"
         },
         green: {
           2: "#29953A",

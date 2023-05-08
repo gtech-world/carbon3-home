@@ -44,6 +44,7 @@ async function initI18n() {
         ns: ns,
         fallbackLng: SupportLngs[0],
         defaultNS: ns[0],
+        lng:'zh-CN',
         backend: {
           loadPath: "https://static-i18n.gtech.world/I18N/{{lng}}/{{ns}}.json",
           crossDomain: true,
