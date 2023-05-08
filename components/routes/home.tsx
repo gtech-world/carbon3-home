@@ -107,7 +107,7 @@ function CardTabsItem2(){
             return(
               <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-6 last:mb-0">
                 <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
-                  <div style={{color:v.color}} className={classNames('z-10 relative font-medium mb-3')}>{v.title}</div>
+                  <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
                   <SvgPentagon className="absolute left-0 top-0" fill={v.bgColor} />
                 </div>
                 <div className="w-[22.25rem] mt-1">{v.listText}</div>
