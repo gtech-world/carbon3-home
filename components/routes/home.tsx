@@ -97,9 +97,12 @@ function CardTabsItem2(){
   ]
   return(
     <div className="bg-white p-8 rounded-2xl">
-      <div className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] to-[#FFE184]  triangle font-semibold mb-5 h-10 w-[70rem] bg-contain flex justify-center items-center">
+      <div style={{width:'calc(100% - 15px)'}} className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
         <span>实施清单</span>
         <span className="ml-[20rem]">输出结果</span>
+        <div className="triangle">
+
+        </div>
       </div>
       <div className="">
         {

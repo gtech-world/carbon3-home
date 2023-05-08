@@ -102,17 +102,23 @@ img[src=""] {
 
 
 .triangle {
-  position: relative;
+  /*position: relative;*/
+  height: 1.75rem;
+  width: 1.75rem;
+  background: #FFE184;
+  right: -0.9rem;
+  position: absolute;
+  transform: rotate(45deg);
 }
 
 .triangle::before {
-  position: absolute;
-  top: 0.5rem;
-  right: -1.99rem;
-  transform: rotate(90deg);
-  margin-left: -10px;
-  border-bottom: 24px solid #FFE184;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  content: "";
+  /*position: absolute;*/
+  /*top: 0.5rem;*/
+  /*right: -1.90rem;*/
+  /*transform: rotate(90deg);*/
+  /*margin-left: -0.625rem;*/
+  /*border-bottom: 1.6rem solid #FFE184;*/
+  /*border-left: 1.40rem solid transparent;*/
+  /*border-right: 1.40rem solid transparent;*/
+  /*content: "";*/
 }
