@@ -97,7 +97,7 @@ function CardTabsItem2(){
   ]
   return(
     <div className="bg-white p-8 rounded-2xl">
-      <div className="bg-gradient-to-r bg-[url('/table_header_bg.svg')] mb-5 h-10 w-full bg-contain flex justify-center items-center">
+      <div className="bg-gradient-to-r bg-[url('/table_header_bg.svg')] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
         <span>实施清单</span>
         <span className="ml-[20rem]">输出结果</span>
       </div>
@@ -110,8 +110,8 @@ function CardTabsItem2(){
                   <div style={{color:v.color}} className={classNames('z-10 relative font-medium mb-3')}>{v.title}</div>
                   <SvgPentagon className="absolute left-0 top-0" fill={v.bgColor} />
                 </div>
-                <div className="w-[22.25rem] mt-2">{v.listText}</div>
-                <div className="w-[19.375rem] mt-2">{v.resultText}</div>
+                <div className="w-[22.25rem] mt-1">{v.listText}</div>
+                <div className="w-[19.375rem] mt-1">{v.resultText}</div>
                 <div className="h-[3.375rem] scale-[0.3] mt-[-1.25rem] mr-[-7rem] ml-[-8rem]">
                   <ProductQrcode qrcodeDisable={true} className="" />
                 </div>
@@ -199,8 +199,8 @@ function CardTabs(){
   ]
   return(
     <div className="w-full flex justify-center pb-14">
-      <div className="flex flex-shrink-0 max-w-[90rem] flex-col px-[7.5rem] w-full mt-[14rem] mo:flex-col mo:mt-11 mo:mb-0">
-        <a href="#" id="secondView" />
+      <a href="#" id="secondView" />
+      <div className="flex text-lg flex-shrink-0 max-w-[90rem] pt-10 flex-col px-[7.5rem] w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full mb-8">
           {
             tabsList.map((v,i)=>{
@@ -214,11 +214,11 @@ function CardTabs(){
                         {
                           v.icon
                         }
-                        <span className="text-2xl flex-1 font-medium pl-5 mt-1">{v.title}</span>
+                        <span className="text-2xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
                       </div>
                       <p className="mt-5">{v.text}</p>
                     </div>
-                    <div className="flex flex-col items-start font-medium">
+                    <div className="flex flex-col items-start font-semibold">
                       {
                         v.items.map((item,itemIndex)=>{
                           return(
@@ -228,6 +228,7 @@ function CardTabs(){
                       }
                     </div>
                   </div>
+                  <a href="#" id="item" />
                   <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);scrollToAnchor('item')}}>
                     了解更多
                   </button>
@@ -236,7 +237,6 @@ function CardTabs(){
             })
           }
         </ul>
-        <a href="#" id="item" />
         {
           selected>-1 && tabsItemComponent[selected]
         }
@@ -253,7 +253,7 @@ export function Home() {
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
-        <div className="max-w-[90rem] h-[30.875rem] px-[7.5rem] w-full mx-auto">
+        <div className="max-w-[90rem] h-[42.875rem] px-[7.5rem] w-full mx-auto">
           <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
             {/*{t(*/}
             {/*  "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative."*/}
