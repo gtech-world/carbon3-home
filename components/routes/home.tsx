@@ -97,7 +97,7 @@ function CardTabsItem2(){
   ]
   return(
     <div className="bg-white p-8 rounded-2xl">
-      <div className="bg-gradient-to-r bg-[url('/table_header_bg.svg')] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
+      <div className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] to-[#FFE184]  triangle font-semibold mb-5 h-10 w-[70rem] bg-contain flex justify-center items-center">
         <span>实施清单</span>
         <span className="ml-[20rem]">输出结果</span>
       </div>
@@ -105,7 +105,7 @@ function CardTabsItem2(){
         {
           data.map((v,i)=>{
             return(
-              <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-6 last:mb-0">
+              <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-4 last:mb-0">
                 <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
                   <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
                   <SvgPentagon className="absolute left-0 top-0" fill={v.bgColor} />

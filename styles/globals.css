@@ -99,3 +99,20 @@ img[src=""] {
   border-right: 11px solid transparent;
   position: absolute;
 }
+
+
+.triangle {
+  position: relative;
+}
+
+.triangle::before {
+  position: absolute;
+  top: 0.5rem;
+  right: -1.99rem;
+  transform: rotate(90deg);
+  margin-left: -10px;
+  border-bottom: 24px solid #FFE184;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  content: "";
+}
