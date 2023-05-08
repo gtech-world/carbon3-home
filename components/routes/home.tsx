@@ -58,7 +58,7 @@ function CardTabsItem1(){
         data.map((v,i)=>{
           return(
             <li key={`cardTabsItem1${i}`} className="mb-6 last:mb-0">
-              <h5 className="font-medium text-2xl mb-3">{v.title}</h5>
+              <h5 className="font-semibold text-2xl mb-3">{v.title}</h5>
               <p>{v.text}</p>
             </li>
           )
@@ -149,7 +149,7 @@ function CardTabsItem3(){
           data.map((v,i)=>{
             return(
               <li key={`cardTabsItem3${i}`} className="mb-6 last:mb-0">
-                <h5 className="font-medium text-2xl mb-3">{v.title}</h5>
+                <h5 className="font-semibold text-2xl mb-3">{v.title}</h5>
                 <p>{v.text}</p>
               </li>
             )
