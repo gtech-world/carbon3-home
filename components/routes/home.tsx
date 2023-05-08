@@ -162,7 +162,7 @@ function CardTabsItem3(){
 }
 
 function CardTabs(){
-  const [selected,setSelected] = useState(0)
+  const [selected,setSelected] = useState(-1)
   const tabsItemComponent = [<CardTabsItem1 key={`CardTabsItem1`} />,<CardTabsItem2 key={`CardTabsItem2`} />,<CardTabsItem3 key={`CardTabsItem3`} />]
   const tabsList = [
     {
@@ -199,8 +199,8 @@ function CardTabs(){
   ]
   return(
     <div className="w-full flex justify-center pb-14">
-      <a href="#" id="secondView" />
       <div className="flex flex-shrink-0 max-w-[90rem] flex-col px-[7.5rem] w-full mt-[14rem] mo:flex-col mo:mt-11 mo:mb-0">
+        <a href="#" id="secondView" />
         <ul className="flex justify-between w-full mb-8">
           {
             tabsList.map((v,i)=>{
@@ -208,7 +208,7 @@ function CardTabs(){
                 <li key={`tabsList${i}`} className={classNames('w-[22.5rem] flex flex-col justify-between bg-white p-5 rounded-2xl border-2',i===selected? 'border-green-2 bubble-box':'border-transparent')}>
                   <div className="flex flex-col justify-between h-[22.5rem]">
                     <div className="flex flex-col">
-                      <div className="flex">
+                      <div className="flex items-center">
                         {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
                         {/*</div>*/}
                         {
@@ -228,7 +228,7 @@ function CardTabs(){
                       }
                     </div>
                   </div>
-                  <button className="mt-8 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);scrollToAnchor('item')}}>
+                  <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);scrollToAnchor('item')}}>
                     了解更多
                   </button>
                 </li>
@@ -238,7 +238,7 @@ function CardTabs(){
         </ul>
         <a href="#" id="item" />
         {
-          tabsItemComponent[selected]
+          selected>-1 && tabsItemComponent[selected]
         }
       </div>
     </div>
