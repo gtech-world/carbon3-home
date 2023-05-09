@@ -41,7 +41,7 @@ export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {
               )}
             >
               <item.icon className="mr-3 text-2xl" />
-              <span className="whitespace-nowrap text-lg font-medium">{item.txt}</span>
+              <span className="whitespace-nowrap text-lg font-semibold">{item.txt}</span>
             </div>
           ))}
         </div>

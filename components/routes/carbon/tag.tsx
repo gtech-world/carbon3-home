@@ -29,7 +29,7 @@ function Card(p: ICard) {
   const {title, icon, by, id, link} = p.data
   return (
     <div className="bg-white mr-5 w-[22.875rem] p-5 rounded-lg mt-5 text-base">
-      <ProductQrcode/>
+      <ProductQrcode qrcodeDisable={true} />
       <div className="flex flex-col mt-5">
         <h3 className="text-xl font-semibold">{title}</h3>
         <span>{by}</span>

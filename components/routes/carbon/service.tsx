@@ -20,13 +20,7 @@ function PartInfo(p:{label:string; text: string}){
   )
 }
 interface ICard{
-  data:{
-    title: string,
-    icon: any
-    infos: any
-    btn: any
-    tools?: any
-  }
+  data:any
 }
 function Card(p:ICard){
   const {title,icon,infos,btn,tools=[]} = p.data
@@ -69,9 +63,9 @@ function Card(p:ICard){
             btn.map((v: { type: string;text:string;onClick:Function },i:number)=>{
               return(
                 v.type === 'primary'?
-                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
                   :
-                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 hover:text-white text-green-2 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg text-green-2 hover:bg-green-2/20 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
               )
             })
           }
@@ -88,7 +82,7 @@ export function Service() {
   const {push} = useRouter()
   const inProgress =[
     {
-      title: '[AT04][2023030491]系列培训-数字化低碳',
+      title: <span>[AT04]<span className="text-green-2">[2023030491]</span>系列培训-数字化低碳</span>,
       icon: <SvgTeacher className="w-[2.75rem]" />,
       infos:[
         {label:'培训内容介绍',text:'AT01培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等'},
@@ -96,12 +90,12 @@ export function Service() {
         {label:'完成培训要求',text:'由用户厂商Carbon Champion人员参与培训，并通过考试。'},
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
         {text:'继续课程',type:'primary',onClick:()=>{}},
       ]
     },
     {
-      title: '[AI08][20235017701]产品碳足迹-Sample Model',
+      title: <span>[AI08]<span className="text-green-2">[20235017701]</span>产品碳足迹-Sample Model</span>,
       icon: <SvgFootprint className="w-[2.75rem]" />,
       infos:[
         {label:'产品号',text:'Sample Model - 整车类型'},
@@ -116,36 +110,36 @@ export function Service() {
         }
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
         {text:'进入工具页面',type:'primary',onClick:()=>push('/dashboard')},
       ]
     },
     {
-      title: '[AC02][20234401]咨询服务-设定科学双碳目标',
+      title: <span>[AC02]<span className="text-green-2">[20234401]</span>咨询服务-设定科学双碳目标</span>,
       icon: <SvgTalk className="w-[2.75rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对企业应对双碳问题的现状梳理与科学碳目标设定。服务可涉及通用的气候治理架构、应对双碳问题的战略框架、减碳目标、碳中和等，也可为企业参与常见的目标、承诺或倡议活动提供辅导与支持，例如SBTi、RE100等。'},
         {label:'服务供应商',text:'YYY'}
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
       ]
     },
     {
-      title: '[AM01][20230029391]绿色能源转型',
+      title: <span>[AM01]<span className="text-green-2">[20230029391]</span>绿色能源转型</span>,
       icon: <SvgEnergy className="w-[2.75rem]" />,
       infos:[
         {label:'服务内容',text:'AICP整合全方位的绿色能源转型方案，包括绿色电力接入、工业园区支持、能源管理系统方案等。'},
         {label:'服务供应商',text:'ZZZ'}
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
       ]
     }
   ]
   const completed =[
     {
-      title: '[AI01][202303444101]公司碳核查',
+      title: <span>[AI01]<span className="text-green-2">[202303444101]</span>公司碳核查</span>,
       icon: <SvgCTag className="w-[2.75rem]" />,
       infos:[
         {label:'实施内容',text:'范围一碳排放核查，公司组织层级。'},
@@ -154,11 +148,11 @@ export function Service() {
         {label:'AICP标签',text:'基于数字认证产出标签。'},
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
       ]
     },
     {
-      title: '[AI01][202303443042]公司碳核查',
+      title: <span>[AI01]<span className="text-green-2">[202303443042]</span>公司碳核查</span>,
       icon: <SvgCTag className="w-[2.75rem]" />,
       infos:[
         {label:'实施内容',text:'范围二碳排放核查，公司组织层级。'},
@@ -167,7 +161,7 @@ export function Service() {
         {label:'AICP标签',text:'基于数字认证产出标签。'},
       ],
       btn:[
-        {text:'了解详情',onClick:()=>{}},
+        {text:'查看详情',onClick:()=>{}},
       ]
     }
   ]
@@ -175,7 +169,7 @@ export function Service() {
     <CarbonLayout className="bg-gray-16">
       <div className="flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setInProgressOpen(!inProgressOpen)}>
-          <span className="text-lg font-bold">进行中/实施中 (3)</span>
+          <span className="text-lg font-bold">进行中/实施中 (4)</span>
           <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',inProgressOpen && 'rotate-180 mt-[-1.2rem]')} />
         </div>
         {

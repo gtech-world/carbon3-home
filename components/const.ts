@@ -1,6 +1,7 @@
 import SvgCO2 from "@public/co2.svg";
 import { Phase, SbtPhase } from "@lib/@types/type";
 import { AiOutlineUser } from "react-icons/ai";
+import { FiLayers,FiFileText,FiSettings } from "react-icons/fi";
 import { IoCarSportOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
 import { InventoryPhase } from "../lib/@types/type";
@@ -59,10 +60,10 @@ export const MAIN_PAGES: MainPage[] = [
   { icon: RiPieChartLine, txt: "PCF Inventories", to: "/pcf" },
 ];
 export const CARBON_PAGES: CarbonPage[] = [
-  { icon: AiOutlineUser, txt: "全部AICP服务", to: "/carbon/allService" },
-  { icon: IoCarSportOutline, txt: "我的碳服务", to: "/carbon/service" },
+  { icon: FiLayers, txt: "全部AICP服务", to: "/carbon/allService" },
+  { icon: AiOutlineUser, txt: "我的碳服务", to: "/carbon/service" },
   { icon: SvgCO2, txt: "我的碳标签", to: "/carbon/tag" },
-  { icon: RiPieChartLine, txt: "我的碳文档", to: "/carbon/document" },
+  { icon: FiFileText, txt: "我的碳文档", to: "/carbon/document" },
   { icon: RiPieChartLine, txt: "我的碳资产", to: "" },
-  { icon: RiPieChartLine, txt: "用户管理与设定", to: "" },
+  { icon: FiSettings, txt: "用户管理与设定", to: "" },
 ];

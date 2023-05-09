@@ -23,7 +23,7 @@ interface ICard {
 function Card(p: ICard) {
   const {title, updatedDate, total, btn} = p.data
   return (
-    <div className="bg-white mr-5 w-[35rem] p-5 rounded-lg mt-5 text-base">
+    <div className="bg-white mr-5 min-w-[30rem] w-[25%] p-5 rounded-lg mt-5 text-base">
       <h3 className="text-xl font-semibold">{title}</h3>
       <div className="mt-5">
         <div>
@@ -41,7 +41,7 @@ function Card(p: ICard) {
       {
 
       }
-      <Button className="mt-5 bg-green-2 w-full text-white rounded-lg flex-1 h-[2.865rem]">{btn.text}</Button>
+      <Button className="mt-5 text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-[2.865rem]">{btn.text}</Button>
     </div>
   )
 }

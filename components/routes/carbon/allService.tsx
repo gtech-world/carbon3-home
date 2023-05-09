@@ -55,9 +55,9 @@ function Card(p:ICard){
           btn.map((v: { type: string;text:string;onClick:Function },i:number)=>{
             return(
               v.type === 'primary'?
-                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
                 :
-                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 hover:text-white text-green-2 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
             )
           })
         }

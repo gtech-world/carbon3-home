@@ -13,7 +13,7 @@ export function ProductQrcode(p: any) {
           </div>
           <div className="w-[7.125rem] flex flex-col items-center">
             <p className="text-[0.6875rem] text-center mb-2 leading-[0.945rem] font-semibold mo:leading-[0.865rem]">{qrText?qrText:'Product Carbon Footprint Certified by AIAG'}</p>
-            <img className="w-[5.75rem]" src={qrcodeDisable?'disable_qrcode.svg':'/qrcode.svg'} alt=""/>
+            <img className="w-[5.75rem]" src={qrcodeDisable?'/disable_qrcode.svg':'/qrcode.svg'} alt=""/>
           </div>
         </div>
       </div>
