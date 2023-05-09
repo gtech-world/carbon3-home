@@ -277,7 +277,7 @@ export function Home() {
             了解AICP服务
           </button>
           <button
-            onClick={() => user?push('/dashboard'):push('/login')}
+            onClick={() => user?push('/carbon/allService'):push('/login')}
             className="ml-5 mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem]  mo:self-center"
           >
             {/*{`${t("Learn More")} >`}*/}

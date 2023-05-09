@@ -9,7 +9,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
-import { LngsText, MAIN_PAGES, SupportLngs } from "@components/const";
+import { LngsText, MAIN_PAGES,CARBON_PAGES, SupportLngs } from "@components/const";
 import {handleCarbonStr, textTo2} from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
@@ -27,7 +27,7 @@ function useMenus() {
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
     menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
     if (user && !MAIN_PAGES.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: MAIN_PAGES[0].to });
+      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: CARBON_PAGES[0].to });
     }
     if (isMobile && user) {
       MAIN_PAGES.map<MenuItem>((item) => ({

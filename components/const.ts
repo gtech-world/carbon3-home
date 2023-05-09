@@ -46,10 +46,23 @@ export interface MainPage {
   txt: string;
   to: `/${string}`;
 }
+export interface CarbonPage {
+  icon: any;
+  txt: string;
+  to: string;
+}
 
 export const MAIN_PAGES: MainPage[] = [
   { icon: AiOutlineUser, txt: "User Dashboard", to: "/dashboard" },
   { icon: IoCarSportOutline, txt: "Product Definition", to: "/product" },
   { icon: SvgCO2, txt: "Carbon Activities", to: "/activities" },
   { icon: RiPieChartLine, txt: "PCF Inventories", to: "/pcf" },
+];
+export const CARBON_PAGES: CarbonPage[] = [
+  { icon: AiOutlineUser, txt: "全部AICP服务", to: "/carbon/allService" },
+  { icon: IoCarSportOutline, txt: "我的碳服务", to: "/carbon/service" },
+  { icon: SvgCO2, txt: "我的碳标签", to: "/carbon/tag" },
+  { icon: RiPieChartLine, txt: "我的碳文档", to: "/carbon/document" },
+  { icon: RiPieChartLine, txt: "我的碳资产", to: "" },
+  { icon: RiPieChartLine, txt: "用户管理与设定", to: "" },
 ];
