@@ -34,8 +34,8 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
             <FiChevronLeft className="text-lg" />
             返回
           </div>
-          <div className="flex items-center bg-gray-bg rounded-lg py-4 px-1 mb-5 cursor-pointer">
-            <SvgFootprint />
+          <div className="flex items-center bg-gray-bg rounded-lg py-4 px-1 mb-5">
+            <SvgFootprint className="w-[3.05rem]" />
             <div className="flex flex-col ml-2 text-lg font-semibold">
               <span>产品碳足迹-</span>
               <span className="mt-[-0.2rem]">Sample Model</span>

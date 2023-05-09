@@ -25,7 +25,7 @@ interface ICard{
 function Card(p:ICard){
   const {title,icon,infos,btn,tools=[]} = p.data
   return(
-    <div className="bg-white mr-5 min-w-[32.91rem] w-[25%] p-5 rounded-lg mt-5 flex flex-col justify-between">
+    <div className="bg-white mr-5 p-5 rounded-lg mt-5 flex flex-col justify-between box-layout">
       <div>
         <div className="flex items-center">
           {
@@ -96,7 +96,7 @@ export function Service() {
     },
     {
       title: <span>[AI08]<span className="text-green-2">[20235017701]</span>产品碳足迹-Sample Model</span>,
-      icon: <SvgFootprint className="w-[2.75rem]" />,
+      icon: <SvgFootprint className="w-[4rem]" />,
       infos:[
         {label:'产品号',text:'Sample Model - 整车类型'},
         {label:'实施依据',text:'ISO 14067, ISO 14040'},
@@ -116,7 +116,7 @@ export function Service() {
     },
     {
       title: <span>[AC02]<span className="text-green-2">[20234401]</span>咨询服务-设定科学双碳目标</span>,
-      icon: <SvgTalk className="w-[2.75rem]" />,
+      icon: <SvgTalk className="w-[3.75rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对企业应对双碳问题的现状梳理与科学碳目标设定。服务可涉及通用的气候治理架构、应对双碳问题的战略框架、减碳目标、碳中和等，也可为企业参与常见的目标、承诺或倡议活动提供辅导与支持，例如SBTi、RE100等。'},
         {label:'服务供应商',text:'YYY'}
@@ -193,7 +193,7 @@ export function Service() {
         </div>
         {
           completedOpen &&
-          <div className="flex">
+          <div className="flex flex-wrap mr-[-20px]">
             {
               completed.map((v,i)=>{
                 return(

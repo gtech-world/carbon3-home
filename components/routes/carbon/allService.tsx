@@ -32,7 +32,7 @@ interface ICard{
 function Card(p:ICard){
   const {title,icon,infos,btn} = p.data
   return(
-    <div className="bg-white mr-5 min-w-[32.5rem] w-[25%] p-5 rounded-lg mt-5 flex flex-col justify-between">
+    <div className="bg-white mr-5 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between">
       <div>
         <div className="flex items-center">
           {
@@ -100,7 +100,7 @@ export function AllService() {
     },
     {
       title: '[AC02]咨询服务-设定科学双碳目标',
-      icon: <SvgTalk className="w-[2.75rem]" />,
+      icon: <SvgTalk className="w-[3.05rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对企业应对双碳问题的现状梳理与科学碳目标设定。服务可涉及通用的气候治理架构、应对双碳问题的战略框架、减碳目标、碳中和等，也可为企业参与常见的目标、承诺或倡议活动提供辅导与支持，例如SBTi、RE100等。'},
         {label:'服务形式',text:'咨询、评估分析、培训等。'}
@@ -111,7 +111,7 @@ export function AllService() {
     },
     {
       title: '[AC03]咨询服务-其他双碳/低碳发展主题',
-      icon: <SvgTalk className="w-[2.75rem]" />,
+      icon: <SvgTalk className="w-[3.25rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对汽车行业各类企业可能需要的双碳/低碳发展主题提供的咨询服务。包括：企业碳减排方案、ISCC国际可持续与碳认证、CDP/GRI碳披露、能源管理体系、ESG信息披露与核查等。'},
         {label:'服务形式',text:'咨询、评估分析、培训、认证等。'}
@@ -227,7 +227,7 @@ export function AllService() {
         </div>
         {
           trainOpen &&
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mr-[-20px]">
             {
               train.map((v,i)=>{
                 return(
@@ -246,7 +246,7 @@ export function AllService() {
         </div>
         {
           implementOpen &&
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mr-[-20px]">
             {
               implement.map((v,i)=>{
                 return(
@@ -265,7 +265,7 @@ export function AllService() {
         </div>
         {
           marketOpen &&
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mr-[-20px]">
             {
               market.map((v,i)=>{
                 return(

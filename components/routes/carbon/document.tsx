@@ -23,16 +23,16 @@ interface ICard {
 function Card(p: ICard) {
   const {title, updatedDate, total, btn} = p.data
   return (
-    <div className="bg-white mr-5 min-w-[30rem] w-[25%] p-5 rounded-lg mt-5 text-base">
+    <div className="bg-white mr-5 box-layout min-w-[30rem] p-5 rounded-lg mt-5 text-base">
       <h3 className="text-xl font-semibold">{title}</h3>
       <div className="mt-5">
         <div>
           文档摘要 ：
-          <span className="text-green-2">{total.folder}</span>子文件夹；
+          <span className="text-green-2">{total.folder}</span>子项文件夹；
           <span className="text-green-2">{total.file}</span>文件；
           <span className="text-green-2">{total.collaborate}</span>用户协作；
           <span className="text-green-2">{total.auth}</span>项活跃开放授权；
-          公开非公开混合权限
+          公开非公开混合权限；
         </div>
         <div>
           最后更新 : 2023年5月1日

@@ -15,6 +15,14 @@ body,
   padding: 0;
   margin: 0;
 }
+.box-layout{
+  width: calc(25% - 20px)
+}
+@media (min-width: 961px) and (max-width: 1600px) {
+  .box-layout{
+    width: calc(33.3% - 20px)
+  }
+}
 @media (min-width: 1281px) and (max-width: 1360px) {
   html {
     font-size: 15.11px;
@@ -47,6 +55,9 @@ body,
 @media (min-width: 901px) and (max-width: 960px) {
   html {
     font-size: 10.67px;
+  }
+  .box-layout{
+    width: calc(50% - 20px)
   }
 }
 
@@ -100,25 +111,11 @@ img[src=""] {
   position: absolute;
 }
 
-
 .triangle {
-  /*position: relative;*/
   height: 1.75rem;
   width: 1.75rem;
   background: #FFE184;
   right: -0.9rem;
   position: absolute;
   transform: rotate(45deg);
-}
-
-.triangle::before {
-  /*position: absolute;*/
-  /*top: 0.5rem;*/
-  /*right: -1.90rem;*/
-  /*transform: rotate(90deg);*/
-  /*margin-left: -0.625rem;*/
-  /*border-bottom: 1.6rem solid #FFE184;*/
-  /*border-left: 1.40rem solid transparent;*/
-  /*border-right: 1.40rem solid transparent;*/
-  /*content: "";*/
 }
