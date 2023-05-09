@@ -3,7 +3,7 @@ import {Button} from "@components/common/button";
 import SvgTeacher from '@public/teacher.svg'
 import SvgTools from '@public/tools.svg'
 import {CarbonLayout} from "@components/common/carbonLayout";
-import {FaSortUp} from 'react-icons/fa'
+import {FaSortDown} from 'react-icons/fa'
 import classNames from "classnames";
 import {useRouter} from "next/router";
 import SvgFootprint from '@public/footprint.svg'
@@ -170,7 +170,7 @@ export function Service() {
       <div className="flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setInProgressOpen(!inProgressOpen)}>
           <span className="text-lg font-bold">进行中/实施中 (4)</span>
-          <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',inProgressOpen && 'rotate-180 mt-[-1.2rem]')} />
+          <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',inProgressOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           inProgressOpen &&
@@ -189,7 +189,7 @@ export function Service() {
       <div className="mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setCompletedOpen(!completedOpen)}>
           <span className="text-lg font-bold">已完成 (2)</span>
-          <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',completedOpen && 'rotate-180 mt-[-1.2rem]')} />
+          <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',completedOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           completedOpen &&

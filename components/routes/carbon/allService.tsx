@@ -9,7 +9,7 @@ import SvgCNeutralization from '@public/c_neutralization.svg'
 import SvgEnergy from '@public/energy.svg'
 import SvgCAssets from '@public/c_assets.svg'
 import {CarbonLayout} from "@components/common/carbonLayout";
-import {FaSortUp} from "react-icons/fa";
+import {FaSortDown} from "react-icons/fa";
 import classNames from "classnames";
 import {useRouter} from "next/router";
 
@@ -223,7 +223,7 @@ export function AllService() {
       <div className="">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setTrainOpen(!trainOpen)}>
           <span className="text-lg font-bold">类别-培训与咨询 (4)</span>
-          <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',trainOpen && 'rotate-180 mt-[-1.2rem]')} />
+          <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',trainOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           trainOpen &&
@@ -242,7 +242,7 @@ export function AllService() {
       <div className="mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setImplementOpen(!implementOpen)}>
           <span className="text-lg font-bold">类别-双碳实施 (4)</span>
-          <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',implementOpen && 'rotate-180 mt-[-1.2rem]')} />
+          <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',implementOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           implementOpen &&
@@ -261,7 +261,7 @@ export function AllService() {
       <div className="mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setMarketOpen(!marketOpen)}>
           <span className="text-lg font-bold">类别-市场化支持 (3)</span>
-          <FaSortUp className={classNames('ml-2 mb-[-0.7rem] text-2xl',marketOpen && 'rotate-180 mt-[-1.2rem]')} />
+          <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',marketOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           marketOpen &&
