@@ -18,7 +18,7 @@ body,
 .box-layout{
   width: calc(25% - 20px)
 }
-@media (min-width: 961px) and (max-width: 1600px) {
+@media (min-width: 961px) and (max-width: 1660px) {
   .box-layout{
     width: calc(33.3% - 20px)
   }
