@@ -170,7 +170,7 @@ function CardTabs(){
   const tabsList = [
     {
       title: '培训、策略与解决方案',
-      icon: <SvgTeacher/>,
+      icon: <SvgTeacher className="w-[5rem]" />,
       text:'在开始着手实施双碳活动之前，您可能需要获取相关的培训、建议与咨询服务。AICP组织行业领域内的专家，为用户解决疑难、明确方向。',
       items:[
         {text:'双碳与数字化培训'},
@@ -180,7 +180,7 @@ function CardTabs(){
     },
     {
       title: '双碳实施与碳标签',
-      icon: <SvgCTag />,
+      icon: <SvgCTag className="w-[5rem]" />,
       text:'从碳核查到碳中和，AICP提供明确的双碳路径等待您行动。AIAG碳标签将见证您的努力。',
       items:[
         {text:'范围1/2/3碳核查'},

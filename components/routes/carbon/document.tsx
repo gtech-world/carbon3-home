@@ -1,10 +1,5 @@
 import React, { useMemo } from "react";
 import {Button} from "@components/common/button";
-import SvgTeacher from '@public/teacher.svg'
-import {ProductQrcode} from "@components/common/productQrcode";
-import Link from "next/link";
-import { UrlObject } from "url";
-import { HeaderLayout } from "@components/common/headerLayout";
 import {CarbonLayout} from "@components/common/carbonLayout";
 
 function PartInfo(p: { label: string; text: string }) {
@@ -32,11 +27,11 @@ function Card(p: ICard) {
       <h3 className="text-xl font-semibold">{title}</h3>
       <div className="mt-5">
         <div>
-          文档摘要 :
-          <span className="text-green-2">{total.folder}</span>子文件夹;
-          <span className="text-green-2">{total.file}</span>文件;
-          <span className="text-green-2">{total.collaborate}</span>用户协作;
-          <span className="text-green-2">{total.auth}</span>项活跃开放授权;
+          文档摘要 ：
+          <span className="text-green-2">{total.folder}</span>子文件夹；
+          <span className="text-green-2">{total.file}</span>文件；
+          <span className="text-green-2">{total.collaborate}</span>用户协作；
+          <span className="text-green-2">{total.auth}</span>项活跃开放授权；
           公开非公开混合权限
         </div>
         <div>

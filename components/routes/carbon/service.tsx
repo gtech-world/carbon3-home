@@ -6,12 +6,16 @@ import {CarbonLayout} from "@components/common/carbonLayout";
 import {FaSortUp} from 'react-icons/fa'
 import classNames from "classnames";
 import {useRouter} from "next/router";
+import SvgFootprint from '@public/footprint.svg'
+import SvgTalk from '@public/talk.svg'
+import SvgEnergy from '@public/energy.svg'
+import SvgCTag from '@public/c_tag.svg'
 
 function PartInfo(p:{label:string; text: string}){
   return(
     <div className="flex flex-col text-base">
-      <label className="font-bold leading-[1.78rem]">{p.label} :</label>
-      <span className="text-gray-6 leading-[1.78rem]">{p.text}</span>
+      <label className="font-bold leading-[1.75rem]">{p.label} :</label>
+      <span className="text-gray-6 leading-[1.75rem]">{p.text}</span>
     </div>
   )
 }
@@ -51,7 +55,7 @@ function Card(p:ICard){
           {
             !!tools.length && tools.map((v:any,i:number)=>{
               return(
-                <div className="flex items-center">
+                <div key={`tools${i}`} className="flex items-center cursor-pointer">
                   {v.icon}
                   <span className="text-blue-0 font-semibold ml-2.5 underline">{v.text}</span>
                 </div>
@@ -98,7 +102,7 @@ export function Service() {
     },
     {
       title: '[AI08][20235017701]产品碳足迹-Sample Model',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgFootprint className="w-[2.75rem]" />,
       infos:[
         {label:'产品号',text:'Sample Model - 整车类型'},
         {label:'实施依据',text:'ISO 14067, ISO 14040'},
@@ -118,7 +122,7 @@ export function Service() {
     },
     {
       title: '[AC02][20234401]咨询服务-设定科学双碳目标',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgTalk className="w-[2.75rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对企业应对双碳问题的现状梳理与科学碳目标设定。服务可涉及通用的气候治理架构、应对双碳问题的战略框架、减碳目标、碳中和等，也可为企业参与常见的目标、承诺或倡议活动提供辅导与支持，例如SBTi、RE100等。'},
         {label:'服务供应商',text:'YYY'}
@@ -129,7 +133,7 @@ export function Service() {
     },
     {
       title: '[AM01][20230029391]绿色能源转型',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgEnergy className="w-[2.75rem]" />,
       infos:[
         {label:'服务内容',text:'AICP整合全方位的绿色能源转型方案，包括绿色电力接入、工业园区支持、能源管理系统方案等。'},
         {label:'服务供应商',text:'ZZZ'}
@@ -142,7 +146,7 @@ export function Service() {
   const completed =[
     {
       title: '[AI01][202303444101]公司碳核查',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgCTag className="w-[2.75rem]" />,
       infos:[
         {label:'实施内容',text:'范围一碳排放核查，公司组织层级。'},
         {label:'依据标准',text:'ISO 14064:2018'},
@@ -155,7 +159,7 @@ export function Service() {
     },
     {
       title: '[AI01][202303443042]公司碳核查',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgCTag className="w-[2.75rem]" />,
       infos:[
         {label:'实施内容',text:'范围二碳排放核查，公司组织层级。'},
         {label:'依据标准',text:'ISO 14064:2018'},
