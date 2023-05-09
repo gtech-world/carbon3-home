@@ -23,7 +23,7 @@ interface ICard {
 function Card(p: ICard) {
   const {title, updatedDate, total, btn} = p.data
   return (
-    <div className="bg-white mr-5 box-layout min-w-[30rem] p-5 rounded-lg mt-5 text-base">
+    <div className="bg-white mr-5 box-layout  p-5 rounded-lg mt-5 text-base">
       <h3 className="text-xl font-semibold">{title}</h3>
       <div className="mt-5">
         <div>
@@ -74,7 +74,7 @@ export function Document() {
   return (
     <CarbonLayout className="bg-gray-16 h-full">
       <h3 className="text-lg font-bold">项目文档管理</h3>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap mr-[-20px]">
         {
           docData.map((v,i)=>{
             return(

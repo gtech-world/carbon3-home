@@ -83,7 +83,7 @@ export function Service() {
   const inProgress =[
     {
       title: <span>[AT04]<span className="text-green-2">[2023030491]</span>系列培训-数字化低碳</span>,
-      icon: <SvgTeacher className="w-[2.75rem]" />,
+      icon: <SvgTeacher className="w-[3.45rem]" />,
       infos:[
         {label:'培训内容介绍',text:'AT01培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等'},
         {label:'培训形式与时长',text:'在线Webinar、现场培训。时长4小时。'},
@@ -96,7 +96,7 @@ export function Service() {
     },
     {
       title: <span>[AI08]<span className="text-green-2">[20235017701]</span>产品碳足迹-Sample Model</span>,
-      icon: <SvgFootprint className="w-[4rem]" />,
+      icon: <SvgFootprint className="w-[3.45rem]" />,
       infos:[
         {label:'产品号',text:'Sample Model - 整车类型'},
         {label:'实施依据',text:'ISO 14067, ISO 14040'},
@@ -116,7 +116,7 @@ export function Service() {
     },
     {
       title: <span>[AC02]<span className="text-green-2">[20234401]</span>咨询服务-设定科学双碳目标</span>,
-      icon: <SvgTalk className="w-[3.75rem]" />,
+      icon: <SvgTalk className="w-[3.45rem]" />,
       infos:[
         {label:'服务内容介绍',text:'针对企业应对双碳问题的现状梳理与科学碳目标设定。服务可涉及通用的气候治理架构、应对双碳问题的战略框架、减碳目标、碳中和等，也可为企业参与常见的目标、承诺或倡议活动提供辅导与支持，例如SBTi、RE100等。'},
         {label:'服务供应商',text:'YYY'}
@@ -127,7 +127,7 @@ export function Service() {
     },
     {
       title: <span>[AM01]<span className="text-green-2">[20230029391]</span>绿色能源转型</span>,
-      icon: <SvgEnergy className="w-[2.75rem]" />,
+      icon: <SvgEnergy className="w-[3.45rem]" />,
       infos:[
         {label:'服务内容',text:'AICP整合全方位的绿色能源转型方案，包括绿色电力接入、工业园区支持、能源管理系统方案等。'},
         {label:'服务供应商',text:'ZZZ'}
@@ -140,7 +140,7 @@ export function Service() {
   const completed =[
     {
       title: <span>[AI01]<span className="text-green-2">[202303444101]</span>公司碳核查</span>,
-      icon: <SvgCTag className="w-[2.75rem]" />,
+      icon: <SvgCTag className="w-[3.45rem]" />,
       infos:[
         {label:'实施内容',text:'范围一碳排放核查，公司组织层级。'},
         {label:'依据标准',text:'ISO 14064:2018'},
@@ -153,7 +153,7 @@ export function Service() {
     },
     {
       title: <span>[AI01]<span className="text-green-2">[202303443042]</span>公司碳核查</span>,
-      icon: <SvgCTag className="w-[2.75rem]" />,
+      icon: <SvgCTag className="w-[3.45rem]" />,
       infos:[
         {label:'实施内容',text:'范围二碳排放核查，公司组织层级。'},
         {label:'依据标准',text:'ISO 14064:2018'},
