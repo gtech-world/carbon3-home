@@ -220,7 +220,7 @@ export function AllService() {
   ]
   return (
     <CarbonLayout className="bg-gray-16">
-      <div className="">
+      <div className="flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setTrainOpen(!trainOpen)}>
           <span className="text-lg font-bold">类别-培训与咨询 (4)</span>
           <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',trainOpen && 'rotate-180 mb-[-1.2rem]')} />
@@ -239,7 +239,7 @@ export function AllService() {
         }
 
       </div>
-      <div className="mt-5">
+      <div className="mt-5 flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setImplementOpen(!implementOpen)}>
           <span className="text-lg font-bold">类别-双碳实施 (4)</span>
           <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',implementOpen && 'rotate-180 mb-[-1.2rem]')} />
@@ -258,7 +258,7 @@ export function AllService() {
         }
 
       </div>
-      <div className="mt-5">
+      <div className="mt-5 flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setMarketOpen(!marketOpen)}>
           <span className="text-lg font-bold">类别-市场化支持 (3)</span>
           <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',marketOpen && 'rotate-180 mb-[-1.2rem]')} />

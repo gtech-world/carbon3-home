@@ -308,7 +308,7 @@ export function Home() {
               }}
             />
           </Card>
-          <Card icon={<SvgSignIn className="h-[5.875rem]" />} to={user ? "/dashboard" : "/login"}>
+          <Card icon={<SvgSignIn className="h-[5.875rem]" />} to={user ? "/carbon/allService" : "/login"}>
             <div
               className="mx-3"
               dangerouslySetInnerHTML={{

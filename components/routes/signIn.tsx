@@ -32,7 +32,7 @@ export function SignIn() {
     login(account, pwd)
       .then((ud) => {
         setUser(ud, true);
-        return push("/dashboard");
+        return push("/carbon/allService");
       })
       .catch(onError)
       .then(() => setLoading(false));
