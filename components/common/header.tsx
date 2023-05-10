@@ -88,7 +88,10 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
       >
         {
           isManager?
-            <SvgDigital3 onClick={() => push("/")} className="h-[2.25rem] mo:h-[1.75rem] cursor-pointer" />
+            <div className="flex items-center">
+              <SvgAICP className="h-[2.275rem] ml-[-1rem]" />
+              <SvgDigital3 onClick={() => push("/")} className="h-[1.5rem] mt-2.5 ml-3 mo:h-[1.75rem] cursor-pointer" />
+            </div>
             :
             <div onClick={() => push("/")} className="flex items-center cursor-pointer">
               <SvgAICP className="h-9 mo:h-[1.75rem]" />
