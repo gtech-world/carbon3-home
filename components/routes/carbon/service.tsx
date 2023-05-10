@@ -85,7 +85,7 @@ export function Service() {
       title: <span>[AT04]<span className="text-green-2">[2023030491]</span>系列培训-数字化低碳</span>,
       icon: <SvgTeacher className="w-[3.45rem]" />,
       infos:[
-        {label:'培训内容介绍',text:'AT01培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等'},
+        {label:'培训内容介绍',text:'AT04培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等'},
         {label:'培训形式与时长',text:'在线Webinar、现场培训。时长4小时。'},
         {label:'完成培训要求',text:'由用户厂商Carbon Champion人员参与培训，并通过考试。'},
       ],
