@@ -185,7 +185,7 @@ function CardTabs(){
       items:[
         {text:'公司碳核查'},
         {text:'产品碳足迹'},
-        {text:'碳排放'},
+        {text:'碳减排'},
         {text:'碳中和'},
       ]
     },
