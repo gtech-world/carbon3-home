@@ -89,7 +89,7 @@ export function AllService() {
       title: '[AT04]系列培训-数字化低碳',
       icon: <SvgTeacher className="w-[3.45rem]" />,
       infos:[
-        {label:'培训内容介绍',text:'AT01培训项目为针对数字化低碳主题基础知识的入门培训。培训内容包括双碳数字化现状、数字化工具、可追溯性要求、应对双碳数字化规划等。'},
+        {label:'培训内容介绍',text:'AT04培训项目为针对数字化低碳主题基础知识的入门培训。培训内容包括双碳数字化现状、数字化工具、可追溯性要求、应对双碳数字化规划等。'},
         {label:'培训形式与时长',text:'在线Webinar、现场培训。时长5小时。'},
         {label:'完成培训要求',text:'由用户厂商Carbon Champion与Digital Champion人员参与培训，并通过考试。'},
       ],

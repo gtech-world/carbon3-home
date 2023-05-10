@@ -22,14 +22,15 @@ interface ICard {
     by: string
     id: string
     link: any
+    qrcodeDisable: boolean
   }
 }
 
 function Card(p: ICard) {
-  const {title, icon, by, id, link} = p.data
+  const {title, icon,qrcodeDisable, by, id, link} = p.data
   return (
     <div className="bg-white mr-5 w-[22.875rem] p-5 rounded-lg mb-5 text-base">
-      <ProductQrcode qrcodeDisable={true} />
+      <ProductQrcode qrcodeDisable={qrcodeDisable} />
       <div className="flex flex-col mt-5">
         <h3 className="text-xl font-semibold">{title}</h3>
         <span>{by}</span>
@@ -55,9 +56,10 @@ export function Tag() {
       icon: <SvgTeacher className="w-[2.75rem]" />,
       by: '2023年4月30日签发 by AIAG',
       id: '144095402',
+      qrcodeDisable: true,
       link:[
-        {text:'标签信息',href:''},
-        {text:'在区块链浏览器查看',href:''},
+        {text:'标签信息',href:'https://aicp.gtech.world/car?vin=1500101202311001'},
+        {text:'在区块链浏览器查看',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
       ]
     },
     {
@@ -65,9 +67,10 @@ export function Tag() {
       icon: <SvgTeacher className="w-[2.75rem]" />,
       by: '2023年4月30日签发 by AIAG',
       id: '144049913',
+      qrcodeDisable: false,
       link:[
-        {text:'标签信息',href:''},
-        {text:'在区块链浏览器查看',href:''},
+        {text:'标签信息',href:'https://aicp.gtech.world/car?vin=1500101202311001'},
+        {text:'在区块链浏览器查看',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
       ]
     }
   ]
