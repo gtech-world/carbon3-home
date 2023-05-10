@@ -38,9 +38,9 @@ function Card(p: ICard) {
       </div>
       <div className="flex flex-col text-blue-0 underline mt-2.5 font-semibold">
         {
-          link.map((v: { href: string; text:string },i:number)=>{
+          link.map((v: { href: string; text:string;target:string },i:number)=>{
             return(
-              <Link key={`link${i}`} target="_blank" className="mt-2.5" href={v.href}>{v.text}</Link>
+              <Link key={`link${i}`} target={v.target} className="mt-2.5" href={v.href}>{v.text}</Link>
             )
           })
         }
@@ -59,7 +59,7 @@ export function Tag() {
       qrcodeDisable: true,
       link:[
         {text:'标签信息',href:'https://aicp.gtech.world/car?vin=1500101202311001'},
-        {text:'在区块链浏览器查看',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
+        {text:'在区块链浏览器查看',target:'_blank',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
       ]
     },
     {
@@ -70,7 +70,7 @@ export function Tag() {
       qrcodeDisable: false,
       link:[
         {text:'标签信息',href:'https://aicp.gtech.world/car?vin=1500101202311001'},
-        {text:'在区块链浏览器查看',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
+        {text:'在区块链浏览器查看',target:'_blank',href:'https://aicp.gtech.world/blockchain?tokenId=4000000'},
       ]
     }
   ]
