@@ -60,7 +60,7 @@ export const MAIN_PAGES: MainPage[] = [
   { icon: RiPieChartLine, txt: "PCF Inventories", to: "/pcf" },
 ];
 export const CARBON_PAGES: CarbonPage[] = [
-  { icon: FiLayers, txt: "全部AICP服务", to: "/carbon/allService" },
+  { icon: FiLayers, txt: "全部碳服务", to: "/carbon/allService" },
   { icon: AiOutlineUser, txt: "我的碳服务", to: "/carbon/service" },
   { icon: SvgCO2, txt: "我的碳标签", to: "/carbon/tag" },
   { icon: FiFileText, txt: "我的碳文档", to: "/carbon/document" },

@@ -111,10 +111,10 @@ function CardTabsItem2(){
               <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-4 last:mb-0">
                 <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
                   <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
-                  <SvgPentagon className="absolute left-0 top-0" fill={v.bgColor} />
+                  <SvgPentagon className="w-full absolute left-0 top-0" fill={v.bgColor} />
                 </div>
-                <div className="w-[22.25rem] mt-1">{v.listText}</div>
-                <div className="w-[19.375rem] mt-1">{v.resultText}</div>
+                <div className="w-[21.25rem] mt-1">{v.listText}</div>
+                <div className="w-[18.375rem] mt-1">{v.resultText}</div>
                 <div className="h-[3.375rem] scale-[0.3] mt-[-2.55rem] mr-[-5rem] ml-[-8rem]">
                   <ProductQrcode qrcodeDisable={true} className="" />
                 </div>
@@ -183,10 +183,10 @@ function CardTabs(){
       icon: <SvgCTag className="w-[5rem]" />,
       text:'从碳核查到碳中和，AICP提供明确的双碳路径等待您行动。AIAG碳标签将见证您的努力。',
       items:[
-        {text:'范围1/2/3碳核查'},
+        {text:'公司碳核查'},
         {text:'产品碳足迹'},
-        {text:'产品/项目/技术层级减碳认证'},
-        {text:'碳中和认证'},
+        {text:'碳排放'},
+        {text:'碳中和'},
       ]
     },
     {
@@ -208,7 +208,7 @@ function CardTabs(){
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('w-[22.5rem] flex flex-col justify-between bg-white p-5 rounded-2xl border-2',i===selected? 'border-green-2 bubble-box':'border-transparent')}>
+                <li key={`tabsList${i}`} className={classNames('w-[22.5rem] relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2',i===selected? 'border-green-2':'border-transparent')}>
                   <div className="flex flex-col justify-between h-[24.8rem]">
                     <div className="flex flex-col">
                       <div className="flex items-center">
@@ -235,6 +235,12 @@ function CardTabs(){
                   <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);scrollToAnchor('item')}}>
                     了解更多
                   </button>
+                  {
+                    i===selected &&
+                    <div className="h-5 w-5 bg-white border-b-2 border-r-2 border-green-2 absolute bottom-[-0.71rem] left-[50%] ml-[-0.625rem] rotate-45">
+                    </div>
+                  }
+
                 </li>
               )
             })
