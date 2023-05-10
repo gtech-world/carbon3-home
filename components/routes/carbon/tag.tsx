@@ -40,7 +40,7 @@ function Card(p: ICard) {
         {
           link.map((v: { href: string; text:string },i:number)=>{
             return(
-              <Link key={`link${i}`} className="mt-2.5" href={v.href}>{v.text}</Link>
+              <Link key={`link${i}`} target="_blank" className="mt-2.5" href={v.href}>{v.text}</Link>
             )
           })
         }
