@@ -1,10 +1,10 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
-import { CarbonActivities } from "./activities";
-import { UserDashboard } from "./dashboard";
+import { CarbonActivities } from "./tools/activities";
+import { UserDashboard } from "./tools/dashboard";
 import { Home } from "./home";
 import { OpenQuery } from "./openQuery";
-import { PCF } from "./pcf";
-import { ProductDefinition } from "./product";
+import { PCF } from "./tools/pcf";
+import { ProductDefinition } from "./tools/product";
 import { SignIn } from "./signIn";
 
 export function Root() {

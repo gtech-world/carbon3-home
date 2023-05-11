@@ -12,6 +12,7 @@ import { ProfileInfo } from "./dashboard";
 import { CAR_SRC } from "@components/const";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
+import {ToolsLayout} from "@components/common/toolsLayout";
 
 export function ProductDefinition() {
   const { t } = useTranslation();
@@ -65,7 +66,7 @@ export function ProductDefinition() {
   const loading = load0 || load1 || pcfAccountable == undefined || load2 || boms == undefined;
   const BomUI = isMobile ? MobileBom : PcBom;
   return (
-    <MainLayout className="text-black">
+    <ToolsLayout className="text-black">
       {loading ? (
         <Loading />
       ) : (
@@ -107,7 +108,7 @@ export function ProductDefinition() {
           )}
         </>
       )}
-    </MainLayout>
+    </ToolsLayout>
   );
 }
 

@@ -16,7 +16,6 @@ import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 
 function useMenus(data:any[] = []) {
-  console.log(data)
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
@@ -61,7 +60,6 @@ function useMenus(data:any[] = []) {
 
 export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean;menus?:any }) {
   const { children, className, tits, showQuery,isManager,menus, ...other } = p;
-  // console.log(menus)
   const { t } = useTranslation();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);

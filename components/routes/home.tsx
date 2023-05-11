@@ -58,7 +58,7 @@ function CardTabsItem1(){
         data.map((v,i)=>{
           return(
             <li key={`cardTabsItem1${i}`} className="mb-6 last:mb-0">
-              <h5 className="font-semibold text-2xl mb-3">{v.title}</h5>
+              <h5 className="font-semibold text-2xl mo:text-xl mb-3">{v.title}</h5>
               <p>{v.text}</p>
             </li>
           )
@@ -175,7 +175,7 @@ function CardTabs(){
   const tabsList = [
     {
       title: '培训、策略与解决方案',
-      icon: <SvgTeacher className="w-[5rem]" />,
+      icon: <SvgTeacher className="w-[5rem] mo:h-[3.75rem]" />,
       text:'在开始着手实施双碳活动之前，您可能需要获取相关的培训、建议与咨询服务。AICP组织行业领域内的专家，为用户解决疑难、明确方向。',
       items:[
         {text:'双碳与数字化培训'},
@@ -185,7 +185,7 @@ function CardTabs(){
     },
     {
       title: '双碳实施与碳标签',
-      icon: <SvgCTag className="w-[5rem]" />,
+      icon: <SvgCTag className="w-[5rem] mo:h-[3.75rem]" />,
       text:'从碳核查到碳中和，AICP提供明确的双碳路径等待您行动。AIAG碳标签将见证您的努力。',
       items:[
         {text:'公司碳核查'},
@@ -196,7 +196,7 @@ function CardTabs(){
     },
     {
       title: '市场化双碳',
-      icon: <SvgMarket />,
+      icon: <SvgMarket className="w-[5rem] mo:h-[3.75rem]" />,
       text:'AICP的另一大职责是帮助汽车行业的用户寻找和匹配其双碳活动的市场化资源，并积极提供相关支持方案。',
       items:[
         {text:'绿色能源转型'},
@@ -208,14 +208,14 @@ function CardTabs(){
   return(
     <div className="w-full flex justify-center px-5">
       <a href="#" id="secondView" />
-      <div className="flex text-lg flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+      <div className="flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {
             tabsList.map((v,i)=>{
               return(
                 <li key={`tabsList${i}`} className={classNames('')}>
                   <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
-                    <div className="flex flex-col justify-between h-[24.8rem]">
+                    <div className="flex flex-col justify-between h-[24.8rem] mo:h-[23.2rem]">
                       <div className="flex flex-col">
                         <div className="flex items-center">
                           {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
@@ -223,7 +223,7 @@ function CardTabs(){
                           {
                             v.icon
                           }
-                          <span className="text-2xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
+                          <span className="text-2xl mo:text-xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
                         </div>
                         <p className="mt-5">{v.text}</p>
                       </div>
@@ -238,7 +238,7 @@ function CardTabs(){
                       </div>
                     </div>
                     <a href="#" id={`item${i}`} />
-                    <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>
+                    <button className="mt-8 hover:bg-green-28 w-full h-14 mo:h-12 rounded-lg text-white bg-green-2 text-2xl mo:text-lg" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>
                       了解更多
                     </button>
                     {

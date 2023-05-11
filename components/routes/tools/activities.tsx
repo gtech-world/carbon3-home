@@ -11,6 +11,7 @@ import { Phase } from "@lib/@types/type";
 import { useMemo } from "react";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
+import {ToolsLayout} from "@components/common/toolsLayout";
 
 export function CarbonActivities() {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ export function CarbonActivities() {
   }, [list]);
   const loading = load0 || load1 || list == undefined;
   return (
-    <MainLayout className="text-black">
+    <ToolsLayout className="text-black">
       {loading ? (
         <Loading />
       ) : (
@@ -48,7 +49,7 @@ export function CarbonActivities() {
           {mData && <>{isMobile ? <MobileActivites data={mData} /> : <PcActivities data={mData} />}</>}
         </>
       )}
-    </MainLayout>
+    </ToolsLayout>
   );
 }
 

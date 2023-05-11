@@ -7,6 +7,7 @@ import { CAR_SRC, ORG_SRC } from "@components/const";
 import { SiFord } from "react-icons/si";
 import { Loading } from "@components/common/loading";
 import { useTranslation } from "react-i18next";
+import {ToolsLayout} from "@components/common/toolsLayout";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -61,7 +62,7 @@ export function UserDashboard() {
   const { t } = useTranslation();
   if (!user) return null;
   return (
-    <MainLayout className="text-black">
+    <ToolsLayout className="text-black">
       {loading ? (
         <Loading />
       ) : (
@@ -97,7 +98,7 @@ export function UserDashboard() {
           )}
         </>
       )}
-    </MainLayout>
+    </ToolsLayout>
   );
 }
 

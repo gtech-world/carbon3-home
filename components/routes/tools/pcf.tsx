@@ -18,6 +18,7 @@ import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } 
 import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useAsyncFn, useToggle } from "react-use";
+import {ToolsLayout} from "@components/common/toolsLayout";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
@@ -108,7 +109,7 @@ export function PCF() {
 
   const isMobile = useIsMobile();
   return (
-    <MainLayout className="text-black flex flex-col">
+    <ToolsLayout className="text-black flex flex-col">
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
         {t("Query PCF Data with Vehicle’s VIN Code")}:
       </div>
@@ -177,7 +178,7 @@ export function PCF() {
           ) : null}
         </>
       )}
-    </MainLayout>
+    </ToolsLayout>
   );
 }
 
