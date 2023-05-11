@@ -72,13 +72,14 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement> & { tits?: string
   );
 }
 
-export function MainHeaderLayout(p:{showQuery?:boolean} & HTMLAttributes<HTMLDivElement>) {
-  const { className, children,showQuery=true, ...props } = p;
-  const { t } = useTranslation();
+export function MainHeaderLayout(p:{showQuery?:boolean,menus?:any[]} & HTMLAttributes<HTMLDivElement>) {
+  const { className, children,showQuery=true,menus=[], ...props } = p;
+  // const { t } = useTranslation();
   const h = useHeaderTipHeight();
   return (
     <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">
       <Header
+        menus={menus}
         isManager={true}
         showQuery={showQuery}
         style={{ top: `${h}px` }}

@@ -13,10 +13,10 @@ import { LngsText, MAIN_PAGES,CARBON_PAGES, SupportLngs } from "@components/cons
 import {handleCarbonStr, textTo2} from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
-import { IoLanguageOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 
-function useMenus() {
+function useMenus(data:any[] = []) {
+  console.log(data)
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
@@ -26,11 +26,11 @@ function useMenus() {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
     menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
-    if (user && !MAIN_PAGES.find((item) => item.to === pathname)) {
+    if (user && !data.find((item) => item.to === pathname)) {
       menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: CARBON_PAGES[0].to });
     }
     if (isMobile && user) {
-      MAIN_PAGES.map<MenuItem>((item) => ({
+      data.map<MenuItem>((item) => ({
         icon: <item.icon />,
         text: t(item.txt),
         to: item.to,
@@ -59,13 +59,14 @@ function useMenus() {
   }, [user, isMobile, pathname, t, lng]);
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean }) {
-  const { children, className, tits, showQuery,isManager, ...other } = p;
+export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean;menus?:any }) {
+  const { children, className, tits, showQuery,isManager,menus, ...other } = p;
+  // console.log(menus)
   const { t } = useTranslation();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
-  const menus = useMenus();
+  const currentMenus = useMenus(menus);
   const { last_input_vin, setLastInputVin } = useLastInputVin();
   const [vin, setVin] = useState(last_input_vin);
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -88,9 +89,9 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
       >
         {
           isManager?
-            <div className="flex items-center cursor-pointer" onClick={() => push("/")}>
-              <SvgAICP className="h-[2.275rem] ml-[-1rem]" />
-              <SvgDigital3 className="h-[1.5rem] mt-2.5 ml-3 mo:h-[1.75rem]" />
+            <div className="flex items-center cursor-pointer ml-[-1rem] mo:ml-0" onClick={() => push("/")}>
+              <SvgAICP className="h-[2.275rem] mo:h-[2rem]" />
+              <SvgDigital3 className="h-[1.5rem] mt-2.5 ml-3 mo:h-[1.1rem] mo:mt-3" />
             </div>
             :
             <div onClick={() => push("/")} className="flex items-center cursor-pointer">
@@ -118,7 +119,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
             <FiSearch className="text-[1.75rem] top-1 left-2 absolute cursor-pointer" onClick={onQuery} />
           </div>
         )}
-        <PoperMenu menus={menus}>
+        <PoperMenu menus={currentMenus}>
           <button className="text-[2rem] mo:text-2xl">
             <HiOutlineMenu />
           </button>

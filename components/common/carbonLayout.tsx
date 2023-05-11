@@ -23,7 +23,7 @@ export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
   return (
-    <MainHeaderLayout showQuery={false} className="flex text-black bg-white">
+    <MainHeaderLayout showQuery={false} menus={CARBON_PAGES} className="flex text-black bg-white">
       <div className="self-start relative w-[16.25rem] p-5 min-h-full mo:hidden">
         <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
           {menus.map((item:any, i:number) => (

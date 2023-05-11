@@ -25,7 +25,7 @@ interface ICard{
 function Card(p:ICard){
   const {title,icon,infos,btn,tools=[]} = p.data
   return(
-    <div className="bg-white mr-5 p-5 rounded-lg mt-5 flex flex-col justify-between box-layout">
+    <div className="bg-white mr-5 p-5 rounded-lg mt-5 flex flex-col justify-between box-layout mo:w-full">
       <div>
         <div className="flex items-center">
           {
@@ -58,14 +58,14 @@ function Card(p:ICard){
           }
         </div>
 
-        <div className="mt-5 flex">
+        <div className="mt-5 flex mo:flex-col">
           {
             btn.map((v: { type: string;text:string;onClick:Function },i:number)=>{
               return(
                 v.type === 'primary'?
-                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 mo:ml-0 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5">{v.text}</Button>
                   :
-                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg text-green-2 hover:bg-green-2/20 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                  <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg text-green-2 hover:bg-green-2/20 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]">{v.text}</Button>
               )
             })
           }
@@ -174,7 +174,7 @@ export function Service() {
         </div>
         {
           inProgressOpen &&
-          <div className="flex flex-wrap mr-[-20px]">
+          <div className="flex flex-wrap mr-[-20px] mo:flex-col  mo:mr-0">
             {
               inProgress.map((v,i)=>{
                 return(
@@ -194,7 +194,7 @@ export function Service() {
         {
           completedOpen &&
             <div className="w-full">
-              <div className="flex flex-wrap flex-1 mr-[-20px]">
+              <div className="flex flex-wrap flex-1 mr-[-20px] mo:flex-col  mo:mr-0">
                 {
                   completed.map((v,i)=>{
                     return(

@@ -342,18 +342,20 @@ export function Home() {
             与AIAG一起建筑零碳未来
           </Card>
         </div>
-        <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem]">
-          <div
-            className="text-base pt-6 mo:pt-0 pb-11 flex-shrink-0"
-            dangerouslySetInnerHTML={{
-              __html: t(
-                "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."
-              ).replace(
-                "hi@gtech.world",
-                `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`
-              ),
-            }}
-          />
+        <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 flex-shrink-0 mo:flex">
+          {/*<div*/}
+          {/*  className="text-base pt-6 mo:pt-0 pb-11 flex-shrink-0"*/}
+          {/*  dangerouslySetInnerHTML={{*/}
+          {/*    __html: t(*/}
+          {/*      "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."*/}
+          {/*    ).replace(*/}
+          {/*      "hi@gtech.world",*/}
+          {/*      `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`*/}
+          {/*    ),*/}
+          {/*  }}*/}
+          {/*/>*/}
+          <span>*</span>
+          <span className="mo:ml-2">专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。</span>
         </div>
 
       </div>

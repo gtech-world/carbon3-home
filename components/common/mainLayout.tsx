@@ -27,7 +27,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
   return (
-    <MainHeaderLayout className="flex text-black bg-white">
+    <MainHeaderLayout menus={MAIN_PAGES} className="flex text-black bg-white">
       <div className="self-start relative w-[16.25rem] p-5 min-h-full mo:hidden">
         <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
           <div className="flex items-center mb-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>

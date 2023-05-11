@@ -32,7 +32,7 @@ interface ICard{
 function Card(p:ICard){
   const {title,icon,infos,btn} = p.data
   return(
-    <div className="bg-white mr-5 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between">
+    <div className="bg-white mr-5 mo:mr-0 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between mo:w-full">
       <div>
         <div className="flex items-center">
           {
@@ -50,14 +50,14 @@ function Card(p:ICard){
           }
         </div>
       </div>
-      <div className="mt-5 flex">
+      <div className="mt-5 flex mo:flex-col">
         {
           btn.map((v: { type: string;text:string;onClick:Function },i:number)=>{
             return(
               v.type === 'primary'?
-                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0">{v.text}</Button>
                 :
-                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 h-[2.865rem]">{v.text}</Button>
+                <Button key={`btn${i}`} onClick={()=>v.onClick && v.onClick()} className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]">{v.text}</Button>
             )
           })
         }
@@ -227,7 +227,7 @@ export function AllService() {
         </div>
         {
           trainOpen &&
-          <div className="flex flex-wrap mr-[-20px]">
+          <div className="flex flex-wrap mr-[-20px] mo:flex-col mo:mr-0">
             {
               train.map((v,i)=>{
                 return(
@@ -246,7 +246,7 @@ export function AllService() {
         </div>
         {
           implementOpen &&
-          <div className="flex flex-wrap mr-[-20px]">
+          <div className="flex flex-wrap mr-[-20px] mo:flex-col  mo:mr-0">
             {
               implement.map((v,i)=>{
                 return(
@@ -265,7 +265,7 @@ export function AllService() {
         </div>
         {
           marketOpen &&
-          <div className="flex flex-wrap mr-[-20px]">
+          <div className="flex flex-wrap mr-[-20px] mo:flex-col  mo:mr-0">
             {
               market.map((v,i)=>{
                 return(
