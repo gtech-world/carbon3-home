@@ -40,7 +40,7 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
       <Header className="h-[6.75rem] mo:h-[4.25rem] mo:sticky mo:bg-white mo:text-green-2 mo:p-4" />
       <div
         className={classNames(
-          "z-[2] flex-1 relative w-full mx-auto mo:mx-0 mo:px-5 mo:flex mo:flex-col",
+          "z-[2] flex-1 relative w-full mx-auto mo:mx-0 mo:flex mo:flex-col",
           className
         )}
         {...props}

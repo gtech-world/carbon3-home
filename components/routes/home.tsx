@@ -96,34 +96,38 @@ function CardTabsItem2(){
     }
   ]
   return(
-    <div className="bg-white p-8 rounded-2xl">
-      <div style={{width:'calc(100% - 15px)'}} className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
-        <span>实施清单</span>
-        <span className="ml-[20rem]">输出结果</span>
-        <div className="triangle">
-
+    <div className="bg-white px-8 pt-8 pb-5 rounded-2xl">
+      <div className="overflow-x-auto pb-8">
+        <div className="min-w-[60rem]">
+          <div style={{width:'calc(100% - 15px)'}} className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
+            <span>实施清单</span>
+            <span className="ml-[20rem]">输出结果</span>
+            <div className="triangle">
+            </div>
+          </div>
+          <div className="">
+            {
+              data.map((v,i)=>{
+                return(
+                  <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-4 last:mb-0">
+                    <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
+                      <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
+                      <SvgPentagon className="w-full absolute left-0 top-0" fill={v.bgColor} />
+                    </div>
+                    <div className="w-[21.25rem] mt">{v.listText}</div>
+                    <div className="w-[18.375rem] mt">{v.resultText}</div>
+                    <div className="h-[3.375rem] scale-[0.3] mt-[-2.55rem] mr-[-5rem] ml-[-8rem]">
+                      <ProductQrcode qrcodeDisable={true} className="" />
+                    </div>
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
       </div>
-      <div className="">
-        {
-          data.map((v,i)=>{
-            return(
-              <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-4 last:mb-0">
-                <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
-                  <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
-                  <SvgPentagon className="w-full absolute left-0 top-0" fill={v.bgColor} />
-                </div>
-                <div className="w-[21.25rem] mt-1">{v.listText}</div>
-                <div className="w-[18.375rem] mt-1">{v.resultText}</div>
-                <div className="h-[3.375rem] scale-[0.3] mt-[-2.55rem] mr-[-5rem] ml-[-8rem]">
-                  <ProductQrcode qrcodeDisable={true} className="" />
-                </div>
-              </div>
-            )
-          })
-        }
-      </div>
     </div>
+
 
   )
 }
@@ -167,6 +171,7 @@ function CardTabsItem3(){
 function CardTabs(){
   const [selected,setSelected] = useState(-1)
   const tabsItemComponent = [<CardTabsItem1 key={`CardTabsItem1`} />,<CardTabsItem2 key={`CardTabsItem2`} />,<CardTabsItem3 key={`CardTabsItem3`} />]
+  const isMobile = useIsMobile()
   const tabsList = [
     {
       title: '培训、策略与解决方案',
@@ -201,60 +206,68 @@ function CardTabs(){
     }
   ]
   return(
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center px-5">
       <a href="#" id="secondView" />
-      <div className="flex text-lg flex-shrink-0 max-w-[90rem] pt-10 pb-5 flex-col px-[7.5rem] w-full mo:flex-col mo:mt-11 mo:mb-0">
-        <ul className="flex justify-between w-full pb-8">
+      <div className="flex text-lg flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+        <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('w-[22.5rem] relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2',i===selected? 'border-green-2':'border-transparent')}>
-                  <div className="flex flex-col justify-between h-[24.8rem]">
-                    <div className="flex flex-col">
-                      <div className="flex items-center">
-                        {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
-                        {/*</div>*/}
-                        {
-                          v.icon
-                        }
-                        <span className="text-2xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
+                <li key={`tabsList${i}`} className={classNames('')}>
+                  <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
+                    <div className="flex flex-col justify-between h-[24.8rem]">
+                      <div className="flex flex-col">
+                        <div className="flex items-center">
+                          {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
+                          {/*</div>*/}
+                          {
+                            v.icon
+                          }
+                          <span className="text-2xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
+                        </div>
+                        <p className="mt-5">{v.text}</p>
                       </div>
-                      <p className="mt-5">{v.text}</p>
+                      <div className="flex flex-col items-start font-semibold">
+                        {
+                          v.items.map((item,itemIndex)=>{
+                            return(
+                              <div key={`items${itemIndex}`} className="border-b-2 border-green-2 pb-1 mb-5 last:mb-0">{item.text}</div>
+                            )
+                          })
+                        }
+                      </div>
                     </div>
-                    <div className="flex flex-col items-start font-semibold">
+                    <a href="#" id={`item${i}`} />
+                    <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>
+                      了解更多
+                    </button>
+                    {
+                      i===selected &&
+                      <div className="h-5 w-5 bg-white border-b-2 border-r-2 border-green-2 absolute bottom-[-0.71rem] left-[50%] ml-[-0.625rem] rotate-45">
+                      </div>
+                    }
+                  </div>
+                  {
+                    isMobile && selected === i &&
+                    <div className="mb-10 mo:mb-5">
                       {
-                        v.items.map((item,itemIndex)=>{
-                          return(
-                            <div key={`items${itemIndex}`} className="border-b-2 border-green-2 pb-1 mb-5 last:mb-0">{item.text}</div>
-                          )
-                        })
+                        tabsItemComponent[selected]
                       }
                     </div>
-                  </div>
-                  <a href="#" id="item" />
-                  <button className="mt-8 hover:bg-green-28 w-full h-14 rounded-lg text-white bg-green-2 text-2xl" onClick={()=>{setSelected(i);scrollToAnchor('item')}}>
-                    了解更多
-                  </button>
-                  {
-                    i===selected &&
-                    <div className="h-5 w-5 bg-white border-b-2 border-r-2 border-green-2 absolute bottom-[-0.71rem] left-[50%] ml-[-0.625rem] rotate-45">
-                    </div>
                   }
-
                 </li>
               )
             })
           }
         </ul>
         {
-          selected>-1 &&
-          <div className="mb-10">
+          !isMobile && selected > -1 &&
+          <div className="mb-10 mo:mb-5">
             {
               tabsItemComponent[selected]
             }
           </div>
         }
-
       </div>
     </div>
   )
@@ -268,7 +281,7 @@ export function Home() {
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
-        <div className="max-w-[90rem] h-[42.875rem] px-[7.5rem] w-full mx-auto">
+        <div className="max-w-[90rem] h-[42.875rem] px-[7.5rem] mo:px-10 w-full mx-auto">
           <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
             {/*{t(*/}
             {/*  "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative."*/}
@@ -277,14 +290,14 @@ export function Home() {
           </div>
           <button
             onClick={() => scrollToAnchor('secondView')}
-            className="mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem]  mo:self-center"
+            className="mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[8.0625rem] mo:text-lg mo:px-[3.125rem]  mo:w-full"
           >
             {/*{`${t("Learn More")} >`}*/}
             了解AICP服务
           </button>
           <button
             onClick={() => user?push('/carbon/allService'):push('/login')}
-            className="ml-5 mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-[4.0625rem] mo:text-lg mo:px-[3.125rem]  mo:self-center"
+            className="ml-5 mo:ml-0 mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-5 mo:text-lg mo:px-[3.125rem] mo:w-full"
           >
             {/*{`${t("Learn More")} >`}*/}
             登入AICP账户
@@ -302,8 +315,8 @@ export function Home() {
         <NumData num={909128401} label="Piece of Data Collected" />
       </div> */}
       <CardTabs />
-      <div className="bg-white flex flex-col items-center">
-        <div className="flex justify-between px-[7.5rem] w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
+      <div className="bg-white flex flex-col items-center px-5">
+        <div className="flex justify-between px-[7.5rem] mo:px-0 w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
           <Card icon={<SvgQuery className="h-[6.125rem]" />} to="/openquery">
             <div
               dangerouslySetInnerHTML={{
@@ -329,9 +342,9 @@ export function Home() {
             与AIAG一起建筑零碳未来
           </Card>
         </div>
-        <div className="w-full px-[7.5rem] w-full max-w-[90rem]">
+        <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem]">
           <div
-            className="text-base pt-6 pb-11 flex-shrink-0"
+            className="text-base pt-6 mo:pt-0 pb-11 flex-shrink-0"
             dangerouslySetInnerHTML={{
               __html: t(
                 "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."
