@@ -71,7 +71,7 @@ export function ToolsLayout(p: HTMLAttributes<HTMLDivElement>) {
           </div>
         </div>
         <div ref={ref}className={classNames("flex-1 p-5 min-h-fit bg-gray-16 mo:w-full", className)} {...props}>
-          <div className="hidden mo:flex h-full items-center bg-white text-lg mb-5 px-1 py-3 rounded-lg">
+          <div className="hidden mo:flex items-center bg-white text-lg mb-5 px-1 py-3 rounded-lg">
             <img className="h-[2.75rem]" src="/footprint.svg" alt=""/>
             <span className="font-semibold ml-2.5">产品碳足迹-Sample Model</span>
           </div>
