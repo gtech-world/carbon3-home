@@ -25,7 +25,7 @@ interface ICard{
 function Card(p:ICard){
   const {title,icon,infos,btn,tools=[]} = p.data
   return(
-    <div className="bg-white mr-5 p-5 rounded-lg mt-5 flex flex-col justify-between box-layout mo:w-full">
+    <div className="bg-white mr-5 mo:mr-0 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between mo:w-full">
       <div>
         <div className="flex items-center">
           {
