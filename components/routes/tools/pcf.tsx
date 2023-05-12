@@ -109,7 +109,7 @@ export function PCF() {
 
   const isMobile = useIsMobile();
   return (
-    <ToolsLayout className="text-black flex flex-col">
+    <ToolsLayout>
       <div className="text-lg font-medium text-gray-6 mb-5 mo:text-[.9375rem]">
         {t("Query PCF Data with Vehicle’s VIN Code")}:
       </div>

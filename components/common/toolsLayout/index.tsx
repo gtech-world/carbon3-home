@@ -30,14 +30,14 @@ export function ToolsLayout(p: HTMLAttributes<HTMLDivElement>) {
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
   return (
-    <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">
+    <div className="flex-1 w-full flex h-full flex-col min-h-fit bg-gray-16 relative">
       <ToolsHeader
         showQuery={true}
         style={{ top: `${h}px` }}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
-      <div className={classNames("z-[2] flex-1 w-full flex", className)} {...props}>
-        <div className="self-start relative w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
+      <div className={classNames("z-[2] h-full flex-1 w-full flex", className)} {...props}>
+        <div className="relative w-[16.25rem] p-5 bg-white min-h-full mo:hidden">
           <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
             <div className="flex items-center mb-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
               <FiChevronLeft className="text-lg" />
@@ -70,8 +70,8 @@ export function ToolsLayout(p: HTMLAttributes<HTMLDivElement>) {
             ))}
           </div>
         </div>
-        <div ref={ref} className={classNames("flex-1 p-5 bg-gray-16 mo:w-full", className)} {...props}>
-          <div className="hidden mo:flex items-center bg-white text-lg mb-5 px-1 py-3 rounded-lg">
+        <div ref={ref}className={classNames("flex-1 p-5 min-h-fit bg-gray-16 mo:w-full", className)} {...props}>
+          <div className="hidden mo:flex h-full items-center bg-white text-lg mb-5 px-1 py-3 rounded-lg">
             <img className="h-[2.75rem]" src="/footprint.svg" alt=""/>
             <span className="font-semibold ml-2.5">产品碳足迹-Sample Model</span>
           </div>

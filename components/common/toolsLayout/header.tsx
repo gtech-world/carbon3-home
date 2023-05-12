@@ -33,7 +33,7 @@ export function ToolsHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: string 
     push(`pcf?vin=${vin}`);
   };
   return (
-    <div className="">
+    <>
       <div
         className={classNames(
           "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
@@ -93,6 +93,6 @@ export function ToolsHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: string 
           </button>
         </PoperMenu>
       </div>
-    </div>
+    </>
   );
 }
