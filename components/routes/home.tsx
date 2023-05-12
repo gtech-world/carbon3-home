@@ -32,7 +32,7 @@ function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNod
     }
   };
   return (
-    <div className="flex flex-col items-center p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto">
+    <div className="flex flex-col items-center mr-3 last:mb-0 p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto">
       {icon}
       <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
       <div className="flex-1 mo:hidden" />
@@ -213,7 +213,7 @@ function CardTabs(){
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('')}>
+                <li key={`tabsList${i}`} className={classNames('mr-3 last:mr-0')}>
                   <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
                     <div className="flex flex-col justify-between h-[24.8rem] mo:h-[23.2rem]">
                       <div className="flex flex-col">
