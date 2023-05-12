@@ -16,8 +16,8 @@ import classNames from "classnames";
 import {ProductQrcode} from "@components/common/productQrcode";
 import {scrollToAnchor} from "@lib/utils";
 
-function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNode; bt?: string | null }) {
-  const { icon, to, children, bt } = p;
+function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNode; bt?: string | null ; className?:string}) {
+  const { icon, to, children, bt,className } = p;
   const { push } = useRouter();
   const { t } = useTranslation();
   const mBt = bt || t("Enter");
@@ -32,7 +32,7 @@ function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNod
     }
   };
   return (
-    <div className="flex flex-col items-center mr-3 last:mb-0 p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto">
+    <div className={classNames('flex flex-col items-center mr-3 p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto',className)}>
       {icon}
       <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
       <div className="flex-1 mo:hidden" />
@@ -337,7 +337,7 @@ export function Home() {
               }}
             />
           </Card>
-          <Card icon={<img src="/earth.png" className="w-[6.25rem]" />} to={"https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"} bt={t("了解更多")}>
+          <Card className="mr-0" icon={<img src="/earth.png" className="w-[6.25rem]" />} to={"https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"} bt={t("了解更多")}>
             {/*{t("Work with AICP for a Net Zero future")}*/}
             与AIAG一起建筑零碳未来
           </Card>
