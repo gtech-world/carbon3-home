@@ -20,6 +20,11 @@ export function OpenQuery() {
     if (!vin) return onError("Please input VIN Code");
     push(`car?vin=${vin}`);
   };
+  const onVinFocus = ()=>{
+    if(!vin){
+      setVin('1500101202311001')
+    }
+  }
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
@@ -51,8 +56,10 @@ export function OpenQuery() {
               borderLeft: "1px solid #DDDDDD",
               background: "#F8F8F8",
             }}
+            onFocus={onVinFocus}
             value={vin}
             onChange={onVinChange}
+            placeholder="点击填充示例车辆编码"
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
             className="flex-1 h-full px-4 rounded-l-lg whitespace-nowrap outline-none"
           />

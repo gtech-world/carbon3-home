@@ -96,7 +96,7 @@ function CardTabsItem2(){
     }
   ]
   return(
-    <div className="bg-white px-8 pt-8 pb-5 rounded-2xl">
+    <div className="bg-white px-8 pt-8 pb-5 rounded-2xl h-[25.75rem] mo:h-auto">
       <div className="overflow-x-auto pb-8">
         <div className="min-w-[60rem]">
           <div style={{width:'calc(100% - 15px)'}} className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
