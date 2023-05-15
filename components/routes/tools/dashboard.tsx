@@ -48,9 +48,9 @@ function TargetInventory(p: { data: Product }) {
       />
       <div className="font-semibold text-lg text-black mo:text-base">{data.displayName}</div>
       <div className="w-full flex flex-wrap">
-        <MLink to={`/product?product_id=${data.id}`} text={t("View Product Definition")} />
-        <MLink to={`/activities?product_id=${data.id}`} text={t("View PCF Template")} />
-        <MLink to={`/pcf`} text={t("Query PCF Data")} />
+        <MLink to={`/tools/product?product_id=${data.id}`} text={t("View Product Definition")} />
+        <MLink to={`/tools/activities?product_id=${data.id}`} text={t("View PCF Template")} />
+        <MLink to={`/tools/pcf`} text={t("Query PCF Data")} />
       </div>
     </div>
   );
