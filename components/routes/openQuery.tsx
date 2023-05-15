@@ -60,7 +60,6 @@ export function OpenQuery() {
             }}
             onFocus={onVinFocus}
             value={vin}
-            autoFocus={true}
             onChange={onVinChange}
             placeholder="点击填充示例车辆编码"
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
