@@ -72,7 +72,7 @@ export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
 export async function initStore() {
   const store: Store = {
     isMobile: window.innerWidth <= 900,
-    last_input_vin: localStorage.getItem("last_input_vin") || "",
+    last_input_vin: sessionStorage.getItem("last_input_vin") || "",
     show_header_tip: !localStorage.getItem("hidden_header_tip"),
   };
   const ud = getUserData();
@@ -119,7 +119,7 @@ export function useLastInputVin() {
   const setLastInputVin = useCallback(
     (vin: string) => {
       update({ last_input_vin: vin });
-      localStorage.setItem("last_input_vin", vin);
+      vin === '1500101202311001' && sessionStorage.setItem("last_input_vin", vin);
     },
     [update]
   );

@@ -29,6 +29,7 @@ export function ToolsHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: string 
   }, []);
   const onError = useOnError();
   const onQuery = () => {
+    console.log(vin)
     if (!vin) return onError("Please input VIN Code");
     push(`pcf?vin=${vin}`);
   };

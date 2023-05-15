@@ -213,7 +213,7 @@ function CardTabs(){
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0')}>
+                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0 mo:flex-col')}>
                   <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
                     <div className="flex flex-col">
                         <div className="flex items-center">

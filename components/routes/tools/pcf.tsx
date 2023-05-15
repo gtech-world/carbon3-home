@@ -67,17 +67,17 @@ export function PCF() {
   const onVinFocus = ()=>{
     if(vin) return false
     const lastVin = sessionStorage.getItem("last_vin") || "1500101202311001";
-    const mVin = qVin || lastVin;
+    const mVin = lastVin;
       if (mVin) {
         setVin(mVin);
       }
   }
   useEffect(() => {
     const lastVin = sessionStorage.getItem("last_vin") || "";
-    // const mVin = qVin || lastVin;
-    if (lastVin) {
-      setVin(lastVin);
-      onSearch(lastVin);
+    const mVin = qVin || lastVin;
+    if (mVin) {
+      setVin(mVin);
+      onSearch(mVin);
     }
   }, [qVin]);
 
@@ -130,7 +130,7 @@ export function PCF() {
           type="text"
           onKeyDown={(e) => e.code === "Enter" && onSearch()}
           value={vin}
-          placeholder="点击输入车辆编码"
+          placeholder="点击填充示例车辆编码"
           onChange={onVinChange}
           onFocus={onVinFocus}
         />
