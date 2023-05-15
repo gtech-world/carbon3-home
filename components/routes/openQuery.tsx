@@ -39,6 +39,7 @@ export function OpenQuery() {
           <input
             value={vin}
             onChange={onVinChange}
+            onFocus={onVinFocus}
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
             style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
             className="flex-1 w-full p-4 whitespace-nowrap outline-none rounded-lg"
