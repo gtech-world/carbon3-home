@@ -39,6 +39,7 @@ export function PCF() {
   const qVin = query["vin"] as string;
   const [loaded, setLoaded] = useToggle(false);
   const [vin, setVin] = useState(qVin || "");
+  const [vinResult, setVinResult] = useState("");
   const onError = useOnError();
   const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
@@ -54,6 +55,7 @@ export function PCF() {
     doGet(mVin)
       .then((value) => {
         if (value[0]) {
+          setVinResult(mVin)
           sessionStorage.setItem("last_vin", mVin);
         }else {
           sessionStorage.removeItem("last_vin");
@@ -154,7 +156,7 @@ export function PCF() {
                       <PartInfo label={t("Product Name")} text={productInfo?.displayName || "-"} />
                       <PartInfo label={t("Product UID")} text={productInfo?.uuid || "-"} />
                       <PartInfo label={t("Product Type")} text={productInfo?.type || "-"} />
-                      <PartInfo label={t("VIN Code")} text={vin || "-"} />
+                      <PartInfo label={t("VIN Code")} text={vinResult || "-"} />
                       <PartInfo label={t("Status")} text="In Use/Ship-out on 2022-01-18" />
                     </div>
                   </div>
