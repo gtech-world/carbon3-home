@@ -174,9 +174,9 @@ function CardTabs(){
   const isMobile = useIsMobile()
   const tabsList = [
     {
-      title: '培训、策略与解决方案',
+      title: '培训与解决方案',
       icon: <SvgTeacher className="w-[5rem] mo:h-[3.75rem]" />,
-      text:'在开始着手实施双碳活动之前，您可能需要获取相关的培训、建议与咨询服务。AICP组织行业领域内的专家，为用户解决疑难、明确方向。',
+      text:'AICP组织行业领域内的专家，帮助用户在着手实施双碳活动之前解决疑难、明确方向。',
       items:[
         {text:'双碳与数字化培训'},
         {text:'目标设定与实施规划'},
@@ -213,10 +213,9 @@ function CardTabs(){
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('mr-3 last:mr-0')}>
+                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0')}>
                   <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
-                    <div className="flex flex-col justify-between h-[24.8rem] mo:h-[23.2rem]">
-                      <div className="flex flex-col">
+                    <div className="flex flex-col">
                         <div className="flex items-center">
                           {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
                           {/*</div>*/}
@@ -225,17 +224,16 @@ function CardTabs(){
                           }
                           <span className="text-2xl mo:text-xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
                         </div>
-                        <p className="mt-5">{v.text}</p>
-                      </div>
-                      <div className="flex flex-col items-start font-semibold">
-                        {
-                          v.items.map((item,itemIndex)=>{
-                            return(
-                              <div key={`items${itemIndex}`} className="border-b-2 border-green-2 pb-1 mb-5 last:mb-0">{item.text}</div>
-                            )
-                          })
-                        }
-                      </div>
+                        <p className="mt-5 h-[5rem]">{v.text}</p>
+                        <div className="flex flex-col mt-6 items-start font-semibold">
+                          {
+                            v.items.map((item,itemIndex)=>{
+                              return(
+                                <div key={`items${itemIndex}`} className="border-b-2 border-green-2 pb-1 mb-5 last:mb-0">{item.text}</div>
+                              )
+                            })
+                          }
+                        </div>
                     </div>
                     <a href="#" id={`item${i}`} />
                     <button className="mt-8 hover:bg-green-28 w-full h-14 mo:h-12 rounded-lg text-white bg-green-2 text-2xl mo:text-lg" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>

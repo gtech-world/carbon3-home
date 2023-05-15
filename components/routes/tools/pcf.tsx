@@ -54,7 +54,9 @@ export function PCF() {
     doGet(mVin)
       .then((value) => {
         if (value[0]) {
-          localStorage.setItem("last_vin", mVin);
+          sessionStorage.setItem("last_vin", mVin);
+        }else {
+          sessionStorage.removeItem("last_vin");
         }
       })
       .catch(onError)
@@ -62,12 +64,20 @@ export function PCF() {
         setLoaded(true);
       });
   });
-  useEffect(() => {
-    const lastVin = localStorage.getItem("last_vin") || "";
+  const onVinFocus = ()=>{
+    if(vin) return false
+    const lastVin = sessionStorage.getItem("last_vin") || "1500101202311001";
     const mVin = qVin || lastVin;
-    if (mVin) {
-      setVin(mVin);
-      onSearch(mVin);
+      if (mVin) {
+        setVin(mVin);
+      }
+  }
+  useEffect(() => {
+    const lastVin = sessionStorage.getItem("last_vin") || "";
+    // const mVin = qVin || lastVin;
+    if (lastVin) {
+      setVin(lastVin);
+      onSearch(lastVin);
     }
   }, [qVin]);
 
@@ -120,7 +130,9 @@ export function PCF() {
           type="text"
           onKeyDown={(e) => e.code === "Enter" && onSearch()}
           value={vin}
+          placeholder="点击输入车辆编码"
           onChange={onVinChange}
+          onFocus={onVinFocus}
         />
         <FiSearch className="absolute text-lg top-[1.0625rem] right-5 cursor-pointer" onClick={() => onSearch()} />
       </div>
