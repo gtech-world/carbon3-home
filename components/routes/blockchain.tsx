@@ -14,6 +14,7 @@ import Link from "next/link";
 import SVGAICP from '/public/AICP.svg'
 import SVGPolygon from '/public/polygon.svg'
 import moment from 'moment'
+import { SCAN_BASE } from "@lib/env";
 
 function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
   return (
@@ -143,7 +144,8 @@ export function Blockchain() {
     "You can also view raw data on the Polygon Blockchain via {{value}}. Notice polygonscan’s service may not be accessible from certain countries or regions."
   ).replace(
     "{{value}}",
-    `<a href="https://polygonscan.com/" target="_blank" rel="noreferrer" class="text-green-2">polygonscan</a>`
+    // `<a href="https://polygonscan.com/" target="_blank" rel="noreferrer" class="text-green-2">polygonscan</a>`
+    `<a href="${SCAN_BASE}" target="_blank" rel="noreferrer" class="text-green-2">polygonscan</a>`
   )
   return (
     <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
@@ -212,7 +214,8 @@ export function Blockchain() {
               {t('Blockchain powered by:')}
             </p>
             <p className="text-green-2">
-              <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link>
+              {/* <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link> */}
+              {t('Polygon Blockchain')}
             </p>
             <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}>
             </p>

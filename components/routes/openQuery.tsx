@@ -39,6 +39,8 @@ export function OpenQuery() {
           <input
             value={vin}
             onChange={onVinChange}
+            onFocus={onVinFocus}
+            placeholder="点击填充示例车辆编码"
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
             style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
             className="flex-1 w-full p-4 whitespace-nowrap outline-none rounded-lg"
