@@ -32,7 +32,7 @@ export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {
         className="!sticky px-[3.125rem] h-full py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
       <div className={classNames("z-[2] flex-1 flex", className)} {...props}>
-        <div className="w-[16.25rem] bg-white p-5 min-h-full mo:hidden">
+        <div className="w-[16.25rem] min-w-[16.25rem] bg-white p-5 min-h-full mo:hidden">
           <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full left-0 sticky top-[5.5rem]">
             {menus.map((item:any, i:number) => (
               <div
