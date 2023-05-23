@@ -24,7 +24,6 @@ export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {
   const menus = useCarbonMenus()
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
-  console.log(h)
   return (
     <div className="flex-1 w-full flex flex-col bg-gray-16 relative">
       <CarbonHeader

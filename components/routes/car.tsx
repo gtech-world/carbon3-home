@@ -168,9 +168,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" target="_blank" href="${genScanTokenUrl(
-            sbt.sbtTokenId
-          )}" rel="noreferrer">${t("here")}</a>`
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="/blockchain?tokenId=1000000" rel="noreferrer">${t("here")}</a>`
         );
   }, [type, sbt, t]);
   return (
