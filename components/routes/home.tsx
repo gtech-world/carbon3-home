@@ -359,9 +359,7 @@ export function Home() {
           </div>
           <div className="mt-16 pt-4 w-full border-t border-black text-sm flex justify-between mo:flex-col mo:mt-3">
             <div>
-              {/*<span>{t('footer.company')}</span>*/}
-              {/*<a href="https://beian.miit.gov.cn/" target="_blank">您的备案号</a>*/}
-              <a href="https://beian.miit.gov.cn/" target="_blank"> 沪ICP备2022024704号-2</a>
+              <a rel="noreferrer" href="https://beian.miit.gov.cn/" target="_blank">沪ICP备2022024704号-2</a>
             </div>
             <span onClick={()=>window.open(i18n.language === 'zh-CN'?'https://gtech-cn.co/zhstatement':'https://gtech-cn.co/enstatement','_blank')} className="cursor-pointer mo:mt-5 link-hover">网站使用有关Cookie及隐私政策的声明</span>
           </div>
