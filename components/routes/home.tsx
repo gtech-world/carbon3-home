@@ -213,7 +213,7 @@ function CardTabs(){
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0 mo:flex-col')}>
+                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0 mo:mr-0 mo:flex-col')}>
                   <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
                     <div className="flex flex-col">
                         <div className="flex items-center">
@@ -272,7 +272,8 @@ function CardTabs(){
 }
 
 export function Home() {
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
+  console.log(i18n.language)
   const { user } = useUser();
   const isMobile = useIsMobile();
   const {push} = useRouter()
@@ -340,7 +341,7 @@ export function Home() {
             与AIAG一起建筑零碳未来
           </Card>
         </div>
-        <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 flex-shrink-0 mo:flex">
+        <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
           {/*<div*/}
           {/*  className="text-base pt-6 mo:pt-0 pb-11 flex-shrink-0"*/}
           {/*  dangerouslySetInnerHTML={{*/}
@@ -352,11 +353,22 @@ export function Home() {
           {/*    ),*/}
           {/*  }}*/}
           {/*/>*/}
-          <span>*</span>
-          <span className="mo:ml-2">专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。</span>
+          <div className="flex mo:mb-10">
+            <span>*</span>
+            <span className="mo:ml-2">专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。</span>
+          </div>
+          <div className="mt-16 pt-4 w-full border-t border-black text-sm flex justify-between mo:flex-col mo:mt-3">
+            <div>
+              {/*<span>{t('footer.company')}</span>*/}
+              {/*<a href="https://beian.miit.gov.cn/" target="_blank">您的备案号</a>*/}
+              <a href="https://beian.miit.gov.cn/" target="_blank"> 沪ICP备2022024704号-2</a>
+            </div>
+            <span onClick={()=>window.open(i18n.language === 'zh-CN'?'https://gtech-cn.co/zhstatement':'https://gtech-cn.co/enstatement','_blank')} className="cursor-pointer mo:mt-5 link-hover">网站使用有关Cookie及隐私政策的声明</span>
+          </div>
         </div>
 
       </div>
+
     </HomeHeaderLayout>
   );
 }

@@ -46,7 +46,7 @@ async function initI18n() {
         defaultNS: ns[0],
         lng:'zh-CN',
         backend: {
-          loadPath: "https://static-i18n.gtech.world/I18N/{{lng}}/{{ns}}.json",
+          loadPath: "https://static-i18n.gtech-cn.co/I18N/{{lng}}/{{ns}}.json",
           crossDomain: true,
         },
       });
