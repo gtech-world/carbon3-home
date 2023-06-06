@@ -202,7 +202,7 @@ export function Blockchain() {
               {t('Platform powered by:')}
             </p>
             <p className="text-green-2">
-              <Link href="https://aicp.gtech.world/" target="_blank">{t('Automotive Industry Carbon Platform')}</Link>
+              <Link href="https://aicp.gtech-cn.co/" target="_blank">{t('Automotive Industry Carbon Platform')}</Link>
             </p>
             <p>
               {t('AICP is the global, industry-level platform designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICP offers public view mode and supply chain view mode.')}
