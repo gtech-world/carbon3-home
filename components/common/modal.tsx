@@ -18,9 +18,9 @@ export function ModalHeader(p:{title?: string,onClose?: Function}){
 
 export function Modal(p: {title?:string; onClose?:Function} & HTMLAttributes<HTMLDivElement>) {
   const { className,title,onClose, children, ...other } = p;
-  if (!modalRootRef.current) return null;
   const ref = useRef(null)
   useClickAway(ref, () => onClose && onClose());
+  if (!modalRootRef.current) return null;
   return createPortal(
     <div {...other} className={classNames("fixed left-0 top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center", className)}>
       <div ref={ref} className="bg-white rounded p-5 min-w-[20rem]">
