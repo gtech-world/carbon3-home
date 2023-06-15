@@ -1,3 +1,3 @@
-import ProductDefinition from "@components/routes/tools/product";
+import ProductDefinition from "@components/routes/oldTools/product";
 
 export default ProductDefinition

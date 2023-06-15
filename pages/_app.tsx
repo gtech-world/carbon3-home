@@ -67,7 +67,7 @@ async function initI18n() {
 }
 
 function ModalRoot() {
-  const ref = useAutoAnim<HTMLDivElement>("r-side");
+  const ref = useAutoAnim<HTMLDivElement>("scale");
   useEffect(() => {
     modalRootRef.current = ref.current;
   }, [ref]);

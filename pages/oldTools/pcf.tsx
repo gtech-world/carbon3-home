@@ -1,3 +1,3 @@
-import PCF from "@components/routes/tools/pcf";
+import PCF from "@components/routes/oldTools/pcf";
 
 export default PCF

@@ -1,3 +1,3 @@
-import CarbonActivities from "@components/routes/tools/activities";
+import CarbonActivities from "@components/routes/oldTools/activities";
 
 export default CarbonActivities

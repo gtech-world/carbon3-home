@@ -5,17 +5,10 @@ import classNames from "classnames";
 import { useRouter } from "next/router";
 import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
-import { IoIosArrowBack } from "react-icons/io";
-// import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
-import { MenuItem, PoperMenu } from "../poper";
-
-import { LngsText, MAIN_PAGES,CARBON_PAGES, SupportLngs } from "@components/const";
-import {handleCarbonStr, textTo2} from "@lib/utils";
+import { PoperMenu } from "../poper";
+import { CARBON_PAGES } from "@components/const";
 import { useTranslation } from "react-i18next";
-import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
-import { VscAccount } from "react-icons/vsc";
 import {useMenus} from "@lib/hooks/useMenus";
-import {useIsMobile} from "@components/common/context";
 
 export function CarbonHeader(p: HTMLAttributes<HTMLDivElement>) {
   const { children, className,...other } = p;

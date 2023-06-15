@@ -53,12 +53,18 @@ export interface CarbonPage {
   to: string;
 }
 
-export const MAIN_PAGES: MainPage[] = [
+export const OLD_MAIN_PAGES: MainPage[] = [
   { icon: AiOutlineUser, txt: "User Dashboard", to: "/tools/dashboard" },
   { icon: IoCarSportOutline, txt: "Product Definition", to: "/tools/product" },
   { icon: SvgCO2, txt: "Carbon Activities", to: "/tools/activities" },
   { icon: RiPieChartLine, txt: "PCF Inventories", to: "/tools/pcf" },
 ];
+// export const TOOLS_PAGES: MainPage[] = [
+//   { icon: AiOutlineUser, txt: "User Dashboard", to: "/tools/dashboard" },
+//   { icon: IoCarSportOutline, txt: "Product Definition", to: "/tools/product" },
+//   { icon: SvgCO2, txt: "Carbon Activities", to: "/tools/activities" },
+//   { icon: RiPieChartLine, txt: "PCF Inventories", to: "/tools/pcf" },
+// ];
 export const CARBON_PAGES: CarbonPage[] = [
   { icon: FiLayers, txt: "全部碳服务", to: "/carbon/allService" },
   { icon: AiOutlineUser, txt: "我的碳服务", to: "/carbon/service" },

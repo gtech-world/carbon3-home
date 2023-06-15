@@ -111,7 +111,7 @@ export function Service() {
       ],
       btn:[
         {text:'查看详情',onClick:()=>{}},
-        {text:'进入工具页面',type:'primary',onClick:()=>push('/tools/dashboard')},
+        {text:'进入工具页面',type:'primary',onClick:()=>push('/tools/tools')},
       ]
     },
     {

@@ -9,7 +9,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
-import { LngsText, MAIN_PAGES,CARBON_PAGES, SupportLngs } from "@components/const";
+import { CARBON_PAGES } from "@components/const";
 import {handleCarbonStr, textTo2} from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";

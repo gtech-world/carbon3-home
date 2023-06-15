@@ -1,4 +1,4 @@
-import { MAIN_PAGES } from "@components/const";
+import { OLD_MAIN_PAGES } from "@components/const";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -17,7 +17,7 @@ interface IMenu {
 
 function useMenus() {
   const { t } = useTranslation();
-  return useMemo<IMenu[]>(() => MAIN_PAGES.map((item) => ({ ...item, txt: t(item.txt) })), [t]);
+  return useMemo<IMenu[]>(() => OLD_MAIN_PAGES.map((item) => ({ ...item, txt: t(item.txt) })), [t]);
 }
 
 export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
@@ -27,7 +27,7 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
   return (
-    <MainHeaderLayout menus={MAIN_PAGES} className="flex text-black bg-white">
+    <MainHeaderLayout menus={OLD_MAIN_PAGES} className="flex text-black bg-white">
       <div className="self-start relative w-[16.25rem] p-5 min-h-full mo:hidden">
         <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
           <div className="flex items-center mb-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
