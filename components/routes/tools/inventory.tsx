@@ -1,8 +1,10 @@
 import {ToolsLayout} from "@components/common/toolsLayout";
-import React from "react";
+import React, {useState} from "react";
 import {Table} from "@components/common/table";
+import {Pagination} from "@components/common/pagination";
 
 export function Inventory() {
+  const [pgNum,setPgNum] = useState(1)
   const columns = [
     {
       title: "产品批次号",
@@ -50,16 +52,19 @@ export function Inventory() {
     }
   ]
   return (
-    <ToolsLayout className="text-black">
-      <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
-      <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
-        <Table columns={columns}
-               cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-               data={data}
-               className=""
-               headerStyle={{background:'#fff'}}
-        />
+    <ToolsLayout className="text-black flex flex-col justify-between flex-1">
+      <div>
+        <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
+        <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
+          <Table columns={columns}
+                 cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                 data={data}
+                 className=""
+                 headerStyle={{background:'#fff'}}
+          />
+        </div>
       </div>
+      <Pagination className="my-8" total={10} pgSize={5} pgNum={pgNum} />
     </ToolsLayout>
   );
 }

@@ -3,6 +3,7 @@ import { HTMLAttributes, useMemo } from "react";
 import { useHeaderTipHeight } from "../headerTip";
 import { FiChevronLeft } from "react-icons/fi";
 import {ToolsHeader} from "@components/common/toolsLayout/header";
+import classNames from "classnames";
 
 
 export function ToolsLayout(p:{canBack?:boolean} & HTMLAttributes<HTMLDivElement>) {
@@ -16,7 +17,7 @@ export function ToolsLayout(p:{canBack?:boolean} & HTMLAttributes<HTMLDivElement
         style={{ top: `${h}px` }}
         className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2 mo:px-4 mo:h-[4.25rem]"
       />
-      <div className="w-full sticky max-w-[90rem] mx-auto px-[60px]">
+      <div className="w-full max-w-[90rem] h-full mx-auto px-[60px] flex flex-col flex-1">
         {
           canBack &&
           <div className="flex items-center my-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
@@ -24,7 +25,7 @@ export function ToolsLayout(p:{canBack?:boolean} & HTMLAttributes<HTMLDivElement
             返回
           </div>
         }
-        <div className="">
+        <div className={classNames('flex flex-col',className)}>
           {children}
         </div>
       </div>

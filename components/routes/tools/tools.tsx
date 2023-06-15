@@ -51,7 +51,6 @@ function ToolsContent(){
               <div>
                 <div className="flex items-center">
                   <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt=""/>
-                  产品碳足迹模型管理工具
                   <div className="text-2xl font-semibold">
                     <div>“{v.as}”</div>
                     <h4>{v.title}</h4>
