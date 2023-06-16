@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 html,
 body,
 .App {
@@ -15,23 +14,23 @@ body,
   padding: 0;
   margin: 0;
 }
-#__next{
+#__next {
   width: 100%;
   min-height: 100vh;
   position: relative;
   line-height: 1.375;
 }
-.box-layout{
-  width: calc(25% - 20px)
+.box-layout {
+  width: calc(25% - 20px);
 }
 @media (max-width: 1980px) {
-  .box-layout{
-    width: calc(33.3% - 20px)
+  .box-layout {
+    width: calc(33.3% - 20px);
   }
 }
 @media (max-width: 1440px) {
-  .box-layout{
-    width: calc(50% - 20px)
+  .box-layout {
+    width: calc(50% - 20px);
   }
 }
 @media (min-width: 1281px) and (max-width: 1360px) {
@@ -41,8 +40,8 @@ body,
 }
 
 @media (min-width: 1201px) and (max-width: 1280px) {
-  .box-layout{
-    width: calc(50% - 20px)
+  .box-layout {
+    width: calc(50% - 20px);
   }
 }
 
@@ -80,15 +79,19 @@ img[src=""] {
   opacity: 0;
 }
 
-*{
+* {
   -webkit-tap-highlight-color: transparent;
 }
 
 .triangle {
   height: 1.75rem;
   width: 1.75rem;
-  background: #FFE184;
+  background: #ffe184;
   right: -0.9rem;
   position: absolute;
   transform: rotate(45deg);
+}
+
+.fixGrColor > path {
+  stroke: currentColor !important;
 }

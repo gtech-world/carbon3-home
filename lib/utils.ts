@@ -81,28 +81,31 @@ export function sleep(t: number = 0) {
     setTimeout(() => resolve(undefined), t);
   });
 }
-export function shortStr(str:string,startLen:number=6,endLen:number=6) {
-  const start = str.substring(0,startLen)
-  const end = str.substring(str.length-endLen)
-  return `${start}...${end}`
+export function shortStr(str: string, startLen: number = 6, endLen: number = 6) {
+  const start = str.substring(0, startLen);
+  const end = str.substring(str.length - endLen);
+  return `${start}...${end}`;
 }
 
-export function titleCase(str:string) {
-  return str.slice(0,1).toUpperCase() +str.slice(1).toLowerCase();
+export function titleCase(str: string) {
+  return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
 }
-export function handleCarbonStr(str:string) {
-  return str.replace(
-    "Digital3",
-    `Digital<sup>3</sup>`
-  )
+export function handleCarbonStr(str: string) {
+  return str.replace("Digital3", `Digital<sup>3</sup>`);
 }
-export const scrollToAnchor = (anchorName:any) => {
+export const scrollToAnchor = (anchorName: any) => {
   if (anchorName) {
     let anchorElement = document.getElementById(anchorName);
-    if(anchorElement) {
-      anchorElement.scrollIntoView(
-        {behavior: 'smooth'}
-      );
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: "smooth" });
     }
   }
-}
+};
+
+export const get = (obj: any, path: string) => {
+  let temp = obj;
+  path.split(".").forEach((key) => {
+    temp = temp[key];
+  });
+  return temp;
+};
