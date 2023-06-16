@@ -1,14 +1,12 @@
 import { ModelType, NavNode } from "@lib/@types/lca";
 import classNames from "classnames";
-import { createContext, useCallback, useContext, useState } from "react";
-import { FaFolder } from "react-icons/fa";
+import { useCallback } from "react";
 import { RiArrowDownSLine, RiArrowRightSLine } from "react-icons/ri";
 //@ts-ignore
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
-import { GrDocumentConfig } from "react-icons/gr";
-type SelectState = [NavNode|undefined, (v: NavNode) => void];
-const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
+import { useSelectNavs } from "./context";
+import { ModelIcon } from "./modelIcon";
 
 const getNodeData = (node: NavNode, nestingLevel: number) => ({
   data: {
@@ -32,7 +30,7 @@ function NavItem(p: any) {
   } = p;
 
   const mNode = node as NavNode;
-  const [selectNode, setSelectNode] = useContext(CurrentBomSelectContext) as SelectState;
+  const { active, add } = useSelectNavs();
   return (
     <div
       style={{
@@ -40,10 +38,10 @@ function NavItem(p: any) {
         marginLeft: `${nestingLevel * 20}px`,
         width: "max-content",
         paddingRight: 20,
-        background: node === selectNode ? "rgba(34, 122, 48, 0.1)" : "none",
+        background: node === active ? "rgba(34, 122, 48, 0.1)" : "none",
       }}
       className={classNames("flex items-center py-[2px]", {
-        "": node === selectNode,
+        "": node === active,
       })}
     >
       <button onClick={() => setOpen(!isOpen)} className={classNames("text-sm mr-[6px]", { invisible: isLeaf })}>
@@ -51,20 +49,16 @@ function NavItem(p: any) {
       </button>
       <div
         onClick={() => {
-          mNode.type == "content" && setSelectNode(node);
-          mNode.type == "folder" && setOpen(!isOpen);
+          if (mNode.type == "content") {
+            add(node);
+          }
+          if (mNode.type == "folder") {
+            setOpen(!isOpen);
+          }
         }}
-        className={classNames("flex text-sm gap-1 items-center cursor-pointer", {
-          "text-[#1565C0]": mNode.modelType == ModelType.PRODUCT_SYSTEM,
-          "text-[#9C27B0]": mNode.modelType == ModelType.PROCESS,
-          "text-[#CE6D2F]": mNode.modelType == ModelType.FLOW || mNode.modelType == ModelType.FLOW_PROPERTY,
-          "text-[#21C393]": mNode.modelType == ModelType.EPD,
-          "text-[#556164]": mNode.modelType == "Indicators and parameters",
-          "text-[#999999]": mNode.modelType == "Background data",
-        })}
+        className={classNames("flex text-sm gap-1 items-center cursor-pointer")}
       >
-        {mNode.type == "folder" && <FaFolder />}
-        {mNode.type == "content" && <GrDocumentConfig className="fixGrColor" />}
+        <ModelIcon type={mNode.type == "folder" ? `folder-${mNode.modelType}` : mNode.modelType} />
         <span className={classNames("text-black whitespace-nowrap")}>{name}</span>
       </div>
     </div>
@@ -73,7 +67,6 @@ function NavItem(p: any) {
 
 export function Nav(p: { node: NavNode }) {
   const { node } = p;
-  const [selectNode, setSelectNode] = useState<NavNode|undefined>();
   const treeworker = useCallback(
     function* () {
       for (let i = 0; i < node.children.length; i++) {
@@ -95,20 +88,12 @@ export function Nav(p: { node: NavNode }) {
     [node]
   );
   return (
-    <CurrentBomSelectContext.Provider value={[selectNode, setSelectNode]}>
-      <AutoSizer>
-        {({ height, width }: any) => (
-          <MTree
-            useIsScrolling={true}
-            width={width}
-            height={height}
-            itemSize={18}
-            treeWalker={treeworker as any}
-          >
-            {NavItem}
-          </MTree>
-        )}
-      </AutoSizer>
-    </CurrentBomSelectContext.Provider>
+    <AutoSizer>
+      {({ height, width }: any) => (
+        <MTree useIsScrolling={true} width={width} height={height} itemSize={18} treeWalker={treeworker as any}>
+          {NavItem}
+        </MTree>
+      )}
+    </AutoSizer>
   );
 }
