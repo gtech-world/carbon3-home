@@ -41,7 +41,7 @@ export function Model() {
       title: "",
       render: ()=>{
         return(
-          <div className="flex justify-between text-green-2">
+          <div className="flex flex-1 justify-between text-green-2">
             <span className="cursor-pointer" onClick={()=>{}}>查看模型</span>
             <span className="cursor-pointer" onClick={()=>setViewReal(true)}>查看实景数据</span>
             <span className="cursor-pointer" onClick={()=>setStatus(true)}>更改状态</span>
