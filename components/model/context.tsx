@@ -25,16 +25,15 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
         if (navs.length >= MAX) setNavs([nav].concat(navs.slice(0, MAX - 1)));
         else setNavs([nav, ...navs]);
       }
-      setActive(nav)
+      setActive(nav);
     },
     [navs, active]
   );
   const del = useCallback(
     (nav: NavNode) => {
-      if (nav === active) {
-        setActive(navs[1]);
-      }
-      setNavs(navs.filter((item) => item !== nav));
+      const nList = navs.filter((item) => item !== nav);
+      setNavs(nList);
+      if (!nList.find((item) => item === active)) setActive(nList[0]);
     },
     [navs, active]
   );

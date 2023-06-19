@@ -15,12 +15,13 @@ export function Tabs() {
             "bg-gray-bg border border-solid border-gray-14": item === active,
           })}
         >
-          <ModelIcon type={item.modelType}/>
+          <ModelIcon type={item.modelType} />
           <span className="text-black whitespace-nowrap overflow-hidden text-ellipsis max-w-[600px]">{item.name}</span>
           <FiX
             className="text-black cursor-pointer"
-            onClick={() => {
+            onClick={(e) => {
               del(item);
+              e.stopPropagation();
             }}
           />
         </div>

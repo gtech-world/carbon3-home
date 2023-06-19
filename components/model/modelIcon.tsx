@@ -1,10 +1,10 @@
 import { ModelType } from "@lib/@types/lca";
 import { IconType } from "react-icons";
-import { FaBookOpen, FaFolder, FaMapMarkerAlt, FaSitemap, FaUser } from "react-icons/fa";
+import { FaBook, FaBookOpen, FaFolder, FaMapMarkerAlt, FaSitemap, FaUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { GrDocumentConfig } from "react-icons/gr";
-import { MdBalance } from "react-icons/md";
-import { CgRuler } from "react-icons/cg";
+import { MdBalance, MdGridOn } from "react-icons/md";
+import { CgMenuGridR, CgRuler } from "react-icons/cg";
 import classNames from "classnames";
 
 type IconConfig = {
@@ -23,6 +23,7 @@ const TypeIconConfig: {
   [ModelType.ACTOR]: { Icon: FaUser, color: "#556164" },
   [ModelType.SOURCE]: { Icon: FaBookOpen, color: "#556164" },
   [ModelType.LOCATION]: { Icon: FaMapMarkerAlt, color: "#556164" },
+  [ModelType.DQ_SYSTEM]: { Icon: MdGridOn, color: "#3A8772" },
 
   [`folder-${ModelType.PRODUCT_SYSTEM}`]: { Icon: FaFolder, color: "#1565C0" },
   [`folder-${ModelType.PROCESS}`]: { Icon: FaFolder, color: "#9C27B0" },
@@ -39,8 +40,8 @@ const TypeIconConfig: {
   [`folder-${ModelType.ACTOR}`]: { Icon: FaFolder, color: "#3388AF" },
   [`folder-${ModelType.SOURCE}`]: { Icon: FaFolder, color: "#577889" },
   [`folder-${ModelType.LOCATION}`]: { Icon: FaFolder, color: "#173855" },
-  [`folder-Indicators and parameters`]: { Icon: FaFolder, color: "#556164" },
-  [`folder-Background data`]: { Icon: FaFolder, color: "#999999" },
+  [`folder-Indicators and parameters`]: { Icon: FaBook, color: "#556164" },
+  [`folder-Background data`]: { Icon: CgMenuGridR, color: "#999999" },
 };
 
 export function ModelIcon(p: { className?: string; type: string }) {
