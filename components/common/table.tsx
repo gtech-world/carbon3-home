@@ -80,7 +80,7 @@ export function Table(p: ITable) {
                           style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
                           {
                             !!item?.children && columnIndex === 0 &&
-                            <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer',item.open && 'rotate-[90deg]')} />
+                            <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
                           }
                           {
                             column.render?column.render(item[column.dataIndex],item):item[column.dataIndex]

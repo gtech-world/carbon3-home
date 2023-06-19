@@ -207,7 +207,13 @@ function ContributionTree(){
           '3.289E-8 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
           '3.289E-9 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
           '3.289E-10 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27'
-        ]
+        ],
+        itemHeight: 6,
+        itemWidth: 40,
+        itemGap: 20,
+        textStyle: {
+          padding: 6
+        }
       },
       yAxis: {
         // type: 'value',
@@ -318,7 +324,15 @@ function IO(){
     },
     {
       title:'提供者',
-      dataIndex:'provider'
+      dataIndex:'provider',
+      render: (text:string)=>{
+        return(
+          <div className="flex items-center">
+            <GrDocumentConfig className="svg-purple"/>
+            <span className="ml-1">{text}</span>
+          </div>
+        )
+      }
     },
     {
       title:'数据质量',
@@ -350,7 +364,7 @@ function IO(){
                 size="small"
                 columns={columns}
                 data={data}
-                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
                 headerStyle={{background:'#fff'}}
               />
               <h4 className="mt-4 mb-3">输出</h4>
@@ -358,7 +372,7 @@ function IO(){
                 size="small"
                 columns={columns}
                 data={data}
-                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
                 headerStyle={{background:'#fff'}}
               />
             </div>
@@ -427,7 +441,7 @@ function List(){
               size="small"
               columns={columns}
               data={data}
-              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
               headerStyle={{background:'#fff'}}
             />
             <h4 className="mt-4 mb-3">输出</h4>
@@ -435,7 +449,7 @@ function List(){
               size="small"
               columns={columns}
               data={data}
-              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
               headerStyle={{background:'#fff'}}
             />
           </div>
@@ -464,7 +478,15 @@ function SumRequire(){
     },
     {
       title:'产品',
-      dataIndex:'product'
+      dataIndex:'product',
+      render: (text:string)=>{
+        return(
+          <div className="flex items-center">
+            <FiSettings stroke="#0084FF" className="svg-blue text-sm"/>
+            <span className="ml-1">{text}</span>
+          </div>
+        )
+      }
     },
     {
       title:'数量',
@@ -517,7 +539,7 @@ function SumRequire(){
           size="small"
           columns={columns}
           data={data}
-          cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+          cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
           headerStyle={{background:'#fff'}}
         />
       }
