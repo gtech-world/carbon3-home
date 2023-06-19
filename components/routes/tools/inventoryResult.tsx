@@ -481,10 +481,10 @@ function SumRequire(){
       dataIndex:'product',
       render: (text:string)=>{
         return(
-          <div className="flex items-center">
+          !!text?<div className="flex items-center">
             <FiSettings stroke="#0084FF" className="svg-blue text-sm"/>
             <span className="ml-1">{text}</span>
-          </div>
+          </div>:''
         )
       }
     },
