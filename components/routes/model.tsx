@@ -1,10 +1,13 @@
 import { HeaderLayout } from "@components/common/headerLayout";
 import { Nav } from "@components/model/Nav";
+import { Tabs } from "@components/model/Tabs";
+import { SelectNavsContextProvider } from "@components/model/context";
 import { Category, Descriptor, ModelType, NavNode } from "@lib/@types/lca";
 import { ModelTypeName, refCategoryToCategory } from "@lib/lca";
 import { categories, descriptors } from "@lib/testData";
 import { useMemo } from "react";
-import { LuFolderTree } from "react-icons/lu";
+import { GrTree } from "react-icons/gr";
+
 
 export function Model() {
   const node = useMemo(() => {
@@ -28,7 +31,6 @@ export function Model() {
         categoriesMap[c.modelType][pId].push(c);
       }
     });
-    console.info("map:", categoriesMap);
     const ungroupTypes: ModelType[] = [ModelType.PRODUCT_SYSTEM, ModelType.PROCESS, ModelType.FLOW, ModelType.EPD];
     const group1Types: ModelType[] = [
       ModelType.IMPACT_METHOD,
@@ -98,25 +100,30 @@ export function Model() {
       }
     };
     buildGroup(null, ungroupTypes);
-    buildGroup("Indicators And Parameters", group1Types);
+    buildGroup("Indicators and parameters", group1Types);
     buildGroup("Background data", group2Types);
     console.info("root:", root);
     return root;
   }, []);
   return (
     <HeaderLayout isManager={true} className="flex py-0 px-0">
-      <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
-        <div className="border-b border-solid border-b-gray-16">
-          <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
-            <LuFolderTree className="text-gray-9" />
-            <span className="text-black">Navigation</span>
+      <SelectNavsContextProvider>
+        <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
+          <div className="border-b border-solid border-b-gray-16">
+            <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
+              <GrTree className="text-gray-9 fixGrColor" />
+              <span className="text-black">Navigation</span>
+            </div>
+          </div>
+          <div className="flex-1 p-3">
+            <Nav node={node} />
           </div>
         </div>
-        <div className="flex-1 p-3">
-          <Nav node={node} />
+        <div className="flex-1 flex flex-col w-0">
+          <Tabs/>
+          
         </div>
-      </div>
-      <div className="flex-1"></div>
+      </SelectNavsContextProvider>
     </HeaderLayout>
   );
 }
