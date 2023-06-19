@@ -20,7 +20,7 @@ export function ToolsLayout(p:{canBack?:boolean} & HTMLAttributes<HTMLDivElement
       <div className="w-full max-w-[90rem] h-full mx-auto px-[60px] flex flex-col flex-1">
         {
           canBack &&
-          <div className="flex items-center my-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
+          <div className="flex items-center my-5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
             <FiChevronLeft className="text-lg" />
             返回
           </div>

@@ -1,8 +1,10 @@
 import {ToolsLayout} from "@components/common/toolsLayout";
 import React from "react";
 import {Button} from "@components/common/button";
+import {useRouter} from "next/router";
 
 export function InventoryNotCalc() {
+  const router = useRouter()
   const data = [
     {label:'产品批次号',text: '385501102'},
     {label:'产品名称',text: 'PC Transport C'},
@@ -27,7 +29,7 @@ export function InventoryNotCalc() {
         }
       </div>
       <div className="w-full flex justify-center">
-        <Button onClick={()=>window.open("", "_blank")} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
+        <Button onClick={()=>router.push("/tools/inventoryResult")} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
       </div>
     </ToolsLayout>
   );

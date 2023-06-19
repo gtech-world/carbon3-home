@@ -95,3 +95,10 @@ img[src=""] {
 .fixGrColor > path {
   stroke: currentColor !important;
 }
+
+.svg-purple path{
+  stroke: #9C27B0
+}
+.svg-blue path{
+  stroke: #0084FF
+}

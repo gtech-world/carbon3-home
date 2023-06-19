@@ -43,11 +43,11 @@ function ToolsContent(){
     }
   ]
   return(
-    <ul className="flex justify-between mt-5">
+    <ul className="flex justify-between mt-5 text-lg">
       {
         data.map((v,i)=>{
           return(
-            <li key={`data-${i}`} className="bg-white max-w-[25.375rem] w-full h-[31.75rem] rounded-xl p-5 flex flex-col justify-between">
+            <li key={`data-${i}`} className="bg-white max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center">
                   <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt=""/>
@@ -56,8 +56,8 @@ function ToolsContent(){
                     <h4>{v.title}</h4>
                   </div>
                 </div>
-                <p className="mt-6 text-gray-3 leading-[1.625rem]">{v.text}</p>
-                <div className="mt-5 leading-[1.625rem]">
+                <p className="mt-6 text-gray-3 leading-[1.725rem]">{v.text}</p>
+                <div className="mt-5 leading-[1.725rem]">
                   <h5 className="font-semibold">“{v.as}“工具通常以下功能</h5>
                   {
                     v.list.map((child,childIndex)=>{
