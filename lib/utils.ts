@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
+import _ from "lodash";
 import { LABEL_CONTRACT, SCAN_BASE } from "./env";
-import numbro from "numbro";
 
 export function getErrorMsg(error: AxiosError | any): string {
   if (!error) return "Unkown Error";
@@ -108,4 +108,55 @@ export const get = (obj: any, path: string) => {
     temp = temp[key];
   });
   return temp;
+};
+
+export const parseRefJson = (_obj: any) => {
+  const obj = _.cloneDeep(_obj)
+  const cache: any = {};
+  const cacheGetRef = (ref: string, parents: any[] = []) => {
+    const path = ref.replaceAll("[", ".").replaceAll("]", "").replace("$.", "");
+    // console.info("path:", path,"ref:",ref);
+    if (path == "..") return parents[parents.length - 2];
+    if (path == "../..") return parents[parents.length - 3];
+    if (!path || path === "$") return obj;
+    if (cache[path]) return cache[path];
+    let refValue = _.get(obj, path);
+    if (refValue) {
+      if (refValue["$ref"]) {
+        const keys = _.dropRight(path.split("."))
+        const _parents = [obj].concat(keys.map((_i, index) => _.get(obj, keys.slice(0, index + 1).join("."))));
+        refValue = cacheGetRef(refValue["$ref"], _parents);
+      }
+      cache[path] = refValue;
+      return refValue;
+    }
+    const keys = path.split(".");
+    if (keys.length === 1) {
+      console.info("parseRefJSON: Error:cacheGetRef:", keys[0]);
+      return {};
+    }
+    refValue = cacheGetRef(keys.slice(0, keys.length - 1).join("."), parents)[keys[keys.length - 1]];
+    cache[path] = refValue;
+    return cache[path];
+  };
+
+  const uniqDeepMap = new Map<any, boolean>();
+  const deepRefJson = (json: any, parents: any[] = []) => {
+    uniqDeepMap.set(json, true);
+    for (const key of _.keys(json)) {
+      const value = json[key];
+      if (typeof value === "object" && value["$ref"] && typeof value["$ref"] === "string") {
+        const ref = value["$ref"] as string;
+        console.info("ref:", ref);
+        json[key] = cacheGetRef(ref, parents.concat([json]));
+      }
+      if (typeof json[key] === "object" && !uniqDeepMap.has(json[key])) {
+        deepRefJson(json[key],  parents.concat([json]));
+
+      }
+    }
+  };
+  deepRefJson(obj);
+  console.info("obj:", obj);
+  return obj;
 };
