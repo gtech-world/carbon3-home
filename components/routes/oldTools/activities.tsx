@@ -29,7 +29,7 @@ export function CarbonActivities() {
     const phaseList = genPhase();
     const phaseMap: { [k: string]: Phase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
-    list.forEach((p) => phaseMap[p.phase]?.processList?.push(p));
+    list.forEach((p:any) => phaseMap[p.phase]?.processList?.push(p));
     return phaseList;
   }, [list]);
   const loading = load0 || load1 || list == undefined;

@@ -11,7 +11,7 @@ export function useVinCodesState() {
   const initIndex = useMemo(() => {
     const vin = query["vin"];
     if (vin) {
-      const fi = list.findIndex((p) => p.text == vin);
+      const fi = list.findIndex((p:any) => p.text == vin);
       if (fi >= 0) return fi;
     }
     return 0;

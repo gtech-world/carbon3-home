@@ -347,7 +347,7 @@ export function Car() {
     const mapPhase: { [k: string]: SbtPhase } = {};
     sbtPhase.forEach((item) => (mapPhase[item.name] = item));
     let totalEmission = 0;
-    sbtEmissions.forEach((emi) => {
+    sbtEmissions.forEach((emi:any) => {
       if (mapPhase[emi.phase]) {
         mapPhase[emi.phase].carbon_emission += emi.ghgEmission;
         totalEmission += emi.ghgEmission;

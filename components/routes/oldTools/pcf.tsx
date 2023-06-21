@@ -89,11 +89,11 @@ export function PCF() {
     const phaseMap: { [k: string]: InventoryPhase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
     let total = 0;
-    pcfData.forEach((p) => {
+    pcfData.forEach((p:any) => {
       p.carbon_emission = 0;
-      p.activityTypes.forEach((act) => {
+      p.activityTypes.forEach((act:any) => {
         act.carbon_emission = 0;
-        act.inventoryActivityList.forEach((iAct) => {
+        act.inventoryActivityList.forEach((iAct:any) => {
           act.carbon_emission += iAct.ghgEmission;
           total += iAct.ghgEmission;
         });

@@ -114,7 +114,7 @@ export function PcBom(p: BomUIProps) {
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
-    return actTypes.map((item) => ({
+    return actTypes.map((item:any) => ({
       title: item.displayName,
       sub: item.name,
     }));
@@ -144,7 +144,7 @@ export function PcBom(p: BomUIProps) {
             <Loading />
           ) : (
             <div className="flex-1 w-full overflow-y-auto">
-              {currentAttrs.map((attr, i) => (
+              {currentAttrs.map((attr:any, i:number) => (
                 <Attrs key={`attrs_${i}`} {...attr} />
               ))}
             </div>

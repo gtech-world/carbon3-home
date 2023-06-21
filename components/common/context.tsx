@@ -21,7 +21,6 @@ export function getUserData() {
   const ud = localStorage.getItem("user-data");
   if (!ud) return undefined;
   try {
-    console.log(JSON.parse(ud) as UserData)
     return JSON.parse(ud) as UserData;
   } catch (error) {
     return undefined;

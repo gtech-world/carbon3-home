@@ -6,12 +6,12 @@ import { useMemo } from "react";
 
 export function useProductsState() {
   const { value: products, loading } = useAsyncM(getProductList);
-  const list = useMemo(() => (products || []).map((p) => ({ ...p, text: p.displayName })), [products]);
+  const list = useMemo(() => (products || []).map((p:any) => ({ ...p, text: p.displayName })), [products]);
   const { query } = useRouter();
   const initIndex = useMemo(() => {
     const pid = query["product_id"];
     if (pid) {
-      const fi = list.findIndex((p) => `${p.id}` == pid);
+      const fi = list.findIndex((p:any) => `${p.id}` == pid);
       if (fi >= 0) return fi;
     }
     return 0;

@@ -29,7 +29,7 @@ export function ProductDefinition() {
     if (!boms || boms.length === 0) return undefined;
     const map: { [k: string]: ProductBom[] } = {};
     let rootBomPartNumber: string = "";
-    boms.forEach((bom) => {
+    boms.forEach((bom:any) => {
       if (bom.parentPartNumberId === null) {
         rootBomPartNumber = bom.id + "";
       }
@@ -37,7 +37,7 @@ export function ProductDefinition() {
       if (!map[bom.id]) map[bom.id] = [];
       map[bom.id].push(bom);
     });
-    boms.forEach((bom) => {
+    boms.forEach((bom:any) => {
       const parents = map[bom.parentPartNumberId];
       if (parents) {
         parents.forEach((p, index) => {

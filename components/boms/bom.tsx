@@ -16,7 +16,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(node.id), [node.id]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
-    return actTypes.map((item) => ({
+    return actTypes.map((item:any) => ({
       title: item.displayName,
       sub: item.name,
     }));
@@ -41,7 +41,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
         <PartInfos node={node} />
         <div className="text-[.9375rem] font-bold mt-5 mb-[.875rem]">{t("Attributable to Carbon Activities")}:</div>
         {loading && <Loading />}
-        {currentAttrs.map((attr, i) => (
+        {currentAttrs.map((attr:any, i:number) => (
           <Attrs key={`attrs_${i}`} {...attr} />
         ))}
       </div>
