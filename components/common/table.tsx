@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
 import {FiChevronRight} from 'react-icons/fi'
 import {useEffect, useMemo, useState} from "react";
+import {Loading} from "@components/common/loading";
 
 interface ITable{
   columns: any[];
@@ -10,9 +11,10 @@ interface ITable{
   headerStyle?: object
   cellClassName?: Function
   size?: string
+  loading?: boolean
 }
 export function Table(p: ITable) {
-  const {columns,data,className,cellClassName,headerStyle,size} = p
+  const {columns,data,className,cellClassName,headerStyle,size,loading=false} = p
   const [tableData,setTableData] = useState(data || [])
   useEffect(()=>{
     setTableData(data)
@@ -59,44 +61,48 @@ export function Table(p: ITable) {
           }
         </tr>
         </thead>
-        <tbody>
-        {
-          tableData.map((item,itemIndex)=>{
-            return(
-              <tr key={`table_data_${itemIndex}`} className={`column-level-${item.level?item.level:0}`}>
-                {
-                  columns.map((column,columnIndex)=>{
-                    return(
-                      <td key={`data_column_${columnIndex}`}
-                          className={classNames(
-                            "px-3 py-2",
-                            size === 'small' && 'py-1',
-                            !!column.tip && 'pl-9',
-                            cellClassName && cellClassName(column,columnIndex,itemIndex)
-                          )}
-                          style={{minWidth: (column.width?column.width:'auto')}}
-                      >
-                        <div className="flex items-center"
-                          style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
-                          {
-                            !!item?.children && columnIndex === 0 &&
-                            <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
-                          }
-                          {
-                            column.render?column.render(item[column.dataIndex],item):item[column.dataIndex]
-                          }
-                        </div>
+            <tbody>
+            {
+              tableData.map((item,itemIndex)=>{
+                return(
+                  <tr key={`table_data_${itemIndex}`} className={`column-level-${item.level?item.level:0}`}>
+                    {
+                      columns.map((column,columnIndex)=>{
+                        return(
+                          <td key={`data_column_${columnIndex}`}
+                              className={classNames(
+                                "px-3 py-2",
+                                size === 'small' && 'py-1',
+                                !!column.tip && 'pl-9',
+                                cellClassName && cellClassName(column,columnIndex,itemIndex)
+                              )}
+                              style={{minWidth: (column.width?column.width:'auto')}}
+                          >
+                            <div className="flex items-center"
+                                 style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
+                              {
+                                !!item?.children && columnIndex === 0 &&
+                                <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
+                              }
+                              {
+                                column.render?column.render(item[column.dataIndex],item):item[column.dataIndex]
+                              }
+                            </div>
 
-                      </td>
-                    )
-                  })
-                }
-              </tr>
-            )
-          })
-        }
-        </tbody>
+                          </td>
+                        )
+                      })
+                    }
+                  </tr>
+                )
+              })
+            }
+            </tbody>
+
       </table>
+      {
+        loading && <Loading className="mt-5" />
+      }
     </div>
   );
 }

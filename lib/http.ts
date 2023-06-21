@@ -29,10 +29,11 @@ export interface Res<T> {
 // }
 
 function getData<T>(res: AxiosResponse<T>) {
-  const mRes = res.data as { code: number; msg: string; data: T };
+  const mRes = res.data as { code: number; message: string; data: T };
   if (!mRes) return undefined;
-  if (mRes.code && mRes.code !== 200) throw mRes.msg;
-  return res.data;
+  if (mRes.code && mRes.code !== 100000) throw mRes.message;
+  // @ts-ignore
+  return res.data?.data;
 }
 
 export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
@@ -43,7 +44,7 @@ export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
 }
 
 export async function login(name: string, password: string) {
-  const res = await axios.post<UserData>(creatUrl("/api/v1/base/login"), { name, password });
+  const res = await axios.post<UserData>(creatUrl("/api/base/login"), { name, password });
   return getData(res);
 }
 
@@ -54,30 +55,30 @@ function authConfig(): AxiosRequestConfig {
 }
 
 export async function getProductList() {
-  const res = await axios.get<Product[]>(creatUrl("/api/v1/npi/product/list"), authConfig());
+  const res = await axios.get<Product[]>(creatUrl("/api/npi/product/list"), authConfig());
   return getData(res);
 }
 
 export async function getProductPcfAccountable(product_id: number) {
-  const res = await axios.get<boolean>(creatUrl(`/api/v1/npi/product/${product_id}/pcf_accountable`), authConfig());
+  const res = await axios.get<boolean>(creatUrl(`/api/npi/product/${product_id}/pcf_accountable`), authConfig());
   return getData(res);
 }
 
 export async function getProductBomList(product_id: number) {
-  const res = await axios.get<ProductBom[]>(creatUrl(`/api/v1/npi/product/${product_id}/bom/list`), authConfig());
+  const res = await axios.get<ProductBom[]>(creatUrl(`/api/npi/product/${product_id}/bom/list`), authConfig());
   return getData(res);
 }
 
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
   const res = await axios.get<ActivityType[]>(
-    creatUrl(`/api/v1/npi/product_bom/${product_bom_id}/activity_types`),
+    creatUrl(`/api/npi/product_bom/${product_bom_id}/activity_types`),
     authConfig()
   );
   return getData(res);
 }
 
 export async function getProductActivityDefination(product_id: number) {
-  const res = await axios.get<ProductProcess[]>(creatUrl(`/api/v1/npi/product_process/query`), {
+  const res = await axios.get<ProductProcess[]>(creatUrl(`/api/npi/product_process/query`), {
     ...authConfig(),
     params: {
       product_id,
@@ -88,18 +89,18 @@ export async function getProductActivityDefination(product_id: number) {
 }
 
 export async function getVINCodes() {
-  const res = await axios.get<string[]>(creatUrl("/api/v1/inventory/product/serial_number/list"), authConfig());
+  const res = await axios.get<string[]>(creatUrl("/api/inventory/product/serial_number/list"), authConfig());
   return res.data;
 }
 
 export async function getProductByVIN(vin: string | number) {
-  const res = await axios.get<Product>(creatUrl(`/api/v1/npi/product/serial_number/${vin}/info`), authConfig());
+  const res = await axios.get<Product>(creatUrl(`/api/npi/product/serial_number/${vin}/info`), authConfig());
   return getData(res);
 }
 
 export async function getPCFInventory(vin: string | number) {
   const res = await axios.get<InventoryProductProcess[]>(
-    creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
+    creatUrl(`/api/inventory/product/${vin}/inventory`),
     authConfig()
   );
   return getData(res);
@@ -107,23 +108,32 @@ export async function getPCFInventory(vin: string | number) {
 
 //
 export async function getSbtInfo(vin: string | number) {
-  const res = await axios.get<SbtInfo>(creatUrl(`/api/v1/sbt/${vin}/info`));
+  const res = await axios.get<SbtInfo>(creatUrl(`/api/sbt/${vin}/info`));
   return getData(res);
 }
 
 export async function getSbgEmissionInventory(vin: string | number) {
-  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/v1/sbt/${vin}/emission/inventory`));
+  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/sbt/${vin}/emission/inventory`));
   return getData(res);
 }
 export async function getSbtDetail(tokenId: string | number) {
-  const res = await axios.get<SbtDetail>(creatUrl(`/api/v1/sbt/token/${tokenId}/detail`));
+  const res = await axios.get<SbtDetail>(creatUrl(`/api/sbt/token/${tokenId}/detail`));
   return getData(res);
 }
 
+export async function getLcaModelList({pgNum}:any){
+  const res = await axios.get(creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10`),authConfig());
+  return getData(res);
+}
+
+export async function updateLcaModelState(id:number,state:number){
+  const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`),null,authConfig());
+  return getData(res);
+}
 
 // export async function getSbtDetail(product_bom_id: number | string) {
 //   const res = await axios.get<ActivityType[]>(
-//     creatUrl(`/api/v1/sbt/token/${product_bom_id}/detail`),
+//     creatUrl(`/api/sbt/token/${product_bom_id}/detail`),
 //     // authConfig()
 //   );
 //   return getData(res);

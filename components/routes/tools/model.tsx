@@ -1,21 +1,49 @@
 import {ToolsLayout} from "@components/common/toolsLayout";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {Table} from "@components/common/table";
-import {Modal, ModalHeader} from "@components/common/modal";
+import {Modal} from "@components/common/modal";
 import {Button} from "@components/common/button";
 import {Pagination} from "@components/common/pagination";
+import {useAsyncM} from "@lib/hooks/useAsyncM";
+import {getLcaModelList, noArgs, updateLcaModelState} from "@lib/http";
 
 export function Model() {
-  const [status,setStatus] = useState(false)
-  const [viewReal,setViewReal] = useState(false)
+  const [status,setStatus] = useState<any>(null)
+  const [viewReal,setViewReal] = useState<any>(null)
   const [pgNum,setPgNum] = useState(1)
   const fileRef = useRef(null)
   const onFileChange = (file:any)=>{
     console.log(file)
   }
-  useEffect(()=>{
 
-  },[])
+  const { value, loading } = useAsyncM(
+    noArgs(() => getLcaModelList({pgNum}), [pgNum]),
+    [pgNum]
+  );
+  const tableData = useMemo(()=>{
+    if(!value?.records) return []
+    let arr:any = []
+    value.records.map((v:any)=>{
+      arr.push({
+        id: v.id,
+        modelName: v.modelName,
+        modelUuid: v.modelUuid,
+        productName: v.product.name,
+        state: v.state,
+        createTime: v.createTime,
+        paramDetail: (JSON.parse(v.paramDetail))[0].parameters.map((item:any)=>{
+          return {
+            context: item.name,
+            parameter: item.context.name,
+            amount: item.value,
+            uncertainty: item?.uncertainty?.distributionType || null,
+            description: item.description,
+          }
+        }),
+      })
+    })
+    return arr
+  },[value])
   const columns = [
     {
       title: "模型名称",
@@ -23,74 +51,76 @@ export function Model() {
     },
     {
       title: "模型ID",
-      dataIndex: 'modelId',
+      dataIndex: 'modelUuid',
     },
     {
       title: "产品名称",
-      dataIndex: 'modelId',
+      dataIndex: 'productName',
     },
     {
       title: "状态",
-      dataIndex: 'modelId',
+      dataIndex: 'state',
+      render: (text:number)=>{
+        let stateText = ''
+        switch (text){
+          case 0:
+            stateText = '弃用'
+            break;
+          case 1:
+            stateText = '激活'
+            break;
+          case -1:
+            stateText = '草稿'
+            break;
+        }
+        return(
+          <span>{stateText}</span>
+        )
+      }
     },
     {
       title: "上传时间",
-      dataIndex: 'modelId',
+      dataIndex: 'createTime',
     },
     {
       title: "",
-      render: ()=>{
+      render: (text:string,record:any)=>{
         return(
           <div className="flex flex-1 justify-between text-green-2">
             <span className="cursor-pointer" onClick={()=>{}}>查看模型</span>
-            <span className="cursor-pointer" onClick={()=>setViewReal(true)}>查看实景数据</span>
-            <span className="cursor-pointer" onClick={()=>setStatus(true)}>更改状态</span>
+            <span className="cursor-pointer" onClick={()=>setViewReal(record)}>查看实景数据</span>
+            <span className="cursor-pointer" onClick={()=>setStatus(record)}>更改状态</span>
           </div>
         )
       }
     },
   ]
-  const data = [
-    {
-      modelName: 'PC Transport C-Model V1.0',
-      modelId: '100010'
-    },
-    {
-      modelName: 'PC Transport C-Model V1.0',
-      modelId: '100010'
-    },
-    {
-      modelName: 'PC Transport C-Model V1.0',
-      modelId: '100010'
-    }
-  ]
 
   const realColumns = [
     {
       title: "实景输入项",
-      dataIndex: 'modelName',
+      dataIndex: 'context',
     },
     {
-      title: "所属Flow",
-      dataIndex: 'modelName',
-    },
-    {
-      title: "类别",
-      dataIndex: 'modelName',
+      title: "过程名称",
+      dataIndex: 'parameter',
     },
     {
       title: "参考值",
-      dataIndex: 'modelName',
+      dataIndex: 'amount',
     },
     {
-      title: "单位",
-      dataIndex: 'modelName',
+      title: "不确定性",
+      dataIndex: 'uncertainty',
     },
     {
       title: "描述",
-      dataIndex: 'modelName',
+      dataIndex: 'description',
     },
   ]
+  const doActivation = async ()=>{
+    await updateLcaModelState(status.id,status.state === 1?0:1)
+  }
   return (
     <ToolsLayout className="text-black flex flex-col justify-between flex-1">
       <div>
@@ -101,28 +131,32 @@ export function Model() {
         </h3>
         <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
           <Table columns={columns}
+                 loading={loading}
                  cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-                 data={data}
+                 data={tableData}
                  className=""
                  headerStyle={{background:'#fff'}}
           />
         </div>
       </div>
-      <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={20} pgSize={2} pgNum={pgNum} />
+      <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={value?.total?value.total:0} pgSize={10} pgNum={pgNum} />
       {
-        status &&
-        <Modal title="更改状态" onClose={()=>setStatus(false)}>
+        !!status &&
+        <Modal title="更改状态" onClose={()=>setStatus(null)}>
           <div className="flex">
-            <Button onClick={()=>{}} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">激活</Button>
-            <Button onClick={()=>{}} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:text-white hover:bg-green-2 rounded-lg flex-1 h-11">删除</Button>
+            <Button onClick={()=>doActivation()} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">{status.state === 1?'弃用':'激活'}</Button>
+            {
+              status === -1 &&
+              <Button onClick={()=>{}} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:text-white hover:bg-green-2 rounded-lg flex-1 h-11">删除</Button>
+            }
           </div>
         </Modal>
       }
       {
-        viewReal &&
-        <Modal title="PC Transport C-Model V1.0模型中的实景输入项" onClose={()=>setViewReal(false)}>
+        !!viewReal &&
+        <Modal title="PC Transport C-Model V1.0模型中的实景输入项" onClose={()=>setViewReal(null)}>
           <div className="flex w-[60rem] min-h-[300px]">
-            <Table columns={realColumns} data={[]} />
+            <Table columns={realColumns} data={viewReal.paramDetail} />
           </div>
         </Modal>
       }
