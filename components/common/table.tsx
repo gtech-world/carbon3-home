@@ -85,7 +85,7 @@ export function Table(p: ITable) {
                                 <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
                               }
                               {
-                                column.render?column.render(item[column.dataIndex],item):item[column.dataIndex]
+                                column.render?column.render(item[column.dataIndex],item):((column.emptyText && !item[column.dataIndex])?'-':item[column.dataIndex])
                               }
                             </div>
 

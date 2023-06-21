@@ -126,10 +126,12 @@ export function Model() {
     {
       title: "不确定性",
       dataIndex: 'uncertainty',
+      emptyText:'-'
     },
     {
       title: "描述",
       dataIndex: 'description',
+      emptyText:'-'
     },
   ]
   const doActivation = async ()=>{
