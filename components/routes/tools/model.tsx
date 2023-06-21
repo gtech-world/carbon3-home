@@ -154,6 +154,7 @@ export function Model() {
         <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
           <Table columns={columns}
                  loading={loading}
+                 // size="big"
                  cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
                  data={tableData}
                  className=""

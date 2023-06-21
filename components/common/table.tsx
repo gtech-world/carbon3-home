@@ -42,14 +42,18 @@ export function Table(p: ITable) {
     }
   }
   return (
-    <div className={classNames("w-full mo:text-[.9375rem]",className,size ==='small' && 'text-xs')}>
+    <div className={classNames("w-full mo:text-[.9375rem]",className,size ==='small' && 'text-xs',size ==='big' && 'text-lg')}>
       <table className="w-full text-left">
         <thead className={classNames('bg-gray-14 ',className,size ==='small' && 'text-sm')} style={headerStyle}>
         <tr className="px-3">
           {
             columns.map((v,i)=>{
               return(
-                <th key={`columns${i}`} className={classNames('px-3 py-2 relative',i===0 && 'rounded-l overflow-hidden', i===(columns.length-1) && 'rounded-r overflow-hidden')}>
+                <th key={`columns${i}`} className={classNames('px-3 relative',
+                  i===0 && 'rounded-l overflow-hidden',
+                  i===(columns.length-1) && 'rounded-r overflow-hidden',
+                  size === 'small' ? 'py-1':(size === 'big'?'py-3':'py-2'),
+                )}>
                   {
                     !!v.tip &&
                     <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={v.tip} className="inline-block text-xl mt-[-0.15rem] mr-1" />
@@ -71,11 +75,11 @@ export function Table(p: ITable) {
                         return(
                           <td key={`data_column_${columnIndex}`}
                               className={classNames(
-                                "px-3 py-2",
-                                size === 'small' && 'py-1',
+                                "px-3",
+                                size === 'small' ? 'py-1':(size === 'big'?'py-3':'py-2'),
                                 !!column.tip && 'pl-9',
-                                cellClassName && cellClassName(column,columnIndex,itemIndex)
-                              )}
+                                cellClassName && cellClassName(column,columnIndex,itemIndex),
+                                )}
                               style={{minWidth: (column.width?column.width:'auto')}}
                           >
                             <div className="flex items-center"
