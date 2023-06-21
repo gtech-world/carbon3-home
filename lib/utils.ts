@@ -147,7 +147,7 @@ export const parseRefJson = (_obj: any) => {
       const value = json[key];
       if (typeof value === "object" && value["$ref"] && typeof value["$ref"] === "string") {
         const ref = value["$ref"] as string;
-        console.info("ref:", ref);
+        // console.info("ref:", ref);
         json[key] = cacheGetRef(ref, parents.concat([json]));
       }
       if (typeof json[key] === "object" && !uniqDeepMap.has(json[key])) {
@@ -157,6 +157,6 @@ export const parseRefJson = (_obj: any) => {
     }
   };
   deepRefJson(obj);
-  console.info("obj:", obj);
+  // console.info("obj:", obj);
   return obj;
 };
