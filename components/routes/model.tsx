@@ -2,12 +2,13 @@ import { HeaderLayout } from "@components/common/headerLayout";
 import { Nav } from "@components/model/Nav";
 import { Tabs } from "@components/model/Tabs";
 import { SelectNavsContextProvider } from "@components/model/context";
+import { TypeContent } from "@components/model/typeContent";
 import { Category, Descriptor, ModelType, NavNode } from "@lib/@types/lca";
-import { ModelTypeName, refCategoryToCategory } from "@lib/lca";
+import { ModelTypeName } from "@lib/lca";
 import { categories, descriptors } from "@lib/testData";
+import { parseRefJson } from "@lib/utils";
 import { useMemo } from "react";
 import { GrTree } from "react-icons/gr";
-
 
 export function Model() {
   const node = useMemo(() => {
@@ -20,7 +21,7 @@ export function Model() {
     };
     const categoryMap: { [k: string]: Category } = {};
     const categoriesMap: { [k: string]: { [k: string]: Category[] } } = {};
-    const mCategories = refCategoryToCategory(categories);
+    const mCategories = parseRefJson(categories) as Category[];
 
     mCategories.forEach((c) => {
       if (c.modelType) {
@@ -106,7 +107,7 @@ export function Model() {
     return root;
   }, []);
   return (
-    <HeaderLayout isManager={true} className="flex py-0 px-0">
+    <HeaderLayout isManager={true} className="h-0 flex py-0 px-0">
       <SelectNavsContextProvider>
         <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
           <div className="border-b border-solid border-b-gray-16">
@@ -120,8 +121,10 @@ export function Model() {
           </div>
         </div>
         <div className="flex-1 flex flex-col w-0">
-          <Tabs/>
-          
+          <Tabs />
+          <div className="flex-1 h-0 overflow-y-auto">
+            <TypeContent />
+          </div>
         </div>
       </SelectNavsContextProvider>
     </HeaderLayout>

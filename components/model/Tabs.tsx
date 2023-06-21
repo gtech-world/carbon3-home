@@ -6,7 +6,7 @@ import { ModelIcon } from "./modelIcon";
 export function Tabs() {
   const { active, navs, del, setActive } = useSelectNavs();
   return (
-    <div className="flex border-b border-solid border-b-gray-16 overflow-x-auto">
+    <div className="flex-shrink-0 flex border-b border-solid border-b-gray-16 overflow-x-auto">
       {navs.map((item, i) => (
         <div
           key={`tabs_${i}`}

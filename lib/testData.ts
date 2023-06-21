@@ -1,4 +1,4 @@
-import { Category, Descriptor, RefCategory } from "./@types/lca";
+import { Descriptor, ModelType, RefCategory } from "./@types/lca";
 
 export const categories: RefCategory[] = [
   {
@@ -10829,3 +10829,2826 @@ export const descriptors: { [k: string]: { [k: number | string]: Descriptor[] } 
     ],
   },
 };
+
+export const typeTestData: {[k: string]: any}= {
+  [ModelType.PRODUCT_SYSTEM]: {
+    "category": {
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 4430,
+      "lastChange": 1685429979977,
+      "modelType": "PRODUCT_SYSTEM",
+      "name": "PC bottle",
+      "refId": "2f707c48-b14a-36c5-8b01-b029b5981d25",
+      "version": 1
+    },
+    "description": "First created: 2020-02-14T13:50:30\nLinking approach during creation: Only link default providers; Preferred process type: System process",
+    "fromLibrary": false,
+    "id": 4431,
+    "lastChange": 1581949514372,
+    "name": "PC bottle all",
+    "parameterSets": [],
+    "process": false,
+    "processLinks": [
+      {
+        "exchangeId": 1698,
+        "flowId": 466,
+        "processId": 1610,
+        "providerId": 3059,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3003,
+        "flowId": 756,
+        "processId": 1947,
+        "providerId": 3596,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3940,
+        "flowId": 1569,
+        "processId": 3605,
+        "providerId": 4412,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1875,
+        "flowId": 466,
+        "processId": 1780,
+        "providerId": 3059,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4223,
+        "flowId": 1140,
+        "processId": 4005,
+        "providerId": 1777,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 2966,
+        "flowId": 476,
+        "processId": 1947,
+        "providerId": 3068,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3725,
+        "flowId": 1140,
+        "processId": 3605,
+        "providerId": 1777,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3679,
+        "flowId": 1167,
+        "processId": 3605,
+        "providerId": 3602,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3304,
+        "flowId": 1167,
+        "processId": 3071,
+        "providerId": 3602,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 2964,
+        "flowId": 746,
+        "processId": 1947,
+        "providerId": 3590,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4139,
+        "flowId": 1569,
+        "processId": 4005,
+        "providerId": 4412,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3490,
+        "flowId": 1573,
+        "processId": 3071,
+        "providerId": 4415,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1856,
+        "flowId": 459,
+        "processId": 1780,
+        "providerId": 1944,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3798,
+        "flowId": 1046,
+        "processId": 3605,
+        "providerId": 3599,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1892,
+        "flowId": 746,
+        "processId": 1780,
+        "providerId": 3590,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 2924,
+        "flowId": 459,
+        "processId": 1947,
+        "providerId": 1944,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1797,
+        "flowId": 753,
+        "processId": 1780,
+        "providerId": 3593,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1665,
+        "flowId": 476,
+        "processId": 1610,
+        "providerId": 3068,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4334,
+        "flowId": 918,
+        "processId": 4005,
+        "providerId": 1774,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1941,
+        "flowId": 476,
+        "processId": 1780,
+        "providerId": 3068,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3134,
+        "flowId": 708,
+        "processId": 3071,
+        "providerId": 1607,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1678,
+        "flowId": 756,
+        "processId": 1610,
+        "providerId": 3596,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3616,
+        "flowId": 1497,
+        "processId": 3605,
+        "providerId": 3587,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1688,
+        "flowId": 753,
+        "processId": 1610,
+        "providerId": 3593,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 2958,
+        "flowId": 466,
+        "processId": 1947,
+        "providerId": 3059,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4163,
+        "flowId": 1573,
+        "processId": 4005,
+        "providerId": 4415,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4423,
+        "flowId": 1581,
+        "processId": 4418,
+        "providerId": 3071,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4422,
+        "flowId": 1588,
+        "processId": 4418,
+        "providerId": 3605,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4427,
+        "flowId": 1588,
+        "processId": 4418,
+        "providerId": 3605,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4428,
+        "flowId": 1577,
+        "processId": 4418,
+        "providerId": 4005,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3718,
+        "flowId": 918,
+        "processId": 3605,
+        "providerId": 1774,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4427,
+        "flowId": 1588,
+        "processId": 4418,
+        "providerId": 3605,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4423,
+        "flowId": 1581,
+        "processId": 4418,
+        "providerId": 3071,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1713,
+        "flowId": 459,
+        "processId": 1610,
+        "providerId": 1944,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4429,
+        "flowId": 1575,
+        "processId": 4418,
+        "providerId": 1947,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4425,
+        "flowId": 1579,
+        "processId": 4418,
+        "providerId": 1610,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3990,
+        "flowId": 1573,
+        "processId": 3605,
+        "providerId": 4415,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3141,
+        "flowId": 706,
+        "processId": 3071,
+        "providerId": 3062,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 2992,
+        "flowId": 753,
+        "processId": 1947,
+        "providerId": 3593,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4421,
+        "flowId": 1590,
+        "processId": 4418,
+        "providerId": 1780,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4210,
+        "flowId": 1167,
+        "processId": 4005,
+        "providerId": 3602,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1785,
+        "flowId": 473,
+        "processId": 1780,
+        "providerId": 3065,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1788,
+        "flowId": 756,
+        "processId": 1780,
+        "providerId": 3596,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3018,
+        "flowId": 473,
+        "processId": 1947,
+        "providerId": 3065,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3469,
+        "flowId": 1569,
+        "processId": 3071,
+        "providerId": 4412,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1660,
+        "flowId": 746,
+        "processId": 1610,
+        "providerId": 3590,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4269,
+        "flowId": 1046,
+        "processId": 4005,
+        "providerId": 3599,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4239,
+        "flowId": 1107,
+        "processId": 4005,
+        "providerId": 1604,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 1755,
+        "flowId": 473,
+        "processId": 1610,
+        "providerId": 3065,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 3924,
+        "flowId": 1107,
+        "processId": 3605,
+        "providerId": 1604,
+        "providerType": 0
+      },
+      {
+        "exchangeId": 4043,
+        "flowId": 1497,
+        "processId": 4005,
+        "providerId": 3587,
+        "providerType": 0
+      }
+    ],
+    "processes": [
+      4418,
+      3587,
+      1604,
+      4005,
+      3590,
+      1607,
+      3593,
+      1610,
+      3596,
+      1774,
+      3599,
+      1777,
+      3602,
+      3059,
+      1780,
+      3605,
+      3062,
+      1944,
+      3065,
+      1947,
+      3068,
+      4412,
+      3071,
+      4415
+    ],
+    "productSystem": true,
+    "refId": "0fff6db0-464b-44f3-81af-381d88e7a1c3",
+    "referenceExchange": {
+      "amount": 1.0,
+      "defaultProviderId": 0,
+      "flow": {
+        "category": {
+          "childCategories": [],
+          "fromLibrary": false,
+          "id": 420,
+          "lastChange": 1685429979174,
+          "modelType": "FLOW",
+          "name": "A Water Bottle",
+          "refId": "70a67e55-5c75-3a14-a37e-597ae0d17c32",
+          "version": 1
+        },
+        "description": "",
+        "flowPropertyFactors": [
+          {
+            "conversionFactor": 1.0,
+            "flowProperty": {
+              "category": {
+                "childCategories": [],
+                "fromLibrary": false,
+                "id": 4,
+                "lastChange": 1685429978321,
+                "modelType": "FLOW_PROPERTY",
+                "name": "Technical flow properties",
+                "refId": "87cfd36b-db77-3a88-8c0e-7102ce682690",
+                "version": 1
+              },
+              "flowPropertyType": "PHYSICAL",
+              "fromLibrary": false,
+              "id": 164,
+              "lastChange": 0,
+              "name": "Number of items",
+              "refId": "01846770-4cfe-4a25-8ad9-919d8d378345",
+              "referenceUnit": {
+                "conversionFactor": 1.0,
+                "description": "Number of items",
+                "id": 163,
+                "name": "Item(s)",
+                "refId": "6dabe201-aaac-4509-92f0-d00c26cb72ab",
+                "synonyms": "unit;LU;pig place;p"
+              },
+              "unitGroup": {
+                "category": {
+                  "childCategories": [],
+                  "fromLibrary": false,
+                  "id": 1,
+                  "lastChange": 1685429978241,
+                  "modelType": "UNIT_GROUP",
+                  "name": "Technical unit groups",
+                  "refId": "00d44049-4768-313c-b2a5-c2d545f8e0ec",
+                  "version": 1
+                },
+                "defaultFlowProperty": {
+                  "$ref": ".."
+                },
+                "fromLibrary": false,
+                "id": 161,
+                "lastChange": 0,
+                "name": "Units of items",
+                "refId": "5beb6eed-33a9-47b8-9ede-1dfe8f679159",
+                "referenceUnit": {
+                  "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                },
+                "units": [
+                  {
+                    "conversionFactor": 12.0,
+                    "description": "Dozen(s) of items",
+                    "id": 162,
+                    "name": "Dozen(s)",
+                    "refId": "3bd6c6c3-bb61-46f3-b19a-c87ac5502bb7"
+                  },
+                  {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                  }
+                ],
+                "version": 0
+              },
+              "version": 0
+            },
+            "id": 1593
+          }
+        ],
+        "flowType": "PRODUCT_FLOW",
+        "fromLibrary": false,
+        "id": 1592,
+        "infrastructureFlow": false,
+        "lastChange": 1581951217864,
+        "name": "PC Bottle at POS",
+        "refId": "7b3ecc71-6ba8-4eda-8dc5-fa8ec0c602a0",
+        "referenceFactor": {
+          "$ref": "$.referenceExchange.flow.flowPropertyFactors[0]"
+        },
+        "referenceFlowProperty": {
+          "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty"
+        },
+        "referenceUnit": {
+          "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+        },
+        "version": 1
+      },
+      "flowPropertyFactor": {
+        "$ref": "$.referenceExchange.flow.flowPropertyFactors[0]"
+      },
+      "id": 4420,
+      "internalId": 1,
+      "isAvoided": false,
+      "isInput": false,
+      "unit": {
+        "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+      }
+    },
+    "referenceProcess": {
+      "allocationFactors": [],
+      "category": {
+        "category": {
+          "childCategories": [
+            {
+              "$ref": "$.referenceProcess.category"
+            }
+          ],
+          "fromLibrary": false,
+          "id": 1602,
+          "lastChange": 1685429979465,
+          "modelType": "PROCESS",
+          "name": "A Water Bottle",
+          "refId": "fab6f9cd-c1aa-3769-b66a-19ae29d82b0f",
+          "version": 1
+        },
+        "childCategories": [],
+        "fromLibrary": false,
+        "id": 1603,
+        "lastChange": 1685429979465,
+        "modelType": "PROCESS",
+        "name": "PC",
+        "refId": "7452bbd2-d486-3523-8190-e38610bc4d50",
+        "version": 1
+      },
+      "description": "",
+      "documentation": {
+        "copyright": false,
+        "creationDate": 1581659230802,
+        "id": 4419,
+        "sources": []
+      },
+      "exchanges": [
+        {
+          "$ref": "$.referenceExchange"
+        },
+        {
+          "amount": 13.0,
+          "defaultProviderId": 3605,
+          "description": "Transport B",
+          "flow": {
+            "category": {
+              "category": {
+                "childCategories": [
+                  {
+                    "$ref": "$.referenceProcess.exchanges[1].flow.category"
+                  }
+                ],
+                "fromLibrary": false,
+                "id": 418,
+                "lastChange": 1685429979171,
+                "modelType": "FLOW",
+                "name": "Transport services",
+                "refId": "392db6e7-2607-335d-86dd-cdf5bf4a40b7",
+                "version": 1
+              },
+              "childCategories": [],
+              "fromLibrary": false,
+              "id": 419,
+              "lastChange": 1685429979171,
+              "modelType": "FLOW",
+              "name": "Other transport",
+              "refId": "da8741fd-a8df-3390-be32-05e57d8e28e6",
+              "version": 1
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 132,
+                  "lastChange": 0,
+                  "name": "Goods transport (mass*distance)",
+                  "refId": "838aaa20-0117-11db-92e3-0800200c9a66",
+                  "referenceUnit": {
+                    "conversionFactor": 1.0,
+                    "description": "Metric tonne-kilometre",
+                    "id": 127,
+                    "name": "t*km",
+                    "refId": "0dea4ed8-bb6b-4049-b2b4-b2c413ef2180",
+                    "synonyms": "tkm"
+                  },
+                  "unitGroup": {
+                    "category": {
+                      "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.unitGroup.category"
+                    },
+                    "defaultFlowProperty": {
+                      "$ref": ".."
+                    },
+                    "fromLibrary": false,
+                    "id": 124,
+                    "lastChange": 0,
+                    "name": "Units of mass*length",
+                    "refId": "838aaa21-0117-11db-92e3-0800200c9a66",
+                    "referenceUnit": {
+                      "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                    },
+                    "units": [
+                      {
+                        "conversionFactor": 7.3E-4,
+                        "description": "British pound (avoirdupois) times international mile",
+                        "id": 126,
+                        "name": "lb*mi",
+                        "refId": "5458351a-f6f7-4e0b-a449-823c9b6374db"
+                      },
+                      {
+                        "conversionFactor": 1.85,
+                        "description": "Metric tonne times nautical mile",
+                        "id": 130,
+                        "name": "t*nmi",
+                        "refId": "7dd57df4-c092-41aa-966e-c93a27797ea1"
+                      },
+                      {
+                        "conversionFactor": 0.001,
+                        "description": "Kilogram-kilometre",
+                        "id": 125,
+                        "name": "kg*km",
+                        "refId": "a40229e6-7275-42e3-a304-23d590044770",
+                        "synonyms": "kgkm;kgkm"
+                      },
+                      {
+                        "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                      },
+                      {
+                        "conversionFactor": 8.4E-4,
+                        "description": "British pound (avoirdupois) times nautical mile",
+                        "id": 129,
+                        "name": "lb*nmi",
+                        "refId": "d24270f0-c1f2-49ec-a6bf-e86a74177070"
+                      },
+                      {
+                        "conversionFactor": 1.609344,
+                        "description": "Metric tonne times international mile",
+                        "id": 131,
+                        "name": "t*mi",
+                        "refId": "3cc51ae9-b993-4a3d-964e-0aed8d7f3966"
+                      },
+                      {
+                        "conversionFactor": 1000.0,
+                        "description": "Kilotonne * kilometre",
+                        "id": 128,
+                        "name": "kt*km",
+                        "refId": "097768e6-0763-4126-a253-e323cafdf77e",
+                        "synonyms": "ktkm"
+                      }
+                    ],
+                    "version": 0
+                  },
+                  "version": 0
+                },
+                "id": 1589
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1588,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "transport in t*km",
+            "refId": "4f1a3f30-7b3b-11dd-ad8b-0800200c9a66",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0]"
+          },
+          "formula": "0.065*200",
+          "id": 4424,
+          "internalId": 8,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.unitGroup.units[2]"
+          }
+        },
+        {
+          "amount": 0.001,
+          "defaultProviderId": 1780,
+          "description": "Production of PC Granulate",
+          "flow": {
+            "category": {
+              "category": {
+                "childCategories": [
+                  {
+                    "category": {
+                      "$ref": "$.referenceProcess.exchanges[2].flow.category.category"
+                    },
+                    "childCategories": [],
+                    "fromLibrary": false,
+                    "id": 410,
+                    "lastChange": 1685429979030,
+                    "modelType": "FLOW",
+                    "name": "Inorganic chemicals",
+                    "refId": "a68b245b-abd0-3ae3-bb5d-610c3361aff9",
+                    "version": 1
+                  },
+                  {
+                    "$ref": "$.referenceProcess.exchanges[2].flow.category"
+                  },
+                  {
+                    "category": {
+                      "$ref": "$.referenceProcess.exchanges[2].flow.category.category"
+                    },
+                    "childCategories": [],
+                    "fromLibrary": false,
+                    "id": 416,
+                    "lastChange": 1685429979165,
+                    "modelType": "FLOW",
+                    "name": "Water",
+                    "refId": "2e7aaf49-b398-3ca3-8645-32fcbbf30c3c",
+                    "version": 1
+                  }
+                ],
+                "fromLibrary": false,
+                "id": 409,
+                "lastChange": 1685429979029,
+                "modelType": "FLOW",
+                "name": "Materials production",
+                "refId": "530190f2-3fb6-3a48-abd6-766fc5323539",
+                "version": 1
+              },
+              "childCategories": [],
+              "fromLibrary": false,
+              "id": 415,
+              "lastChange": 1685429979162,
+              "modelType": "FLOW",
+              "name": "Plastics",
+              "refId": "00a9b334-90c1-30ac-86cc-c54b7ec39ecf",
+              "version": 1
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 160,
+                  "lastChange": 0,
+                  "name": "Mass",
+                  "refId": "93a60a56-a3c8-11da-a746-0800200b9a66",
+                  "referenceUnit": {
+                    "conversionFactor": 1.0,
+                    "description": "Kilogram",
+                    "id": 151,
+                    "name": "kg",
+                    "refId": "20aadc24-a391-41cf-b340-3e4529f44bde"
+                  },
+                  "unitGroup": {
+                    "category": {
+                      "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.unitGroup.category"
+                    },
+                    "defaultFlowProperty": {
+                      "$ref": ".."
+                    },
+                    "fromLibrary": false,
+                    "id": 133,
+                    "lastChange": 1685348214798,
+                    "name": "Units of mass",
+                    "refId": "93a60a57-a4c8-11da-a746-0800200c9a66",
+                    "referenceUnit": {
+                      "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                    },
+                    "units": [
+                      {
+                        "conversionFactor": 1016.04,
+                        "description": "Long ton",
+                        "id": 155,
+                        "name": "long tn",
+                        "refId": "e5ccc940-eb40-41f9-847e-5ee691ba8c2f",
+                        "synonyms": "tn.lg"
+                      },
+                      {
+                        "conversionFactor": 1.0E9,
+                        "description": "Megatonne",
+                        "id": 144,
+                        "name": "Mt",
+                        "refId": "9dd23b40-4394-4f9a-9572-5f2ee9643864",
+                        "synonyms": "Mtn"
+                      },
+                      {
+                        "conversionFactor": 0.001771845,
+                        "description": "Dram (Avoirdupois)",
+                        "id": 138,
+                        "name": "dr (Av)",
+                        "refId": "56f42b51-bb05-4dcd-a069-0693f167304c"
+                      },
+                      {
+                        "conversionFactor": 1.0E-15,
+                        "description": "Picogram; 10^-12 g",
+                        "id": 143,
+                        "name": "pg",
+                        "refId": "68c83ad3-bc5b-414a-81f7-5b47af2c8a23"
+                      },
+                      {
+                        "conversionFactor": 1.0E-5,
+                        "description": "Centigram",
+                        "id": 136,
+                        "name": "cg",
+                        "refId": "218bf752-ec01-43a9-b87c-0e733374fffd"
+                      },
+                      {
+                        "conversionFactor": 1.0,
+                        "description": "Kilogram SWU",
+                        "id": 149,
+                        "name": "kg SWU",
+                        "refId": "95dd50e9-c184-4412-9afc-9764b1ffcf8f"
+                      },
+                      {
+                        "conversionFactor": 1.0E-9,
+                        "description": "Microgram",
+                        "id": 158,
+                        "name": "ug",
+                        "refId": "d01259b2-24c2-46af-a7fe-36dd025ead15",
+                        "synonyms": "µg"
+                      },
+                      {
+                        "conversionFactor": 1000000.0,
+                        "description": "Kilotonne",
+                        "id": 154,
+                        "name": "kt",
+                        "refId": "e720c842-19f5-4a38-8573-78dd13719f5b"
+                      },
+                      {
+                        "conversionFactor": 1.0E-6,
+                        "description": "Milligram",
+                        "id": 141,
+                        "name": "mg",
+                        "refId": "b872a063-0500-42b7-9e5d-441642d84417"
+                      },
+                      {
+                        "conversionFactor": 45.359237,
+                        "description": "Short hundredweight",
+                        "id": 153,
+                        "name": "cwt",
+                        "refId": "2a0b9356-a2dd-444f-991e-ce66cd174c9e"
+                      },
+                      {
+                        "conversionFactor": 6.48E-5,
+                        "description": "Grain",
+                        "id": 137,
+                        "name": "gr",
+                        "refId": "78af80e7-ede4-4a65-b04d-97d9ce4f39d3"
+                      },
+                      {
+                        "conversionFactor": 0.001555174,
+                        "description": "Pennyweight",
+                        "id": 148,
+                        "name": "dwt",
+                        "refId": "a3350a8a-5cb0-440d-9752-8afe8c08c455"
+                      },
+                      {
+                        "conversionFactor": 0.45,
+                        "description": "British pound (avoirdupois)",
+                        "id": 142,
+                        "name": "lb av",
+                        "refId": "0300ec69-ce1a-45f0-bcf0-7b33845dc53e",
+                        "synonyms": "lb"
+                      },
+                      {
+                        "conversionFactor": 1.0,
+                        "id": 159,
+                        "name": "items",
+                        "refId": "e7572d19-c61f-42b8-8da9-e1e1a883dca7"
+                      },
+                      {
+                        "conversionFactor": 0.1,
+                        "description": "Hectogram",
+                        "id": 157,
+                        "name": "hg",
+                        "refId": "86dfd16d-d1d8-4b71-88af-0e1126425c77"
+                      },
+                      {
+                        "conversionFactor": 0.001,
+                        "description": "Gram",
+                        "id": 140,
+                        "name": "g",
+                        "refId": "e1317ffc-7f83-4a85-bc65-4fb229a25cf8"
+                      },
+                      {
+                        "conversionFactor": 0.01,
+                        "description": "Decagram",
+                        "id": 150,
+                        "name": "dag",
+                        "refId": "90d59045-3565-4c5a-bb27-ebc365aacbd0"
+                      },
+                      {
+                        "conversionFactor": 1.0E-4,
+                        "description": "Decigram",
+                        "id": 134,
+                        "name": "dg",
+                        "refId": "2ac22d0d-9e02-4459-9402-923490e4e1b4"
+                      },
+                      {
+                        "conversionFactor": 2.0E-4,
+                        "description": "Carat (metric)",
+                        "id": 147,
+                        "name": "ct",
+                        "refId": "ae5cced9-f9f1-4719-bd37-837b36013d96",
+                        "synonyms": "carat"
+                      },
+                      {
+                        "conversionFactor": 1000.0,
+                        "description": "Megagram = 1 metric tonne",
+                        "id": 156,
+                        "name": "Mg",
+                        "refId": "d022bf34-1162-4579-90ab-dcca9620ce54"
+                      },
+                      {
+                        "conversionFactor": 907.18,
+                        "description": "Short ton",
+                        "id": 145,
+                        "name": "sh tn",
+                        "refId": "d4922696-9c95-4b5d-a876-425e98276978",
+                        "synonyms": "tn.sh"
+                      },
+                      {
+                        "conversionFactor": 1.0E-12,
+                        "description": "Nanogram",
+                        "id": 135,
+                        "name": "ng",
+                        "refId": "63214902-17d4-41a0-be10-d1cad375c32e"
+                      },
+                      {
+                        "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                      },
+                      {
+                        "conversionFactor": 0.02,
+                        "description": "Ounce (avoirdupois); commonly used, but NOT for gold, platinum etc. (see Ounce (troy))",
+                        "id": 152,
+                        "name": "oz av",
+                        "refId": "fa44e424-f37b-419d-8475-723429d63c08",
+                        "synonyms": "oz"
+                      },
+                      {
+                        "conversionFactor": 1000.0,
+                        "description": "Tonne",
+                        "id": 146,
+                        "name": "t",
+                        "refId": "83192ffa-5990-490b-a23a-b45ca072db6f",
+                        "synonyms": "Mg;ton"
+                      },
+                      {
+                        "conversionFactor": 0.03,
+                        "description": "Ounce (troy)",
+                        "id": 139,
+                        "name": "oz t",
+                        "refId": "2457aee5-c7ee-4416-a65a-5be4ff2b2976"
+                      }
+                    ],
+                    "version": 1
+                  },
+                  "version": 0
+                },
+                "id": 1591
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1590,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "polybutadiene granulate (PB)",
+            "refId": "4f19f113-7b3b-11dd-ad8b-0800200c9a66",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0]"
+          },
+          "id": 4421,
+          "internalId": 2,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        },
+        {
+          "amount": 1.0,
+          "defaultProviderId": 4005,
+          "description": "Production of bottle and filling",
+          "flow": {
+            "category": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.category.category.childCategories[2]"
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+                },
+                "id": 1578
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1577,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "drinking water",
+            "refId": "4f197bf2-7b3b-11dd-ad8b-0800200c9a66",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[3].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[3].flow.flowPropertyFactors[0]"
+          },
+          "id": 4428,
+          "internalId": 9,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        },
+        {
+          "amount": 0.004,
+          "defaultProviderId": 1610,
+          "description": "Production of PC Granulate",
+          "flow": {
+            "category": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.category"
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+                },
+                "id": 1580
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1579,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "polyethylene low density granulate (PE-LD)",
+            "refId": "4f19f116-7b3b-11dd-ad8b-0800200c9a66",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[4].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[4].flow.flowPropertyFactors[0]"
+          },
+          "id": 4425,
+          "internalId": 4,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        },
+        {
+          "amount": 53.25,
+          "defaultProviderId": 3605,
+          "description": "Transport C",
+          "flow": {
+            "$ref": "$.referenceProcess.exchanges[1].flow"
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0]"
+          },
+          "formula": "1.065*50",
+          "id": 4422,
+          "internalId": 11,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.unitGroup.units[2]"
+          }
+        },
+        {
+          "amount": 2.0,
+          "defaultProviderId": 3071,
+          "description": "Production of bottle preform, lid and lable",
+          "flow": {
+            "category": {
+              "category": {
+                "childCategories": [
+                  {
+                    "category": {
+                      "$ref": "$.referenceProcess.exchanges[6].flow.category.category"
+                    },
+                    "childCategories": [],
+                    "fromLibrary": false,
+                    "id": 395,
+                    "lastChange": 1685429978905,
+                    "modelType": "FLOW",
+                    "name": "Heat and steam",
+                    "refId": "fcc04ab8-01f5-3deb-a8b3-25cf79dd20f8",
+                    "version": 1
+                  },
+                  {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.category"
+                  }
+                ],
+                "fromLibrary": false,
+                "id": 394,
+                "lastChange": 1685429978905,
+                "modelType": "FLOW",
+                "name": "Energy carriers and technologies",
+                "refId": "64d5c28f-57b9-3d61-a9b1-f5aa601f7e3b",
+                "version": 1
+              },
+              "childCategories": [],
+              "fromLibrary": false,
+              "id": 417,
+              "lastChange": 1685429979168,
+              "modelType": "FLOW",
+              "name": "Electricity",
+              "refId": "c51ff3d2-16f9-3d74-80dc-0afdf1f37607",
+              "version": 1
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 381,
+                  "lastChange": 0,
+                  "name": "Net calorific value",
+                  "refId": "93a60a56-a3c8-11da-a746-0800200c9a66",
+                  "referenceUnit": {
+                    "conversionFactor": 1.0,
+                    "description": "Megajoule",
+                    "id": 112,
+                    "name": "MJ",
+                    "refId": "52765a6c-3896-43c2-b2f4-c679acf13efe"
+                  },
+                  "unitGroup": {
+                    "category": {
+                      "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.unitGroup.category"
+                    },
+                    "defaultFlowProperty": {
+                      "category": {
+                        "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                      },
+                      "flowPropertyType": "PHYSICAL",
+                      "fromLibrary": false,
+                      "id": 123,
+                      "lastChange": 0,
+                      "name": "Energy",
+                      "refId": "f6811440-ee37-11de-8a39-0800200c9a66",
+                      "referenceUnit": {
+                        "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                      },
+                      "unitGroup": {
+                        "$ref": ".."
+                      },
+                      "version": 0
+                    },
+                    "fromLibrary": false,
+                    "id": 109,
+                    "lastChange": 0,
+                    "name": "Units of energy",
+                    "refId": "93a60a57-a3c8-11da-a746-0800200c9a66",
+                    "referenceUnit": {
+                      "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                    },
+                    "units": [
+                      {
+                        "conversionFactor": 1.0E-6,
+                        "description": "Joule",
+                        "id": 122,
+                        "name": "J",
+                        "refId": "469d61f1-3bc4-4841-8adf-873825c1bc11"
+                      },
+                      {
+                        "conversionFactor": 1000000.0,
+                        "description": "Terajoule",
+                        "id": 111,
+                        "name": "TJ",
+                        "refId": "57c492e7-d94b-4fcc-98df-cdc4163b754c"
+                      },
+                      {
+                        "conversionFactor": 0.001,
+                        "description": "Kilojoule",
+                        "id": 117,
+                        "name": "kJ",
+                        "refId": "f4119718-2d50-47fe-9154-cab6fd2d30eb"
+                      },
+                      {
+                        "conversionFactor": 0.0036,
+                        "description": "Watt times hour",
+                        "id": 113,
+                        "name": "Wh",
+                        "refId": "fc3604f7-aa93-4aa3-8ae9-8f822874da5f"
+                      },
+                      {
+                        "conversionFactor": 0.00419,
+                        "description": "Kilocalorie (International table)",
+                        "id": 119,
+                        "name": "kcal",
+                        "refId": "010f811e-3cc2-4b14-a901-337da9b3e49c"
+                      },
+                      {
+                        "conversionFactor": 3600.0,
+                        "description": "Megawatt times hour",
+                        "id": 110,
+                        "name": "MWh",
+                        "refId": "92e3bd49-8ed5-4885-9db6-fc88c7afcfcb"
+                      },
+                      {
+                        "conversionFactor": 1000.0,
+                        "description": "Gigajoule",
+                        "id": 118,
+                        "name": "GJ",
+                        "refId": "01e58eb9-0aba-4c76-ba0c-03f6f3be1353"
+                      },
+                      {
+                        "conversionFactor": 41868.0,
+                        "description": "Tonne oil equivalent",
+                        "id": 120,
+                        "name": "TOE",
+                        "refId": "425aff51-b7e5-4561-aa5a-562ec103a79e"
+                      },
+                      {
+                        "conversionFactor": 29307.6,
+                        "description": "Tonne coal equivalent",
+                        "id": 116,
+                        "name": "TCE",
+                        "refId": "787f2ac9-7bcd-4a91-9fab-55bfe414138f"
+                      },
+                      {
+                        "conversionFactor": 1.0E9,
+                        "description": "PetaJoules",
+                        "id": 121,
+                        "name": "PJ",
+                        "refId": "ff1a332f-967c-4084-8b01-8d3ca81b3121"
+                      },
+                      {
+                        "conversionFactor": 0.00106,
+                        "description": "British thermal unit (International table)",
+                        "id": 114,
+                        "name": "btu",
+                        "refId": "55244053-94ba-404e-9172-cb279d905e00"
+                      },
+                      {
+                        "conversionFactor": 3.6,
+                        "description": "Kilowatt times hour",
+                        "id": 115,
+                        "name": "kWh",
+                        "refId": "86ad2244-1f0e-4912-af53-7865283103e4"
+                      },
+                      {
+                        "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                      }
+                    ],
+                    "version": 0
+                  },
+                  "version": 0
+                },
+                "id": 1584
+              },
+              {
+                "conversionFactor": 0.014306,
+                "flowProperty": {
+                  "category": {
+                    "childCategories": [],
+                    "fromLibrary": false,
+                    "id": 368,
+                    "lastChange": 1685429978855,
+                    "modelType": "FLOW_PROPERTY",
+                    "name": "Economic flow properties",
+                    "refId": "8a4312de-4b99-3248-8bf8-67e4e72b2d54",
+                    "version": 1
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 382,
+                  "lastChange": 0,
+                  "name": "Price",
+                  "refId": "bcf81c0a-9fe9-4b88-a25b-99e0dd64ddaa",
+                  "referenceUnit": {
+                    "conversionFactor": 1.0,
+                    "id": 108,
+                    "name": "EUR",
+                    "refId": "54a2fd64-bc4c-4985-b711-40b4d4250f73"
+                  },
+                  "unitGroup": {
+                    "category": {
+                      "childCategories": [],
+                      "fromLibrary": false,
+                      "id": 103,
+                      "lastChange": 1685429978454,
+                      "modelType": "UNIT_GROUP",
+                      "name": "Economic unit groups",
+                      "refId": "9a0997cc-7271-3ba1-b905-bfc8b81bd927",
+                      "version": 1
+                    },
+                    "fromLibrary": false,
+                    "id": 104,
+                    "lastChange": 1456250475053,
+                    "name": "Units of currency 2002",
+                    "refId": "03cc996d-7177-4738-aa32-1572a5172ccc",
+                    "referenceUnit": {
+                      "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.referenceUnit"
+                    },
+                    "units": [
+                      {
+                        "conversionFactor": 0.864077403495266,
+                        "id": 105,
+                        "name": "$",
+                        "refId": "85d860a8-5702-41e4-822b-ab9ac866ef55"
+                      },
+                      {
+                        "conversionFactor": 0.01,
+                        "id": 106,
+                        "name": "Yen",
+                        "refId": "6b7527ac-a155-4054-b288-3015d447d46a"
+                      },
+                      {
+                        "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.referenceUnit"
+                      },
+                      {
+                        "conversionFactor": 0.601788895266376,
+                        "id": 107,
+                        "name": "sFr",
+                        "refId": "01d44916-ebab-4b0c-8c26-708dcbe3b323"
+                      }
+                    ],
+                    "version": 2
+                  },
+                  "version": 0
+                },
+                "id": 1583
+              },
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 379,
+                  "lastChange": 0,
+                  "name": "Exergy",
+                  "refId": "79920f3d-77b3-4f12-8a8f-47accf832eca",
+                  "referenceUnit": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                  },
+                  "unitGroup": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.unitGroup"
+                  },
+                  "version": 0
+                },
+                "id": 1586
+              },
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 383,
+                  "lastChange": 0,
+                  "name": "Gross calorific value",
+                  "refId": "93a60a56-a3c8-14da-a746-0800200c9a66",
+                  "referenceUnit": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                  },
+                  "unitGroup": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.unitGroup"
+                  },
+                  "version": 0
+                },
+                "id": 1582
+              },
+              {
+                "conversionFactor": 0.02,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 380,
+                  "lastChange": 0,
+                  "name": "US market price 2002",
+                  "refId": "f138e814-c15d-42b0-8cd2-bdef72e6ac59",
+                  "referenceUnit": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.referenceUnit"
+                  },
+                  "unitGroup": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.unitGroup"
+                  },
+                  "version": 0
+                },
+                "id": 1585
+              },
+              {
+                "conversionFactor": 0.0213039988138028,
+                "flowProperty": {
+                  "category": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.category"
+                  },
+                  "flowPropertyType": "PHYSICAL",
+                  "fromLibrary": false,
+                  "id": 378,
+                  "lastChange": 0,
+                  "name": "Price FBG",
+                  "refId": "52df30be-afb3-4e75-a3d8-35f97aba925b",
+                  "referenceUnit": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.referenceUnit"
+                  },
+                  "unitGroup": {
+                    "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[1].flowProperty.unitGroup"
+                  },
+                  "version": 0
+                },
+                "id": 1587
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1581,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "Electricity",
+            "refId": "890a70b7-b677-4e2a-8a1b-7d017e0a10ae",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0]"
+          },
+          "id": 4426,
+          "internalId": 7,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        },
+        {
+          "amount": 2.0,
+          "defaultProviderId": 3071,
+          "description": "Production of bottle and filling",
+          "flow": {
+            "$ref": "$.referenceProcess.exchanges[6].flow"
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0]"
+          },
+          "id": 4423,
+          "internalId": 10,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[6].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        },
+        {
+          "amount": 13.0,
+          "defaultProviderId": 3605,
+          "description": "Transport A",
+          "flow": {
+            "$ref": "$.referenceProcess.exchanges[1].flow"
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0]"
+          },
+          "formula": "0.065*200",
+          "id": 4427,
+          "internalId": 6,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[1].flow.flowPropertyFactors[0].flowProperty.unitGroup.units[2]"
+          }
+        },
+        {
+          "amount": 0.06,
+          "defaultProviderId": 1947,
+          "description": "Production of PC Granulate",
+          "flow": {
+            "category": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.category"
+            },
+            "flowPropertyFactors": [
+              {
+                "conversionFactor": 1.0,
+                "flowProperty": {
+                  "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+                },
+                "id": 1576
+              }
+            ],
+            "flowType": "PRODUCT_FLOW",
+            "fromLibrary": false,
+            "id": 1575,
+            "infrastructureFlow": false,
+            "lastChange": 0,
+            "name": "polycarbonate granulate (PC)",
+            "refId": "4f19f114-7b3b-11dd-ad8b-0800200c9a66",
+            "referenceFactor": {
+              "$ref": "$.referenceProcess.exchanges[9].flow.flowPropertyFactors[0]"
+            },
+            "referenceFlowProperty": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty"
+            },
+            "referenceUnit": {
+              "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "version": 0
+          },
+          "flowPropertyFactor": {
+            "$ref": "$.referenceProcess.exchanges[9].flow.flowPropertyFactors[0]"
+          },
+          "id": 4429,
+          "internalId": 3,
+          "isAvoided": false,
+          "isInput": true,
+          "unit": {
+            "$ref": "$.referenceProcess.exchanges[2].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          }
+        }
+      ],
+      "fromLibrary": false,
+      "id": 4418,
+      "infrastructureProcess": false,
+      "lastChange": 1581684623259,
+      "lastInternalId": 11,
+      "name": "PC bottle all",
+      "parameters": [],
+      "process": true,
+      "processType": "UNIT_PROCESS",
+      "productSystem": false,
+      "quantitativeReference": {
+        "$ref": "$.referenceExchange"
+      },
+      "refId": "41707610-7151-4dba-9038-5d0315a50a75",
+      "socialAspects": [],
+      "version": 1
+    },
+    "targetAmount": 1000.0,
+    "targetFlowPropertyFactor": {
+      "$ref": "$.referenceExchange.flow.flowPropertyFactors[0]"
+    },
+    "targetUnit": {
+      "$ref": "$.referenceExchange.flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+    },
+    "version": 2
+  },
+  [ModelType.PROCESS]: {
+    "allocationFactors": [],
+    "category": {
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 1594,
+      "lastChange": 1685429979401,
+      "modelType": "PROCESS",
+      "name": "Dummy processes",
+      "refId": "6c721331-bee6-3a87-9f25-60c590bd5fac",
+      "version": 1
+    },
+    "documentation": {
+      "copyright": false,
+      "id": 3603,
+      "sources": []
+    },
+    "exchanges": [
+      {
+        "amount": 1.0,
+        "defaultProviderId": 0,
+        "flow": {
+          "category": {
+            "category": {
+              "childCategories": [
+                {
+                  "category": {
+                    "$ref": "$.exchanges[0].flow.category.category"
+                  },
+                  "childCategories": [],
+                  "fromLibrary": false,
+                  "id": 385,
+                  "lastChange": 1685429978872,
+                  "modelType": "FLOW",
+                  "name": "Consumer waste",
+                  "refId": "2164fd67-b71e-38d3-b337-9152f1753ea8",
+                  "version": 1
+                },
+                {
+                  "category": {
+                    "$ref": "$.exchanges[0].flow.category.category"
+                  },
+                  "childCategories": [],
+                  "fromLibrary": false,
+                  "id": 400,
+                  "lastChange": 1685429978931,
+                  "modelType": "FLOW",
+                  "name": "Stockpile goods",
+                  "refId": "df79778c-8e5e-3380-8f9e-5959a3b7c731",
+                  "version": 1
+                },
+                {
+                  "$ref": "$.exchanges[0].flow.category"
+                }
+              ],
+              "fromLibrary": false,
+              "id": 384,
+              "lastChange": 1685429978871,
+              "modelType": "FLOW",
+              "name": "Deposited goods",
+              "refId": "4d75020f-9923-3c4f-b05b-6532a879c18c",
+              "version": 1
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 408,
+            "lastChange": 1685429979016,
+            "modelType": "FLOW",
+            "name": "Radioactive waste",
+            "refId": "3b142f59-a2d7-3e70-afcd-89a810e729d4",
+            "version": 1
+          },
+          "flowPropertyFactors": [
+            {
+              "conversionFactor": 1.0,
+              "flowProperty": {
+                "category": {
+                  "childCategories": [],
+                  "fromLibrary": false,
+                  "id": 4,
+                  "lastChange": 1685429978321,
+                  "modelType": "FLOW_PROPERTY",
+                  "name": "Technical flow properties",
+                  "refId": "87cfd36b-db77-3a88-8c0e-7102ce682690",
+                  "version": 1
+                },
+                "flowPropertyType": "PHYSICAL",
+                "fromLibrary": false,
+                "id": 160,
+                "lastChange": 0,
+                "name": "Mass",
+                "refId": "93a60a56-a3c8-11da-a746-0800200b9a66",
+                "referenceUnit": {
+                  "conversionFactor": 1.0,
+                  "description": "Kilogram",
+                  "id": 151,
+                  "name": "kg",
+                  "refId": "20aadc24-a391-41cf-b340-3e4529f44bde"
+                },
+                "unitGroup": {
+                  "category": {
+                    "childCategories": [],
+                    "fromLibrary": false,
+                    "id": 1,
+                    "lastChange": 1685429978241,
+                    "modelType": "UNIT_GROUP",
+                    "name": "Technical unit groups",
+                    "refId": "00d44049-4768-313c-b2a5-c2d545f8e0ec",
+                    "version": 1
+                  },
+                  "defaultFlowProperty": {
+                    "$ref": ".."
+                  },
+                  "fromLibrary": false,
+                  "id": 133,
+                  "lastChange": 1685348214798,
+                  "name": "Units of mass",
+                  "refId": "93a60a57-a4c8-11da-a746-0800200c9a66",
+                  "referenceUnit": {
+                    "$ref": "$.exchanges[0].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                  },
+                  "units": [
+                    {
+                      "conversionFactor": 1016.04,
+                      "description": "Long ton",
+                      "id": 155,
+                      "name": "long tn",
+                      "refId": "e5ccc940-eb40-41f9-847e-5ee691ba8c2f",
+                      "synonyms": "tn.lg"
+                    },
+                    {
+                      "conversionFactor": 1.0E9,
+                      "description": "Megatonne",
+                      "id": 144,
+                      "name": "Mt",
+                      "refId": "9dd23b40-4394-4f9a-9572-5f2ee9643864",
+                      "synonyms": "Mtn"
+                    },
+                    {
+                      "conversionFactor": 0.001771845,
+                      "description": "Dram (Avoirdupois)",
+                      "id": 138,
+                      "name": "dr (Av)",
+                      "refId": "56f42b51-bb05-4dcd-a069-0693f167304c"
+                    },
+                    {
+                      "conversionFactor": 1.0E-15,
+                      "description": "Picogram; 10^-12 g",
+                      "id": 143,
+                      "name": "pg",
+                      "refId": "68c83ad3-bc5b-414a-81f7-5b47af2c8a23"
+                    },
+                    {
+                      "conversionFactor": 1.0E-5,
+                      "description": "Centigram",
+                      "id": 136,
+                      "name": "cg",
+                      "refId": "218bf752-ec01-43a9-b87c-0e733374fffd"
+                    },
+                    {
+                      "conversionFactor": 1.0,
+                      "description": "Kilogram SWU",
+                      "id": 149,
+                      "name": "kg SWU",
+                      "refId": "95dd50e9-c184-4412-9afc-9764b1ffcf8f"
+                    },
+                    {
+                      "conversionFactor": 1.0E-9,
+                      "description": "Microgram",
+                      "id": 158,
+                      "name": "ug",
+                      "refId": "d01259b2-24c2-46af-a7fe-36dd025ead15",
+                      "synonyms": "µg"
+                    },
+                    {
+                      "conversionFactor": 1000000.0,
+                      "description": "Kilotonne",
+                      "id": 154,
+                      "name": "kt",
+                      "refId": "e720c842-19f5-4a38-8573-78dd13719f5b"
+                    },
+                    {
+                      "conversionFactor": 1.0E-6,
+                      "description": "Milligram",
+                      "id": 141,
+                      "name": "mg",
+                      "refId": "b872a063-0500-42b7-9e5d-441642d84417"
+                    },
+                    {
+                      "conversionFactor": 45.359237,
+                      "description": "Short hundredweight",
+                      "id": 153,
+                      "name": "cwt",
+                      "refId": "2a0b9356-a2dd-444f-991e-ce66cd174c9e"
+                    },
+                    {
+                      "conversionFactor": 6.48E-5,
+                      "description": "Grain",
+                      "id": 137,
+                      "name": "gr",
+                      "refId": "78af80e7-ede4-4a65-b04d-97d9ce4f39d3"
+                    },
+                    {
+                      "conversionFactor": 0.001555174,
+                      "description": "Pennyweight",
+                      "id": 148,
+                      "name": "dwt",
+                      "refId": "a3350a8a-5cb0-440d-9752-8afe8c08c455"
+                    },
+                    {
+                      "conversionFactor": 0.45,
+                      "description": "British pound (avoirdupois)",
+                      "id": 142,
+                      "name": "lb av",
+                      "refId": "0300ec69-ce1a-45f0-bcf0-7b33845dc53e",
+                      "synonyms": "lb"
+                    },
+                    {
+                      "conversionFactor": 1.0,
+                      "id": 159,
+                      "name": "items",
+                      "refId": "e7572d19-c61f-42b8-8da9-e1e1a883dca7"
+                    },
+                    {
+                      "conversionFactor": 0.1,
+                      "description": "Hectogram",
+                      "id": 157,
+                      "name": "hg",
+                      "refId": "86dfd16d-d1d8-4b71-88af-0e1126425c77"
+                    },
+                    {
+                      "conversionFactor": 0.001,
+                      "description": "Gram",
+                      "id": 140,
+                      "name": "g",
+                      "refId": "e1317ffc-7f83-4a85-bc65-4fb229a25cf8"
+                    },
+                    {
+                      "conversionFactor": 0.01,
+                      "description": "Decagram",
+                      "id": 150,
+                      "name": "dag",
+                      "refId": "90d59045-3565-4c5a-bb27-ebc365aacbd0"
+                    },
+                    {
+                      "conversionFactor": 1.0E-4,
+                      "description": "Decigram",
+                      "id": 134,
+                      "name": "dg",
+                      "refId": "2ac22d0d-9e02-4459-9402-923490e4e1b4"
+                    },
+                    {
+                      "conversionFactor": 2.0E-4,
+                      "description": "Carat (metric)",
+                      "id": 147,
+                      "name": "ct",
+                      "refId": "ae5cced9-f9f1-4719-bd37-837b36013d96",
+                      "synonyms": "carat"
+                    },
+                    {
+                      "conversionFactor": 1000.0,
+                      "description": "Megagram = 1 metric tonne",
+                      "id": 156,
+                      "name": "Mg",
+                      "refId": "d022bf34-1162-4579-90ab-dcca9620ce54"
+                    },
+                    {
+                      "conversionFactor": 907.18,
+                      "description": "Short ton",
+                      "id": 145,
+                      "name": "sh tn",
+                      "refId": "d4922696-9c95-4b5d-a876-425e98276978",
+                      "synonyms": "tn.sh"
+                    },
+                    {
+                      "conversionFactor": 1.0E-12,
+                      "description": "Nanogram",
+                      "id": 135,
+                      "name": "ng",
+                      "refId": "63214902-17d4-41a0-be10-d1cad375c32e"
+                    },
+                    {
+                      "$ref": "$.exchanges[0].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+                    },
+                    {
+                      "conversionFactor": 0.02,
+                      "description": "Ounce (avoirdupois); commonly used, but NOT for gold, platinum etc. (see Ounce (troy))",
+                      "id": 152,
+                      "name": "oz av",
+                      "refId": "fa44e424-f37b-419d-8475-723429d63c08",
+                      "synonyms": "oz"
+                    },
+                    {
+                      "conversionFactor": 1000.0,
+                      "description": "Tonne",
+                      "id": 146,
+                      "name": "t",
+                      "refId": "83192ffa-5990-490b-a23a-b45ca072db6f",
+                      "synonyms": "Mg;ton"
+                    },
+                    {
+                      "conversionFactor": 0.03,
+                      "description": "Ounce (troy)",
+                      "id": 139,
+                      "name": "oz t",
+                      "refId": "2457aee5-c7ee-4416-a65a-5be4ff2b2976"
+                    }
+                  ],
+                  "version": 1
+                },
+                "version": 0
+              },
+              "id": 1168
+            }
+          ],
+          "flowType": "PRODUCT_FLOW",
+          "fromLibrary": false,
+          "id": 1167,
+          "infrastructureFlow": false,
+          "lastChange": 0,
+          "name": "Radioactive tailings",
+          "refId": "8df3d2af-d7ac-4365-9b4a-17e28b9ca482",
+          "referenceFactor": {
+            "$ref": "$.exchanges[0].flow.flowPropertyFactors[0]"
+          },
+          "referenceFlowProperty": {
+            "$ref": "$.exchanges[0].flow.flowPropertyFactors[0].flowProperty"
+          },
+          "referenceUnit": {
+            "$ref": "$.exchanges[0].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+          },
+          "version": 0
+        },
+        "flowPropertyFactor": {
+          "$ref": "$.exchanges[0].flow.flowPropertyFactors[0]"
+        },
+        "id": 3604,
+        "internalId": 1,
+        "isAvoided": false,
+        "isInput": false,
+        "unit": {
+          "$ref": "$.exchanges[0].flow.flowPropertyFactors[0].flowProperty.referenceUnit"
+        }
+      }
+    ],
+    "fromLibrary": false,
+    "id": 3602,
+    "infrastructureProcess": false,
+    "lastChange": 0,
+    "lastInternalId": 1,
+    "name": "Dummy_Radioactive tailings",
+    "parameters": [],
+    "process": true,
+    "processType": "UNIT_PROCESS",
+    "productSystem": false,
+    "quantitativeReference": {
+      "$ref": "$.exchanges[0]"
+    },
+    "refId": "133a9673-7b84-4bee-b2ed-e06335849dbd",
+    "socialAspects": [],
+    "version": 0
+  },
+  [ModelType.FLOW]: {
+    "category": {
+      "category": {
+        "childCategories": [
+          {
+            "$ref": "$.category"
+          },
+          {
+            "category": {
+              "$ref": "$.category.category"
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 400,
+            "lastChange": 1685429978931,
+            "modelType": "FLOW",
+            "name": "Stockpile goods",
+            "refId": "df79778c-8e5e-3380-8f9e-5959a3b7c731",
+            "version": 1
+          },
+          {
+            "category": {
+              "$ref": "$.category.category"
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 408,
+            "lastChange": 1685429979016,
+            "modelType": "FLOW",
+            "name": "Radioactive waste",
+            "refId": "3b142f59-a2d7-3e70-afcd-89a810e729d4",
+            "version": 1
+          }
+        ],
+        "fromLibrary": false,
+        "id": 384,
+        "lastChange": 1685429978871,
+        "modelType": "FLOW",
+        "name": "Deposited goods",
+        "refId": "4d75020f-9923-3c4f-b05b-6532a879c18c",
+        "version": 1
+      },
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 385,
+      "lastChange": 1685429978872,
+      "modelType": "FLOW",
+      "name": "Consumer waste",
+      "refId": "2164fd67-b71e-38d3-b337-9152f1753ea8",
+      "version": 1
+    },
+    "flowPropertyFactors": [
+      {
+        "conversionFactor": 1.0,
+        "flowProperty": {
+          "category": {
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 4,
+            "lastChange": 1685429978321,
+            "modelType": "FLOW_PROPERTY",
+            "name": "Technical flow properties",
+            "refId": "87cfd36b-db77-3a88-8c0e-7102ce682690",
+            "version": 1
+          },
+          "flowPropertyType": "PHYSICAL",
+          "fromLibrary": false,
+          "id": 160,
+          "lastChange": 0,
+          "name": "Mass",
+          "refId": "93a60a56-a3c8-11da-a746-0800200b9a66",
+          "referenceUnit": {
+            "conversionFactor": 1.0,
+            "description": "Kilogram",
+            "id": 151,
+            "name": "kg",
+            "refId": "20aadc24-a391-41cf-b340-3e4529f44bde"
+          },
+          "unitGroup": {
+            "category": {
+              "childCategories": [],
+              "fromLibrary": false,
+              "id": 1,
+              "lastChange": 1685429978241,
+              "modelType": "UNIT_GROUP",
+              "name": "Technical unit groups",
+              "refId": "00d44049-4768-313c-b2a5-c2d545f8e0ec",
+              "version": 1
+            },
+            "defaultFlowProperty": {
+              "$ref": ".."
+            },
+            "fromLibrary": false,
+            "id": 133,
+            "lastChange": 1685348214798,
+            "name": "Units of mass",
+            "refId": "93a60a57-a4c8-11da-a746-0800200c9a66",
+            "referenceUnit": {
+              "$ref": "$.flowPropertyFactors[0].flowProperty.referenceUnit"
+            },
+            "units": [
+              {
+                "conversionFactor": 1016.04,
+                "description": "Long ton",
+                "id": 155,
+                "name": "long tn",
+                "refId": "e5ccc940-eb40-41f9-847e-5ee691ba8c2f",
+                "synonyms": "tn.lg"
+              },
+              {
+                "conversionFactor": 1.0E9,
+                "description": "Megatonne",
+                "id": 144,
+                "name": "Mt",
+                "refId": "9dd23b40-4394-4f9a-9572-5f2ee9643864",
+                "synonyms": "Mtn"
+              },
+              {
+                "conversionFactor": 0.001771845,
+                "description": "Dram (Avoirdupois)",
+                "id": 138,
+                "name": "dr (Av)",
+                "refId": "56f42b51-bb05-4dcd-a069-0693f167304c"
+              },
+              {
+                "conversionFactor": 1.0E-15,
+                "description": "Picogram; 10^-12 g",
+                "id": 143,
+                "name": "pg",
+                "refId": "68c83ad3-bc5b-414a-81f7-5b47af2c8a23"
+              },
+              {
+                "conversionFactor": 1.0E-5,
+                "description": "Centigram",
+                "id": 136,
+                "name": "cg",
+                "refId": "218bf752-ec01-43a9-b87c-0e733374fffd"
+              },
+              {
+                "conversionFactor": 1.0,
+                "description": "Kilogram SWU",
+                "id": 149,
+                "name": "kg SWU",
+                "refId": "95dd50e9-c184-4412-9afc-9764b1ffcf8f"
+              },
+              {
+                "conversionFactor": 1.0E-9,
+                "description": "Microgram",
+                "id": 158,
+                "name": "ug",
+                "refId": "d01259b2-24c2-46af-a7fe-36dd025ead15",
+                "synonyms": "µg"
+              },
+              {
+                "conversionFactor": 1000000.0,
+                "description": "Kilotonne",
+                "id": 154,
+                "name": "kt",
+                "refId": "e720c842-19f5-4a38-8573-78dd13719f5b"
+              },
+              {
+                "conversionFactor": 1.0E-6,
+                "description": "Milligram",
+                "id": 141,
+                "name": "mg",
+                "refId": "b872a063-0500-42b7-9e5d-441642d84417"
+              },
+              {
+                "conversionFactor": 45.359237,
+                "description": "Short hundredweight",
+                "id": 153,
+                "name": "cwt",
+                "refId": "2a0b9356-a2dd-444f-991e-ce66cd174c9e"
+              },
+              {
+                "conversionFactor": 6.48E-5,
+                "description": "Grain",
+                "id": 137,
+                "name": "gr",
+                "refId": "78af80e7-ede4-4a65-b04d-97d9ce4f39d3"
+              },
+              {
+                "conversionFactor": 0.001555174,
+                "description": "Pennyweight",
+                "id": 148,
+                "name": "dwt",
+                "refId": "a3350a8a-5cb0-440d-9752-8afe8c08c455"
+              },
+              {
+                "conversionFactor": 0.45,
+                "description": "British pound (avoirdupois)",
+                "id": 142,
+                "name": "lb av",
+                "refId": "0300ec69-ce1a-45f0-bcf0-7b33845dc53e",
+                "synonyms": "lb"
+              },
+              {
+                "conversionFactor": 1.0,
+                "id": 159,
+                "name": "items",
+                "refId": "e7572d19-c61f-42b8-8da9-e1e1a883dca7"
+              },
+              {
+                "conversionFactor": 0.1,
+                "description": "Hectogram",
+                "id": 157,
+                "name": "hg",
+                "refId": "86dfd16d-d1d8-4b71-88af-0e1126425c77"
+              },
+              {
+                "conversionFactor": 0.001,
+                "description": "Gram",
+                "id": 140,
+                "name": "g",
+                "refId": "e1317ffc-7f83-4a85-bc65-4fb229a25cf8"
+              },
+              {
+                "conversionFactor": 0.01,
+                "description": "Decagram",
+                "id": 150,
+                "name": "dag",
+                "refId": "90d59045-3565-4c5a-bb27-ebc365aacbd0"
+              },
+              {
+                "conversionFactor": 1.0E-4,
+                "description": "Decigram",
+                "id": 134,
+                "name": "dg",
+                "refId": "2ac22d0d-9e02-4459-9402-923490e4e1b4"
+              },
+              {
+                "conversionFactor": 2.0E-4,
+                "description": "Carat (metric)",
+                "id": 147,
+                "name": "ct",
+                "refId": "ae5cced9-f9f1-4719-bd37-837b36013d96",
+                "synonyms": "carat"
+              },
+              {
+                "conversionFactor": 1000.0,
+                "description": "Megagram = 1 metric tonne",
+                "id": 156,
+                "name": "Mg",
+                "refId": "d022bf34-1162-4579-90ab-dcca9620ce54"
+              },
+              {
+                "conversionFactor": 907.18,
+                "description": "Short ton",
+                "id": 145,
+                "name": "sh tn",
+                "refId": "d4922696-9c95-4b5d-a876-425e98276978",
+                "synonyms": "tn.sh"
+              },
+              {
+                "conversionFactor": 1.0E-12,
+                "description": "Nanogram",
+                "id": 135,
+                "name": "ng",
+                "refId": "63214902-17d4-41a0-be10-d1cad375c32e"
+              },
+              {
+                "$ref": "$.flowPropertyFactors[0].flowProperty.referenceUnit"
+              },
+              {
+                "conversionFactor": 0.02,
+                "description": "Ounce (avoirdupois); commonly used, but NOT for gold, platinum etc. (see Ounce (troy))",
+                "id": 152,
+                "name": "oz av",
+                "refId": "fa44e424-f37b-419d-8475-723429d63c08",
+                "synonyms": "oz"
+              },
+              {
+                "conversionFactor": 1000.0,
+                "description": "Tonne",
+                "id": 146,
+                "name": "t",
+                "refId": "83192ffa-5990-490b-a23a-b45ca072db6f",
+                "synonyms": "Mg;ton"
+              },
+              {
+                "conversionFactor": 0.03,
+                "description": "Ounce (troy)",
+                "id": 139,
+                "name": "oz t",
+                "refId": "2457aee5-c7ee-4416-a65a-5be4ff2b2976"
+              }
+            ],
+            "version": 1
+          },
+          "version": 0
+        },
+        "id": 461
+      },
+      {
+        "conversionFactor": 1.0,
+        "flowProperty": {
+          "category": {
+            "category": {
+              "category": {
+                "childCategories": [
+                  {
+                    "$ref": "$.flowPropertyFactors[1].flowProperty.category.category"
+                  },
+                  {
+                    "category": {
+                      "$ref": "$.flowPropertyFactors[1].flowProperty.category.category.category"
+                    },
+                    "childCategories": [
+                      {
+                        "category": {
+                          "$ref": "$.flowPropertyFactors[1].flowProperty.category.category.category.childCategories[1]"
+                        },
+                        "childCategories": [],
+                        "fromLibrary": false,
+                        "id": 365,
+                        "lastChange": 1685429978835,
+                        "modelType": "FLOW_PROPERTY",
+                        "name": "5 Polymer materials",
+                        "refId": "1db731de-ef76-3d95-9b57-ddf4618c2f37",
+                        "version": 1
+                      },
+                      {
+                        "category": {
+                          "$ref": "$.flowPropertyFactors[1].flowProperty.category.category.category.childCategories[1]"
+                        },
+                        "childCategories": [
+                          {
+                            "category": {
+                              "$ref": "$.flowPropertyFactors[1].flowProperty.category.category.category.childCategories[1].childCategories[1]"
+                            },
+                            "childCategories": [],
+                            "fromLibrary": false,
+                            "id": 367,
+                            "lastChange": 1685429978848,
+                            "modelType": "FLOW_PROPERTY",
+                            "name": "7.1 Modified organic natural materials",
+                            "refId": "f04053d9-258e-33a6-84de-310a3d46a3ab",
+                            "version": 1
+                          }
+                        ],
+                        "fromLibrary": false,
+                        "id": 366,
+                        "lastChange": 1685429978845,
+                        "modelType": "FLOW_PROPERTY",
+                        "name": "7 Other materials and material compounds",
+                        "refId": "3198a37e-d50e-3468-8c36-22f8f40f74bd",
+                        "version": 1
+                      }
+                    ],
+                    "fromLibrary": false,
+                    "id": 364,
+                    "lastChange": 1685429978832,
+                    "modelType": "FLOW_PROPERTY",
+                    "name": "VDA material classification",
+                    "refId": "2c1fef72-ea8b-34ef-adfe-7b606057db97",
+                    "version": 1
+                  }
+                ],
+                "fromLibrary": false,
+                "id": 361,
+                "lastChange": 1685429978825,
+                "modelType": "FLOW_PROPERTY",
+                "name": "Other flow properties",
+                "refId": "bc08e966-3a8b-3ce7-a8e7-b8ad09643842",
+                "version": 1
+              },
+              "childCategories": [
+                {
+                  "$ref": "$.flowPropertyFactors[1].flowProperty.category"
+                }
+              ],
+              "fromLibrary": false,
+              "id": 362,
+              "lastChange": 1685429978826,
+              "modelType": "FLOW_PROPERTY",
+              "name": "Environmental quantities",
+              "refId": "23b5e949-78af-34c4-abaa-d34206e1b116",
+              "version": 1
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 363,
+            "lastChange": 1685429978828,
+            "modelType": "FLOW_PROPERTY",
+            "name": "EDIP 1997, Waste quantities",
+            "refId": "4a2636ac-7fea-32ed-a0c0-fa0b84213664",
+            "version": 1
+          },
+          "flowPropertyType": "PHYSICAL",
+          "fromLibrary": false,
+          "id": 369,
+          "lastChange": 0,
+          "name": "EDIP 1997, Bulk waste",
+          "refId": "ffa9500b-0e95-493e-a997-dab3ad0ff188",
+          "referenceUnit": {
+            "$ref": "$.flowPropertyFactors[0].flowProperty.referenceUnit"
+          },
+          "unitGroup": {
+            "$ref": "$.flowPropertyFactors[0].flowProperty.unitGroup"
+          },
+          "version": 0
+        },
+        "id": 460
+      }
+    ],
+    "flowType": "PRODUCT_FLOW",
+    "fromLibrary": false,
+    "id": 459,
+    "infrastructureFlow": false,
+    "lastChange": 0,
+    "name": "Mineral waste",
+    "refId": "dc50a884-b2f5-4c95-9912-07b8dfb2d497",
+    "referenceFactor": {
+      "$ref": "$.flowPropertyFactors[0]"
+    },
+    "referenceFlowProperty": {
+      "$ref": "$.flowPropertyFactors[0].flowProperty"
+    },
+    "referenceUnit": {
+      "$ref": "$.flowPropertyFactors[0].flowProperty.referenceUnit"
+    },
+    "version": 0
+  },
+  [ModelType.DQ_SYSTEM]: {
+    "fromLibrary": false,
+    "hasUncertainties": true,
+    "id": 328,
+    "indicators": [
+      {
+        "id": 329,
+        "name": "Completeness",
+        "position": 2,
+        "scores": [
+          {
+            "description": "Representative data from > 50% of the sites relevant for the market considered, over an adequate period to even out normal fluctuations",
+            "id": 330,
+            "position": 2,
+            "uncertainty": 1.02
+          },
+          {
+            "description": "Representativeness unknown or data from a small number of sites and from shorter periods",
+            "id": 333,
+            "position": 5,
+            "uncertainty": 1.2
+          },
+          {
+            "description": "Representative data from only one site relevant for the market considered or some sites but from shorter periods",
+            "id": 332,
+            "position": 4,
+            "uncertainty": 1.1
+          },
+          {
+            "description": "Representative data from only some sites (<< 50%) relevant for the market considered or > 50% of sites but from shorter periods",
+            "id": 331,
+            "position": 3,
+            "uncertainty": 1.05
+          },
+          {
+            "description": "Representative data from all sites relevant for the market considered, over and adequate period to even out normal fluctuations",
+            "id": 334,
+            "position": 1,
+            "uncertainty": 1.0
+          }
+        ]
+      },
+      {
+        "id": 341,
+        "name": "Reliability",
+        "position": 1,
+        "scores": [
+          {
+            "description": "Non-qualified estimates",
+            "id": 346,
+            "position": 5,
+            "uncertainty": 1.5
+          },
+          {
+            "description": "Qualified estimate (e.g. by industrial expert)",
+            "id": 343,
+            "position": 4,
+            "uncertainty": 1.2
+          },
+          {
+            "description": "Non-verified data partly based on qualified estimates",
+            "id": 345,
+            "position": 3,
+            "uncertainty": 1.1
+          },
+          {
+            "description": "Verified data based on measurements",
+            "id": 342,
+            "position": 1,
+            "uncertainty": 1.0
+          },
+          {
+            "description": "Verified data partly based on assumptions or non-verified data based on measurements",
+            "id": 344,
+            "position": 2,
+            "uncertainty": 1.05
+          }
+        ]
+      },
+      {
+        "id": 353,
+        "name": "Further technological correlation",
+        "position": 5,
+        "scores": [
+          {
+            "description": "Data on related processes or materials",
+            "id": 354,
+            "position": 4,
+            "uncertainty": 1.5
+          },
+          {
+            "description": "Data on related processes on laboratory scale or from different technology",
+            "id": 355,
+            "position": 5,
+            "uncertainty": 2.0
+          },
+          {
+            "description": "Data from enterprises, processes and materials under study",
+            "id": 357,
+            "position": 1,
+            "uncertainty": 1.0
+          },
+          {
+            "description": "Data from processes and materials under study but from different technology",
+            "id": 358,
+            "position": 3,
+            "uncertainty": 1.2
+          },
+          {
+            "description": "Data from processes and materials under study (i.e. identical technology) but from different enterprises",
+            "id": 356,
+            "position": 2,
+            "uncertainty": 1.05
+          }
+        ]
+      },
+      {
+        "id": 347,
+        "name": "Geographical correlation",
+        "position": 4,
+        "scores": [
+          {
+            "description": "Data from area with slightly similar production conditions",
+            "id": 350,
+            "position": 4,
+            "uncertainty": 1.05
+          },
+          {
+            "description": "Average data from larger area in which the area under study is included",
+            "id": 349,
+            "position": 2,
+            "uncertainty": 1.01
+          },
+          {
+            "description": "Data from area with similar production conditions",
+            "id": 352,
+            "position": 3,
+            "uncertainty": 1.02
+          },
+          {
+            "description": "Data from unknown or distinctly different area (North America instead of Middle East, OECD-Europe instead of Russia)",
+            "id": 348,
+            "position": 5,
+            "uncertainty": 1.1
+          },
+          {
+            "description": "Data from area under study",
+            "id": 351,
+            "position": 1,
+            "uncertainty": 1.0
+          }
+        ]
+      },
+      {
+        "id": 335,
+        "name": "Temporal correlation",
+        "position": 3,
+        "scores": [
+          {
+            "description": "Less than 6 years of difference to the time period of the data set",
+            "id": 340,
+            "position": 2,
+            "uncertainty": 1.03
+          },
+          {
+            "description": "Less than 10 years of difference to the time period of the data set",
+            "id": 337,
+            "position": 3,
+            "uncertainty": 1.1
+          },
+          {
+            "description": "Less than 15 years of difference to the time period of the data set",
+            "id": 339,
+            "position": 4,
+            "uncertainty": 1.2
+          },
+          {
+            "description": "Less than 3 years of difference to the time period of the data set",
+            "id": 338,
+            "position": 1,
+            "uncertainty": 1.0
+          },
+          {
+            "description": "Age of data unknown or more than 15 years of difference to the time period of the data set",
+            "id": 336,
+            "position": 5,
+            "uncertainty": 1.5
+          }
+        ]
+      }
+    ],
+    "lastChange": 0,
+    "name": "ecoinvent data quality system",
+    "refId": "e7ac7cf6-5457-453e-99f9-d889826fffe8",
+    "scoreCount": 5,
+    "version": 0
+  },
+  [ModelType.FLOW_PROPERTY]: {
+    "category": {
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 368,
+      "lastChange": 1685429978855,
+      "modelType": "FLOW_PROPERTY",
+      "name": "Economic flow properties",
+      "refId": "8a4312de-4b99-3248-8bf8-67e4e72b2d54",
+      "version": 1
+    },
+    "flowPropertyType": "PHYSICAL",
+    "fromLibrary": false,
+    "id": 382,
+    "lastChange": 0,
+    "name": "Price",
+    "refId": "bcf81c0a-9fe9-4b88-a25b-99e0dd64ddaa",
+    "referenceUnit": {
+      "conversionFactor": 1.0,
+      "id": 108,
+      "name": "EUR",
+      "refId": "54a2fd64-bc4c-4985-b711-40b4d4250f73"
+    },
+    "unitGroup": {
+      "category": {
+        "childCategories": [],
+        "fromLibrary": false,
+        "id": 103,
+        "lastChange": 1685429978454,
+        "modelType": "UNIT_GROUP",
+        "name": "Economic unit groups",
+        "refId": "9a0997cc-7271-3ba1-b905-bfc8b81bd927",
+        "version": 1
+      },
+      "fromLibrary": false,
+      "id": 104,
+      "lastChange": 1456250475053,
+      "name": "Units of currency 2002",
+      "refId": "03cc996d-7177-4738-aa32-1572a5172ccc",
+      "referenceUnit": {
+        "$ref": "$.referenceUnit"
+      },
+      "units": [
+        {
+          "conversionFactor": 0.864077403495266,
+          "id": 105,
+          "name": "$",
+          "refId": "85d860a8-5702-41e4-822b-ab9ac866ef55"
+        },
+        {
+          "conversionFactor": 0.01,
+          "id": 106,
+          "name": "Yen",
+          "refId": "6b7527ac-a155-4054-b288-3015d447d46a"
+        },
+        {
+          "$ref": "$.referenceUnit"
+        },
+        {
+          "conversionFactor": 0.601788895266376,
+          "id": 107,
+          "name": "sFr",
+          "refId": "01d44916-ebab-4b0c-8c26-708dcbe3b323"
+        }
+      ],
+      "version": 2
+    },
+    "version": 0
+  },
+  [ModelType.UNIT_GROUP]: {
+    "category": {
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 1,
+      "lastChange": 1685429978241,
+      "modelType": "UNIT_GROUP",
+      "name": "Technical unit groups",
+      "refId": "00d44049-4768-313c-b2a5-c2d545f8e0ec",
+      "version": 1
+    },
+    "defaultFlowProperty": {
+      "category": {
+        "childCategories": [],
+        "fromLibrary": false,
+        "id": 4,
+        "lastChange": 1685429978321,
+        "modelType": "FLOW_PROPERTY",
+        "name": "Technical flow properties",
+        "refId": "87cfd36b-db77-3a88-8c0e-7102ce682690",
+        "version": 1
+      },
+      "flowPropertyType": "PHYSICAL",
+      "fromLibrary": false,
+      "id": 5,
+      "lastChange": 0,
+      "name": "Biotic Production (Transf.)",
+      "refId": "fd9a098b-253e-4f1e-986d-76a775c51722",
+      "referenceUnit": {
+        "conversionFactor": 1.0,
+        "description": "Kilogram per year",
+        "id": 3,
+        "name": "kg/a",
+        "refId": "94b84332-8f2d-4592-b2a0-e19da33a69e9"
+      },
+      "unitGroup": {
+        "$ref": ".."
+      },
+      "version": 0
+    },
+    "fromLibrary": false,
+    "id": 2,
+    "lastChange": 0,
+    "name": "Units of mass/time",
+    "refId": "c28831de-8759-43da-98bd-05617cb1722d",
+    "referenceUnit": {
+      "$ref": "$.defaultFlowProperty.referenceUnit"
+    },
+    "units": [
+      {
+        "$ref": "$.defaultFlowProperty.referenceUnit"
+      }
+    ],
+    "version": 0
+  },
+  [ModelType.ACTOR]: {
+    "address": "Boustead Consulting Ltd., Black Cottage, West Grinstead, RH13 8GH Horsham, UK",
+    "category": {
+      "category": {
+        "childCategories": [
+          {
+            "$ref": "$.category"
+          },
+          {
+            "category": {
+              "$ref": "$.category.category"
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 167,
+            "lastChange": 1685429978534,
+            "modelType": "ACTOR",
+            "name": "Other organisations",
+            "refId": "f4e86f66-34b5-37e0-b76a-cf972badc7e1",
+            "version": 1
+          },
+          {
+            "category": {
+              "$ref": "$.category.category"
+            },
+            "childCategories": [],
+            "fromLibrary": false,
+            "id": 168,
+            "lastChange": 1685429978540,
+            "modelType": "ACTOR",
+            "name": "Governmental organisations",
+            "refId": "be2b27ec-bede-31ba-8a5d-22aee54ae3fe",
+            "version": 1
+          }
+        ],
+        "fromLibrary": false,
+        "id": 165,
+        "lastChange": 1685429978526,
+        "modelType": "ACTOR",
+        "name": "Organisations",
+        "refId": "5c21f393-1d9c-39c9-b313-5c4a7c32c79c",
+        "version": 1
+      },
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 166,
+      "lastChange": 1685429978527,
+      "modelType": "ACTOR",
+      "name": "Private companies",
+      "refId": "b66c00e5-6b59-3ba1-bf13-290174fa4e5d",
+      "version": 1
+    },
+    "email": "info@boustead-consulting.co.uk",
+    "fromLibrary": false,
+    "id": 169,
+    "lastChange": 0,
+    "name": "Boustead Consulting Ltd.",
+    "refId": "5bb337b0-9a1a-11da-a72b-0800200c9a70",
+    "telefax": "+44 (0) 1403 865 284",
+    "telephone": "+44 (0) 1403 864 561",
+    "version": 0,
+    "website": "http://www.boustead-consulting.co.uk"
+  },
+  [ModelType.SOURCE]: {
+    "category": {
+      "childCategories": [],
+      "fromLibrary": false,
+      "id": 176,
+      "lastChange": 1685429978662,
+      "modelType": "SOURCE",
+      "name": "Compliance systems",
+      "refId": "c6382f8c-e6b0-31ef-83d7-3d8a995b6775",
+      "version": 1
+    },
+    "externalFile": "GaBi Modelling Principles 2011.pdf",
+    "fromLibrary": false,
+    "id": 298,
+    "lastChange": 1320102000000,
+    "name": "GaBi conformity system",
+    "refId": "6a08f8f9-58c3-492c-8c34-6df3dd69a326",
+    "textReference": "PE INTERNATIONAL AG, 2011, Leinfelden-Echterdingen",
+    "version": 94489280512
+  },
+  [ModelType.LOCATION]: {
+    "code": "RER",
+    "description": "reference location, sources:  ecoinvent 3, ILCD, GaBi",
+    "fromLibrary": false,
+    "geodata": "H4sIAAAAAAAA/+MS4xLhEuKsFlnn/rBKz0GQAQQSvB0ALTfTzxgAAAA=",
+    "id": 360,
+    "lastChange": 0,
+    "latitude": 54.75,
+    "longitude": 15.24,
+    "name": "Europe",
+    "refId": "d66c264e-1dbd-33e6-911d-3ffc70908e8e",
+    "version": 0
+  },
+}
