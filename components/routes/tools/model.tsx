@@ -12,6 +12,7 @@ export function Model() {
   const [status,setStatus] = useState<any>(null)
   const [viewReal,setViewReal] = useState<any>(null)
   const [uploadResult,setUploadResult] = useState<number>(-1)
+  const [opResult,setOpResult] = useState<boolean>(false)
   const [pgNum,setPgNum] = useState(1)
   const [reload,setReload] = useState(1)
   const fileRef = useRef(null)
@@ -26,6 +27,7 @@ export function Model() {
       setUploadResult(1)
       // @ts-ignore
       fileRef.current.value = ''
+      setReload(reload+1)
     }else {
       setUploadResult(2)
     }
@@ -134,9 +136,11 @@ export function Model() {
       emptyText:'-'
     },
   ]
-  const doActivation = async ()=>{
-    await updateLcaModelState(status.id,status.state === 1?0:1)
+  const doChangeState = async (state:number)=>{
+    setOpResult(true)
+    await updateLcaModelState(status.id,state)
     setReload(reload+1)
+    setOpResult(false)
     setStatus(null)
   }
   return (
@@ -159,13 +163,19 @@ export function Model() {
       </div>
       <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={value?.total?value.total:0} pgSize={10} pgNum={pgNum} />
       {
-        !!status &&
+        status !== null &&
         <Modal title="更改状态" onClose={()=>setStatus(null)}>
           <div className="flex">
-            <Button onClick={()=>doActivation()} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">{status.state === 1?'弃用':'激活'}</Button>
             {
-              status === -1 &&
-              <Button onClick={()=>{}} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:text-white hover:bg-green-2 rounded-lg flex-1 h-11">删除</Button>
+              opResult ? <Loading />:
+                <div className="flex flex-1">
+                {
+                  status.state > -2 && <Button onClick={()=>doChangeState(status.state === 1?0:1)} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">{status.state === 1?'弃用':'激活'}</Button>
+                }
+                {
+                  status.state === -1 && <Button onClick={()=>doChangeState(-2)} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:text-white hover:bg-green-2 rounded-lg flex-1 h-11">删除</Button>
+                }
+              </div>
             }
           </div>
         </Modal>
