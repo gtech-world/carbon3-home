@@ -125,10 +125,25 @@ export async function getLcaModelList({pgNum}:any){
   const res = await axios.get(creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10`),authConfig());
   return getData(res);
 }
+export async function getLcaResultList({pgNum}:any){
+  const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`),authConfig());
+  return getData(res);
+}
 
 export async function updateLcaModelState(id:number,state:number){
   const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`),null,authConfig());
   return getData(res);
+}
+export async function uploadLcaModel(formData:FormData){
+  let headers = authConfig()
+  if(headers.headers){
+    headers.headers['Content-Type'] = "multipart/form-data"
+  }
+  try {
+    return await axios.post(creatUrl(`/api/product-lca/model/upload`),formData,headers)
+  }catch (e) {
+    console.log(e)
+  }
 }
 
 // export async function getSbtDetail(product_bom_id: number | string) {

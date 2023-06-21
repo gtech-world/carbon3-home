@@ -101,7 +101,7 @@ export function Table(p: ITable) {
 
       </table>
       {
-        loading && <Loading className="mt-5" />
+        loading && <Loading className="pt-8" />
       }
     </div>
   );

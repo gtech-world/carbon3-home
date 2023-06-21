@@ -5,20 +5,34 @@ import {Modal} from "@components/common/modal";
 import {Button} from "@components/common/button";
 import {Pagination} from "@components/common/pagination";
 import {useAsyncM} from "@lib/hooks/useAsyncM";
-import {getLcaModelList, noArgs, updateLcaModelState} from "@lib/http";
+import {getLcaModelList, noArgs, updateLcaModelState, uploadLcaModel} from "@lib/http";
+import {Loading} from "@components/common/loading";
 
 export function Model() {
   const [status,setStatus] = useState<any>(null)
   const [viewReal,setViewReal] = useState<any>(null)
+  const [uploadResult,setUploadResult] = useState<number>(-1)
   const [pgNum,setPgNum] = useState(1)
+  const [reload,setReload] = useState(1)
   const fileRef = useRef(null)
-  const onFileChange = (file:any)=>{
-    console.log(file)
+  const onFileChange = async (file:any)=>{
+    const formData = new FormData()
+    formData.append('name','gtech')
+    formData.append('file',file.target.files[0])
+    formData.append('productId','1')
+    setUploadResult(0)
+    const res = await uploadLcaModel(formData)
+    if(res){
+      setUploadResult(1)
+      // @ts-ignore
+      fileRef.current.value = ''
+    }else {
+      setUploadResult(2)
+    }
   }
-
   const { value, loading } = useAsyncM(
-    noArgs(() => getLcaModelList({pgNum}), [pgNum]),
-    [pgNum]
+    noArgs(() => getLcaModelList({pgNum}), [pgNum,reload]),
+    [pgNum,reload]
   );
   const tableData = useMemo(()=>{
     if(!value?.records) return []
@@ -120,6 +134,8 @@ export function Model() {
   ]
   const doActivation = async ()=>{
     await updateLcaModelState(status.id,status.state === 1?0:1)
+    setReload(reload+1)
+    setStatus(null)
   }
   return (
     <ToolsLayout className="text-black flex flex-col justify-between flex-1">
@@ -157,6 +173,22 @@ export function Model() {
         <Modal title="PC Transport C-Model V1.0模型中的实景输入项" onClose={()=>setViewReal(null)}>
           <div className="flex w-[60rem] min-h-[300px]">
             <Table columns={realColumns} data={viewReal.paramDetail} />
+          </div>
+        </Modal>
+      }
+      {
+        uploadResult>-1 &&
+        <Modal title="上传碳足迹模型" onClose={()=>setUploadResult(-1)}>
+          <div className="text-center pb-2">
+            {
+              uploadResult === 0 && <Loading />
+            }
+            {
+              uploadResult === 1 && <span>上传成功！</span>
+            }
+            {
+              uploadResult === 2 && <span>上传失败！</span>
+            }
           </div>
         </Modal>
       }
