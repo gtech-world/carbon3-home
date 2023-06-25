@@ -47,7 +47,7 @@ export function Inventory() {
   );
   useMemo(()=>{
     if(!value?.records) return []
-    console.log(value)
+    console.log(JSON.parse(value.records[0].lcaResult))
     let arr:any = []
     value.records.map((v:any)=>{
       arr.push({

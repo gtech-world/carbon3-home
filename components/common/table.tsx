@@ -34,6 +34,7 @@ export function Table(p: ITable) {
       let openChildrenCount = tableData[itemIndex].children.length
       tableData[itemIndex].children.map((v:any)=>{
         if(v.open){
+          v.open = false
           openChildrenCount += v.children.length
         }
       })
