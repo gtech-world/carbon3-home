@@ -7,6 +7,7 @@ import {Pagination} from "@components/common/pagination";
 import {useAsyncM} from "@lib/hooks/useAsyncM";
 import {getLcaModelList, noArgs, updateLcaModelState, uploadLcaModel} from "@lib/http";
 import {Loading} from "@components/common/loading";
+import { useRouter } from "next/router";
 
 export function Model() {
   const [status,setStatus] = useState<any>(null)
@@ -16,6 +17,7 @@ export function Model() {
   const [pgNum,setPgNum] = useState(1)
   const [reload,setReload] = useState(1)
   const fileRef = useRef(null)
+  const r = useRouter()
   const onFileChange = async (file:any)=>{
     const formData = new FormData()
     formData.append('name','gtech')
@@ -103,7 +105,7 @@ export function Model() {
       render: (text:string,record:any)=>{
         return(
           <div className="flex flex-1 justify-between text-green-2">
-            <span className="cursor-pointer" onClick={()=>{}}>查看模型</span>
+            <span className="cursor-pointer" onClick={()=>{ record.state === 1 && r.push(`/model?id=${record.id}`)}}>查看模型</span>
             <span className="cursor-pointer" onClick={()=>setViewReal(record)}>查看实景数据</span>
             <span className="cursor-pointer" onClick={()=>setStatus(record)}>更改状态</span>
           </div>
