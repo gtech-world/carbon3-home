@@ -5,7 +5,8 @@ import {
   InventoryProductProcess,
   Product,
   ProductBom,
-  ProductProcess, SbtDetail,
+  ProductProcess,
+  SbtDetail,
   SbtEmissionInventory,
   SbtInfo,
   UserData,
@@ -121,28 +122,28 @@ export async function getSbtDetail(tokenId: string | number) {
   return getData(res);
 }
 
-export async function getLcaModelList({pgNum}:any){
-  const res = await axios.get(creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10`),authConfig());
+export async function getLcaModelList({ pgNum }: any) {
+  const res = await axios.get(creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
-export async function getLcaResultList({pgNum}:any){
-  const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`),authConfig());
+export async function getLcaResultList({ pgNum }: any) {
+  const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
 
-export async function updateLcaModelState(id:number,state:number){
-  const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`),null,authConfig());
+export async function updateLcaModelState(id: number, state: number) {
+  const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`), null, authConfig());
   return getData(res);
 }
-export async function uploadLcaModel(formData:FormData){
-  let headers = authConfig()
-  if(headers.headers){
-    headers.headers['Content-Type'] = "multipart/form-data"
+export async function uploadLcaModel(formData: FormData) {
+  let headers = authConfig();
+  if (headers.headers) {
+    headers.headers["Content-Type"] = "multipart/form-data";
   }
   try {
-    return await axios.post(creatUrl(`/api/product-lca/model/upload`),formData,headers)
-  }catch (e) {
-    console.log(e)
+    return await axios.post(creatUrl(`/api/product-lca/model/upload`), formData, headers);
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -153,3 +154,23 @@ export async function uploadLcaModel(formData:FormData){
 //   );
 //   return getData(res);
 // }
+
+export async function getLcaModelDescirptors(id: string) {
+  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/descriptors`), authConfig());
+  return JSON.parse(getData(res) as string);
+}
+
+export async function getLcaModelCategories(id: string) {
+  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/categories`), authConfig());
+  return JSON.parse(getData(res));
+}
+
+export async function getLcaModelNavData(id: string) {
+  const categories = await getLcaModelCategories(id);
+  const descriptors = await getLcaModelDescirptors(id);
+  return [categories, descriptors];
+}
+export async function getLcaModelItem(id: string, type: string, typeId: number | string) {
+  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info`), authConfig());
+  return JSON.parse(getData(res));
+}

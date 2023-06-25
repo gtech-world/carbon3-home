@@ -3,7 +3,7 @@ import SvgAICP from "@public/AICP.svg";
 import SvgDigital3 from "@public/digital3.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, HTMLAttributes, useCallback, useEffect, useMemo, useState } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
 import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
@@ -58,6 +58,28 @@ function useMenus(data:any[] = []) {
   }, [user, isMobile, pathname, t, lng]);
 }
 
+export function useHeaderHeight(){
+  const [h, setH] = useState(0);
+  useEffect(() => {
+    const head = document.getElementById("app_header");
+    const onResize = () => {
+      head && setH(head.getBoundingClientRect().height);
+    };
+    head && setH(head.clientHeight);
+    let obs: ResizeObserver;
+    if(head){
+      obs = new ResizeObserver(onResize);
+      obs.observe(head);
+      onResize()
+    }
+    return () => {
+      obs && head && obs.unobserve(head);
+    };
+  }, []);
+  console.info('height:', h)
+  return h;
+}
+
 export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean;menus?:any }) {
   const { children, className, tits, showQuery,isManager,menus, ...other } = p;
   const { t } = useTranslation();
@@ -79,6 +101,7 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
   return (
     <>
       <div
+        id="app_header"
         className={classNames(
           "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
           className
@@ -133,6 +156,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
   const menus = useMenus();
   return (
     <div
+      id="app_header"
       className={classNames("sticky top-0 z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
       {...other}
     >

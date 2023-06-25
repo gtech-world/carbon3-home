@@ -9,8 +9,8 @@ export function TypeLayout(p: { map: { [k: string]: FC<{ data: any }> | { json: 
   const json = (map[tab] as { json: any }).json;
   const Dom = !json ? (map[tab] as FC<{ data: any }>) : null;
   return (
-    <div className="flex flex-col h-full">
-      <div className="h-0 flex-1 flex flex-col overflow-auto p-5 gap-5">
+    <div className="flex-1 flex flex-col h-0">
+      <div className="h-[calc(100%-34px)] flex-1 flex flex-col overflow-auto p-5 gap-5">
         {!!Dom ? <Dom data={data} /> : <JsonView data={json} />}
       </div>
       <div className="flex flex-shrink-0 overflow-x-auto">

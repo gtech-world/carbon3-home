@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import _ from "lodash";
+import _, { toInteger } from "lodash";
 import { LABEL_CONTRACT, SCAN_BASE } from "./env";
 
 export function getErrorMsg(error: AxiosError | any): string {
@@ -111,7 +111,7 @@ export const get = (obj: any, path: string) => {
 };
 
 export const parseRefJson = (_obj: any) => {
-  const obj = _.cloneDeep(_obj)
+  const obj = _.cloneDeep(_obj);
   const cache: any = {};
   const cacheGetRef = (ref: string, parents: any[] = []) => {
     const path = ref.replaceAll("[", ".").replaceAll("]", "").replace("$.", "");
@@ -123,7 +123,7 @@ export const parseRefJson = (_obj: any) => {
     let refValue = _.get(obj, path);
     if (refValue) {
       if (refValue["$ref"]) {
-        const keys = _.dropRight(path.split("."))
+        const keys = _.dropRight(path.split("."));
         const _parents = [obj].concat(keys.map((_i, index) => _.get(obj, keys.slice(0, index + 1).join("."))));
         refValue = cacheGetRef(refValue["$ref"], _parents);
       }
@@ -151,8 +151,7 @@ export const parseRefJson = (_obj: any) => {
         json[key] = cacheGetRef(ref, parents.concat([json]));
       }
       if (typeof json[key] === "object" && !uniqDeepMap.has(json[key])) {
-        deepRefJson(json[key],  parents.concat([json]));
-
+        deepRefJson(json[key], parents.concat([json]));
       }
     }
   };
@@ -160,3 +159,8 @@ export const parseRefJson = (_obj: any) => {
   // console.info("obj:", obj);
   return obj;
 };
+
+export function ftmMilliTime(time: number | string = new Date().getTime()) {
+  const mTime = typeof time === "string" ? toInteger(time) : time;
+  return new Date(mTime).toLocaleString().replaceAll("/", "-");
+}

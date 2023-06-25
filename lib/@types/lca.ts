@@ -106,7 +106,9 @@ export type ProductSystem = {
 export type Process = {
   allocationFactors: any[];
   category: Category;
-  documentation: any;
+  description: string;
+  documentation?: any;
+  location: Location;
   exchanges: any[];
   fromLibrary: boolean;
   id: number;
@@ -122,6 +124,10 @@ export type Process = {
   refId: string;
   socialAspects: any[];
   version: number;
+  dqSystem?: DqSystem;
+  exchangeDqSystem?: DqSystem;
+  socialDqSystem?: DqSystem;
+  dqEntry?: string;
 };
 
 export type Flow = {
@@ -129,6 +135,7 @@ export type Flow = {
   flowPropertyFactors: any[];
   flowType: string;
   fromLibrary: boolean;
+  description: string;
   id: number;
   infrastructureFlow: boolean;
   lastChange: number;
@@ -137,7 +144,12 @@ export type Flow = {
   referenceFactor: any;
   referenceFlowProperty: any;
   referenceUnit: any;
+  casNumber?: string;
+  formula?: string;
+  synonyms?: string;
+  location?: Location;
   version: number;
+
 };
 
 export type DqSystem = {
