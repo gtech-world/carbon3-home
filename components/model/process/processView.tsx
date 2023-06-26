@@ -14,8 +14,8 @@ export function ProcessView(p: { data: Process, json: any }) {
         "Modeling and validation": { json },
         "Parameters": { json },
         "Allocation": { json },
-        "Social aspects": { json },
-        "Impact analysis": { json },
+        // "Social aspects": { json },
+        // "Impact analysis": { json },
       }}
       data={data}
     />

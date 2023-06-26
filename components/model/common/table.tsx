@@ -3,11 +3,11 @@ import { Fragment, ReactNode } from "react";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { useToggle } from "react-use";
 
-export function Table(p: { infos: ReactNode[][]; title: string; head: string[] }) {
-  const { infos, title, head } = p;
+export function Table(p: { infos: ReactNode[][]; title: string; head: string[]; className?: string }) {
+  const { infos, title, head, className } = p;
   const [show, toggleShow] = useToggle(true);
   return (
-    <div className="">
+    <div className={className}>
       <div className="flex items-center  cursor-pointer text-lg text-black" onClick={() => toggleShow()}>
         {title}
         {show ? <FaCaretUp className="text-2xl " /> : <FaCaretDown className="text-2xl" />}

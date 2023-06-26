@@ -49,7 +49,17 @@ function NavItem(p: any) {
       </button>
       <div
         onClick={() => {
-          if (mNode.type == "content") {
+          if (
+            mNode.type == "content" &&
+            [
+              ModelType.PRODUCT_SYSTEM.valueOf(),
+              ModelType.PROCESS.valueOf(),
+              ModelType.FLOW.valueOf(),
+              ModelType.FLOW_PROPERTY.valueOf(),
+              ModelType.IMPACT_METHOD.valueOf(),
+              ModelType.IMPACT_CATEGORY.valueOf(),
+            ].includes(mNode.modelType)
+          ) {
             add(node);
           }
           if (mNode.type == "folder") {
