@@ -18,7 +18,7 @@ export function InfoPage(p: { data: Process }) {
           ],
           ["Description", data.description || "none"],
           ["Tags", "none"],
-          ["Infrastructure process", data.infrastructureProcess || "none"],
+          ["Infrastructure process", data.infrastructureProcess ? "true" : "false"],
         ]}
       />
       <Line />
@@ -34,7 +34,7 @@ export function InfoPage(p: { data: Process }) {
       <Infomation
         title="Geography"
         infos={[
-          ["Location", data.location || "none"],
+          ["Location", data.location?.name || "none"],
           ["Description", data.documentation?.geography || ""],
         ]}
       />

@@ -58,6 +58,7 @@ export function TypeContent(p: { id: string }) {
     }
     TypeCache[key]
       .then((data) => {
+        console.info("value:", data)
         safeRef.current && setValue(data);
       })
       .catch(() => {
