@@ -10,6 +10,8 @@ import {FiSettings} from 'react-icons/fi'
 import {RiLeafLine} from 'react-icons/ri'
 import {FaFolder} from 'react-icons/fa'
 import {CgRuler} from 'react-icons/cg'
+import {useAsyncM} from "@lib/hooks/useAsyncM";
+import {getLcaResultDetail, getLcaResultList, noArgs} from "@lib/http";
 
 function Expand(p: {text: string; onChange:Function}){
   const [open,setOpen] = useState(true)
@@ -98,6 +100,11 @@ function Result(){
 }
 function ContributionTree(){
   const [open,setOpen] = useState(true)
+  const { value, loading } = useAsyncM(
+    noArgs(() => getLcaResultDetail(4), []),
+    []
+  );
+  //https://pre-api.gtech.world/api/product-lca/result/detail/id=1
   const columns = [
     {
       title: '贡献',

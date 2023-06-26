@@ -130,7 +130,10 @@ export async function getLcaResultList({ pgNum }: any) {
   const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
-
+export async function getLcaResultDetail(id:number) {
+  const res = await axios.get(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
+  return getData(res);
+}
 export async function updateLcaModelState(id: number, state: number) {
   const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`), null, authConfig());
   return getData(res);

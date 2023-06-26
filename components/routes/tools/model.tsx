@@ -219,6 +219,7 @@ export function Model() {
       orgId: user.orgId,
       description: description
     })
+    setCreateProductView(false)
     setOpResult({
       title,
       loading: false,
@@ -275,14 +276,16 @@ export function Model() {
             <span>产品定义</span>
             <Button onClick={()=>setCreateProductView(true)} className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal">新建产品</Button>
           </h3>
-          <ul className="flex mt-5">
+          <ul className="flex flex-wrap ml-[-1.25rem]">
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 first:ml-0 cursor-pointer",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
-                    {
-                      v.text
-                    }
+                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
+                    <div className="">
+                      {
+                        v.text
+                      }
+                    </div>
                   </li>
                 )
               })
@@ -348,7 +351,7 @@ export function Model() {
         <Modal title="新建产品" onClose={()=>setCreateProductView(false)}>
           <div className="flex items-center">
             <label className="mr-2">产品名称 :</label>
-            <input type="text"
+            <input maxLength={30} type="text"
                    onChange={(val)=>{setProductName(val.target.value)}}
                    className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
             />
@@ -362,7 +365,7 @@ export function Model() {
           </div>
           <div className="my-6 flex items-center">
             <label className="mr-10">描述 :</label>
-            <input className="border border-gray-14 rounded-lg bg-gray-28 px-3 w-[21.5rem] h-[3.125rem]"
+            <input maxLength={100} className="border border-gray-14 rounded-lg bg-gray-28 px-3 w-[21.5rem] h-[3.125rem]"
                    onChange={(val:any)=>{setDescription(val.target.value)}}
             />
           </div>
@@ -374,7 +377,7 @@ export function Model() {
       }
       {
         uploadView &&
-        <Modal title="文件上传" onClose={()=>setUploadView(false)}>
+        <Modal title="上传碳足迹模型" onClose={()=>setUploadView(false)}>
           <div className="flex items-center">
             <label className="mr-2">产品名称 : </label>
             <Select className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem]"
@@ -385,7 +388,7 @@ export function Model() {
           </div>
           <div className="flex items-center mt-6">
             <label className="mr-2">模型名称 : </label>
-            <input type="text" onChange={(val)=>{setModelName(val.target.value)}} className="border border-gray-14 bg-gray-28 rounded h-[3.125rem] w-[21.5rem] px-3"/>
+            <input type="text" maxLength={30} onChange={(val)=>{setModelName(val.target.value)}} className="border border-gray-14 bg-gray-28 rounded h-[3.125rem] w-[21.5rem] px-3"/>
           </div>
           <div className="flex items-center my-6">
             <label className="mr-2">碳足迹模型 : </label>
@@ -418,7 +421,7 @@ export function Model() {
             </li>
             <li className="flex">
               <label className="inline-block min-w-[5.625rem]">描述 :</label>
-              <span className="text-gray-6">{productList[productViewSelectedIndex]?.desc}</span>
+              <span className="text-gray-6">{productList[productViewSelectedIndex]?.desc?productList[productViewSelectedIndex]?.desc:'-'}</span>
             </li>
           </ul>
         </Modal>
