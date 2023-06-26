@@ -16,6 +16,14 @@ export function ModalHeader(p:{title?: string,onClose?: Function}){
   )
 }
 
+export function ModalFooter(p:{}){
+  return(
+    <div>
+
+    </div>
+  )
+}
+
 export function Modal(p: {title?:string; onClose?:Function} & HTMLAttributes<HTMLDivElement>) {
   const { className,title,onClose, children, ...other } = p;
   const ref = useRef(null)

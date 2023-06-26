@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
-import {FiChevronRight} from 'react-icons/fi'
+import {FiChevronRight,FiFilter} from 'react-icons/fi'
 import {useEffect, useMemo, useState} from "react";
 import {Loading} from "@components/common/loading";
 
@@ -16,6 +16,7 @@ interface ITable{
 export function Table(p: ITable) {
   const {columns,data,className,cellClassName,headerStyle,size,loading=false} = p
   const [tableData,setTableData] = useState(data || [])
+  const [filterView,setFilterView] = useState(false)
   useEffect(()=>{
     setTableData(data)
   },[data])
@@ -60,6 +61,21 @@ export function Table(p: ITable) {
                     <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={v.tip} className="inline-block text-xl mt-[-0.15rem] mr-1" />
                   }
                   <span>{v.title}</span>
+                  {
+                    !!v.filter &&
+                    <div className="inline-block">
+                      <FiFilter onClick={()=>setFilterView(!filterView)} className="inline-block text-xl mt-[-0.15rem] ml-1 cursor-pointer" />
+                      {
+                        filterView &&
+                          <div className="absolute left-0 top-10 font-normal">
+                            {
+                              v.filter(()=>setFilterView(false))
+                            }
+                          </div>
+                      }
+                    </div>
+
+                  }
                 </th>
               )
             })

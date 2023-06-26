@@ -105,7 +105,7 @@ export function useOnError() {
 }
 
 export function useUser() {
-  const { userData, update } = useStore();
+  const { userData, update }:any = useStore();
   const setUser = useCallback((user?: UserData, login?: boolean) => {
     if (user && login) user.loginTime = new Date().getTime();
     update({ userData: user });

@@ -20,7 +20,8 @@ module.exports = {
           16: "#f3f3f3",
           18: "#4A4A4A",
           20: "#eeeeee",
-          bg: "#f1f1f1"
+          bg: "#f1f1f1",
+          28: "#f8f8f8"
         },
         green: {
           2: "#29953A",
