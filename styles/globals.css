@@ -102,3 +102,6 @@ img[src=""] {
 .svg-blue path{
   stroke: #0084FF
 }
+.split .gutter {
+  width: 6px;
+}

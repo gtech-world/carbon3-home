@@ -14,6 +14,7 @@ import { parseRefJson } from "@lib/utils";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { GrTree } from "react-icons/gr";
+import Split from "react-split";
 
 export function Model() {
   const r = useRouter();
@@ -125,19 +126,27 @@ export function Model() {
       {!!node && (
         <SelectNavsContextProvider>
           <NavigationTreeContext.Provider value={{ descriptores: (value as any)[1] }}>
-            <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
-              <div className="border-b border-solid border-b-gray-16">
-                <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
-                  <GrTree className="text-gray-9 fixGrColor" />
-                  <span className="text-black">Navigation</span>
+            <Split
+              className="split flex w-full"
+              sizes={[25,75]}
+              minSize={260}
+              gutterSize={6}
+              gutterStyle={() => ({ backgroundColor: "#f3f3f3", cursor: "col-resize" })}
+            >
+              <div className="flex flex-col overflow-hidden">
+                <div className="border-b border-solid border-b-gray-16">
+                  <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
+                    <GrTree className="text-gray-9 fixGrColor" />
+                    <span className="text-black">Navigation</span>
+                  </div>
                 </div>
+                <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
               </div>
-              <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
-            </div>
-            <div className="flex-1 flex flex-col w-0">
-              <Tabs />
-              <TypeContent id={id} />
-            </div>
+              <div className="flex flex-col">
+                <Tabs />
+                <TypeContent id={id} />
+              </div>
+            </Split>
           </NavigationTreeContext.Provider>
         </SelectNavsContextProvider>
       )}

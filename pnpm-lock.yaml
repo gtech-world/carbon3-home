@@ -31,6 +31,7 @@ specifiers:
   react-icons: ^4.9.0
   react-json-view: ^1.21.3
   react-router-dom: ^6.6.2
+  react-split: ^2.0.14
   react-tooltip: ^5.10.1
   react-use: ^17.4.0
   react-virtualized-auto-sizer: ^1.0.7
@@ -64,6 +65,7 @@ dependencies:
   react-icons: 4.9.0_react@18.2.0
   react-json-view: 1.21.3_ib3m5ricvtkl2cll7qpr2f6lvq
   react-router-dom: 6.6.2_biqbaboplfbrettd7655fr4n2y
+  react-split: 2.0.14_react@18.2.0
   react-tooltip: 5.10.4_biqbaboplfbrettd7655fr4n2y
   react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
   react-virtualized-auto-sizer: 1.0.7_biqbaboplfbrettd7655fr4n2y
@@ -4213,6 +4215,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-split/2.0.14_react@18.2.0:
+    resolution: {integrity: sha512-bKWydgMgaKTg/2JGQnaJPg51T6dmumTWZppFgEbbY0Fbme0F5TuatAScCLaqommbGQQf/ZT1zaejuPDriscISA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      split.js: 1.6.5
+    dev: false
+
   /react-textarea-autosize/8.4.1_kzbn2opkn2327fwg5yzwzya5o4:
     resolution: {integrity: sha512-aD2C+qK6QypknC+lCMzteOdIjoMbNlgSFmJjCV+DrfTPwp59i/it9mMNf2HDzvRjQgKAyBDPyLJhcrzElf2U4Q==}
     engines: {node: '>=10'}
@@ -4521,6 +4533,10 @@ packages:
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     deprecated: Please use @jridgewell/sourcemap-codec instead
+    dev: false
+
+  /split.js/1.6.5:
+    resolution: {integrity: sha512-mPTnGCiS/RiuTNsVhCm9De9cCAUsrNFFviRbADdKiiV+Kk8HKp/0fWu7Kr8pi3/yBmsqLFHuXGT9UUZ+CNLwFw==}
     dev: false
 
   /stable/0.1.8:
