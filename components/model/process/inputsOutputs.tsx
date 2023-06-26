@@ -3,8 +3,9 @@ import { Table } from "../common/table";
 import { Line } from "../common/line";
 import { useMemo, ReactNode, useContext } from "react";
 import { NavigationTreeContext } from "../context";
-import { ModelIcon } from "../modelIcon";
+import { ModelIcon } from "../common/modelIcon";
 import _ from "lodash";
+import { ModelIconName } from "../common/modelIconName";
 
 const head = [
   "Flow",
@@ -26,26 +27,17 @@ export function InputsOutputs(p: { data: Process }) {
     const _inputs: ReactNode[][] = [];
     const _outputs: ReactNode[][] = [];
     const proviers = _.chain(descriptores[ModelType.PROCESS]).values().flatten().keyBy("id").value() || {};
-    data.exchanges.forEach((item) => {
+    data.exchanges.forEach((item,i) => {
       const provier = proviers[item.defaultProviderId];
       (item.isInput ? _inputs : _outputs).push([
-        <div className="flex items-center">
-          <ModelIcon type={ModelType.FLOW} className="mr-1" />
-          {item.flow.name}
-        </div>,
+        <ModelIconName key={`exchanges_${i}_1`} type={ModelType.FLOW} name={item.flow.name} />,
         item.flow.category.name,
         item.amount,
-        <div className="flex items-center">
-          <ModelIcon type={ModelType.UNIT_GROUP} className="mr-1" />
-          {item.unit.name}
-        </div>,
+        <ModelIconName key={`exchanges_${i}_2`} type={ModelType.UNIT_GROUP} name={item.unit.name} />,
         "",
         "none",
         "",
-        <div className="flex items-center">
-          {!!provier && <ModelIcon type={ModelType.PROCESS} className="mr-1" />}
-          {provier?.name}
-        </div>,
+        <ModelIconName key={`exchanges_${i}_3`} type={ModelType.PROCESS} name={provier?.name} />,
         item.dqEntry || "",
         item.location?.name || "",
         item.description || "",

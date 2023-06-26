@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { FiX } from "react-icons/fi";
 import { useSelectNavs } from "./context";
-import { ModelIcon } from "./modelIcon";
+import { ModelIcon } from "./common/modelIcon";
 
 export function Tabs() {
   const { active, navs, del, setActive } = useSelectNavs();

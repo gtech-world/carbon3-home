@@ -1,7 +1,8 @@
-import { Process } from "@lib/@types/lca";
+import { ModelType, Process } from "@lib/@types/lca";
 import { ftmMilliTime } from "@lib/utils";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
+import { ModelIconName } from "../common/modelIconName";
 
 export function InfoPage(p: { data: Process }) {
   const { data } = p;
@@ -11,7 +12,10 @@ export function InfoPage(p: { data: Process }) {
         title="General information"
         infos={[
           ["Name", data.name],
-          ["Category", data.category?.name || "none"],
+          [
+            "Category",
+            <ModelIconName key={`info_2`} type={`folder-${ModelType.PROCESS}`} name={data.category?.name} def="none" />,
+          ],
           ["Description", data.description || "none"],
           ["Tags", "none"],
           ["Infrastructure process", data.infrastructureProcess || "none"],

@@ -1,7 +1,8 @@
-import { ProductSystem } from "@lib/@types/lca";
+import { ModelType, ProductSystem } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ReactNode, useMemo } from "react";
+import { ModelIconName } from "../common/modelIconName";
 
 export function InfoPage(p: { data: ProductSystem }) {
   const { data } = p;
@@ -24,7 +25,15 @@ export function InfoPage(p: { data: ProductSystem }) {
         title="General information"
         infos={[
           ["Name", data.name],
-          ["Category", data.category?.name || "none"],
+          [
+            "Category",
+            <ModelIconName
+              key={`info_2`}
+              type={`folder-${ModelType.PRODUCT_SYSTEM}`}
+              name={data.category?.name}
+              def="none"
+            />,
+          ],
           ["Description", data.description],
           ["Tags", "none"],
         ]}

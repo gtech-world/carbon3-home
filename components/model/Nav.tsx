@@ -6,7 +6,7 @@ import { RiArrowDownSLine, RiArrowRightSLine } from "react-icons/ri";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { useSelectNavs } from "./context";
-import { ModelIcon } from "./modelIcon";
+import { ModelIcon } from "./common/modelIcon";
 
 const getNodeData = (node: NavNode, nestingLevel: number) => ({
   data: {
