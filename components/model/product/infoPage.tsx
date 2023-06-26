@@ -53,7 +53,7 @@ export function InfoPage(p: { data: ProductSystem }) {
           ],
           [
             "Unit",
-            <ModelIconName key={`ref_unit`} type={ModelType.UNIT_GROUP} name={flow.referenceUnit.name} def="none" />,
+            <ModelIconName key={`ref_unit`} type={ModelType.UNIT_GROUP} name={flow?.referenceUnit?.name} def="none" />,
           ],
           ["Target amount", data.targetAmount + ""]
         ]}
