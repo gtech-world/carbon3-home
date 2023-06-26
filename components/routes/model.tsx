@@ -10,7 +10,6 @@ import { Category, Descriptor, ModelType, NavNode } from "@lib/@types/lca";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getLcaModelNavData } from "@lib/http";
 import { ModelTypeName } from "@lib/lca";
-// import { categories, descriptors } from "@lib/testData";
 import { parseRefJson } from "@lib/utils";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
