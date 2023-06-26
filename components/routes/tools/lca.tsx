@@ -4,7 +4,7 @@ import React from "react";
 export function Lca() {
   return (
     <ToolsLayout className="text-black">
-      <h3 className="text-2xl font-semibold mt-8">AICP产品碳足迹工具集</h3>
+      <h3 className="text-2xl font-semibold mt-8">“A-LCA”产品生命周期评价工具</h3>
       <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
         <h4 className="text-xl font-semibold mb-4">关于生命周期评价</h4>
         <p>

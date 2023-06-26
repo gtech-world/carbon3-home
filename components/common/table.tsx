@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
 import {FiChevronRight,FiFilter} from 'react-icons/fi'
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {Loading} from "@components/common/loading";
+import { useClickAway, useToggle } from "react-use";
 
 interface ITable{
   columns: any[];
@@ -16,7 +17,9 @@ interface ITable{
 export function Table(p: ITable) {
   const {columns,data,className,cellClassName,headerStyle,size,loading=false} = p
   const [tableData,setTableData] = useState(data || [])
-  const [filterView,setFilterView] = useState(false)
+  const [filterView, setFilterView] = useToggle(false);
+  const ref = useRef(null)
+  useClickAway(ref, () => filterView && setFilterView(false));
   useEffect(()=>{
     setTableData(data)
   },[data])
@@ -63,7 +66,7 @@ export function Table(p: ITable) {
                   <span>{v.title}</span>
                   {
                     !!v.filter &&
-                    <div className="inline-block">
+                    <div className="inline-block" ref={ref}>
                       <FiFilter onClick={()=>setFilterView(!filterView)} className="inline-block text-xl mt-[-0.15rem] ml-1 cursor-pointer" />
                       {
                         filterView &&

@@ -108,11 +108,11 @@ export function Model() {
       filter: (onClose:any)=>{
         return(
           <ul className="bg-white w-[9.375rem] text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
-            <li className="py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer" onClick={()=>{setProductNameFilter(-1);onClose()}}>All</li>
+            <li className={classNames("py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",productNameFilter === -1 && 'text-green-2')} onClick={()=>{setProductNameFilter(-1);onClose()}}>All</li>
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li key={`productList${i}`} onClick={()=>{setProductNameFilter(v.id);onClose()}} className="py-1.5 hover:bg-[#F3F3F3] px-5 cursor-pointer">
+                  <li key={`productList${i}`} onClick={()=>{setProductNameFilter(v.id);onClose()}} className={classNames("py-1.5 hover:bg-[#F3F3F3] px-5 cursor-pointer",productNameFilter === v.id && 'text-green-2')}>
                     {v.text}
                   </li>
                 )
@@ -277,7 +277,7 @@ export function Model() {
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 first:ml-0 cursor-pointer",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
+                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 first:ml-0 cursor-pointer",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
                     {
                       v.text
                     }

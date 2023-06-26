@@ -6,21 +6,8 @@ import { useClickAway, useToggle } from "react-use";
 //@ts-ignore
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
-import {SelectNavsContextProvider, useSelectNavs} from "@components/model/context";
-// import { ModelIcon } from "./modelIcon";
 
-// const getNodeData = (node: NavNode, nestingLevel: number) => ({
-//   data: {
-//     id: node.id.toString(), // mandatory
-//     isLeaf: node.children.length === 0,
-//     isOpenByDefault: node.modelType == ModelType.PRODUCT_SYSTEM || nestingLevel === 0, // mandatory
-//     name: node.name,
-//     nestingLevel,
-//     node,
-//   },
-//   nestingLevel,
-//   node,
-// });
+
 const getNodeData = (node:any, nestingLevel:any,onSelect:Function,onSwitch:Function) => ({
   data: {
     id: node.id.toString(), // mandatory

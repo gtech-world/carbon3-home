@@ -19,7 +19,7 @@ function ToolsContent(){
     {
       icon: 'amodel_icon.svg',
       as: 'A-Model',
-      title: '产品生命周期评价工具',
+      title: '产品碳足迹模型管理工具',
       text: '碳足迹模型是一个结构化的电子文档，用于帮助汽车供应链的企业计算和跟踪其产品的碳足迹，这些模型通常包含用于收集和计算排放数据的流程、公式、参数和指导说明。',
       list: [
         '可信存储用户建立的模型',
@@ -32,7 +32,7 @@ function ToolsContent(){
     {
       icon: 'ainventory_icon.svg',
       as: 'A-Inventory',
-      title: '产品生命周期评价工具',
+      title: '产品碳足迹实景清单工具',
       text: '碳足迹清单是一个记录和追踪碳排放源的清单，它一般基于事先设立的碳足迹模型以及实际生产过程中获取的实景数据进行计算得到。“A-Inventory”帮助用户获取面向具体产品批次及其真实生产信息的碳足迹结果。',
       list: [
         '管理实景数据输入项',

@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 
-function useMenus(data: any[] = []) {
+export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
