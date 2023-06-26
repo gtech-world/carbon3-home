@@ -16,7 +16,7 @@ export function Infomation(p: { infos: [string, ReactNode][]; title: string }) {
           {infos.map(([tit, content], i) => (
             <Fragment key={`infomation_${i}`}>
               <div className="font-bold">{tit}</div>
-              <div>{content}</div>
+              {typeof content === "string" ? <div>{content}</div> : content}
             </Fragment>
           ))}
         </div>
