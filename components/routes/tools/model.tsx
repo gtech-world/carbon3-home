@@ -213,13 +213,13 @@ export function Model() {
       title,
       loading: true
     })
+    setCreateProductView(false)
     await insertLcaProduct({
       name:productName,
       categoryId: productSelectedType?.id,
       orgId: user.orgId,
       description: description
     })
-    setCreateProductView(false)
     setOpResult({
       title,
       loading: false,
