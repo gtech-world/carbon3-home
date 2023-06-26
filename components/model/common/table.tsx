@@ -14,11 +14,11 @@ export function Table(p: { infos: ReactNode[][]; title: string; head: string[] }
       </div>
       {show && (
         <div
-          style={{ gridTemplateColumns: `repeat(auto,${head.length})` }}
-          className="mt-3 grid gap-x-5 gap-y-[10px] text-sm text-black overflow-x-auto"
+          style={{ gridTemplateColumns: `repeat(${head.length}, auto)` }}
+          className="mt-3 grid text-sm text-black overflow-x-auto"
         >
           {head.map((item, i) => (
-            <div key={"head_" + i} className="px-3 py-2 font-bold text-sm">
+            <div key={"head_" + i} className="px-3 py-2 font-bold text-sm whitespace-nowrap">
               {item}
             </div>
           ))}
@@ -27,7 +27,7 @@ export function Table(p: { infos: ReactNode[][]; title: string; head: string[] }
               {items.map((item, j) => (
                 <div
                   key={"body_col_" + j}
-                  className={classNames("text-xs px-3 py-[1px]", {
+                  className={classNames("text-xs px-3 py-[1px] whitespace-nowrap", {
                     "bg-gray-16": i % 2 === 0,
                   })}
                 >

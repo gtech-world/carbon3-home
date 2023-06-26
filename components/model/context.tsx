@@ -1,4 +1,4 @@
-import { NavNode } from "@lib/@types/lca";
+import { Descriptor, NavNode } from "@lib/@types/lca";
 import { ReactNode, createContext, useCallback, useContext, useState } from "react";
 
 export type SelectNavsState = {
@@ -51,3 +51,11 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
     </SelectNavsContext.Provider>
   );
 }
+
+/* NavigationTreeContext */
+
+export type NavigationTreeState = {
+  descriptores: { [k: string]: { [k: string]: Descriptor[] } };
+};
+export const NavigationTreeContext = createContext<NavigationTreeState>({ descriptores: {} });
+

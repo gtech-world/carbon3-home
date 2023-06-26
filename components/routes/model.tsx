@@ -4,7 +4,7 @@ import { useHeaderTipHeight } from "@components/common/headerTip";
 import { LoadingFull } from "@components/common/loading";
 import { Nav } from "@components/model/Nav";
 import { Tabs } from "@components/model/Tabs";
-import { SelectNavsContextProvider } from "@components/model/context";
+import { NavigationTreeContext, SelectNavsContextProvider } from "@components/model/context";
 import { TypeContent } from "@components/model/typeContent";
 import { Category, Descriptor, ModelType, NavNode } from "@lib/@types/lca";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
@@ -124,19 +124,21 @@ export function Model() {
       {loading && <LoadingFull />}
       {!!node && (
         <SelectNavsContextProvider>
-          <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
-            <div className="border-b border-solid border-b-gray-16">
-              <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
-                <GrTree className="text-gray-9 fixGrColor" />
-                <span className="text-black">Navigation</span>
+          <NavigationTreeContext.Provider value={{ descriptores: (value as any)[1] }}>
+            <div className="w-[266px] min-w-[266px] max-w-[50%] border-r-[6px] border-solid border-r-gray-16 flex flex-col resize-x overflow-hidden">
+              <div className="border-b border-solid border-b-gray-16">
+                <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
+                  <GrTree className="text-gray-9 fixGrColor" />
+                  <span className="text-black">Navigation</span>
+                </div>
               </div>
+              <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
             </div>
-            <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
-          </div>
-          <div className="flex-1 flex flex-col w-0">
-            <Tabs />
-            <TypeContent id={id} />
-          </div>
+            <div className="flex-1 flex flex-col w-0">
+              <Tabs />
+              <TypeContent id={id} />
+            </div>
+          </NavigationTreeContext.Provider>
         </SelectNavsContextProvider>
       )}
     </HeaderLayout>
