@@ -10,12 +10,12 @@ import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
 import { CARBON_PAGES } from "@components/const";
-import {handleCarbonStr, textTo2} from "@lib/utils";
+import { handleCarbonStr, sleep, textTo2 } from "@lib/utils";
 import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 
-function useMenus(data:any[] = []) {
+function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
@@ -26,15 +26,21 @@ function useMenus(data:any[] = []) {
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
     menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
     if (user && !data.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: CARBON_PAGES[0].to });
+      menus.push({
+        icon: <VscAccount />,
+        text: handleCarbonStr(t("AICP Digital3 Carbon System")),
+        to: CARBON_PAGES[0].to,
+      });
     }
     if (isMobile && user) {
-      data.map<MenuItem>((item) => ({
-        icon: <item.icon />,
-        text: t(item.txt),
-        to: item.to,
-        selected: pathname === item.to,
-      })).forEach((item) => menus.push(item));
+      data
+        .map<MenuItem>((item) => ({
+          icon: <item.icon />,
+          text: t(item.txt),
+          to: item.to,
+          selected: pathname === item.to,
+        }))
+        .forEach((item) => menus.push(item));
     }
     // menus.push({
     //   topSplit: true,
@@ -58,30 +64,45 @@ function useMenus(data:any[] = []) {
   }, [user, isMobile, pathname, t, lng]);
 }
 
-export function useHeaderHeight(){
+export function useHeaderHeight() {
   const [h, setH] = useState(0);
   useEffect(() => {
-    const head = document.getElementById("app_header");
-    const onResize = () => {
-      head && setH(head.getBoundingClientRect().height);
+    const getHead = async () => {
+      let timeout = 2000;
+      while (true) {
+        await sleep(100);
+        timeout -= 100;
+        const el = document.getElementById("app_header");
+        if (el) return el;
+        if (timeout <= 0) return undefined;
+      }
     };
-    head && setH(head.clientHeight);
     let obs: ResizeObserver;
-    if(head){
-      obs = new ResizeObserver(onResize);
-      obs.observe(head);
-      onResize()
-    }
+    let head: HTMLDivElement;
+    getHead().then((head) => {
+      if (head) {
+        const onResize = () => {
+          head && setH(head.getBoundingClientRect().height);
+        };
+        head && setH(head.clientHeight);
+        if (head) {
+          obs = new ResizeObserver(onResize);
+          obs.observe(head);
+          onResize();
+        }
+      }
+    });
     return () => {
       obs && head && obs.unobserve(head);
     };
   }, []);
-  console.info('height:', h)
   return h;
 }
 
-export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean,isManager?:boolean;menus?:any }) {
-  const { children, className, tits, showQuery,isManager,menus, ...other } = p;
+export function Header(
+  p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean; isManager?: boolean; menus?: any }
+) {
+  const { children, className, tits, showQuery, isManager, menus, ...other } = p;
   const { t } = useTranslation();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
@@ -108,23 +129,25 @@ export function Header(p: HTMLAttributes<HTMLDivElement> & { tits?: string | nul
         )}
         {...other}
       >
-        {
-          isManager?
-            <div className="flex items-center cursor-pointer ml-[-1rem] mo:ml-0" onClick={() => push("/")}>
-              <SvgAICP className="h-[2.275rem] mo:h-[2rem]" />
-              <SvgDigital3 className="h-[1.5rem] mt-2.5 ml-3 mo:h-[1.1rem] mo:mt-3" />
+        {isManager ? (
+          <div className="flex items-center cursor-pointer ml-[-1rem] mo:ml-0" onClick={() => push("/")}>
+            <SvgAICP className="h-[2.275rem] mo:h-[2rem]" />
+            <SvgDigital3 className="h-[1.5rem] mt-2.5 ml-3 mo:h-[1.1rem] mo:mt-3" />
+          </div>
+        ) : (
+          <div onClick={() => push("/")} className="flex items-center cursor-pointer">
+            <SvgAICP className="h-9 mo:h-[1.75rem]" />
+            <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
+              {mTits.map((tit, i) => (
+                <span
+                  className="whitespace-nowrap"
+                  key={`tit_${i}`}
+                  dangerouslySetInnerHTML={{ __html: handleCarbonStr(tit) }}
+                ></span>
+              ))}
             </div>
-            :
-            <div onClick={() => push("/")} className="flex items-center cursor-pointer">
-              <SvgAICP className="h-9 mo:h-[1.75rem]" />
-              <div className={classNames("flex flex-col ml-4 text-base leading-snug mo:text-[.8rem] mo:ml-[.8rem]", {})}>
-                {mTits.map((tit, i) => (
-                  <span className="whitespace-nowrap" key={`tit_${i}`} dangerouslySetInnerHTML={{__html:handleCarbonStr(tit)}}>
-              </span>
-                ))}
-              </div>
-            </div>
-        }
+          </div>
+        )}
 
         <div className="flex-1" />
         {showQuery && (
