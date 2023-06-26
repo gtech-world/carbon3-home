@@ -18,7 +18,7 @@ import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
-import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/http";
+import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/oldHttp";
 import {ftmCarbonEmission, ftmTimestamp, genScanTokenUrl, handleCarbonStr} from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";

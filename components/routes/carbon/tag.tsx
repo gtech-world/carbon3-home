@@ -69,8 +69,8 @@ export function Tag() {
       id: '144049913',
       qrcodeDisable: false,
       link:[
-        {text:'标签信息',href:'https://aicp.gtech-cn.co/car?vin=1500101202311001'},
-        {text:'在区块链浏览器查看',target:'_blank',href:'https://aicp.gtech-cn.co/blockchain?tokenId=1000000'},
+        {text:'标签信息',href:'/car?vin=1500101202311001'},
+        {text:'在区块链浏览器查看',target:'_blank',href:'/blockchain?tokenId=1000000'},
       ]
     }
   ]
