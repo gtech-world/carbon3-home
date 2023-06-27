@@ -104,6 +104,11 @@ function ContributionTree(){
     noArgs(() => getLcaResultDetail(4), []),
     []
   );
+  useMemo(()=>{
+    if(value){
+      console.log(JSON.parse(value.lcaResult))
+    }
+  },[value])
   //https://pre-api.gtech.world/api/product-lca/result/detail/id=1
   const columns = [
     {

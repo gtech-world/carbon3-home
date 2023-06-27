@@ -158,7 +158,7 @@ export async function insertLcaProduct({name,categoryId,orgId,description}:{name
   return getData(res);
 }
 export async function getLcaProductList(){
-  const res = await axios.get(creatUrl(`/api/product/list`),authConfig());
+  const res = await axios.get(creatUrl(`/api/product/list?pageSize=500`),authConfig());
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
