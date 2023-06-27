@@ -128,8 +128,9 @@ export function Model() {
           <NavigationTreeContext.Provider value={{ descriptores: (value as any)[1] }}>
             <Split
               className="split flex w-full"
-              sizes={[25,75]}
+              sizes={[1,99]}
               minSize={260}
+              snapOffset={1}
               gutterSize={6}
               gutterStyle={() => ({ backgroundColor: "#f3f3f3", cursor: "col-resize" })}
             >
