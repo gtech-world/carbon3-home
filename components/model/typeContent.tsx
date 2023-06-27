@@ -6,11 +6,11 @@ import { parseRefJson } from "@lib/utils";
 import { FC, useEffect, useRef, useState } from "react";
 import { JsonView } from "./common/jsonView";
 import { useSelectNavs } from "./context";
-import { ProcessView } from "./process/processView";
-import { ProductSystemView } from "./product/productSystemView";
-import { FlowView } from "./flow/flowView";
+import { ProcessView } from "./process/ProcessView";
+import { ProductSystemView } from "./product/ProductSystemView";
+import { FlowView } from "./flow/FlowView";
 
-const TypeContentMap: { [k: string]: FC<{ data: any; json: any }> } = {
+export const TypeContentMap: { [k: string]: FC<{ data: any; json: any }> } = {
   [ModelType.PRODUCT_SYSTEM]: ProductSystemView,
   [ModelType.PROCESS]: ProcessView,
   [ModelType.FLOW]: FlowView,

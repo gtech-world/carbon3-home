@@ -34,13 +34,15 @@ export function Model() {
     const categoryMap: { [k: string]: Category } = {};
     const categoriesMap: { [k: string]: { [k: string]: Category[] } } = {};
     const mCategories = parseRefJson(categories) as Category[];
+
     mCategories.forEach((c) => {
       if (c.modelType) {
         categoryMap[c.id] = c;
         if (!categoriesMap[c.modelType]) categoriesMap[c.modelType] = {};
         const pId = c.category ? c.category.id : "null";
         if (!categoriesMap[c.modelType][pId]) categoriesMap[c.modelType][pId] = [];
-        categoriesMap[c.modelType][pId].push(c);
+        const list = categoriesMap[c.modelType][pId]
+        if(!list.find(item => item.refId === c.refId)) categoriesMap[c.modelType][pId].push(c);
       }
     });
     const ungroupTypes: ModelType[] = [ModelType.PRODUCT_SYSTEM, ModelType.PROCESS, ModelType.FLOW, ModelType.EPD];

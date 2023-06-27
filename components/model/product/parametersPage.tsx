@@ -1,12 +1,14 @@
 import { ProductSystem } from "@lib/@types/lca";
-import { Fragment, useMemo } from "react";
+import { Fragment, useContext, useMemo } from "react";
 import { Infomation } from "../common/infomation";
 import { Table } from "../common/table";
 import _ from "lodash";
 import { Line } from "../common/line";
+import { NavigationTreeContext } from "../context";
 
 export function ParametersPage(p: { data: ProductSystem }) {
   const { data } = p;
+  const { descriptores } = useContext(NavigationTreeContext);
   const items = useMemo(() => {
     let base = data.parameterSets?.find((s) => s.isBaseLine);
     if (!base) {
@@ -21,14 +23,23 @@ export function ParametersPage(p: { data: ProductSystem }) {
       (data.parameterSets || []).filter((item) => item !== base),
       ["isBaseline", "name"]
     );
-
+    const getContext = (type: string, id: number) => {
+      return _.chain(descriptores[type])
+        .values()
+        .flatten()
+        .find((item) => item.id === id).value;
+    };
     return others.map((item) => ({
       name: item.name,
       description: item.description,
       head: ["Context", "Parameter", "Amount", "Uncertainty", "Description"],
-      infos: [
-
-      ],
+      infos: (item.parameters || []).map((p: any) => [
+        getContext(p.contextType, p.contextId)?.name || "",
+        p.name || "",
+        p.value || "",
+        "",
+        p.description || "",
+      ]),
     }));
   }, [data]);
 

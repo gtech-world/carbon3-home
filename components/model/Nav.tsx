@@ -7,6 +7,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { useSelectNavs } from "./context";
 import { ModelIcon } from "./common/modelIcon";
+import { TypeContentMap } from "./typeContent";
 
 const getNodeData = (node: NavNode, nestingLevel: number) => ({
   data: {
@@ -50,15 +51,7 @@ function NavItem(p: any) {
       <div
         onClick={() => {
           if (
-            mNode.type == "content" &&
-            [
-              ModelType.PRODUCT_SYSTEM.valueOf(),
-              ModelType.PROCESS.valueOf(),
-              ModelType.FLOW.valueOf(),
-              ModelType.FLOW_PROPERTY.valueOf(),
-              ModelType.IMPACT_METHOD.valueOf(),
-              ModelType.IMPACT_CATEGORY.valueOf(),
-            ].includes(mNode.modelType)
+            mNode.type == "content" && Object.keys(TypeContentMap).includes(mNode.modelType)
           ) {
             add(node);
           }

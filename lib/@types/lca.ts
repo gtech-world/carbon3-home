@@ -33,19 +33,6 @@ export type Category = {
   category?: Category;
 };
 
-export type Ref = { $ref?: string; $refObj?: any };
-export type RefCategory = {
-  id?: number;
-  refId?: string;
-  name?: string;
-  modelType?: string;
-  version?: number;
-  lastChange?: number;
-  fromLibrary?: boolean;
-  childCategories?: RefCategory[];
-  category?: RefCategory;
-} & Ref;
-
 export type Descriptor = {
   refId: string;
   id: number;
@@ -133,6 +120,7 @@ export type Process = {
 export type Flow = {
   category: Category;
   flowPropertyFactors: any[];
+  flowProperty?: FlowProperty;
   flowType: string;
   fromLibrary: boolean;
   description: string;
@@ -230,3 +218,12 @@ export type Location = {
   refId: string;
   version: number;
 };
+
+
+export type ImpactMethod = {
+
+}
+
+export type ImpactCategory = {
+
+}

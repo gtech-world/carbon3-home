@@ -20,8 +20,6 @@ export function InfoPage(p: { data: Flow }) {
           ["Infrastructure flow", data.infrastructureFlow ? "true" : "false"],
         ]}
       />
-      {/* <Line />
-      <Infomation title="Used in processes" infos={[["Produced by", "none"]]} /> */}
       <Line />
       <Infomation
         title="Additional information"
