@@ -113,8 +113,9 @@ export function Model() {
     {
       title: "模型ID",
       dataIndex: 'modelUuid',
+      width: '210px',
       render: (text:string)=>{
-        return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text)}</span>
+        return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text,8,8)}</span>
       }
     },
     {
@@ -165,6 +166,7 @@ export function Model() {
     {
       title: "上传时间",
       dataIndex: 'createTime',
+      width: '190px'
     },
     {
       title: "",
