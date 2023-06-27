@@ -10,8 +10,8 @@ import { ProcessView } from "./process/processView";
 import { ProductSystemView } from "./product/productSystemView";
 import { FlowView } from "./flow/flowView";
 import { FlowPropertyView } from "./flowProperty/flowPropertyView";
-import { ImpactMethodView } from "./lcia/ImpactMethodView";
-import { ImpactGatgoryView } from "./lcia/ImpactGatgoryView";
+import { ImpactMethodView } from "./lcia/impactMethodView";
+import { ImpactGatgoryView } from "./lcia/impactGatgoryView";
 
 export const TypeContentMap: { [k: string]: FC<{ data: any; json: any }> } = {
   [ModelType.PRODUCT_SYSTEM]: ProductSystemView,
