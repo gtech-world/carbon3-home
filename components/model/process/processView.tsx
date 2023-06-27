@@ -1,6 +1,6 @@
 import { Process } from "@lib/@types/lca";
 import { TypeLayout } from "../common/typeLayout";
-import { InfoPage } from "./InfoPage";
+import { InfoPage } from "./infoPage";
 import { InputsOutputs } from "./InputsOutputsPage";
 import { AdminInfoPage } from "./AdminInfoPage";
 import { ModelValidPage } from "./ModelValidPage";
