@@ -6,6 +6,7 @@ import {Button} from "@components/common/button";
 import {Pagination} from "@components/common/pagination";
 import {useAsyncM} from "@lib/hooks/useAsyncM";
 import { useRouter } from "next/router";
+import _ from 'lodash'
 import {
   getLcaModelList, getLcaProductList,
   getLcaProductTypeList,
@@ -16,9 +17,10 @@ import {
 } from "@lib/http";
 import {Loading} from "@components/common/loading";
 import {SelectTree} from "@components/common/selectTree";
-import {useUser} from "@components/common/context";
+import {useToast, useUser} from "@components/common/context";
 import {Select} from "@components/common/select";
 import classNames from "classnames";
+import {shortStr} from "@lib/utils";
 
 export function Model() {
   const [status,setStatus] = useState<any>(null)
@@ -39,6 +41,7 @@ export function Model() {
   const fileRef = useRef(null)
   const { user } = useUser();
   const r = useRouter()
+  const { toast } = useToast();
   const { value, loading } = useAsyncM(
     noArgs(() => Promise.all([getLcaModelList({pgNum,productId:productNameFilter}),getLcaProductTypeList(),getLcaProductList()]), [pgNum,reload,productNameFilter]),
     [pgNum,reload,productNameFilter]
@@ -63,6 +66,7 @@ export function Model() {
       }
     }
     value[0].records.map((v:any)=>{
+      console.log(JSON.parse(v.paramDetail))
       tableData.push({
         id: v.id,
         modelName: v.modelName,
@@ -99,22 +103,32 @@ export function Model() {
     {
       title: "模型名称",
       dataIndex: 'modelName',
+      width: '220px',
+      render:(text:string)=>{
+        return(
+          <span className="max-w-[220px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        )
+      }
     },
     {
       title: "模型ID",
       dataIndex: 'modelUuid',
+      render: (text:string)=>{
+        return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text)}</span>
+      }
     },
     {
       title: "产品名称",
       dataIndex: 'productName',
+      width: '190px',
       filter: (onClose:any)=>{
         return(
-          <ul className="bg-white w-[9.375rem] text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
+          <ul className="bg-white w-[12.375rem] max-h-[15.875rem] overflow-auto text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
             <li className={classNames("py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",productNameFilter === -1 && 'text-green-2')} onClick={()=>{setProductNameFilter(-1);onClose()}}>All</li>
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li key={`productList${i}`} onClick={()=>{setProductNameFilter(v.id);onClose()}} className={classNames("py-1.5 hover:bg-[#F3F3F3] px-5 cursor-pointer",productNameFilter === v.id && 'text-green-2')}>
+                  <li key={`productList${i}`} onClick={()=>{setProductNameFilter(v.id);onClose()}} className={classNames("py-1.5 hover:bg-[#F3F3F3] px-5 break-all cursor-pointer",productNameFilter === v.id && 'text-green-2')}>
                     {v.text}
                   </li>
                 )
@@ -122,6 +136,9 @@ export function Model() {
             }
           </ul>
         )
+      },
+      render:(text:string)=>{
+        return <span className="max-w-[150px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
     {
@@ -208,6 +225,14 @@ export function Model() {
   }
   const doAddProduct = async ()=>{
     if(!productSelectedType?.id) return false
+
+    const findResult = _.find(productList,(item)=>{
+      return item.text === productName
+    })
+    if(findResult){
+      toast({ type: "error", msg: "产品名称已经存在" });
+      return false
+    }
     const title = '新建产品'
     setOpResult({
       title,
@@ -268,6 +293,9 @@ export function Model() {
   const canCreateProduct = useMemo(()=>{
     return !!productName && !!productSelectedType
   },[productName,productSelectedType])
+  const onProductChange = (val:any)=>{
+    setProductName(val.target.value)
+  }
   return (
     <ToolsLayout className="text-black flex flex-col justify-between flex-1">
       <div>
@@ -330,7 +358,7 @@ export function Model() {
       }
       {
         !!viewReal &&
-        <Modal title={viewReal.modelName} onClose={()=>setViewReal(null)}>
+        <Modal title={viewReal.modelName+'模型中的实景输入项'} onClose={()=>setViewReal(null)}>
           <div className="flex w-[60rem] min-h-[300px]">
             <Table columns={realColumns} data={viewReal.paramDetail} />
           </div>
@@ -352,7 +380,7 @@ export function Model() {
           <div className="flex items-center">
             <label className="mr-2">产品名称 :</label>
             <input maxLength={30} type="text"
-                   onChange={(val)=>{setProductName(val.target.value)}}
+                   onChange={(val)=>onProductChange(val)}
                    className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
             />
           </div>
@@ -411,8 +439,8 @@ export function Model() {
         productViewSelectedIndex>-1 &&
         <Modal title="查看产品" onClose={()=>setProductViewSelectedIndex(-1)}>
           <ul className="text-lg max-w-[32rem]">
-            <li>
-              <label className="inline-block w-[5.625rem]">产品名称 :</label>
+            <li className="flex">
+              <label className="inline-block min-w-[5.625rem]">产品名称 :</label>
               <span className="text-gray-6">{productList[productViewSelectedIndex]?.text}</span>
             </li>
             <li className="my-5">
@@ -421,7 +449,7 @@ export function Model() {
             </li>
             <li className="flex">
               <label className="inline-block min-w-[5.625rem]">描述 :</label>
-              <span className="text-gray-6">{productList[productViewSelectedIndex]?.desc?productList[productViewSelectedIndex]?.desc:'-'}</span>
+              <span className="text-gray-6 break-all">{productList[productViewSelectedIndex]?.desc?productList[productViewSelectedIndex]?.desc:'-'}</span>
             </li>
           </ul>
         </Modal>

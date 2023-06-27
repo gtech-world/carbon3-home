@@ -54,7 +54,7 @@ export function Table(p: ITable) {
           {
             columns.map((v,i)=>{
               return(
-                <th key={`columns${i}`} className={classNames('px-3 relative',
+                <th key={`columns${i}`} className={classNames('px-3 relative break-keep',
                   i===0 && 'rounded-l overflow-hidden',
                   i===(columns.length-1) && 'rounded-r overflow-hidden',
                   size === 'small' ? 'py-1':(size === 'big'?'py-3':'py-2'),
@@ -70,7 +70,7 @@ export function Table(p: ITable) {
                       <FiFilter onClick={()=>setFilterView(!filterView)} className="inline-block text-xl mt-[-0.15rem] ml-1 cursor-pointer" />
                       {
                         filterView &&
-                          <div className="absolute left-0 top-10 font-normal">
+                          <div className="absolute left-0 top-16 font-normal">
                             {
                               v.filter(()=>setFilterView(false))
                             }
@@ -100,7 +100,7 @@ export function Table(p: ITable) {
                                 !!column.tip && 'pl-9',
                                 cellClassName && cellClassName(column,columnIndex,itemIndex),
                                 )}
-                              style={{minWidth: (column.width?column.width:'auto')}}
+                              style={{width: (column.width?column.width:'auto')}}
                           >
                             <div className="flex items-center"
                                  style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
