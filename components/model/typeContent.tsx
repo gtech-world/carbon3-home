@@ -6,14 +6,20 @@ import { parseRefJson } from "@lib/utils";
 import { FC, useEffect, useRef, useState } from "react";
 import { JsonView } from "./common/jsonView";
 import { useSelectNavs } from "./context";
-import { ProcessView } from "./process/ProcessView";
-import { ProductSystemView } from "./product/ProductSystemView";
-import { FlowView } from "./flow/FlowView";
+import { ProcessView } from "./process/processView";
+import { ProductSystemView } from "./product/productSystemView";
+import { FlowView } from "./flow/flowView";
+import { FlowPropertyView } from "./flowProperty/flowPropertyView";
+import { ImpactMethodView } from "./lcia/ImpactMethodView";
+import { ImpactGatgoryView } from "./lcia/ImpactGatgoryView";
 
 export const TypeContentMap: { [k: string]: FC<{ data: any; json: any }> } = {
   [ModelType.PRODUCT_SYSTEM]: ProductSystemView,
   [ModelType.PROCESS]: ProcessView,
   [ModelType.FLOW]: FlowView,
+  [ModelType.FLOW_PROPERTY]: FlowPropertyView,
+  [ModelType.IMPACT_METHOD]: ImpactMethodView,
+  [ModelType.IMPACT_CATEGORY]: ImpactGatgoryView,
 };
 
 const TypeCache: {
@@ -58,7 +64,7 @@ export function TypeContent(p: { id: string }) {
     }
     TypeCache[key]
       .then((data) => {
-        console.info("value:", data)
+        console.info("value:", data);
         safeRef.current && setValue(data);
       })
       .catch(() => {

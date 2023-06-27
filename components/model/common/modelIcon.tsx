@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 import { FaBook, FaBookOpen, FaFolder, FaMapMarkerAlt, FaSitemap, FaUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { GrDocumentConfig } from "react-icons/gr";
-import { MdBalance, MdGridOn } from "react-icons/md";
+import { MdBalance, MdGridOn, MdNaturePeople, MdOutlineFormatListBulleted } from "react-icons/md";
 import { CgMenuGridR, CgRuler } from "react-icons/cg";
 import classNames from "classnames";
 
@@ -24,6 +24,8 @@ const TypeIconConfig: {
   [ModelType.SOURCE]: { Icon: FaBookOpen, color: "#556164" },
   [ModelType.LOCATION]: { Icon: FaMapMarkerAlt, color: "#556164" },
   [ModelType.DQ_SYSTEM]: { Icon: MdGridOn, color: "#3A8772" },
+  [ModelType.IMPACT_METHOD]: { Icon: MdNaturePeople, color: "#69B13E"},
+  [ModelType.IMPACT_CATEGORY]: { Icon: MdOutlineFormatListBulleted, color: "#69B13E"},
 
   [`folder-${ModelType.PRODUCT_SYSTEM}`]: { Icon: FaFolder, color: "#1565C0" },
   [`folder-${ModelType.PROCESS}`]: { Icon: FaFolder, color: "#9C27B0" },

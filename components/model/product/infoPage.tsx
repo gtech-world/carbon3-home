@@ -22,7 +22,7 @@ export function InfoPage(p: { data: ProductSystem }) {
             />,
           ],
           ["Description", data.description],
-          ["Tags", "none"],
+          ["Tags", data.tags || ""],
         ]}
       />
       <Line />

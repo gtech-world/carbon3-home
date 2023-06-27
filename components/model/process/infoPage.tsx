@@ -17,7 +17,7 @@ export function InfoPage(p: { data: Process }) {
             <ModelIconName key={`info_2`} type={`folder-${ModelType.PROCESS}`} name={data.category?.name} def="none" />,
           ],
           ["Description", data.description || "none"],
-          ["Tags", "none"],
+          ["Tags", data.tags || ""],
           ["Infrastructure process", data.infrastructureProcess ? "true" : "false"],
         ]}
       />

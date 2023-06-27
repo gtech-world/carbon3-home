@@ -1,6 +1,6 @@
 import { Process } from "@lib/@types/lca";
 import { TypeLayout } from "../common/typeLayout";
-import { InfoPage } from "./InfoPage";
+import { InfoPage } from "./infoPage";
 import { PropertiesPage } from "./PropertiesPage";
 
 export function FlowView(p: { data: Process; json: any }) {

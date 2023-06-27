@@ -72,6 +72,7 @@ export type ProcessLink = {
 export type ProductSystem = {
   category: Category;
   description: string;
+  tags?: string;
   fromLibrary: boolean;
   id: number;
   lastChange: number;
@@ -94,6 +95,7 @@ export type Process = {
   allocationFactors: any[];
   category: Category;
   description: string;
+  tags?: string;
   documentation?: any;
   location: Location;
   exchanges: any[];
@@ -124,6 +126,7 @@ export type Flow = {
   flowType: string;
   fromLibrary: boolean;
   description: string;
+  tags?: string;
   id: number;
   infrastructureFlow: boolean;
   lastChange: number;
@@ -137,7 +140,6 @@ export type Flow = {
   synonyms?: string;
   location?: Location;
   version: number;
-
 };
 
 export type DqSystem = {
@@ -154,6 +156,8 @@ export type DqSystem = {
 
 export type FlowProperty = {
   category: Category;
+  description: string;
+  tags?: string;
   flowPropertyType: string;
   fromLibrary: boolean;
   id: number;
@@ -219,11 +223,33 @@ export type Location = {
   version: number;
 };
 
+export type ImpactFactor = {
+  flow: Flow;
+  formula?: string;
+  flowPropertyFactor: any;
+  id: number;
+  unit: UnitGroup;
+  value: number;
+};
+export type ImpactCategory = {
+  name: string;
+  category?: Category;
+  description: string;
+  tags?: string;
+  source?: Source;
+  code?: string;
+  impactFactors?: ImpactFactor[];
+  referenceUnit: string;
+  isInput?: boolean;
+  direction?: "INPUT" | "OUTPUT";
+};
 
 export type ImpactMethod = {
-
-}
-
-export type ImpactCategory = {
-
-}
+  name: string;
+  category?: Category;
+  description: string;
+  tags?: string;
+  source?: Source;
+  code?: string;
+  impactCategories?: ImpactCategory[];
+};

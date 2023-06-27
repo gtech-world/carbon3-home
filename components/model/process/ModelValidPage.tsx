@@ -10,7 +10,7 @@ export function ModelValidPage(p: { data: Process }) {
       <Infomation
         title="Modeling and validation"
         infos={[
-          ["Process type", <ModelIconName type={ModelType.PROCESS} name={data.processType} />],
+          ["Process type", <ModelIconName key={1} type={ModelType.PROCESS} name={data.processType} />],
           ["LCI method", data.documentation?.inventoryMethod || ""],
           ["Modeling constants", data.documentation?.modelingConstants || ""],
           ["Data completeness", data.documentation?.completeness || ""],
@@ -38,7 +38,7 @@ export function ModelValidPage(p: { data: Process }) {
       <Infomation
         title="Sources"
         infos={[
-          <div className="flex flex-col px-3">
+          <div className="flex flex-col px-3" key={1}>
             {((data.documentation?.sources as any[]) || []).map((item, i) => (
               <ModelIconName key={`source_${i}`} type={ModelType.SOURCE} name={item.name} />
             ))}
