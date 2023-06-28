@@ -4,7 +4,6 @@ import {Table} from "@components/common/table";
 import {Modal} from "@components/common/modal";
 import {Button} from "@components/common/button";
 import {Pagination} from "@components/common/pagination";
-import {useAsyncM} from "@lib/hooks/useAsyncM";
 import { useRouter } from "next/router";
 import _ from 'lodash'
 import {
@@ -29,7 +28,6 @@ export function Model() {
   const [opResult,setOpResult] = useState<any>(null)
   const [createProductView,setCreateProductView] = useState<boolean>(false)
   const [pgNum,setPgNum] = useState(1)
-  const [reload,setReload] = useState(1)
   const [productName,setProductName] = useState<any>('')
   const [productSelectedType,setProductSelectedType] = useState<any>(null)
   const [description,setDescription] = useState<any>('')
@@ -38,36 +36,25 @@ export function Model() {
   const [modelName,setModelName] = useState('')
   const [productViewSelectedIndex,setProductViewSelectedIndex] = useState<number>(-1)
   const [productNameFilter,setProductNameFilter] = useState(-1)
+  const [reload,setReload] = useState(0)
+  const [reloadProduct,setReloadProduct] = useState(0)
+
+  const [tableData,setTableData] = useState([])
+  const [tableDataLoading,setTableDataLoading] = useState(false)
+  const [tableDataTotal,setTableDataTotal] = useState(0)
+  const [productType,setProductType] = useState([])
+  const [productList,setProductList] = useState<any>([])
   const fileRef = useRef(null)
   const { user } = useUser();
   const r = useRouter()
   const { toast } = useToast();
-  const { value, loading } = useAsyncM(
-    noArgs(() => Promise.all([getLcaModelList({pgNum,productId:productNameFilter}),getLcaProductTypeList(),getLcaProductList()]), [pgNum,reload,productNameFilter]),
-    [pgNum,reload,productNameFilter]
-  );
-  function formatToTree(ary:any, pid?:number) {
-    return ary.filter((item:any) =>
-        pid === undefined ? item.parentId === 0 : item.parentId === pid
-      ).map((item:any) => {
-        // 通过父节点ID查询所有子节点
-        item.children = formatToTree(ary, item.id);
-        return item;
-      });
-  }
-  const {tableData,productType,productList} = useMemo(()=>{
-    let tableData:any = []
-    let productList:any = []
-    if(!value){
-      return{
-        tableData,
-        productType: [],
-        productList: []
-      }
-    }
-    value[0].records.map((v:any)=>{
-      console.log(JSON.parse(v.paramDetail))
-      tableData.push({
+  const queryLcaModelList = async ()=>{
+    setTableDataLoading(true)
+    const res = await getLcaModelList({pgNum,productId:productNameFilter})
+    setTableDataLoading(false)
+    let arr:any = []
+    res.records.map((v:any)=> {
+      arr.push({
         id: v.id,
         modelName: v.modelName,
         modelUuid: v.modelUuid,
@@ -82,20 +69,47 @@ export function Model() {
             uncertainty: item?.uncertainty?.distributionType || null,
             description: item.description,
           }
-        }),
+        })
       })
     })
-    value[2].records.map((v:any)=>{
-      productList.push({
+    setTableDataTotal(res.total)
+    setTableData(arr)
+  }
+  function formatToTree(ary:any, pid?:number) {
+    return ary.filter((item:any) =>
+      pid === undefined ? item.parentId === 0 : item.parentId === pid
+    ).map((item:any) => {
+      // 通过父节点ID查询所有子节点
+      item.children = formatToTree(ary, item.id);
+      return item;
+    });
+  }
+  const queryLcaProductTypeList = async ()=>{
+    const res = await getLcaProductTypeList()
+    setProductType(res ? formatToTree(res?.records,0):[])
+  }
+  const queryLcaProductList = async ()=>{
+    const res = await getLcaProductList()
+    let arr:any = []
+    res.records.map((v:any)=>{
+      arr.push({
         id: v.id,
         text: v.name,
         type: v.category.name,
         desc: v.description
       })
     })
-    return {tableData,productType: value[1] ? formatToTree(value[1]?.records,0):[],productList}
-  },[value])
-
+    setProductList(arr)
+  }
+  useMemo(()=>{
+    queryLcaModelList()
+  },[productNameFilter,reload,pgNum])
+  useEffect(()=>{
+    queryLcaProductList()
+  },[reloadProduct])
+  useEffect(()=>{
+    queryLcaProductTypeList()
+  },[])
   const onFileChange = async (file:any)=>{
     setUploadFile(file.target.files[0])
   }
@@ -122,21 +136,9 @@ export function Model() {
       title: "产品名称",
       dataIndex: 'productName',
       width: '190px',
-      filter: (onClose:any)=>{
-        return(
-          <ul className="bg-white w-[12.375rem] max-h-[15.875rem] overflow-auto text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
-            <li className={classNames("py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",productNameFilter === -1 && 'text-green-2')} onClick={()=>{setProductNameFilter(-1);onClose()}}>All</li>
-            {
-              productList.map((v:any,i:number)=>{
-                return(
-                  <li key={`productList${i}`} onClick={()=>{setProductNameFilter(v.id);onClose()}} className={classNames("py-1.5 hover:bg-[#F3F3F3] px-5 break-all cursor-pointer",productNameFilter === v.id && 'text-green-2')}>
-                    {v.text}
-                  </li>
-                )
-              })
-            }
-          </ul>
-        )
+      filterOptions: productList,
+      onFilterChange: (data:any)=>{
+        setProductNameFilter(data?data.id:-1)
       },
       render:(text:string)=>{
         return <span className="max-w-[150px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
@@ -228,18 +230,13 @@ export function Model() {
   const doAddProduct = async ()=>{
     if(!productSelectedType?.id) return false
 
-    const findResult = _.find(productList,(item)=>{
+    const findResult = _.find(productList,(item:any)=>{
       return item.text === productName
     })
     if(findResult){
       toast({ type: "error", msg: "产品名称已经存在" });
       return false
     }
-    const title = '新建产品'
-    setOpResult({
-      title,
-      loading: true
-    })
     setCreateProductView(false)
     await insertLcaProduct({
       name:productName,
@@ -247,12 +244,8 @@ export function Model() {
       orgId: user.orgId,
       description: description
     })
-    setOpResult({
-      title,
-      loading: false,
-      resultText: '操作成功！'
-    })
-    setReload(reload+1)
+    toast({ type: "info", msg: "操作成功！" });
+    setReloadProduct(reloadProduct+1)
   }
   const doUpload = async ()=>{
     const formData = new FormData()
@@ -264,6 +257,9 @@ export function Model() {
       title,
       loading: true,
     })
+    // @ts-ignore
+    fileRef.current.value = ''
+    setUploadView(false)
     const res = await uploadLcaModel(formData)
     if(res){
       setOpResult({
@@ -271,8 +267,6 @@ export function Model() {
         loading: false,
         resultText: '上传成功！'
       })
-      // @ts-ignore
-      fileRef.current.value = ''
       setUploadView(false)
       setReload(reload+1)
     }else {
@@ -330,7 +324,7 @@ export function Model() {
         </h3>
         <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
           <Table columns={columns}
-                 loading={loading}
+                 loading={tableDataLoading}
                  // size="big"
                  cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
                  data={tableData}
@@ -339,7 +333,7 @@ export function Model() {
           />
         </div>
       </div>
-      <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={value && value[0]?.total?value[0].total:0} pgSize={10} pgNum={pgNum} />
+      <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={tableDataTotal} pgSize={10} pgNum={pgNum} />
       {
         status !== null &&
         <Modal title="更改状态" onClose={()=>setStatus(null)}>
@@ -423,7 +417,7 @@ export function Model() {
           <div className="flex items-center my-6">
             <label className="mr-2">碳足迹模型 : </label>
             {/*@ts-ignore*/}
-            <div className="cursor-pointer underline text-blue-0" onClick={()=>fileRef.current.click()}>
+            <div className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate" onClick={()=>fileRef.current.click()}>
               {
                 !!uploadFile? uploadFile.name:'选择文件'
               }

@@ -101,12 +101,19 @@ function Result(){
 function ContributionTree(){
   const [open,setOpen] = useState(true)
   const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultDetail(4), []),
+    noArgs(() => getLcaResultDetail(11), []),
     []
   );
   useMemo(()=>{
     if(value){
-      console.log(JSON.parse(value.lcaResult))
+      const val = JSON.parse(value.lcaResult)
+      console.log(val)
+      val.scalingFactors.map((v:any)=>{
+        if(v?.provider?.category === 1582){
+          console.log(v)
+        }
+      })
+      // console.log()
     }
   },[value])
   //https://pre-api.gtech.world/api/product-lca/result/detail/id=1

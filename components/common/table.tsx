@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
 import {FiChevronRight,FiFilter} from 'react-icons/fi'
-import {useEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {Loading} from "@components/common/loading";
-import { useClickAway, useToggle } from "react-use";
+import { useClickAway } from "react-use";
 
 interface ITable{
   columns: any[];
@@ -17,12 +17,30 @@ interface ITable{
 export function Table(p: ITable) {
   const {columns,data,className,cellClassName,headerStyle,size,loading=false} = p
   const [tableData,setTableData] = useState(data || [])
-  const [filterView, setFilterView] = useToggle(false);
+  const [filters,setFilters] = useState<any>({})
   const ref = useRef(null)
-  useClickAway(ref, () => filterView && setFilterView(false));
+  useClickAway(ref, () => {
+    for(let key in filters){
+      if(filters[key]){
+        filters[key].isFilterOpen = false
+        setFilters({...filters})
+      }
+    }
+  });
   useEffect(()=>{
     setTableData(data)
   },[data])
+  useEffect(()=>{
+    columns.map((v:any)=>{
+      if(v.filterOptions){
+        filters[v.dataIndex] = {
+          isFilterOpen: false,
+          filterValueIndex: filters[v.dataIndex]?.filterValueIndex>-1?filters[v.dataIndex].filterValueIndex:-1,
+        }
+      }
+    })
+    setFilters(filters)
+  },[columns])
   const expand = (itemIndex:number)=>{
     if(tableData[itemIndex].level === undefined){
       tableData[itemIndex].level = 0
@@ -46,13 +64,27 @@ export function Table(p: ITable) {
       setTableData([...tableData])
     }
   }
+  const handleFilterValue = (item:any,index:number)=>{
+    Object.assign(filters,{
+      [item.dataIndex]:{
+        filterValueIndex: index,
+        isFilterOpen: false
+      }
+    })
+    item.onFilterChange && item.onFilterChange(index>-1 ? item.filterOptions[index]:null)
+    setFilters(filters)
+  }
+  const handleFilterOpen = (item:any)=>{
+    filters[item.dataIndex].isFilterOpen = !filters[item.dataIndex].isFilterOpen;
+    setFilters({...filters})
+  }
   return (
     <div className={classNames("w-full mo:text-[.9375rem]",className,size ==='small' && 'text-xs',size ==='big' && 'text-lg')}>
       <table className="w-full text-left">
         <thead className={classNames('bg-gray-14 ',className,size ==='small' && 'text-sm')} style={headerStyle}>
         <tr className="px-3">
           {
-            columns.map((v,i)=>{
+            columns && columns.map((v,i)=>{
               return(
                 <th key={`columns${i}`} className={classNames('px-3 relative break-keep',
                   i===0 && 'rounded-l overflow-hidden',
@@ -65,16 +97,28 @@ export function Table(p: ITable) {
                   }
                   <span>{v.title}</span>
                   {
-                    !!v.filter &&
+                    !!filters[v.dataIndex] &&
                     <div className="inline-block" ref={ref}>
-                      <FiFilter onClick={()=>setFilterView(!filterView)} className="inline-block text-xl mt-[-0.15rem] ml-1 cursor-pointer" />
+                      <FiFilter color={filters[v.dataIndex]?.filterValueIndex>-1 ? '#29953A':''} onClick={()=>{handleFilterOpen(v)}} className="inline-block text-xl mt-[-0.15rem] ml-1 cursor-pointer" />
                       {
-                        filterView &&
-                          <div className="absolute left-0 top-16 font-normal">
+                        filters[v.dataIndex].isFilterOpen &&
+                        <div className="absolute left-0 top-10 font-normal">
+                          <ul className="bg-white w-[12.375rem] max-h-[15.875rem] overflow-auto text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
+                            <li className={classNames("py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",filters[v.dataIndex].filterValueIndex === -1 && 'text-green-2')} onClick={()=>{handleFilterValue(v,-1)}}>All</li>
                             {
-                              v.filter(()=>setFilterView(false))
+                              v.filterOptions.map((option:any,optionIndex:number)=>{
+                                return(
+                                  <li key={`productList${optionIndex}`}
+                                    onClick={()=>{handleFilterValue(v,optionIndex)}}
+                                    className={classNames("py-1.5 hover:bg-[#F3F3F3] px-5 break-all cursor-pointer",filters[v.dataIndex].filterValueIndex === optionIndex ? 'text-green-2':'')}
+                                  >
+                                    {option.text}
+                                  </li>
+                                )
+                              })
                             }
-                          </div>
+                          </ul>
+                        </div>
                       }
                     </div>
 
