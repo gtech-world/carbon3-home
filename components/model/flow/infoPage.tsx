@@ -15,7 +15,7 @@ export function InfoPage(p: { data: Flow }) {
             "Category",
             <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW}`} name={data.category?.name} def="none" />,
           ],
-          ["Description", data.description || "none"],
+          ["Description", data.description || ""],
           ["Tags", data.tags || ""],
           ["Infrastructure flow", data.infrastructureFlow ? "true" : "false"],
         ]}

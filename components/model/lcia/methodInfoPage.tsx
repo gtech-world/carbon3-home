@@ -23,7 +23,7 @@ export function MethodInfoPage(p: { data: ImpactMethod }) {
               def="none"
             />,
           ],
-          ["Description", data.description || "none"],
+          ["Description", data.description || ""],
           ["Tags", data.tags || ""],
           ["Source", <ModelIconName key={1} type={ModelType.SOURCE} name={data.source?.name} def="none" />],
           ["Code", data.code || ""],

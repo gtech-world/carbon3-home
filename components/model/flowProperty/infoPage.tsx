@@ -14,7 +14,7 @@ export function InfoPage(p: { data: FlowProperty }) {
             "Category",
             <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW_PROPERTY}`} name={data.category?.name} def="none" />,
           ],
-          ["Description", data.description || "none"],
+          ["Description", data.description || ""],
           ["Tags", data.tags || ""],
           ["Unit group", <ModelIconName key={1} type={ModelType.UNIT_GROUP} name={data.unitGroup?.name} />],
           ["Flow property type", data.flowPropertyType],
