@@ -19,12 +19,12 @@ export function AllocationPage(p: { data: Process }) {
     const isEmpty = group["true"].length < 2;
     if (isEmpty) return [[], []];
     const infos1 = group["true"].map((item) => [
-      <ModelIconName key={1} type={ModelType.FLOW} name={item.flow?.name} />,
+      <ModelIconName key={1} type={item.flow?.flowType || ModelType.FLOW} name={item.flow?.name} />,
       "",
       "",
     ]);
     const infos2 = group["false"].map((item) => [
-      <ModelIconName key={1} type={ModelType.FLOW} name={item.flow?.name} />,
+      <ModelIconName key={1} type={item.flow?.flowType || ModelType.FLOW} name={item.flow?.name} />,
       item.isInput ? "Input" : "Output",
       item.flow?.category?.name || "",
       item.amount + "" + item.unit?.name,

@@ -10,7 +10,7 @@ export function CharacterizationFactors(p: { data: ImpactCategory }) {
         title="Characterization factors"
         head={["Flow", "Category", "Factor", "Unit", "Uncertainty", "Location"]}
         infos={(data.impactFactors || []).map((item) => [
-          <ModelIconName key={1} name={item.flow?.name} type={ModelType.FLOW} />,
+          <ModelIconName key={1} name={item.flow?.name} type={item.flow?.flowType || ModelType.FLOW} />,
           item.flow?.category?.name || "",
           item.formula || item.value || "",
           item.unit ? `${data.referenceUnit || "1"}/${item.unit.name}` : "",

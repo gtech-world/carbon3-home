@@ -20,7 +20,7 @@ export function Infomation(p: { infos: ([string, ReactNode] | ReactNode)[]; titl
             return (
               <Fragment key={`infomation_${i}`}>
                 <div className="font-bold">{tit}</div>
-                <div>{content || "none"}</div>
+                <div className="whitespace-pre-wrap">{content || "none"}</div>
               </Fragment>
             );
           })}

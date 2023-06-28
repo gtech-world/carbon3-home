@@ -175,7 +175,7 @@ export function Model() {
       render: (text:string,record:any)=>{
         return(
           <div className="flex flex-1 justify-between text-green-2">
-            <span className="cursor-pointer" onClick={()=>{record.state === 1 && r.push(`/model?id=${record.id}`)}}>查看模型</span>
+            <span className="cursor-pointer" onClick={()=>{window.open(`/model?id=${record.id}`,"_blank")}}>查看模型</span>
             <span className="cursor-pointer" onClick={()=>setViewReal(record)}>查看实景数据</span>
             <span className="cursor-pointer" onClick={()=>setStatus(record)}>更改状态</span>
           </div>

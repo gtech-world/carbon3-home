@@ -1,11 +1,10 @@
 import { ModelType, Process } from "@lib/@types/lca";
-import { Table } from "../common/table";
-import { Line } from "../common/line";
-import { useMemo, ReactNode, useContext } from "react";
-import { NavigationTreeContext } from "../context";
-import { ModelIcon } from "../common/modelIcon";
 import _ from "lodash";
+import { ReactNode, useContext, useMemo } from "react";
+import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
+import { Table } from "../common/table";
+import { NavigationTreeContext } from "../context";
 
 const head = [
   "Flow",
@@ -30,7 +29,7 @@ export function InputsOutputs(p: { data: Process }) {
     data.exchanges.forEach((item,i) => {
       const provier = proviers[item.defaultProviderId];
       (item.isInput ? _inputs : _outputs).push([
-        <ModelIconName key={`exchanges_${i}_1`} type={ModelType.FLOW} name={item.flow.name} />,
+        <ModelIconName key={`exchanges_${i}_1`} type={item.flow?.flowType || ModelType.FLOW} name={item.flow.name} />,
         item.flow.category.name,
         item.amount,
         <ModelIconName key={`exchanges_${i}_2`} type={ModelType.UNIT_GROUP} name={item.unit.name} />,
