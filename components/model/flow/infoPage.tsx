@@ -2,6 +2,7 @@ import { Flow, ModelType } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
+import { flowTypeName } from "@lib/lca";
 
 export function InfoPage(p: { data: Flow }) {
   const { data } = p;
@@ -17,6 +18,7 @@ export function InfoPage(p: { data: Flow }) {
           ],
           ["Description", data.description || ""],
           ["Tags", data.tags || ""],
+          ["Flow type", <ModelIconName key={1} type={data.flowType} name={flowTypeName(data.flowType)} />],
           ["Infrastructure flow", data.infrastructureFlow ? "true" : "false"],
         ]}
       />

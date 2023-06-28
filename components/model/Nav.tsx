@@ -1,4 +1,4 @@
-import { ModelType, NavNode } from "@lib/@types/lca";
+import { Descriptor, ModelType, NavNode } from "@lib/@types/lca";
 import classNames from "classnames";
 import { useCallback } from "react";
 import { RiArrowDownSLine, RiArrowRightSLine } from "react-icons/ri";
@@ -50,9 +50,7 @@ function NavItem(p: any) {
       </button>
       <div
         onClick={() => {
-          if (
-            mNode.type == "content" && Object.keys(TypeContentMap).includes(mNode.modelType)
-          ) {
+          if (mNode.type == "content" && Object.keys(TypeContentMap).includes(mNode.modelType)) {
             add(node);
           }
           if (mNode.type == "folder") {
@@ -61,7 +59,15 @@ function NavItem(p: any) {
         }}
         className={classNames("flex text-sm gap-1 items-center cursor-pointer")}
       >
-        <ModelIcon type={mNode.type == "folder" ? `folder-${mNode.modelType}` : mNode.modelType} />
+        <ModelIcon
+          type={
+            mNode.type == "folder"
+              ? `folder-${mNode.modelType}`
+              : mNode.modelType === ModelType.FLOW.valueOf()
+              ? (mNode.data as Descriptor).flowType || "FLOW"
+              : mNode.modelType
+          }
+        />
         <span className={classNames("text-black whitespace-nowrap")}>{name}</span>
       </div>
     </div>

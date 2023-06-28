@@ -35,6 +35,10 @@ export function AllocationPage(p: { data: Process }) {
   }, [data]);
   return (
     <>
+      <div className="flex gap-6 text-sm">
+        <div className="font-bold">Default method</div>
+        <div>None</div>
+      </div>
       <Table title="Pyhsical & economic allocation" head={["Product", "Physical", "Economic"]} infos={pyhsicalInfos} />
       <Line />
       <Table

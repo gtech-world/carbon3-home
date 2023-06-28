@@ -27,8 +27,10 @@ export function Table(p: { infos: ReactNode[][]; title: string; head: string[]; 
               {items.map((item, j) => (
                 <div
                   key={"body_col_" + j}
-                  className={classNames("text-xs px-3 py-[1px] whitespace-nowrap", {
+                  className={classNames("text-xs leading-normal px-3 py-[1px] whitespace-nowrap", {
                     "bg-gray-16": i % 2 === 0,
+                    "rounded-l-[4px]": j === 0,
+                    "rounded-r-[4px]": j === items.length - 1,
                   })}
                 >
                   {item}

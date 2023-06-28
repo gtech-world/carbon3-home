@@ -7,7 +7,7 @@ export function Infomation(p: { infos: ([string, ReactNode] | ReactNode)[]; titl
   const [show, toggleShow] = useToggle(true);
   return (
     <div className="">
-      <div className="flex items-center  cursor-pointer text-lg text-black" onClick={() => toggleShow()}>
+      <div className="flex items-center  font-bold cursor-pointer text-lg text-black" onClick={() => toggleShow()}>
         {title}
         {show ? <FaCaretUp className="text-2xl " /> : <FaCaretDown className="text-2xl" />}
       </div>
@@ -20,7 +20,7 @@ export function Infomation(p: { infos: ([string, ReactNode] | ReactNode)[]; titl
             return (
               <Fragment key={`infomation_${i}`}>
                 <div className="font-bold">{tit}</div>
-                <div>{content}</div>
+                <div>{content || "none"}</div>
               </Fragment>
             );
           })}

@@ -5,6 +5,7 @@ import { FiSettings } from "react-icons/fi";
 import { GrDocumentConfig } from "react-icons/gr";
 import { MdBalance, MdGridOn, MdNaturePeople, MdOutlineFormatListBulleted } from "react-icons/md";
 import { CgMenuGridR, CgRuler } from "react-icons/cg";
+import { BiLeaf, BiTrash } from "react-icons/bi";
 import classNames from "classnames";
 
 type IconConfig = {
@@ -24,8 +25,8 @@ const TypeIconConfig: {
   [ModelType.SOURCE]: { Icon: FaBookOpen, color: "#556164" },
   [ModelType.LOCATION]: { Icon: FaMapMarkerAlt, color: "#556164" },
   [ModelType.DQ_SYSTEM]: { Icon: MdGridOn, color: "#3A8772" },
-  [ModelType.IMPACT_METHOD]: { Icon: MdNaturePeople, color: "#69B13E"},
-  [ModelType.IMPACT_CATEGORY]: { Icon: MdOutlineFormatListBulleted, color: "#69B13E"},
+  [ModelType.IMPACT_METHOD]: { Icon: MdNaturePeople, color: "#69B13E" },
+  [ModelType.IMPACT_CATEGORY]: { Icon: MdOutlineFormatListBulleted, color: "#69B13E" },
 
   [`folder-${ModelType.PRODUCT_SYSTEM}`]: { Icon: FaFolder, color: "#1565C0" },
   [`folder-${ModelType.PROCESS}`]: { Icon: FaFolder, color: "#9C27B0" },
@@ -44,6 +45,10 @@ const TypeIconConfig: {
   [`folder-${ModelType.LOCATION}`]: { Icon: FaFolder, color: "#173855" },
   [`folder-Indicators and parameters`]: { Icon: FaBook, color: "#556164" },
   [`folder-Background data`]: { Icon: CgMenuGridR, color: "#999999" },
+
+  [`PRODUCT_FLOW`]: { Icon: FiSettings, color: "#0084FF" },
+  [`ELEMENTARY_FLOW`]: { Icon: BiLeaf, color: "#2F5F39" },
+  [`WASTE_FLOW`]: { Icon: BiTrash, color: "#9C462E" },
 };
 
 export function ModelIcon(p: { className?: string; type: string }) {
