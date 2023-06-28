@@ -104,4 +104,5 @@ img[src=""] {
 }
 .split .gutter {
   width: 6px;
+  cursor: col-resize;
 }

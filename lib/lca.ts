@@ -1,22 +1,28 @@
-import { ModelType } from '@lib/@types/lca';
-
+import { ModelType } from "@lib/@types/lca";
 
 export const ModelTypeName = {
-    [ModelType.PRODUCT_SYSTEM]: "Product systems",
-    [ModelType.PROCESS]: "Processes",
-    [ModelType.FLOW]: "Flows",
-    [ModelType.EPD]: "EPDs",
+  [ModelType.PRODUCT_SYSTEM]: "Product systems",
+  [ModelType.PROCESS]: "Processes",
+  [ModelType.FLOW]: "Flows",
+  [ModelType.EPD]: "EPDs",
 
-    [ModelType.IMPACT_METHOD]: "Impact assessment methods",
-    [ModelType.IMPACT_CATEGORY]: "Impact categories",
-    [ModelType.SOCIAL_INDICATOR]: "Social indicators",
-    [ModelType.PARAMETER]: "Global parameters",
-    [ModelType.DQ_SYSTEM]: "Data quality systems",
+  [ModelType.IMPACT_METHOD]: "Impact assessment methods",
+  [ModelType.IMPACT_CATEGORY]: "Impact categories",
+  [ModelType.SOCIAL_INDICATOR]: "Social indicators",
+  [ModelType.PARAMETER]: "Global parameters",
+  [ModelType.DQ_SYSTEM]: "Data quality systems",
 
-    [ModelType.FLOW_PROPERTY]: "Flow properties",
-    [ModelType.UNIT_GROUP]: "Unit groups",
-    [ModelType.CURRENCY]: "Currencies",
-    [ModelType.ACTOR]: "Actors",
-    [ModelType.SOURCE]: "Sources",
-    [ModelType.LOCATION]: "Locations",
+  [ModelType.FLOW_PROPERTY]: "Flow properties",
+  [ModelType.UNIT_GROUP]: "Unit groups",
+  [ModelType.CURRENCY]: "Currencies",
+  [ModelType.ACTOR]: "Actors",
+  [ModelType.SOURCE]: "Sources",
+  [ModelType.LOCATION]: "Locations",
+};
+
+export function flowTypeName(type: string) {
+  if (!type) return "";
+  if (type === "PRODUCT_FLOW") return "Product";
+  if (type === "ELEMENTARY_FLOW") return "Elementary flow";
+  return "Waste";
 }

@@ -11,6 +11,7 @@ import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getLcaModelNavData } from "@lib/http";
 import { ModelTypeName } from "@lib/lca";
 import { parseRefJson } from "@lib/utils";
+import _ from "lodash";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { GrTree } from "react-icons/gr";
@@ -41,17 +42,17 @@ export function Model() {
         if (!categoriesMap[c.modelType]) categoriesMap[c.modelType] = {};
         const pId = c.category ? c.category.id : "null";
         if (!categoriesMap[c.modelType][pId]) categoriesMap[c.modelType][pId] = [];
-        const list = categoriesMap[c.modelType][pId]
-        if(!list.find(item => item.refId === c.refId)) categoriesMap[c.modelType][pId].push(c);
+        const list = categoriesMap[c.modelType][pId];
+        if (!list.find((item) => item.refId === c.refId)) categoriesMap[c.modelType][pId].push(c);
       }
     });
     const ungroupTypes: ModelType[] = [ModelType.PRODUCT_SYSTEM, ModelType.PROCESS, ModelType.FLOW, ModelType.EPD];
     const group1Types: ModelType[] = [
       ModelType.IMPACT_METHOD,
       ModelType.IMPACT_CATEGORY,
-      ModelType.DQ_SYSTEM,
       ModelType.SOCIAL_INDICATOR,
       ModelType.PARAMETER,
+      ModelType.DQ_SYSTEM,
     ];
     const group2Types: ModelType[] = [
       ModelType.FLOW_PROPERTY,
@@ -82,7 +83,7 @@ export function Model() {
         modelType: c.type,
         data: c,
       }));
-      return [...cates, ...descs];
+      return _.sortBy([...cates, ...descs], "name");
     };
     const buildGroup = (group: string | null, types: ModelType[]) => {
       if (group != null) {
@@ -123,14 +124,14 @@ export function Model() {
   const hth = useHeaderTipHeight();
   const h = hh + hth;
   return (
-    <HeaderLayout isManager={true} className="h-0 flex py-0 px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
+    <HeaderLayout isManager={true} className="h-0 flex py-0 !px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
       {loading && <LoadingFull />}
       {!!node && (
         <SelectNavsContextProvider>
           <NavigationTreeContext.Provider value={{ descriptores: (value as any)[1] }}>
             <Split
               className="split flex w-full"
-              sizes={[1,99]}
+              sizes={[1, 99]}
               minSize={260}
               snapOffset={1}
               gutterSize={6}
