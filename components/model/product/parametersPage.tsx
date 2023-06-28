@@ -5,6 +5,7 @@ import { Table } from "../common/table";
 import _ from "lodash";
 import { Line } from "../common/line";
 import { NavigationTreeContext } from "../context";
+import { uncertaintyName } from "@lib/lca";
 
 export function ParametersPage(p: { data: ProductSystem }) {
   const { data } = p;
@@ -37,7 +38,7 @@ export function ParametersPage(p: { data: ProductSystem }) {
         getContext(p.contextType, p.contextId)?.name || "",
         p.name || "",
         p.value || "",
-        "",
+        uncertaintyName(item.uncertainty),
         p.description || "",
       ]),
     }));

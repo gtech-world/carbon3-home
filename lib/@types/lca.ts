@@ -20,6 +20,15 @@ export enum ModelType {
   LOCATION = "LOCATION",
 }
 
+export type UncertaintyType = "NONE" | "LOG_NORMAL" | "NORMAL" | "UNIFORM" | "TRIANGLE";
+
+export type Uncertainty = {
+  distributionType: UncertaintyType;
+  parameter1: number;
+  parameter2: number;
+  parameter3: number;
+};
+
 export type Category = {
   id: number;
   refId: string;
@@ -230,6 +239,7 @@ export type ImpactFactor = {
   id: number;
   unit: UnitGroup;
   value: number;
+  uncertainty?: Uncertainty;
 };
 export type ImpactCategory = {
   name: string;

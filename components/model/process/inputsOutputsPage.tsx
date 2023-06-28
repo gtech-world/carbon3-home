@@ -5,6 +5,7 @@ import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
 import { Table } from "../common/table";
 import { NavigationTreeContext } from "../context";
+import { uncertaintyName } from "@lib/lca";
 
 const head = [
   "Flow",
@@ -30,11 +31,11 @@ export function InputsOutputs(p: { data: Process }) {
       const provier = proviers[item.defaultProviderId];
       (item.isInput ? _inputs : _outputs).push([
         <ModelIconName key={`exchanges_${i}_1`} type={item.flow?.flowType || ModelType.FLOW} name={item.flow.name} />,
-        item.flow.category.name,
+        item.flow?.category?.name,
         item.amount,
-        <ModelIconName key={`exchanges_${i}_2`} type={ModelType.UNIT_GROUP} name={item.unit.name} />,
+        <ModelIconName key={`exchanges_${i}_2`} type={ModelType.UNIT_GROUP} name={item.unit?.name} />,
         "",
-        "none",
+        uncertaintyName(item.uncertainty),
         "",
         <ModelIconName key={`exchanges_${i}_3`} type={ModelType.PROCESS} name={provier?.name} />,
         item.dqEntry || "",
