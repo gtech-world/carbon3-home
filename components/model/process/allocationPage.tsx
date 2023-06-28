@@ -16,6 +16,8 @@ export function AllocationPage(p: { data: Process }) {
   const { data } = p;
   const [pyhsicalInfos, causalInfos] = useMemo(() => {
     const group = _.groupBy(data.exchanges || [], (e) => (isProviderFlow(e) ? "true" : "false"));
+    const isEmpty = group["true"].length < 2;
+    if (isEmpty) return [[], []];
     const infos1 = group["true"].map((item) => [
       <ModelIconName key={1} type={ModelType.FLOW} name={item.flow?.name} />,
       "",
