@@ -11,13 +11,12 @@ export function ParametersPage(p: { data: ProductSystem }) {
   const { data } = p;
   const { descriptores } = useContext(NavigationTreeContext);
   const items = useMemo(() => {
-    let base = data.parameterSets?.find((s) => s.isBaseLine);
+    let base = data.parameterSets?.find((s) => s.isBaseline);
     if (!base) {
       base = {
         name: "Baseline",
         description: "",
-        head: ["Context", "Parameter", "Amount", "Uncertainty", "Description"],
-        infos: [],
+        parameters: [],
       };
     }
     const others = _.sortBy(
@@ -30,7 +29,7 @@ export function ParametersPage(p: { data: ProductSystem }) {
         .flatten()
         .find((item) => item.id === id).value;
     };
-    return others.map((item) => ({
+    return [base].concat(others).map((item) => ({
       name: item.name,
       description: item.description,
       head: ["Context", "Parameter", "Amount", "Uncertainty", "Description"],
