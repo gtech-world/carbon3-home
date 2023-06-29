@@ -401,9 +401,9 @@ function List(p:{data:any}){
             <h4 className="mt-4 mb-3">输入</h4>
             <ul className="flex mb-1">
               {
-                columns.map((v:any)=>{
+                columns.map((v:any,i:number)=>{
                   return(
-                    <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                    <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
                   )
                 })
               }
@@ -425,9 +425,9 @@ function List(p:{data:any}){
             <div className="max-h-[20rem] overflow-y-auto">
               <ul className="flex mb-1">
                 {
-                  columns.map((v:any)=>{
+                  columns.map((v:any,i:number)=>{
                     return(
-                      <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                      <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
                     )
                   })
                 }
@@ -535,9 +535,9 @@ function SumRequire(p:{data:any}){
           <div>
             <ul className="flex mb-1">
               {
-                columns.map((v:any)=>{
+                columns.map((v:any,i:number)=>{
                   return(
-                    <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                    <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
                   )
                 })
               }
