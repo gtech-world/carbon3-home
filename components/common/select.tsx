@@ -47,31 +47,34 @@ export function Select(p: SelectProps) {
       onClick={() => onToggle()}
     >
       <div className="flex justify-between items-center">
-        <span>{cText}</span>
+        <span className="truncate">{cText}</span>
         {open ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
       </div>
       {open && (
-        <div
-          className="absolute left-0 w-full bg-white rounded-lg overflow-hidden py-3"
-          style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
+        <div className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
+             style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
         >
-          {items.map((item, index) => (
-            <div
-              key={`select_item_${index}`}
-              style={
-                {
-                  // borderTop: index > 0 ? "1px solid #DDDDDD" : undefined,
-                  // backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
+          <div
+            className=""
+          >
+            {items.map((item, index) => (
+              <div
+                key={`select_item_${index}`}
+                style={
+                  {
+                    // borderTop: index > 0 ? "1px solid #DDDDDD" : undefined,
+                    // backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
+                  }
                 }
-              }
-              className={classNames("w-full px-5 py-2 text-sm", {
-                "text-green-2": index === current,
-              })}
-              onClick={() => onClickItem(index)}
-            >
-              {item.text}
-            </div>
-          ))}
+                className={classNames("w-full px-5 py-2 text-sm", {
+                  "text-green-2": index === current,
+                })}
+                onClick={() => onClickItem(index)}
+              >
+                {item.text}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

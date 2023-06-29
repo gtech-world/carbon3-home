@@ -58,7 +58,7 @@ function ToolsContent(){
                 </div>
                 <p className="mt-6 text-gray-3 leading-[1.725rem]">{v.text}</p>
                 <div className="mt-5 leading-[1.725rem]">
-                  <h5 className="font-semibold">“{v.as}“工具通常以下功能</h5>
+                  <h5 className="font-semibold">“{v.as}“工具通常有以下功能</h5>
                   {
                     v.list.map((child,childIndex)=>{
                       return(

@@ -134,44 +134,46 @@ export function Table(p: ITable) {
           </tr>
           </thead>
         }
-
-        <tbody style={{maxHeight}} className="overflow-y-auto w-full">
         {
-          tableData.map((item,itemIndex)=>{
-            return(
-              <tr key={`table_data_${itemIndex}`} className={`column-level-${item.level?item.level:0}`}>
-                {
-                  columns.map((column,columnIndex)=>{
-                    return(
-                      <td key={`data_column_${columnIndex}`}
-                          className={classNames(
-                            "px-3",
-                            size === 'small' ? 'py-1':(size === 'big'?'py-3':'py-2'),
-                            !!column.tip && 'pl-9',
-                            cellClassName && cellClassName(column,columnIndex,itemIndex),
-                          )}
-                          style={{width: (column.width?column.width:'auto')}}
-                      >
-                        <div className="flex items-center"
-                             style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
-                          {
-                            !!item?.children && item?.children.length>0 && columnIndex === 0 &&
-                            <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
-                          }
-                          {
-                            column.render?column.render(item[column.dataIndex],item):((column.emptyText && !item[column.dataIndex])?'-':item[column.dataIndex])
-                          }
-                        </div>
+          !loading &&
+          <tbody style={{maxHeight}} className="overflow-y-auto w-full">
+          {
+            tableData.map((item,itemIndex)=>{
+              return(
+                <tr key={`table_data_${itemIndex}`} className={`column-level-${item.level?item.level:0}`}>
+                  {
+                    columns.map((column,columnIndex)=>{
+                      return(
+                        <td key={`data_column_${columnIndex}`}
+                            className={classNames(
+                              "px-3",
+                              size === 'small' ? 'py-1':(size === 'big'?'py-3':'py-2'),
+                              !!column.tip && 'pl-9',
+                              cellClassName && cellClassName(column,columnIndex,itemIndex),
+                            )}
+                            style={{width: (column.width?column.width:'auto')}}
+                        >
+                          <div className="flex items-center"
+                               style={{marginLeft: ((item.level && columnIndex === 0)?item.level:0)*1.25+'rem'}}>
+                            {
+                              !!item?.children && item?.children.length>0 && columnIndex === 0 &&
+                              <FiChevronRight onClick={()=>expand(itemIndex)} className={classNames('mr-2 cursor-pointer text-gray-9',item.open && 'rotate-[90deg]')} />
+                            }
+                            {
+                              column.render?column.render(item[column.dataIndex],item):((column.emptyText && !item[column.dataIndex])?'-':item[column.dataIndex])
+                            }
+                          </div>
 
-                      </td>
-                    )
-                  })
-                }
-              </tr>
-            )
-          })
+                        </td>
+                      )
+                    })
+                  }
+                </tr>
+              )
+            })
+          }
+          </tbody>
         }
-        </tbody>
 
       </table>
       {
