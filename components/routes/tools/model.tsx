@@ -344,7 +344,7 @@ export function Model() {
                   status.state > -2 && <Button onClick={()=>doChangeState(status.state === 1?0:1)} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">{status.state === 1?'弃用':'激活'}</Button>
                 }
                 {
-                  status.state === -1 && <Button onClick={()=>doChangeState(-2)} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:text-white hover:bg-green-2 rounded-lg flex-1 h-11">删除</Button>
+                  status.state === -1 && <Button onClick={()=>doChangeState(-2)} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:bg-green-2/20 rounded-lg flex-1 h-11">删除</Button>
                 }
               </div>
             }
@@ -393,7 +393,7 @@ export function Model() {
             />
           </div>
           <div className="flex">
-            <Button onClick={()=>setCreateProductView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-28 hover:text-white">取消</Button>
+            <Button onClick={()=>setCreateProductView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
             <Button onClick={()=>canCreateProduct && doAddProduct()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",!canCreateProduct && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
           </div>
         </Modal>
@@ -425,7 +425,7 @@ export function Model() {
           <input ref={fileRef} onChange={onFileChange} type="file" hidden/>
 
           <div className="flex">
-            <Button onClick={()=>setUploadView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-28 hover:text-white">取消</Button>
+            <Button onClick={()=>setUploadView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
             <Button onClick={()=>canUpload && doUpload()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",!canUpload && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
           </div>
         </Modal>
