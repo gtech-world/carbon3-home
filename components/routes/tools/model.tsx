@@ -60,7 +60,7 @@ export function Model() {
         productName: v.product.name,
         state: v.state,
         createTime: v.createTime,
-        paramDetail: (JSON.parse(v.paramDetail))[0].parameters.map((item:any)=>{
+        paramDetail: (JSON.parse(v.paramDetail))[0]?.parameters?.map((item:any)=>{
           return {
             context: item.name,
             parameter: item.context.name,
@@ -68,7 +68,7 @@ export function Model() {
             uncertainty: item?.uncertainty?.distributionType || null,
             description: item.description,
           }
-        })
+        }) || []
       })
     })
     setTableDataTotal(res.total)
