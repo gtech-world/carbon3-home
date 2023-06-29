@@ -34,7 +34,7 @@ export function uncertaintyName(uncert?: Uncertainty) {
     case "LOG_NORMAL":
       return `lognormal: gmean=${parameter1} gsigma=${parameter2}`;
     case "NORMAL":
-      return `normal: gmean=${parameter1} sigma=${parameter2}`;
+      return `normal: mean=${parameter1} sigma=${parameter2}`;
     case "UNIFORM":
       return `uniform: min=${parameter1} max=${parameter2}`;
     case "TRIANGLE":
