@@ -177,7 +177,13 @@ export function Table(p: ITable) {
 
       </table>
       {
-        loading && <Loading className="pt-8" />
+        loading?<Loading className="pt-8" />:
+          (
+            !(tableData && tableData.length>0) &&
+            <div className="w-full flex justify-center py-12">
+              无数据
+            </div>
+          )
       }
     </div>
   );

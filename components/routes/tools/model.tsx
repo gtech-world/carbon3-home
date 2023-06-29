@@ -189,19 +189,23 @@ export function Model() {
     {
       title: "实景输入项",
       dataIndex: 'context',
+      width: '20%'
     },
     {
       title: "过程名称",
       dataIndex: 'parameter',
+      width: '20%'
     },
     {
       title: "参考值",
       dataIndex: 'amount',
+      width: '20%'
     },
     {
       title: "不确定性",
       dataIndex: 'uncertainty',
-      emptyText:'-'
+      emptyText:'-',
+      width: '40%'
     },
     // {
     //   title: "描述",
@@ -269,6 +273,7 @@ export function Model() {
         resultText: '上传成功！'
       })
       setUploadView(false)
+      setPgNum(1)
       setReload(reload+1)
     }else {
       setOpResult({
@@ -305,7 +310,7 @@ export function Model() {
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
+                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2 text-green-2': 'border-white')}>
                     <div className="">
                       {
                         v.text
@@ -356,8 +361,19 @@ export function Model() {
       {
         !!viewReal &&
         <Modal title={viewReal.modelName+'模型中的实景输入项'} onClose={()=>setViewReal(null)}>
-          <div className="flex w-[60rem] min-h-[300px]">
-            <Table columns={realColumns} data={viewReal.paramDetail} />
+          <div className="flex w-[60rem] flex-col">
+            <ul className="flex mb-1">
+              {
+                realColumns.map((v:any,i:number)=>{
+                  return(
+                    <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                  )
+                })
+              }
+            </ul>
+            <div className="max-h-[15rem] min-h-[5rem] overflow-y-auto">
+              <Table hiddenHeader={true} columns={realColumns} data={viewReal.paramDetail} />
+            </div>
           </div>
         </Modal>
       }
