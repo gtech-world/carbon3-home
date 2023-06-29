@@ -10,7 +10,6 @@ import {
   getLcaModelList, getLcaProductList,
   getLcaProductTypeList,
   insertLcaProduct,
-  noArgs,
   updateLcaModelState,
   uploadLcaModel
 } from "@lib/http";
@@ -304,7 +303,7 @@ export function Model() {
             {
               productList.map((v:any,i:number)=>{
                 return(
-                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
+                  <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2': 'border-white')}>
                     <div className="">
                       {
                         v.text
