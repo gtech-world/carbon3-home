@@ -64,9 +64,9 @@ function GeneralInfo(p:{data:any}){
   const {data} = p
   const list = [
     {label: '产品名称',text: data.productSystemName},
-    {label: '分配方法',text: data.methodName},
+    {label: '分配方法',text: 'As defined in processes'},
     {label: '目标数量',text: data.targetAmount},
-    // {label: '影响类别',text:'IPCC GWP 100a'}
+    {label: '影响评价方法',text:data.methodName}
   ]
   return(
     <div>
@@ -603,6 +603,7 @@ export function InventoryResult() {
         uuid: value.model.productSystemUuid
       }
       const val = parseRefJson(JSON.parse(value.lcaResult))
+      console.log(val)
       generalInfo = {
         productSystemName: val.extra?.productSystemName,
         methodName: val.extra?.methodName,
