@@ -1,18 +1,49 @@
 import {ToolsLayout} from "@components/common/toolsLayout";
-import React from "react";
+import React, {useMemo} from "react";
 import {Button} from "@components/common/button";
 import {useRouter} from "next/router";
+import {useAsyncM} from "@lib/hooks/useAsyncM";
+import {getLcaResultDetail, noArgs} from "@lib/http";
 
 export function InventoryNotCalc() {
   const router = useRouter()
+  const {query} = router
+  console.log(router)
+  const { value, loading } = useAsyncM(
+    noArgs(() => getLcaResultDetail(query?.id || 'all'), [query]),
+    [query]
+  );
+  const val = useMemo(()=>{
+    let baseInfo = {
+      loadNumber: '',
+      productName: '',
+      modelName: '',
+      lastUpdatedTime: '',
+      productCategory: '',
+      desc: '',
+      uuid: ''
+    }
+    if(value){
+      baseInfo = {
+        loadNumber: value.loadNumber,
+        productName: value.product.name,
+        modelName: value.model.modelName,
+        lastUpdatedTime: value.model.updateTime,
+        desc: value.model.description,
+        productCategory: value.productCategory.name,
+        uuid: value.model.productSystemUuid
+      }
+    }
+    return baseInfo
+  },[value])
   const data = [
-    {label:'产品批次号',text: '385501102'},
-    {label:'产品名称',text: 'PC Transport C'},
-    {label:'模型名称',text: 'PC Transport C-Model V1.0'},
-    {label:'类别',text: 'PC bottle'},
-    {label:'描述',text: ''},
-    {label:'最后更改时间',text: '2023-06-05 10:42:04'},
-    {label:'UUID',text: '40ff8d3d-d6cb-45d9-ac59-659717dc2d7c'}
+    {label:'产品批次号',text: val.loadNumber},
+    {label:'产品名称',text: val.productName},
+    {label:'模型名称',text: val.modelName},
+    {label:'类别',text: val.productCategory},
+    {label:'描述',text: val.desc},
+    {label:'最后更改时间',text: val.lastUpdatedTime},
+    {label:'UUID',text: val.uuid}
   ]
   return (
     <ToolsLayout className="text-black">
@@ -29,7 +60,7 @@ export function InventoryNotCalc() {
         }
       </div>
       <div className="w-full flex justify-center">
-        <Button onClick={()=>router.push("/tools/inventoryResult")} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
+        <Button onClick={()=>router.push(`/tools/inventoryResult?id=${query.id}`)} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
       </div>
     </ToolsLayout>
   );

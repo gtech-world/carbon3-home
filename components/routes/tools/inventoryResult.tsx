@@ -11,7 +11,10 @@ import {RiLeafLine} from 'react-icons/ri'
 import {FaFolder} from 'react-icons/fa'
 import {CgRuler} from 'react-icons/cg'
 import {useAsyncM} from "@lib/hooks/useAsyncM";
-import {getLcaResultDetail, getLcaResultList, noArgs} from "@lib/http";
+import {getLcaResultDetail, noArgs} from "@lib/http";
+import {parseRefJson} from "@lib/utils";
+import {result} from "lodash";
+import {useRouter} from "next/router";
 
 function Expand(p: {text: string; onChange:Function}){
   const [open,setOpen] = useState(true)
@@ -29,20 +32,21 @@ function Expand(p: {text: string; onChange:Function}){
   )
 }
 
-function SumInfo(){
-  const data = [
-    {label:'产品批次号',text: '385501102'},
-    {label:'产品名称',text: 'PC Transport C'},
-    {label:'模型名称',text: 'PC Transport C-Model V1.0'},
-    {label:'类别',text: 'PC bottle'},
+function SumInfo(p:{data:any}){
+  const {data} = p
+  const list = [
+    {label:'产品批次号',text: data.loadNumber},
+    {label:'产品名称',text: data.productName},
+    {label:'模型名称',text: data.modelName},
+    {label:'类别',text: data.productCategory},
     {label:'描述',text: ''},
-    {label:'最后更改时间',text: '2023-06-05 10:42:04'},
-    {label:'UUID',text: '40ff8d3d-d6cb-45d9-ac59-659717dc2d7c'}
+    {label:'最后更改时间',text: data.lastUpdatedTime},
+    {label:'UUID',text: data.uuid}
   ]
   return(
     <div className="bg-white p-5 rounded-2xl mt-8">
       {
-        data.map((v,i)=>{
+        list.map((v:any,i:number)=>{
           return(
             <div className="flex" key={`data-${i}`}>
               <label className="font-medium">{v.label} :</label>
@@ -55,13 +59,14 @@ function SumInfo(){
   )
 }
 
-function GeneralInfo(){
+function GeneralInfo(p:{data:any}){
   const [open,setOpen] = useState(true)
-  const data = [
-    {label: '产品名称',text:'PC Transport C'},
-    {label: '分配方法',text:'As defined in processes'},
-    {label: '目标数量',text:'1000.0 Item(s) PC Bottle at POS'},
-    {label: '影响类别',text:'IPCC GWP 100a'}
+  const {data} = p
+  const list = [
+    {label: '产品名称',text: data.productSystemName},
+    {label: '分配方法',text: data.methodName},
+    {label: '目标数量',text: data.targetAmount},
+    // {label: '影响类别',text:'IPCC GWP 100a'}
   ]
   return(
     <div>
@@ -70,7 +75,7 @@ function GeneralInfo(){
         open &&
         <div className="mt-4">
           {
-            data.map((v,i)=>{
+            list.map((v:any,i:number)=>{
               return(
                 <div className="flex" key={`data-${i}`}>
                   <label className="">{v.label} :</label>
@@ -84,39 +89,26 @@ function GeneralInfo(){
     </div>
   )
 }
-function Result(){
+function Result(p:{data:any}){
   const [open,setOpen] = useState(true)
+  const {data} = p
   return(
     <div className="mt-4">
       <Expand text="碳足迹结果" onChange={(v:boolean)=>setOpen(v)} />
       {
         open &&
         <div className="text-[1.75rem] font-semibold mt-4">
-          IPCC GWP 100a：762.6978803566114	kg CO2 eq
+          {data}
         </div>
       }
     </div>
   )
 }
-function ContributionTree(){
+function ContributionTree(p:{data:any}){
   const [open,setOpen] = useState(true)
-  const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultDetail(11), []),
-    []
-  );
-  useMemo(()=>{
-    if(value){
-      const val = JSON.parse(value.lcaResult)
-      console.log(val)
-      val.scalingFactors.map((v:any)=>{
-        if(v?.provider?.category === 1582){
-          console.log(v)
-        }
-      })
-      // console.log()
-    }
-  },[value])
-  //https://pre-api.gtech.world/api/product-lca/result/detail/id=1
+  const {data} = p
+  console.log('data')
+  console.log(data)
   const columns = [
     {
       title: '贡献',
@@ -137,96 +129,68 @@ function ContributionTree(){
     },
     {
       title: '所需数量',
-      dataIndex: 'amount',
+      dataIndex: 'requiredAmount',
     },
     {
       title: '结果',
       dataIndex: 'result',
     },
   ]
-  const data = [
-    {
-      contribution: '100%',
-      process: 'Pc bottle all',
-      amount: '1000.0000 item(s)',
-      result: '762.7687kg CO2 eq',
-      children:[
-        {
-          contribution: '100%',
-          process: 'Polycarbonate granulate (pc), production mix, at plant - RER',
-          amount: '60.00000 kg',
-          result: '762.69788 kg CO2 eq',
-          children:[
-            {
-              contribution: '100%',
-              process: 'children',
-              amount: '60.00000 kg',
-              result: '762.69788 kg CO2 eq',
-            }
-          ]
-        },
-        {
-          contribution: '100%',
-          process: 'Polycarbonate granulate (pc), production mix, at plant - RER',
-          amount: '60.00000 kg',
-          result: '762.69788 kg CO2 eq',
-        },
-      ]
-    },
-    {
-      contribution: '90%',
-      process: 'Pc1 bottle all',
-      amount: '1000.0000 item(s)',
-      result: '762.7687kg CO2 eq',
-      children:[
-        {
-          contribution: '100%',
-          process: 'Polycarbonate2 granulate (pc), production mix, at plant - RER',
-          amount: '60.00000 kg',
-          result: '762.69788 kg CO2 eq',
-        },
-        {
-          contribution: '100%',
-          process: 'Polycarbonate2 granulate (pc), production mix, at plant - RER',
-          amount: '60.00000 kg',
-          result: '762.69788 kg CO2 eq',
-        },
-      ]
-    },
-    {
-      contribution: '100%',
-      process: '测试',
-      amount: '60.00000 kg',
-      result: '762.69788 kg CO2 eq',
-    },
-  ]
   const chartOptions = useMemo(() => {
+
+    // if(!data || !data.length) return {}
+    const arr = data[0]?.children || []
     const colors = ['#EB505B','#4780C6','#FFCE5D','#3F9F4A','#7B41A0','#757475']
+    const legendData:any = []
+    const seriesData:any = []
+    arr.map((v:any,i:number)=>{
+      if(i<5){
+        const legend = v.requiredAmount+';'+v.process
+        legendData.push(legend)
+        const data = []
+        for(let j=0;j<=i; j++){
+          if(j<i) data.push(0)
+          else {
+            data.push(v.result)
+          }
+        }
+        seriesData.push(
+          {
+            name: legend,
+            color: colors[i],
+            type:'bar',
+            barWidth: 40,
+            stack: '设备',
+            data: data
+          },
+        )
+      }
+    })
     return {
       grid:{top:20,left:50,right:700},
-      // grid:{
-      //   left: '3%',
-      //   right: '20%',
-      //   bottom: '3%',
-      //   // containLabel: true
-      // },
       xAxis: {
-        show: false,
+        // show: false,
         type: 'category',
+        axisLine:{
+          show:true,
+          lineStyle: {
+            color: '#999999',    // 坐标轴线线的颜色
+            // width: '5',    // 坐标轴线线宽
+            // type: 'solid',     // 坐标轴线线的类型（'solid'，实线类型；'dashed'，虚线类型；'dotted',点状类型）
+          },
+        },
+        axisTick: {
+          show: false,    // 是否显示坐标轴刻度
+        },
+        axisLabel:{
+          show:false
+        }
       },
       legend: {
         orient: 'vertical',
-        // x: 'right',
         right: 0,
         y: 'center',
-        // width: 40,
-        // height: 6,
-        data:[
-          '3.289E-7 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          '3.289E-8 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          '3.289E-9 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          '3.289E-10 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27'
-        ],
+        data:legendData,
         itemHeight: 6,
         itemWidth: 40,
         itemGap: 20,
@@ -235,40 +199,32 @@ function ContributionTree(){
         }
       },
       yAxis: {
-        // type: 'value',
+        type: 'value',
+        // type: 'category',
+        axisLine:{
+          show:true,
+          lineStyle: {
+            color: '#999999',    // 坐标轴线线的颜色
+            // width: '5',    // 坐标轴线线宽
+            // type: 'solid',     // 坐标轴线线的类型（'solid'，实线类型；'dashed'，虚线类型；'dotted',点状类型）
+          },
+        },
+        splitLine:{
+          show:false
+        },
+        axisTick: {
+          show: true,    // 是否显示坐标轴刻度
+          // inside: true,     // 坐标轴刻度是否朝内，默认朝外
+          length: 5,    // 坐标轴刻度的长度
+          // lineStyle: {
+          //   color: '#9999',     // 刻度线的颜色
+          //   type: 'solid',     // 坐标轴线线的类型（'solid'，实线类型；'dashed'，虚线类型；'dotted',点状类型）
+          // },
+        },
       },
-      series: [
-        {
-          name:'3.289E-8 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          stack: '设备',
-          type:'bar',
-          barWidth: 40,
-          data:[128],
-        },
-        {
-          name:'3.289E-7 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          type:'bar',
-          barWidth: 40,
-          stack: '设备',
-          data:[0, 27]
-        },
-        {
-          name:'3.289E-9 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          type:'bar',
-          barWidth: 40,
-          stack: '设备',
-          data:[0, 0, 7]
-        },
-        {
-          name:'3.289E-10 kg: Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          type:'bar',
-          barWidth: 40,
-          stack: '设备',
-          data:[0, 0, 0,80]
-        }
-      ]
+      series: seriesData
     }
-  },[])
+  },[data])
   return(
     <div className="mt-4">
       <Expand text="贡献树" onChange={(v:boolean)=>setOpen(v)} />
@@ -402,8 +358,9 @@ function IO(){
 }
 
 
-function List(){
+function List(p:{data:any}){
   const [open,setOpen] = useState(true)
+  const {data} = p
   const columns = [
     {
       title:'名称',
@@ -415,38 +372,24 @@ function List(){
             <span className="ml-1">{text}</span>
           </div>
         )
-      }
+      },
+      width: '40%'
     },
     {
       title:'种类',
-      dataIndex:'category'
+      dataIndex:'category',
+      width: '30%'
     },
     {
       title:'数量',
-      dataIndex:'amount'
+      dataIndex:'amount',
+      width: '20%'
     },
     {
       title:'单位',
-      dataIndex:'unit'
+      dataIndex:'unit',
+      width: '10%'
     },
-  ]
-  const data = [
-    {
-      name:'drinking water',
-      category:'abc',
-      amount: 100,
-      unit: 'wu',
-      children:[
-        {
-          name:'Electricity grid mix 1kV-60kV, consumption mix, at consumer, AC, 1kV - 60kV - EU - 27',
-          category:'abc',
-          amount: 100,
-          unit: 'wu',
-        }
-      ]
-    },
-    {name:'drinking water',category:'Drinking water,production mix'},
-    {name:'drinking water',category:'Drinking water,production mix'},
   ]
   return(
     <div>
@@ -456,21 +399,51 @@ function List(){
           open &&
           <div>
             <h4 className="mt-4 mb-3">输入</h4>
-            <Table
-              size="small"
-              columns={columns}
-              data={data}
-              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-              headerStyle={{background:'#fff'}}
-            />
+            <ul className="flex mb-1">
+              {
+                columns.map((v:any)=>{
+                  return(
+                    <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                  )
+                })
+              }
+            </ul>
+            <div className="max-h-[15rem] overflow-y-auto">
+              <Table
+                size="small"
+                hiddenHeader={true}
+                columns={columns}
+                data={data.inputData}
+                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+                headerStyle={{background:'#fff'}}
+                maxHeight="300px"
+              />
+            </div>
+
+
             <h4 className="mt-4 mb-3">输出</h4>
-            <Table
-              size="small"
-              columns={columns}
-              data={data}
-              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-              headerStyle={{background:'#fff'}}
-            />
+            <div className="max-h-[20rem] overflow-y-auto">
+              <ul className="flex mb-1">
+                {
+                  columns.map((v:any)=>{
+                    return(
+                      <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                    )
+                  })
+                }
+              </ul>
+              <div className="max-h-[15rem] overflow-y-auto">
+                <Table
+                  size="small"
+                  hiddenHeader={true}
+                  columns={columns}
+                  data={data.outputData}
+                  cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+                  headerStyle={{background:'#fff'}}
+                />
+              </div>
+
+            </div>
           </div>
         }
       </div>
@@ -478,8 +451,9 @@ function List(){
   )
 }
 
-function SumRequire(){
+function SumRequire(p:{data:any}){
   const [open,setOpen] = useState(true)
+  const {data} = p
   const columns = [
     {
       title:'过程',
@@ -493,7 +467,8 @@ function SumRequire(){
             <span className="ml-1">{text}</span>
           </div>
         )
-      }
+      },
+      width: '40%'
     },
     {
       title:'产品',
@@ -505,79 +480,193 @@ function SumRequire(){
             <span className="ml-1">{text}</span>
           </div>:''
         )
-      }
+      },
+      width: '30%'
     },
     {
       title:'数量',
-      dataIndex:'amount'
+      dataIndex:'amount',
+      width: '20%'
     },
     {
       title:'单位',
-      dataIndex:'unit'
+      dataIndex:'unit',
+      width: '10%'
     },
   ]
-  const data = [
-    {
-      process:'process',
-      product:'product',
-      amount: 100,
-      unit: 'wu',
-      children:[
-        {
-          process:'PC',
-          children:[
-            {
-              process:'process',
-              product:'product',
-              amount: 100,
-              unit: 'wu',
-            },
-            {
-              process:'process',
-              product:'product',
-              amount: 100,
-              unit: 'wu',
-            },
-            {
-              process:'process',
-              product:'product',
-              amount: 100,
-              unit: 'wu',
-            }
-          ]
-        }
-      ]
-    }
-  ]
+  // const data = [
+  //   {
+  //     process:'process',
+  //     product:'product',
+  //     amount: 100,
+  //     unit: 'wu',
+  //     children:[
+  //       {
+  //         process:'PC',
+  //         children:[
+  //           {
+  //             process:'process',
+  //             product:'product',
+  //             amount: 100,
+  //             unit: 'wu',
+  //           },
+  //           {
+  //             process:'process',
+  //             product:'product',
+  //             amount: 100,
+  //             unit: 'wu',
+  //           },
+  //           {
+  //             process:'process',
+  //             product:'product',
+  //             amount: 100,
+  //             unit: 'wu',
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ]
   return(
     <div className="mt-4">
       <Expand text="总需求" onChange={(v:boolean)=>setOpen(v)} />
       {
         open &&
-        <Table
-          size="small"
-          columns={columns}
-          data={data}
-          cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-          headerStyle={{background:'#fff'}}
-        />
+          <div>
+            <ul className="flex mb-1">
+              {
+                columns.map((v:any)=>{
+                  return(
+                    <li className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                  )
+                })
+              }
+            </ul>
+            <div className="max-h-[15rem] overflow-y-auto">
+              <Table
+                hiddenHeader={true}
+                size="small"
+                columns={columns}
+                data={data}
+                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+                headerStyle={{background:'#fff'}}
+              />
+            </div>
+          </div>
       }
     </div>
   )
 }
 
 export function InventoryResult() {
+  const {query} = useRouter()
+  const { value, loading } = useAsyncM(
+    noArgs(() => getLcaResultDetail(query.id), []),
+    []
+  );
+  const calcContribution = (val:number,total:number)=>{
+    if(val === 0 || total === 0){
+      return 0
+    }
+    if(total<0 && val>0){
+      return -(val/total)
+    }else {
+      return val/total
+    }
+  }
+  const {baseInfo,generalInfo,carbonResult,contributeTreeData,listData,totalRequire}:any = useMemo(()=>{
+    let contributeTreeData:any = []
+    let generalInfo:any = []
+    let totalRequire:any = []
+    let baseInfo = {
+      loadNumber: '',
+      productName: '',
+      modelName: '',
+      lastUpdatedTime: '',
+      productCategory: '',
+      desc: '',
+      uuid: ''
+    }
+    let carbonResult:any = ''
+    let listData:any = {
+      inputData: [],
+      outputData: []
+    }
+    if(value){
+      baseInfo = {
+        loadNumber: value.loadNumber,
+        productName: value.product.name,
+        modelName: value.model.modelName,
+        lastUpdatedTime: value.model.updateTime,
+        productCategory: value.productCategory.name,
+        desc: value.model.description,
+        uuid: value.model.productSystemUuid
+      }
+      const val = parseRefJson(JSON.parse(value.lcaResult))
+      generalInfo = {
+        productSystemName: val.extra?.productSystemName,
+        methodName: val.extra?.methodName,
+        targetAmount: val.extra?.targetAmount,
+      }
+      const total = val.treeNode?.result
+      contributeTreeData = [{
+        contribution: ((calcContribution(total,total)*100).toFixed(2))+'%',
+        process: val.treeNode?.provider.name,
+        requiredAmount : val.treeNode?.requiredAmount,
+        result: <span>{val.treeNode?.result}{val.totalImpacts[0].impact.referenceUnit==='m3'?<span>m<sup>3</sup></span>:val.totalImpacts[0].impact.referenceUnit}</span>,
+      }]
+
+      carbonResult = <span>{(total || 0)}{val.totalImpacts[0].impact.referenceUnit==='m3'?<span>m<sup>3</sup></span>:val.totalImpacts[0].impact.referenceUnit}</span>
+      const handleTree = (items:any)=>{
+        items && items.map((v:any)=>{
+          v.contribution = ((calcContribution(v.result,total)*100).toFixed(2))+'%'
+          v.process = v.provider.name
+          v.result = v.result +''+val.totalImpacts[0].impact.referenceUnit
+          if(v.children && v.children.length>0){
+            handleTree(v.children)
+          }
+        })
+      }
+      handleTree(val.treeNode?.children.sort((a:any,b:any)=>a.result-b.result))
+      contributeTreeData[0].children = val.treeNode?.children
+
+      // 处理清单列表的数据
+      val.totalFlows.map((v:any)=>{
+        let item = {
+          name: v.flow.name,
+          category: v.flow.flowType,
+          amount: v.value,
+          unit: ''
+        }
+        if(v.isInput){
+          listData.inputData.push(item)
+        }else {
+          listData.outputData.push(item)
+        }
+      })
+      val.totalRequirements.map((v:any)=>{
+        totalRequire.push({
+          process: v.provider.name,
+          product: v.flow.name,
+          amount: v.value,
+          unit: ''
+        })
+      })
+    }
+
+    return {baseInfo,generalInfo,carbonResult,contributeTreeData,listData,totalRequire}
+  },[value])
   return (
     <ToolsLayout className="text-black text-lg">
-      <SumInfo />
+      <SumInfo data={baseInfo} />
       <h3 className="text-2xl font-semibold my-5">碳足迹结果</h3>
       <div className="bg-white p-5 rounded-2xl">
-        <GeneralInfo />
-        <Result />
-        <ContributionTree />
-        <IO />
-        <List />
-        <SumRequire />
+        <GeneralInfo data={generalInfo}/>
+        <Result data={carbonResult}/>
+        <ContributionTree data={contributeTreeData}/>
+        {/*<IO />*/}
+        <List data={listData}/>
+        <SumRequire data={totalRequire} />
       </div>
       <div className="w-full flex justify-center mt-5 mb-10">
         <Button onClick={()=>window.open("", "_blank")} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">导出Excel</Button>
