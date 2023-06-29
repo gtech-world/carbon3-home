@@ -11,10 +11,11 @@ import {RiLeafLine} from 'react-icons/ri'
 import {FaFolder} from 'react-icons/fa'
 import {CgRuler} from 'react-icons/cg'
 import {useAsyncM} from "@lib/hooks/useAsyncM";
-import {getLcaResultDetail, noArgs} from "@lib/http";
+import {exportLcaResultExcel, getLcaResultDetail, noArgs} from "@lib/http";
 import {parseRefJson} from "@lib/utils";
 import {result} from "lodash";
 import {useRouter} from "next/router";
+import {Loading} from "@components/common/loading";
 
 function Expand(p: {text: string; onChange:Function}){
   const [open,setOpen] = useState(true)
@@ -107,8 +108,6 @@ function Result(p:{data:any}){
 function ContributionTree(p:{data:any}){
   const [open,setOpen] = useState(true)
   const {data} = p
-  console.log('data')
-  console.log(data)
   const columns = [
     {
       title: '贡献',
@@ -613,7 +612,7 @@ export function InventoryResult() {
       contributeTreeData = [{
         contribution: ((calcContribution(total,total)*100).toFixed(2))+'%',
         process: val.treeNode?.provider.name,
-        requiredAmount : val.treeNode?.requiredAmount,
+        requiredAmount : val.treeNode?.requiredAmount+' '+val.treeNode?.refUnit,
         result: <span>{val.treeNode?.result}{val.totalImpacts[0].impact.referenceUnit==='m3'?<span>m<sup>3</sup></span>:val.totalImpacts[0].impact.referenceUnit}</span>,
       }]
 
@@ -623,6 +622,7 @@ export function InventoryResult() {
           v.contribution = ((calcContribution(v.result,total)*100).toFixed(2))+'%'
           v.process = v.provider.name
           v.result = v.result +''+val.totalImpacts[0].impact.referenceUnit
+          v.requiredAmount = v.requiredAmount+' '+v.refUnit
           if(v.children && v.children.length>0){
             handleTree(v.children)
           }
@@ -635,9 +635,9 @@ export function InventoryResult() {
       val.totalFlows.map((v:any)=>{
         let item = {
           name: v.flow.name,
-          category: v.flow.flowType,
+          category: v.flowPropertyPath,
           amount: v.value,
-          unit: ''
+          unit: v.refUnit
         }
         if(v.isInput){
           listData.inputData.push(item)
@@ -650,28 +650,48 @@ export function InventoryResult() {
           process: v.provider.name,
           product: v.flow.name,
           amount: v.value,
-          unit: ''
+          unit: v.refUnit
         })
       })
     }
 
     return {baseInfo,generalInfo,carbonResult,contributeTreeData,listData,totalRequire}
   },[value])
+  const doExport = async ()=>{
+    if(!query.id) return false
+    const res = await exportLcaResultExcel(query.id)
+    const blob = new Blob([res.data]);//处理文档流
+    const fileName = 'gtech.xlsx';
+    const eLink = document.createElement('a');
+    eLink.download = fileName;
+    eLink.style.display = 'none';
+    eLink.href = URL.createObjectURL(blob);
+    document.body.appendChild(eLink);
+    eLink.click();
+    URL.revokeObjectURL(eLink.href); // 释放URL 对象
+    document.body.removeChild(eLink);
+  }
   return (
     <ToolsLayout className="text-black text-lg">
-      <SumInfo data={baseInfo} />
-      <h3 className="text-2xl font-semibold my-5">碳足迹结果</h3>
-      <div className="bg-white p-5 rounded-2xl">
-        <GeneralInfo data={generalInfo}/>
-        <Result data={carbonResult}/>
-        <ContributionTree data={contributeTreeData}/>
-        {/*<IO />*/}
-        <List data={listData}/>
-        <SumRequire data={totalRequire} />
-      </div>
-      <div className="w-full flex justify-center mt-5 mb-10">
-        <Button onClick={()=>window.open("", "_blank")} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">导出Excel</Button>
-      </div>
+      {
+        loading?<div className="h-[100vh] w-full items-center"><Loading /></div>:
+          <div>
+            <SumInfo data={baseInfo} />
+            <h3 className="text-2xl font-semibold my-5">碳足迹结果</h3>
+            <div className="bg-white p-5 rounded-2xl">
+              <GeneralInfo data={generalInfo}/>
+              <Result data={carbonResult}/>
+              <ContributionTree data={contributeTreeData}/>
+              {/*<IO />*/}
+              <List data={listData}/>
+              <SumRequire data={totalRequire} />
+            </div>
+            <div className="w-full flex justify-center mt-5 mb-10">
+              <Button onClick={()=>doExport()} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">导出Excel</Button>
+            </div>
+          </div>
+      }
+
     </ToolsLayout>
   );
 }

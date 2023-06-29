@@ -188,3 +188,10 @@ export async function getLcaModelItem(id: string, type: string, typeId: number |
   const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info`), authConfig());
   return JSON.parse(getData(res));
 }
+
+export async function exportLcaResultExcel(id: any) {
+  let config = authConfig();
+
+  const res = await axios.get<string>(creatUrl(`/api/product-lca/result/${id}/export`), Object.assign(config,{responseType: 'blob'}));
+  return res;
+}
