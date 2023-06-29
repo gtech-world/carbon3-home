@@ -146,6 +146,7 @@ export function Model() {
     {
       title: "状态",
       dataIndex: 'state',
+      width: '100px',
       render: (text:number)=>{
         let stateText = ''
         switch (text){
@@ -171,6 +172,7 @@ export function Model() {
     },
     {
       title: "",
+      width: '300px',
       render: (text:string,record:any)=>{
         return(
           <div className="flex flex-1 justify-between text-green-2">
@@ -201,11 +203,11 @@ export function Model() {
       dataIndex: 'uncertainty',
       emptyText:'-'
     },
-    {
-      title: "描述",
-      dataIndex: 'description',
-      emptyText:'-'
-    },
+    // {
+    //   title: "描述",
+    //   dataIndex: 'description',
+    //   emptyText:'-'
+    // },
   ]
   const doChangeState = async (state:number)=>{
     const title = '更改状态'
