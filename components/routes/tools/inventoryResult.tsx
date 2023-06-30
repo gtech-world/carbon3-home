@@ -557,6 +557,7 @@ function SumRequire(p:{data:any}){
 
 export function InventoryResult() {
   const {query} = useRouter()
+  const [exportLoading,setExportLoading] = useState(false)
   const { value, loading } = useAsyncM(
     noArgs(() => getLcaResultDetail(query.id), []),
     []
@@ -656,7 +657,9 @@ export function InventoryResult() {
   },[value])
   const doExport = async ()=>{
     if(!query.id) return false
+    setExportLoading(true)
     const res = await exportLcaResultExcel(query.id)
+    setExportLoading(false)
     const blob = new Blob([res.data]);//处理文档流
     const fileName = 'gtech.xlsx';
     const eLink = document.createElement('a');
@@ -684,7 +687,11 @@ export function InventoryResult() {
               <SumRequire data={totalRequire} />
             </div>
             <div className="w-full flex justify-center mt-5 mb-10">
-              <Button onClick={()=>doExport()} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">导出Excel</Button>
+              <Button onClick={()=>!exportLoading && doExport()} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14 flex items-center justify-center">
+                {
+                  exportLoading ? <div><Loading size="2rem" color={'#fff'} /></div>:<span>导出Excel</span>
+                }
+              </Button>
             </div>
           </div>
       }
