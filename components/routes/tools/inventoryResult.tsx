@@ -40,7 +40,7 @@ function SumInfo(p:{data:any}){
     {label:'产品名称',text: data.productName},
     {label:'模型名称',text: data.modelName},
     {label:'类别',text: data.productCategory},
-    {label:'描述',text: data.desc || '-'},
+    // {label:'描述',text: data.desc || '-'},
     {label:'最后更改时间',text: data.lastUpdatedTime},
     {label:'UUID',text: data.uuid}
   ]
