@@ -331,7 +331,7 @@ export function Model() {
           {/*@ts-ignore*/}
           <Button onClick={()=>setUploadView(true)} className="text-lg bg-green-2 w-40 text-white rounded-lg h-11 font-normal">上传碳足迹模型</Button>
         </h3>
-        <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
+        <div className="bg-white p-5 min-h-[20.25rem] rounded-2xl text-base mt-5 leading-[1.625rem]">
           <Table columns={columns}
                  loading={tableDataLoading}
                  // size="big"
