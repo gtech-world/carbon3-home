@@ -194,7 +194,7 @@ export function Model() {
     {
       title: "过程名称",
       dataIndex: 'parameter',
-      width: '20%'
+      width: '30%'
     },
     {
       title: "参考值",
@@ -205,7 +205,7 @@ export function Model() {
       title: "不确定性",
       dataIndex: 'uncertainty',
       emptyText:'-',
-      width: '40%'
+      width: '30%'
     },
     // {
     //   title: "描述",
