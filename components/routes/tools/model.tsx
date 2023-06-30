@@ -457,7 +457,7 @@ export function Model() {
           <ul className="text-lg max-w-[32rem]">
             <li className="flex">
               <label className="inline-block min-w-[5.625rem]">产品名称 :</label>
-              <span className="text-gray-6">{productList[productViewSelectedIndex]?.text}</span>
+              <span className="text-gray-6 break-all">{productList[productViewSelectedIndex]?.text}</span>
             </li>
             <li className="my-5">
               <label className="inline-block w-[5.625rem]">产品类型 :</label>
