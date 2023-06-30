@@ -42,7 +42,7 @@ export function InventoryNotCalc() {
     {label:'产品名称',text: val.productName},
     {label:'模型名称',text: val.modelName},
     {label:'类别',text: val.productCategory},
-    {label:'描述',text: val.desc},
+    {label:'描述',text: val.desc || '-'},
     {label:'最后更改时间',text: val.lastUpdatedTime},
     {label:'UUID',text: val.uuid}
   ]
