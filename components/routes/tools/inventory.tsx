@@ -12,20 +12,32 @@ export function Inventory() {
     {
       title: "产品批次号",
       dataIndex: 'loadNumber',
+      width: '300px',
+      render:(text:string)=>{
+        return(
+          <span className="max-w-[220px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        )
+      }
     },
     {
       title: "产品名称",
       dataIndex: 'productName',
+      render: (text:string)=>{
+        return <span className="max-w-[200px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+      }
     },
     {
       title: "模型名称",
       dataIndex: 'modelName',
+      render:(text:string)=>{
+        return <span className="max-w-[150px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+      }
     },
-    {
-      title: "描述",
-      dataIndex: 'description',
-      emptyText:'-'
-    },
+    // {
+    //   title: "描述",
+    //   dataIndex: 'description',
+    //   emptyText:'-'
+    // },
     {
       title: "报告时间",
       dataIndex: 'createTime',

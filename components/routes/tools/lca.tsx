@@ -29,8 +29,8 @@ export function Lca() {
 
         <h4 className="text-xl font-semibold mb-4 mt-8">下载”A-LCA”产品生命周期评价工具</h4>
         <div className="bg-gray-20 rounded p-5">
-          <p>A-LCA产品生命周期评价工具客户端：<a className="text-green-2" target="_blank" rel="noreferrer" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_macOS_x64_1.0.1_2023-06-09.dmg">AICP LCA_macOS_Version 1.1.0_2023-05-12.dmg</a></p>
-          <p className="mt-3">A-LCA产品生命周期评价工具客户端：<a className="text-green-2" target="_blank" rel="noreferrer" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_WINDOWS_X64_1.0.1_2023-06-09.exe">AICP LCA_Windows_x64_Version 1.1.0_2023-05-12.zip</a></p>
+          <p>A-LCA产品生命周期评价工具客户端：<a className="text-green-2" target="_blank" rel="noreferrer" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_macOS_x64_1.0.1_2023-06-09.dmg">aicpLCA_macOS_x64_1.0.1_2023-06-09.dmg</a></p>
+          <p className="mt-3">A-LCA产品生命周期评价工具客户端：<a className="text-green-2" target="_blank" rel="noreferrer" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_WINDOWS_X64_1.0.1_2023-06-09.exe">aicpLCA_WINDOWS_X64_1.0.1_2023-06-09.exe</a></p>
         </div>
 
         <div className="mt-4">
