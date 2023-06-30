@@ -299,8 +299,8 @@ export function Model() {
     setProductName(val.target.value)
   }
   return (
-    <ToolsLayout className="text-black flex flex-col justify-between flex-1">
-      <div className="pb-12">
+    <ToolsLayout className="text-black flex flex-col justify-between flex-1 pb-12">
+      <div className="">
         <div>
           <h3 className="text-2xl font-semibold mt-8 flex justify-between items-center">
             <span>产品定义</span>
