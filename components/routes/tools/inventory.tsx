@@ -35,7 +35,7 @@ export function Inventory() {
       render: (text:string,record:any)=>{
         return(
           <div className="flex justify-between text-green-2">
-              <span className="cursor-pointer" onClick={()=>window.open(`/tools/inventoryNotCalc?id=${record.id}`, "_blank")}>碳足迹结果</span>
+              <span className="cursor-pointer" onClick={()=>window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>碳足迹结果</span>
           </div>
         )
       }
