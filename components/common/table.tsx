@@ -107,7 +107,7 @@ export function Table(p: ITable) {
                         {
                           filters[v.dataIndex].isFilterOpen &&
                           <div className="absolute left-0 top-10 font-normal">
-                            <ul className="bg-white w-[12.375rem] max-h-[15.875rem] overflow-auto text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
+                            <ul className="bg-white w-[12.375rem] max-h-[14.875rem] overflow-auto text-sm rounded-lg py-3" style={{boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)"}}>
                               <li className={classNames("py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",filters[v.dataIndex].filterValueIndex === -1 && 'text-green-2')} onClick={()=>{handleFilterValue(v,-1)}}>All</li>
                               {
                                 v.filterOptions.map((option:any,optionIndex:number)=>{
@@ -180,7 +180,7 @@ export function Table(p: ITable) {
         loading?<Loading className="pt-8" />:
           (
             !(tableData && tableData.length>0) &&
-            <div className="w-full flex justify-center py-12">
+            <div className="w-full flex justify-center py-20">
               无数据
             </div>
           )

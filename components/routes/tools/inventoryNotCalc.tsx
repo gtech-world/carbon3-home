@@ -4,6 +4,7 @@ import {Button} from "@components/common/button";
 import {useRouter} from "next/router";
 import {useAsyncM} from "@lib/hooks/useAsyncM";
 import {getLcaResultDetail, noArgs} from "@lib/http";
+import {Loading} from "@components/common/loading";
 
 export function InventoryNotCalc() {
   const router = useRouter()
@@ -47,21 +48,26 @@ export function InventoryNotCalc() {
   ]
   return (
     <ToolsLayout className="text-black">
-      <div className="bg-white p-5 rounded-2xl text-base mt-8 leading-[1.625rem]">
-        {
-          data.map((v,i)=>{
-            return(
-              <div className="flex" key={`data-${i}`}>
-                <label className="font-medium">{v.label} :</label>
-                <span className="ml-1 text-gray-6">{v.text}</span>
-              </div>
-            )
-          })
-        }
-      </div>
-      <div className="w-full flex justify-center">
-        <Button onClick={()=>router.push(`/tools/inventoryResult?id=${query.id}`)} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
-      </div>
+      {
+        loading?<div className="h-[100vh] w-full items-center"><Loading /></div>:
+          <div>
+            <div className="bg-white p-5 rounded-2xl text-base mt-8 leading-[1.625rem]">
+              {
+                data.map((v,i)=>{
+                  return(
+                    <div className="flex" key={`data-${i}`}>
+                      <label className="font-medium">{v.label} :</label>
+                      <span className="ml-1 text-gray-6">{v.text}</span>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            <div className="w-full flex justify-center">
+              <Button onClick={()=>router.push(`/tools/inventoryResult?id=${query.id}`)} className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">计算碳结果</Button>
+            </div>
+          </div>
+      }
     </ToolsLayout>
   );
 }

@@ -40,7 +40,7 @@ function SumInfo(p:{data:any}){
     {label:'产品名称',text: data.productName},
     {label:'模型名称',text: data.modelName},
     {label:'类别',text: data.productCategory},
-    {label:'描述',text: ''},
+    {label:'描述',text: data.desc || '-'},
     {label:'最后更改时间',text: data.lastUpdatedTime},
     {label:'UUID',text: data.uuid}
   ]
@@ -143,27 +143,25 @@ function ContributionTree(p:{data:any}){
     const legendData:any = []
     const seriesData:any = []
     arr.map((v:any,i:number)=>{
-      if(i<5){
-        const legend = v.requiredAmount+';'+v.process
-        legendData.push(legend)
-        const data = []
-        for(let j=0;j<=i; j++){
-          if(j<i) data.push(0)
-          else {
-            data.push(v.result)
-          }
+      const legend = v.requiredAmount+';'+v.process
+      legendData.push(legend)
+      const data = []
+      for(let j=0;j<=i; j++){
+        if(j<i) data.push(0)
+        else {
+          data.push(v.result)
         }
-        seriesData.push(
-          {
-            name: legend,
-            color: colors[i],
-            type:'bar',
-            barWidth: 40,
-            stack: '设备',
-            data: data
-          },
-        )
       }
+      seriesData.push(
+        {
+          name: legend,
+          color: colors[i],
+          type:'bar',
+          barWidth: 40,
+          stack: '设备',
+          data: data
+        },
+      )
     })
     return {
       grid:{top:20,left:50,right:700},
@@ -332,24 +330,24 @@ function IO(){
         <Expand text="输入/输出" onChange={(v:boolean)=>setOpen(v)} />
         {
           open &&
-            <div>
-              <h4 className="mt-4 mb-3">输入</h4>
-              <Table
-                size="small"
-                columns={columns}
-                data={data}
-                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-                headerStyle={{background:'#fff'}}
-              />
-              <h4 className="mt-4 mb-3">输出</h4>
-              <Table
-                size="small"
-                columns={columns}
-                data={data}
-                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-                headerStyle={{background:'#fff'}}
-              />
-            </div>
+          <div>
+            <h4 className="mt-4 mb-3">输入</h4>
+            <Table
+              size="small"
+              columns={columns}
+              data={data}
+              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+              headerStyle={{background:'#fff'}}
+            />
+            <h4 className="mt-4 mb-3">输出</h4>
+            <Table
+              size="small"
+              columns={columns}
+              data={data}
+              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+              headerStyle={{background:'#fff'}}
+            />
+          </div>
         }
       </div>
     </div>
@@ -531,27 +529,27 @@ function SumRequire(p:{data:any}){
       <Expand text="总需求" onChange={(v:boolean)=>setOpen(v)} />
       {
         open &&
-          <div>
-            <ul className="flex mb-1">
-              {
-                columns.map((v:any,i:number)=>{
-                  return(
-                    <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
-                  )
-                })
-              }
-            </ul>
-            <div className="max-h-[15rem] overflow-y-auto">
-              <Table
-                hiddenHeader={true}
-                size="small"
-                columns={columns}
-                data={data}
-                cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
-                headerStyle={{background:'#fff'}}
-              />
-            </div>
+        <div className="mt-4">
+          <ul className="flex mb-1">
+            {
+              columns.map((v:any,i:number)=>{
+                return(
+                  <li key={`columns${i}`} className="px-3 text-sm font-bold" style={{width: v.width}}>{v.title}</li>
+                )
+              })
+            }
+          </ul>
+          <div className="max-h-[15rem] overflow-y-auto">
+            <Table
+              hiddenHeader={true}
+              size="small"
+              columns={columns}
+              data={data}
+              cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l'} ${cellIndex === (columns.length-1) && 'rounded-r'}`:'')}
+              headerStyle={{background:'#fff'}}
+            />
           </div>
+        </div>
       }
     </div>
   )
@@ -602,7 +600,6 @@ export function InventoryResult() {
         uuid: value.model.productSystemUuid
       }
       const val = parseRefJson(JSON.parse(value.lcaResult))
-      console.log(val)
       generalInfo = {
         productSystemName: val.extra?.productSystemName,
         methodName: val.extra?.methodName,
