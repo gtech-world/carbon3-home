@@ -302,16 +302,16 @@ export function Model() {
     <ToolsLayout className="text-black flex flex-col justify-between flex-1 pb-12">
       <div className="">
         <div>
-          <h3 className="text-2xl font-semibold mt-8 flex justify-between items-center">
+          <h3 className="text-2xl font-semibold mt-8 flex justify-between items-center pb-5">
             <span>产品定义</span>
             <Button onClick={()=>setCreateProductView(true)} className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal">新建产品</Button>
           </h3>
-          <div className="max-h-[16.5rem] overflow-y-auto">
+          <div className="max-h-[15.5rem] overflow-y-auto">
             <ul className="flex flex-wrap ml-[-1.25rem]">
               {
                 productList.map((v:any,i:number)=>{
                   return(
-                    <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mt-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2 text-green-2': 'border-white')}>
+                    <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mb-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2 text-green-2': 'border-white')}>
                       <div className="">
                         {
                           v.text
