@@ -434,7 +434,7 @@ export function Model() {
         <Modal title="上传碳足迹模型" onClose={()=>setUploadView(false)}>
           <div className="flex items-center">
             <label className="mr-2">产品名称 : </label>
-            <Select className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem]"
+            <Select className="border border-gray-14 bg-gray-28 w-[21.5rem] py-[0.935rem] "
                     items={productList}
                     current={productSelectedIndex}
                     onChange={(val)=>{setProductSelectedIndex(val)}}
