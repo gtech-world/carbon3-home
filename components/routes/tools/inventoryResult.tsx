@@ -1,5 +1,5 @@
 import {ToolsLayout} from "@components/common/toolsLayout";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {Button} from "@components/common/button";
 import {BsCaretUpFill} from 'react-icons/bs'
 import classNames from "classnames";
@@ -105,9 +105,9 @@ function Result(p:{data:any}){
     </div>
   )
 }
-function ContributionTree(p:{data:any}){
+function ContributionTree(p:{data:any,referenceUnit:string}){
   const [open,setOpen] = useState(true)
-  const {data} = p
+  const {data,referenceUnit} = p
   const columns = [
     {
       title: '贡献',
@@ -133,6 +133,9 @@ function ContributionTree(p:{data:any}){
     {
       title: '结果',
       dataIndex: 'result',
+      render:(text:string)=>{
+        return <span>{text}{(referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit)}</span>
+      }
     },
   ]
   const chartOptions = useMemo(() => {
@@ -142,27 +145,42 @@ function ContributionTree(p:{data:any}){
     const colors = ['#EB505B','#4780C6','#FFCE5D','#3F9F4A','#7B41A0','#757475']
     const legendData:any = []
     const seriesData:any = []
+    let otherTotal = 0
     arr.map((v:any,i:number)=>{
-      const legend = v.requiredAmount+';'+v.process
-      legendData.push(legend)
-      const data = []
-      for(let j=0;j<=i; j++){
-        if(j<i) data.push(0)
-        else {
-          data.push(v.result)
+      if(i<5){
+        const legend = v.result+' '+referenceUnit+': '+v.process
+        legendData.push(legend)
+        const data = []
+        for(let j=0;j<=i; j++){
+          if(j<i) data.push(0)
+          else {
+            data.push(v.result)
+          }
         }
+        seriesData.push(
+          {
+            name: legend,
+            color: colors[i],
+            type:'bar',
+            barWidth: 40,
+            data: data
+          },
+        )
+      }else {
+        otherTotal += (v.result || 0)
       }
-      seriesData.push(
-        {
-          name: legend,
-          color: colors[i],
-          type:'bar',
-          barWidth: 40,
-          stack: '设备',
-          data: data
-        },
-      )
     })
+    const otherLegend = otherTotal+' '+referenceUnit + ' '+':'+'other'
+    legendData.push(otherLegend)
+    seriesData.push(
+      {
+        name: otherLegend,
+        color: colors[5],
+        type:'bar',
+        barWidth: 40,
+        data: [0,0,0,0,0,otherTotal]
+      }
+    )
     return {
       grid:{top:20,left:50,right:700},
       xAxis: {
@@ -572,10 +590,11 @@ export function InventoryResult() {
       return val/total
     }
   }
-  const {baseInfo,generalInfo,carbonResult,contributeTreeData,listData,totalRequire}:any = useMemo(()=>{
+  const {baseInfo,generalInfo,carbonResult,contributeTreeData,referenceUnit,listData,totalRequire}:any = useMemo(()=>{
     let contributeTreeData:any = []
     let generalInfo:any = []
     let totalRequire:any = []
+    let referenceUnit = ''
     let baseInfo = {
       loadNumber: '',
       productName: '',
@@ -606,21 +625,23 @@ export function InventoryResult() {
         methodName: val.extra?.methodName,
         targetAmount: val.extra?.targetAmount,
       }
+      referenceUnit = val.totalImpacts[0].impact.referenceUnit || ''
       const total = val.treeNode?.result
       contributeTreeData = [{
         contribution: ((calcContribution(total,total)*100).toFixed(2))+'%',
         process: val.treeNode?.provider.name,
         requiredAmount : val.treeNode?.requiredAmount+' '+val.treeNode?.refUnit,
-        result: <span>{val.treeNode?.result}{val.totalImpacts[0].impact.referenceUnit==='m3'?<span>m<sup>3</sup></span>:val.totalImpacts[0].impact.referenceUnit}</span>,
+        result: val.treeNode?.result,
+        // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
       }]
 
-      carbonResult = <span>{(total || 0)}{val.totalImpacts[0].impact.referenceUnit==='m3'?<span>m<sup>3</sup></span>:val.totalImpacts[0].impact.referenceUnit}</span>
+      carbonResult = <span>{(total || 0)}{referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit}</span>
       const handleTree = (items:any)=>{
         items && items.map((v:any)=>{
           v.contribution = ((calcContribution(v.result,total)*100).toFixed(2))+'%'
           v.process = v.provider.name
-          v.result = v.result +''+val.totalImpacts[0].impact.referenceUnit
           v.requiredAmount = v.requiredAmount+' '+v.refUnit
+          // v.unit = (referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit)
           if(v.children && v.children.length>0){
             handleTree(v.children)
           }
@@ -653,7 +674,7 @@ export function InventoryResult() {
       })
     }
 
-    return {baseInfo,generalInfo,carbonResult,contributeTreeData,listData,totalRequire}
+    return {baseInfo,generalInfo,carbonResult,contributeTreeData,referenceUnit,listData,totalRequire}
   },[value])
   const doExport = async ()=>{
     if(!query.id) return false
@@ -661,7 +682,7 @@ export function InventoryResult() {
     const res = await exportLcaResultExcel(query.id)
     setExportLoading(false)
     const blob = new Blob([res.data]);//处理文档流
-    const fileName = 'gtech.xlsx';
+    const fileName = `${baseInfo.productName}.xlsx`;
     const eLink = document.createElement('a');
     eLink.download = fileName;
     eLink.style.display = 'none';
@@ -681,7 +702,7 @@ export function InventoryResult() {
             <div className="bg-white p-5 rounded-2xl">
               <GeneralInfo data={generalInfo}/>
               <Result data={carbonResult}/>
-              <ContributionTree data={contributeTreeData}/>
+              <ContributionTree data={contributeTreeData} referenceUnit={referenceUnit}/>
               {/*<IO />*/}
               <List data={listData}/>
               <SumRequire data={totalRequire} />
