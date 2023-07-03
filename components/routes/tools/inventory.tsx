@@ -12,25 +12,27 @@ export function Inventory() {
     {
       title: "产品批次号",
       dataIndex: 'loadNumber',
-      width: '300px',
+      width: '14rem',
       render:(text:string)=>{
         return(
-          <span className="max-w-[220px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
         )
       }
     },
     {
       title: "产品名称",
       dataIndex: 'productName',
+      width: '14rem',
       render: (text:string)=>{
-        return <span className="max-w-[200px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        return <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
     {
       title: "模型名称",
       dataIndex: 'modelName',
+      width: '12.5rem',
       render:(text:string)=>{
-        return <span className="max-w-[150px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        return <span className="max-w-[12.5rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
     // {
@@ -40,10 +42,12 @@ export function Inventory() {
     // },
     {
       title: "报告时间",
+      width: '12rem',
       dataIndex: 'createTime',
     },
     {
       title: "",
+      width: '7.2rem',
       render: (text:string,record:any)=>{
         return(
           <div className="flex justify-between text-green-2">
@@ -77,15 +81,20 @@ export function Inventory() {
     <ToolsLayout className="text-black flex flex-col justify-between flex-1">
       <div>
         <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
-        <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
-          <Table columns={columns}
-                 cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-                 data={tableData}
-                 loading={loading}
-                 className=""
-                 headerStyle={{background:'#fff'}}
-          />
+        <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
+          <div className="mt-5 overflow-x-auto">
+            <div className=" text-base leading-[1.625rem] min-w-[62.25rem]">
+              <Table columns={columns}
+                     cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                     data={tableData}
+                     loading={loading}
+                     className=""
+                     headerStyle={{background:'#fff'}}
+              />
+            </div>
+          </div>
         </div>
+
       </div>
       <Pagination className="my-8" onChange={(v:any)=>{setPgNum(v)}} total={value?.total?value.total:0} pgSize={10} pgNum={pgNum} />
     </ToolsLayout>

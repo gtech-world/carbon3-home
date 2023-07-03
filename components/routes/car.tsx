@@ -89,7 +89,7 @@ function ItemEmission(p: { icon: React.ReactNode; value: string; sub: string }) 
   const { icon, value, sub } = p;
   return (
     <div className="flex flex-col items-center w-[9.125rem] mo:w-[8.75rem]">
-      <div className="text-green-2">{icon}</div>
+      <div className="text-green-2 h-[2.825rem]">{icon}</div>
       <div className="text-2xl font-bold leading-normal">{value}</div>
       <div className="text-base text-center whitespace-pre-wrap leading-normal mo:text-[.9375rem]">{sub}</div>
     </div>
@@ -174,7 +174,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
   return (
     <div className="flex-1 w-0 p-5 bg-white rounded-lg flex flex-col items-center [&:nth-child(n+2)]:ml-5 mo:!ml-0 mo:w-full mo:mt-5">
       {type === 1 ? (
-        <SVGCarbon3 className="text-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
+        <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
       ) : type === 2 ? (
         <SVGAicdRound className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
       ) : (
@@ -216,7 +216,7 @@ function MobileCar(p: CarUIProps) {
   return (
     <div className="w-full p-5" ref={ref}>
       <div className="flex px-[.9375rem] mt-5 py-5 rounded-lg bg-white" onClick={() => setShow(false)}>
-        <SVGCarbon3 className="mr-[.625rem] text-[5.375rem]" />
+        <SVGCarbon3 className="mr-[.625rem] max-w-[5.3rem] text-[5.375rem]" />
         <div className="flex-1 flex flex-col leading-normal">
           <div className="font-bold text-lg w-full">{t("Product Carbon Footprint Certified")}</div>
           <span className="font-medium text-sm">{t("by AIAG")}</span>
@@ -255,7 +255,7 @@ function MobileCar(p: CarUIProps) {
             <div />
             <div />
             <ItemEmission
-              icon={<SVGLeaf3 className="text-[2.8213rem] mt-[1px]" />}
+              icon={<SVGLeaf3 className="text-[2.8213rem] mt-[4px]" />}
               value={data.recyclable}
               sub={t("of the materials used in this vehicle is recyclable")}
             />
