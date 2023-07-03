@@ -366,7 +366,7 @@ export function Model() {
       {
         !!viewReal &&
         <Modal title={viewReal.modelName+'模型中的实景输入项'} onClose={()=>setViewReal(null)}>
-          <div className="flex w-[60rem] flex-col">
+          <div className="flex w-[60rem] min-h-[16.5rem] flex-col">
             <ul className="flex mb-1">
               {
                 realColumns.map((v:any,i:number)=>{

@@ -64,7 +64,7 @@ function GeneralInfo(p:{data:any}){
   const [open,setOpen] = useState(true)
   const {data} = p
   const list = [
-    {label: '产品名称',text: data.productSystemName},
+    {label: '产品系统',text: data.productSystemName},
     {label: '分配方法',text: 'As defined in processes'},
     {label: '目标数量',text: data.targetAmount},
     {label: '影响评价方法',text:data.methodName}
@@ -682,7 +682,7 @@ export function InventoryResult() {
     const res = await exportLcaResultExcel(query.id)
     setExportLoading(false)
     const blob = new Blob([res.data]);//处理文档流
-    const fileName = `${baseInfo.productName}.xlsx`;
+    const fileName = `${generalInfo.productSystemName}.xlsx`;
     const eLink = document.createElement('a');
     eLink.download = fileName;
     eLink.style.display = 'none';
