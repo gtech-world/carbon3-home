@@ -82,7 +82,7 @@ export function Inventory() {
       <div>
         <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
         <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
-          <div className="mt-5 overflow-x-auto">
+          <div className="mt-5 pb-6 overflow-x-auto">
             <div className=" text-base leading-[1.625rem] min-w-[62.25rem]">
               <Table columns={columns}
                      cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
