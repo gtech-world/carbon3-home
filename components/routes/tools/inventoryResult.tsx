@@ -67,7 +67,8 @@ function GeneralInfo(p:{data:any}){
     {label: '产品系统',text: data.productSystemName},
     {label: '分配方法',text: 'As defined in processes'},
     {label: '目标数量',text: data.targetAmount},
-    {label: '影响评价方法',text:data.methodName}
+    {label: '影响评价方法',text:data.methodName},
+    {label: '影响类别', text: "IPCC 2021 GWP 100"}
   ]
   return(
     <div>

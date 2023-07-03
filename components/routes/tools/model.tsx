@@ -116,17 +116,17 @@ export function Model() {
     {
       title: "模型名称",
       dataIndex: 'modelName',
-      width: '220px',
+      width: '14rem',
       render:(text:string)=>{
         return(
-          <span className="max-w-[220px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
         )
       }
     },
     {
       title: "模型ID",
       dataIndex: 'modelUuid',
-      width: '210px',
+      width: '13rem',
       render: (text:string)=>{
         return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text,8,8)}</span>
       }
@@ -134,13 +134,13 @@ export function Model() {
     {
       title: "产品名称",
       dataIndex: 'productName',
-      width: '190px',
+      width: '14rem',
       filterOptions: productList,
       onFilterChange: (data:any)=>{
         setProductNameFilter(data?data.id:-1)
       },
       render:(text:string)=>{
-        return <span className="max-w-[150px] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        return <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
     {
@@ -168,16 +168,19 @@ export function Model() {
     {
       title: "上传时间",
       dataIndex: 'createTime',
-      width: '190px'
+      width: '13rem',
+      render:(text:string)=>{
+        return <div className="break-keep whitespace-nowrap">{text}</div>
+      }
     },
     {
       title: "",
-      width: '300px',
+      width: '20rem',
       render: (text:string,record:any)=>{
         return(
-          <div className="flex flex-1 justify-between text-green-2">
+          <div className="flex flex-1 justify-between text-green-2 break-keep">
             <span className="cursor-pointer" onClick={()=>{window.open(`/model?id=${record.id}`,"_blank")}}>查看模型</span>
-            <span className="cursor-pointer" onClick={()=>setViewReal(record)}>查看实景数据</span>
+            <span className="cursor-pointer mx-2" onClick={()=>setViewReal(record)}>查看实景数据</span>
             <span className="cursor-pointer" onClick={()=>setStatus(record)}>更改状态</span>
           </div>
         )
@@ -333,16 +336,21 @@ export function Model() {
           {/*@ts-ignore*/}
           <Button onClick={()=>setUploadView(true)} className="text-lg bg-green-2 w-40 text-white rounded-lg h-11 font-normal">上传碳足迹模型</Button>
         </h3>
-        <div className="bg-white p-5 min-h-[20.25rem] rounded-2xl text-base mt-5 leading-[1.625rem]">
-          <Table columns={columns}
-                 loading={tableDataLoading}
-                 // size="big"
-                 cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-                 data={tableData}
-                 className=""
-                 headerStyle={{background:'#fff'}}
-          />
+        <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
+          <div className="mt-5 pb-6 overflow-x-auto">
+            <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
+              <Table columns={columns}
+                     loading={tableDataLoading}
+                // size="big"
+                     cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                     data={tableData}
+                     className=""
+                     headerStyle={{background:'#fff'}}
+              />
+          </div>
+          </div>
         </div>
+
       </div>
       <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={tableDataTotal} pgSize={10} pgNum={pgNum} />
       {
