@@ -121,7 +121,7 @@ export function SelectTree(p: { node: any,onChange:Function,classname?:string })
       <div className={classNames("w-full justify-between h-10 cursor-pointer rounded-lg flex items-center px-3",classname)} onClick={()=>onToggle(!open)}>
         <span>{selected?selected.name:''}</span>
         <button onClick={() => onToggle(!open)} className={classNames("text-xl mr-[4px]")}>
-          {open ? <RiArrowDownSLine /> : <RiArrowRightSLine />}
+          {open ? <RiArrowRightSLine className="rotate-[-90deg]" />:<RiArrowDownSLine />}
         </button>
       </div>
       {
