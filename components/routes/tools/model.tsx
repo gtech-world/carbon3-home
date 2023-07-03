@@ -249,7 +249,9 @@ export function Model() {
       orgId: user.orgId,
       description: description
     })
-    toast({ type: "info", msg: "操作成功！" });
+    toast({ type: "info", msg: "新建成功！" });
+    const dom = document.getElementById('productList')
+    if(dom) dom.scrollTop = dom.scrollHeight;
     setReloadProduct(reloadProduct+1)
   }
   const doUpload = async ()=>{
@@ -306,7 +308,7 @@ export function Model() {
             <span>产品定义</span>
             <Button onClick={()=>setCreateProductView(true)} className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal">新建产品</Button>
           </h3>
-          <div className="max-h-[15.5rem] overflow-y-auto">
+          <div className="max-h-[15.5rem] overflow-y-auto" id="productList">
             <ul className="flex flex-wrap ml-[-1.25rem]">
               {
                 productList.map((v:any,i:number)=>{
