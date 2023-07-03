@@ -186,15 +186,14 @@ export function Service() {
         }
 
       </div>
-      <div className="mt-5 flex items-start flex-col flex-1">
+      <div className="mt-5 flex items-start flex-col">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={()=>setCompletedOpen(!completedOpen)}>
           <span className="text-lg font-bold">已完成 (2)</span>
           <FaSortDown className={classNames('ml-2 mt-[-0.45rem] text-2xl',completedOpen && 'rotate-180 mb-[-1.2rem]')} />
         </div>
         {
           completedOpen &&
-            <div className="w-full">
-              <div className="flex flex-wrap flex-1 mr-[-20px] mo:flex-col  mo:mr-0">
+              <div className="flex w-full flex-wrap mr-[-20px] mo:flex-col  mo:mr-0">
                 {
                   completed.map((v,i)=>{
                     return(
@@ -203,7 +202,6 @@ export function Service() {
                   })
                 }
               </div>
-            </div>
         }
 
       </div>

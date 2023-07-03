@@ -53,7 +53,7 @@ export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {
             ))}
           </div>
         </div>
-        <div ref={ref} className={classNames("", className)} {...props}>
+        <div ref={ref} className={classNames("flex-1", className)} {...props}>
           <div className="flex-1 p-5 bg-gray-16 mo:w-full ">
             {children}
           </div>
