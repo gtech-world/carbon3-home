@@ -47,7 +47,7 @@ function ToolsContent(){
       {
         data.map((v,i)=>{
           return(
-            <li key={`data-${i}`} className="bg-white max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
+            <li key={`data-${i}`} className="bg-white ml-5 first:ml-0 max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center">
                   <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt=""/>
