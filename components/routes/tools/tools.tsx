@@ -43,11 +43,11 @@ function ToolsContent(){
     }
   ]
   return(
-    <ul className="flex justify-between mt-5 text-lg">
+    <ul className="flex justify-between mt-5 text-lg mo:flex-col mo:items-center pb-10">
       {
         data.map((v,i)=>{
           return(
-            <li key={`data-${i}`} className="bg-white ml-5 first:ml-0 max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
+            <li key={`data-${i}`} className="bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center">
                   <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt=""/>
@@ -82,7 +82,7 @@ function ToolsContent(){
 export function Tools() {
   return (
     <ToolsLayout canBack={true} className="text-black">
-      <h3 className="text-2xl font-semibold">AICP产品碳足迹工具集</h3>
+      <h3 className="text-2xl font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
       <ToolsContent />
     </ToolsLayout>
   );

@@ -81,7 +81,7 @@ export function Table(p: ITable) {
     setFilters({...filters})
   }
   return (
-    <div className={classNames("w-full mo:text-[.9375rem]",className,size ==='small' && 'text-xs',size ==='big' && 'text-lg')}>
+    <div className={classNames("w-full",className,size ==='small' && 'text-xs',size ==='big' && 'text-lg mo:text-[.9375rem]')}>
       <table className="w-full text-left">
         {
           !hiddenHeader &&

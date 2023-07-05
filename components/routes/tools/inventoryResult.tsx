@@ -16,6 +16,7 @@ import {parseRefJson} from "@lib/utils";
 import {result} from "lodash";
 import {useRouter} from "next/router";
 import {Loading} from "@components/common/loading";
+import {useIsMobile} from "@components/common/context";
 
 function Expand(p: {text: string; onChange:Function}){
   const [open,setOpen] = useState(true)
@@ -50,7 +51,7 @@ function SumInfo(p:{data:any}){
         list.map((v:any,i:number)=>{
           return(
             <div className="flex" key={`data-${i}`}>
-              <label className="font-medium">{v.label} :</label>
+              <label className="font-medium whitespace-nowrap">{v.label} :</label>
               <span className="ml-1 text-gray-6">{v.text}</span>
             </div>
           )
@@ -183,7 +184,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
       }
     )
     return {
-      grid:{top:20,left:50,right:700},
+      grid:{top:20,left:50,right:670,bottom:20},
       xAxis: {
         // show: false,
         type: 'category',
@@ -246,7 +247,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
       <Expand text="贡献树" onChange={(v:boolean)=>setOpen(v)} />
       {
         open &&
-        <div>
+        <div className="">
           <div className="mt-4">
             <Table
               size="small"
@@ -697,7 +698,7 @@ export function InventoryResult() {
     <ToolsLayout className="text-black text-lg">
       {
         loading?<div className="h-[100vh] w-full items-center"><Loading /></div>:
-          <div>
+          <div className="mo:break-all">
             <SumInfo data={baseInfo} />
             <h3 className="text-2xl font-semibold my-5">碳足迹结果</h3>
             <div className="bg-white p-5 rounded-2xl">
