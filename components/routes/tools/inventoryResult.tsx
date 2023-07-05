@@ -262,8 +262,8 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
           <div className="mt-4">
             <h4>对影响类别结果的前5个贡献 - 概述</h4>
             <div className="w-full overflow-x-auto">
-              <div className="min-w-[80rem]">
-                <Chart option={chartOptions} />
+              <div style={{minWidth:'1200px'}}>
+                <Chart style={{width:'100%'}} option={chartOptions} />
               </div>
             </div>
           </div>
