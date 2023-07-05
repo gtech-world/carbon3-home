@@ -166,7 +166,8 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
             type:'bar',
             barWidth: 40,
             data: data,
-            barGap: '-50%',
+            barGap:"-100%",
+            // barCategoryGap: '-100%',
           },
         )
       }else {
@@ -181,12 +182,13 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
         color: colors[5],
         type:'bar',
         barWidth: 40,
-        barGap: '-50%',
-        data: [0,0,0,0,0,otherTotal]
+        barGap:"-100%",
+        // barCategoryGap: '-100%',
+        data: [0,0,0,0,0,0,otherTotal]
       }
     )
     return {
-      grid:{top:20,left:50,right:750,bottom:20},
+      grid:{top:20,left:50,right:800,bottom:20},
       xAxis: {
         // show: false,
         type: 'category',
@@ -262,7 +264,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
           <div className="mt-4">
             <h4>对影响类别结果的前5个贡献 - 概述</h4>
             <div className="w-full overflow-x-auto">
-              <div style={{minWidth:'1200px'}}>
+              <div style={{minWidth:'1300px'}}>
                 <Chart style={{width:'100%'}} option={chartOptions} />
               </div>
             </div>
