@@ -152,7 +152,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
       if(i<5){
         const legend = v.result+' '+referenceUnit+': '+v.process
         legendData.push(legend)
-        const data = []
+        const data = [0]
         for(let j=0;j<=i; j++){
           if(j<i) data.push(0)
           else {
@@ -165,7 +165,8 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
             color: colors[i],
             type:'bar',
             barWidth: 40,
-            data: data
+            data: data,
+            barGap: '-50%',
           },
         )
       }else {
@@ -180,11 +181,12 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
         color: colors[5],
         type:'bar',
         barWidth: 40,
+        barGap: '-50%',
         data: [0,0,0,0,0,otherTotal]
       }
     )
     return {
-      grid:{top:20,left:50,right:670,bottom:20},
+      grid:{top:20,left:50,right:750,bottom:20},
       xAxis: {
         // show: false,
         type: 'category',
@@ -259,7 +261,11 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
           </div>
           <div className="mt-4">
             <h4>对影响类别结果的前5个贡献 - 概述</h4>
-            <Chart option={chartOptions} />
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[80rem]">
+                <Chart option={chartOptions} />
+              </div>
+            </div>
           </div>
         </div>
       }
@@ -649,7 +655,7 @@ export function InventoryResult() {
           }
         })
       }
-      handleTree(val.treeNode?.children.sort((a:any,b:any)=>a.result-b.result))
+      handleTree(val.treeNode?.children.sort((a:any,b:any)=>b.result-a.result))
       contributeTreeData[0].children = val.treeNode?.children
 
       // 处理清单列表的数据
