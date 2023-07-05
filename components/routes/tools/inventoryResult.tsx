@@ -188,7 +188,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
       }
     )
     return {
-      grid:{top:20,left:50,right:800,bottom:20},
+      grid:{top:20,left:50,right:790,bottom:20},
       xAxis: {
         // show: false,
         type: 'category',
@@ -264,7 +264,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
           <div className="mt-4">
             <h4>对影响类别结果的前5个贡献 - 概述</h4>
             <div className="w-full overflow-x-auto">
-              <div style={{minWidth:'1300px'}}>
+              <div style={{minWidth:'1200px'}}>
                 <Chart style={{width:'100%'}} option={chartOptions} />
               </div>
             </div>
