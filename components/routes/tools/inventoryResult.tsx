@@ -174,7 +174,7 @@ function ContributionTree(p:{data:any,referenceUnit:string}){
         otherTotal += (v.result || 0)
       }
     })
-    const otherLegend = otherTotal+' '+referenceUnit + ' '+':'+'other'
+    const otherLegend = otherTotal+' '+referenceUnit +':'+' '+'other'
     legendData.push(otherLegend)
     seriesData.push(
       {
