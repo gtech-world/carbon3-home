@@ -5,7 +5,6 @@ import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
 import { SupportLngs } from "@components/const";
 import "@lib/env";
-import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
 import i18n from "i18next";
@@ -13,11 +12,11 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
+import { Tooltip } from "react-tooltip";
+import 'react-tooltip/dist/react-tooltip.css';
 import "../styles/globals.css";
-import 'react-tooltip/dist/react-tooltip.css'
-import {Tooltip} from "react-tooltip";
 
 
 const open_sans = Open_Sans({
@@ -66,17 +65,10 @@ async function initI18n() {
   });
 }
 
-function ModalRoot() {
-  const ref = useAutoAnim<HTMLDivElement>("scale");
-  useEffect(() => {
-    modalRootRef.current = ref.current;
-  }, [ref]);
-  return <div ref={ref} id="modal_root" style={{ position: "absolute", top: 0, right: 0 }} />;
-}
-
 function InitProvider(p: { children: React.ReactNode }) {
   const [data, setData] = useState<[I18nextProviderProps["i18n"], Store]>();
   useEffect(() => {
+    modalRootRef.current = document.body as any;
     Promise.all([initI18n(), initStore()]).then(setData);
   }, []);
   if (!data) return <LoadingFull />;
@@ -120,7 +112,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
         <Toast />
       </InitProvider>
-      <ModalRoot />
       <InitToolTip />
     </div>
   );
