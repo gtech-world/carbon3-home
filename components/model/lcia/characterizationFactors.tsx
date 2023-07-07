@@ -2,15 +2,17 @@ import { ImpactCategory, ModelType } from "@lib/@types/lca";
 import { Table } from "../common/table";
 import { ModelIconName } from "../common/modelIconName";
 import { uncertaintyName } from "@lib/lca";
+import { useBigList } from "@lib/hooks/useBigList";
 
 export function CharacterizationFactors(p: { data: ImpactCategory }) {
   const { data } = p;
+  const list = useBigList(data.impactFactors || []);
   return (
     <>
       <Table
         title="Characterization factors"
         head={["Flow", "Category", "Factor", "Unit", "Uncertainty", "Location"]}
-        infos={(data.impactFactors || []).map((item) => [
+        infos={list.map((item) => [
           <ModelIconName key={1} name={item.flow?.name} type={item.flow?.flowType || ModelType.FLOW} />,
           item.flow?.category?.name || "",
           item.formula || item.value || "",
