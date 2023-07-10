@@ -567,14 +567,13 @@ export function Model() {
           <div className="flex items-center my-6">
             <label className="mr-2">碳足迹模型 : </label>
             {/*@ts-ignore*/}
-            <div
-              className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate"
-              data-tooltip-id="tooltip"
-              data-tooltip-content={uploadFile ? uploadFile.name : ""}
-              onClick={() => fileRef.current.click()}
-            >
-              {!!uploadFile ? uploadFile.name : "选择文件"}
+            <div className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate" data-tooltip-id="tooltip" data-tooltip-content={uploadFile ? uploadFile.name : ''} onClick={() => fileRef.current.click()}>
+              {
+                !!uploadFile ? uploadFile.name : '选择文件'
+              }
             </div>
+
+            
           </div>
           <input ref={fileRef} onChange={onFileChange} type="file" hidden />
 
