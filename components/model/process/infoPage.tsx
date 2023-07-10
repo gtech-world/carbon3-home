@@ -3,6 +3,7 @@ import { ftmMilliTime } from "@lib/utils";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
+import { categoryFull } from "@lib/lca";
 
 export function InfoPage(p: { data: Process }) {
   const { data } = p;
@@ -14,7 +15,7 @@ export function InfoPage(p: { data: Process }) {
           ["Name", data.name],
           [
             "Category",
-            <ModelIconName key={`info_2`} type={`folder-${ModelType.PROCESS}`} name={data.category?.name} def="none" />,
+            <ModelIconName key={`info_2`} type={`folder-${ModelType.PROCESS}`} name={categoryFull(data.category)} def="none" />,
           ],
           ["Description", data.description || ""],
           ["Tags", data.tags || ""],

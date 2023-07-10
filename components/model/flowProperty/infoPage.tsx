@@ -1,6 +1,7 @@
 import { FlowProperty, ModelType } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { ModelIconName } from "../common/modelIconName";
+import { categoryFull } from "@lib/lca";
 
 export function InfoPage(p: { data: FlowProperty }) {
   const { data } = p;
@@ -12,7 +13,7 @@ export function InfoPage(p: { data: FlowProperty }) {
           ["Name", data.name],
           [
             "Category",
-            <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW_PROPERTY}`} name={data.category?.name} def="none" />,
+            <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW_PROPERTY}`} name={categoryFull(data.category)} def="none" />,
           ],
           ["Description", data.description || ""],
           ["Tags", data.tags || ""],

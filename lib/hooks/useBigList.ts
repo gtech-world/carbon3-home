@@ -12,6 +12,7 @@ export function useBigList<T>(_list: T[], size: number = 50): T[] {
         if (idel.timeRemaining() > 1) {
           setList((old) => {
             const index = Math.floor(old.length / size);
+            console.info("index:",index);
             if (index >= chunks.length) {
               stop = true;
               return old;

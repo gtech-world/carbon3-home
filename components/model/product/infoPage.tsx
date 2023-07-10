@@ -2,6 +2,7 @@ import { ModelType, ProductSystem } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
+import { categoryFull } from "@lib/lca";
 
 export function InfoPage(p: { data: ProductSystem }) {
   const { data } = p;
@@ -17,7 +18,7 @@ export function InfoPage(p: { data: ProductSystem }) {
             <ModelIconName
               key={`info_2`}
               type={`folder-${ModelType.PRODUCT_SYSTEM}`}
-              name={data.category?.name}
+              name={categoryFull(data.category)}
               def="none"
             />,
           ],

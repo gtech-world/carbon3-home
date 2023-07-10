@@ -62,7 +62,12 @@ export function TypeContent(p: { id: string }) {
     setLoading(true);
     if (!TypeCache[key]) {
       // TODO replace get type data api
-      TypeCache[key] = getLcaModelItem(id, active.modelType, (active.data as Descriptor).id).then((data) => {
+      TypeCache[key] = getLcaModelItem(
+        id,
+        active.modelType,
+        (active.data as Descriptor).id,
+        active.data?.fromMethod
+      ).then((data) => {
         const parsedData = parseRefJson(data);
         parsedData._key = key;
         return [parsedData, data];

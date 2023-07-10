@@ -42,8 +42,9 @@ export function Model() {
         if (!categoriesMap[c.modelType]) categoriesMap[c.modelType] = {};
         const pId = c.category ? c.category.id : "null";
         if (!categoriesMap[c.modelType][pId]) categoriesMap[c.modelType][pId] = [];
-        const list = categoriesMap[c.modelType][pId];
-        if (!list.find((item) => item.refId === c.refId)) categoriesMap[c.modelType][pId].push(c);
+        // const list = categoriesMap[c.modelType][pId];
+        // if (!list.find((item) => item.refId === c.refId && item.id === c.id))
+        categoriesMap[c.modelType][pId].push(c);
       }
     });
     const ungroupTypes: ModelType[] = [ModelType.PRODUCT_SYSTEM, ModelType.PROCESS, ModelType.FLOW, ModelType.EPD];
@@ -67,23 +68,43 @@ export function Model() {
       const type = _type.toString();
       if (!categoriesMap[type]) categoriesMap[type] = {};
       const cates = (categoriesMap[type][parentId] || []).map<NavNode>((c: Category) => ({
-        id: c.refId,
+        id: c.refId + "_" + c.id,
         children: buildChildren(_type, c.id),
         name: c.name,
         type: "folder",
         modelType: c.modelType,
         data: c,
       }));
+
       if (!descriptors[type.toString()]) descriptors[type] = {};
       const descs = (descriptors[type][parentId + ""] || []).map<NavNode>((c: Descriptor) => ({
-        id: c.refId,
-        children: buildChildren(_type, c.id),
+        id: c.refId + "_" + c.id,
+        children: [],
         name: c.name,
         type: "content",
         modelType: c.type,
         data: c,
       }));
       return _.sortBy([...cates, ...descs], "name");
+    };
+
+    const mergeChildren = (nodes: NavNode[]) => {
+      const res: NavNode[] = [];
+      const tempName: { [k: string]: NavNode } = {};
+      nodes.forEach((node) => {
+        if (node.type === "folder") {
+          if (tempName[node.name]) {
+            tempName[node.name].children = mergeChildren(tempName[node.name].children.concat(node.children));
+          } else {
+            tempName[node.name] = node;
+            res.push(node);
+          }
+        } else {
+          res.push(node);
+        }
+      });
+
+      return _.sortBy(res, "name");
     };
     const buildGroup = (group: string | null, types: ModelType[]) => {
       if (group != null) {
@@ -100,7 +121,7 @@ export function Model() {
           name: ModelTypeName[type],
           type: "folder",
           modelType: type,
-          children: buildChildren(type, "null"),
+          children: mergeChildren(buildChildren(type, "null")),
         }));
       } else {
         types.forEach((type) => {
@@ -109,7 +130,7 @@ export function Model() {
             name: ModelTypeName[type],
             type: "folder",
             modelType: type,
-            children: buildChildren(type, "null"),
+            children: mergeChildren(buildChildren(type, "null")),
           });
         });
       }

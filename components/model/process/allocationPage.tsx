@@ -4,6 +4,7 @@ import { Table } from "../common/table";
 import { useMemo } from "react";
 import _ from "lodash";
 import { ModelIconName } from "../common/modelIconName";
+import { categoryFull } from "@lib/lca";
 
 function isProviderFlow(e: any) {
   if (!e || e.isAvoided || !e.flow) return false;
@@ -26,7 +27,7 @@ export function AllocationPage(p: { data: Process }) {
     const infos2 = group["false"].map((item) => [
       <ModelIconName key={1} type={item.flow?.flowType || ModelType.FLOW} name={item.flow?.name} />,
       item.isInput ? "Input" : "Output",
-      item.flow?.category?.name || "",
+      categoryFull(item.flow?.category),
       item.amount + "" + item.unit?.name,
       "",
       "",

@@ -122,15 +122,18 @@ export async function getSbtDetail(tokenId: string | number) {
   return getData(res);
 }
 
-export async function getLcaModelList({ pgNum,productId }: any) {
-  const res = await axios.get(creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10&productId=${productId>-1? productId:''}`), authConfig());
+export async function getLcaModelList({ pgNum, productId }: any) {
+  const res = await axios.get(
+    creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10&productId=${productId > -1 ? productId : ""}`),
+    authConfig()
+  );
   return getData(res);
 }
 export async function getLcaResultList({ pgNum }: any) {
   const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
-export async function getLcaResultDetail(id:any) {
+export async function getLcaResultDetail(id: any) {
   const res = await axios.get(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
   return getData(res);
 }
@@ -149,16 +152,30 @@ export async function uploadLcaModel(formData: FormData) {
     console.log(e);
   }
 }
-export async function getLcaProductTypeList(){
-  const res = await axios.get(creatUrl(`/api/product/category/query`),authConfig());
+export async function getLcaProductTypeList() {
+  const res = await axios.get(creatUrl(`/api/product/category/query`), authConfig());
   return getData(res);
 }
-export async function insertLcaProduct({name,categoryId,orgId,description}:{name:string,categoryId: number,orgId:number,description:string}){
-  const res = await axios.post(creatUrl(`/api/product/upsert`),{name,categoryId,orgId,partNumber:'1',imageUrl:'',description},authConfig());
+export async function insertLcaProduct({
+  name,
+  categoryId,
+  orgId,
+  description,
+}: {
+  name: string;
+  categoryId: number;
+  orgId: number;
+  description: string;
+}) {
+  const res = await axios.post(
+    creatUrl(`/api/product/upsert`),
+    { name, categoryId, orgId, partNumber: "1", imageUrl: "", description },
+    authConfig()
+  );
   return getData(res);
 }
-export async function getLcaProductList(){
-  const res = await axios.get(creatUrl(`/api/product/list?pageSize=500`),authConfig());
+export async function getLcaProductList() {
+  const res = await axios.get(creatUrl(`/api/product/list?pageSize=500`), authConfig());
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
@@ -184,14 +201,20 @@ export async function getLcaModelNavData(id: string) {
   const descriptors = await getLcaModelDescirptors(id);
   return [categories, descriptors];
 }
-export async function getLcaModelItem(id: string, type: string, typeId: number | string) {
-  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info`), authConfig());
+export async function getLcaModelItem(id: string, type: string, typeId: number | string, fromMethod: boolean = false) {
+  const res = await axios.get<string>(
+    creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info?fromMethod=${fromMethod}`),
+    authConfig()
+  );
   return JSON.parse(getData(res));
 }
 
 export async function exportLcaResultExcel(id: any) {
   let config = authConfig();
 
-  const res = await axios.get<string>(creatUrl(`/api/product-lca/result/${id}/export`), Object.assign(config,{responseType: 'blob'}));
+  const res = await axios.get<string>(
+    creatUrl(`/api/product-lca/result/${id}/export`),
+    Object.assign(config, { responseType: "blob" })
+  );
   return res;
 }

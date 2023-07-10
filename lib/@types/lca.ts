@@ -38,8 +38,9 @@ export type Category = {
   lastChange: number;
   fromLibrary: boolean;
   childCategories: Category[];
-
   category?: Category;
+
+  fromMethod?: boolean;
 };
 
 export type Descriptor = {
@@ -60,6 +61,8 @@ export type Descriptor = {
   refFlowPropertyId?: number;
   categoryType?: string;
   code?: string;
+
+  fromMethod?: boolean;
 };
 
 export type NavNode = {

@@ -1,6 +1,7 @@
 import { ImpactCategory, ModelType } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { ModelIconName } from "../common/modelIconName";
+import { categoryFull } from "@lib/lca";
 
 export function CategoryInfoPage(p: { data: ImpactCategory }) {
   const { data } = p;
@@ -15,7 +16,7 @@ export function CategoryInfoPage(p: { data: ImpactCategory }) {
             <ModelIconName
               key={`info_2`}
               type={`folder-${ModelType.IMPACT_CATEGORY}`}
-              name={data.category?.name}
+              name={categoryFull(data.category)}
               def="none"
             />,
           ],

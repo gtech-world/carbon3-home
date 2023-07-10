@@ -4,6 +4,7 @@ import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
 import { Table } from "../common/table";
+import { categoryFull } from "@lib/lca";
 
 export function MethodNormalizationPage(p: { data: ImpactMethod }) {
   const { data } = p;
@@ -19,7 +20,7 @@ export function MethodNormalizationPage(p: { data: ImpactMethod }) {
             <ModelIconName
               key={`info_2`}
               type={`folder-${ModelType.IMPACT_METHOD}`}
-              name={data.category?.name}
+              name={categoryFull(data.category)}
               def="none"
             />,
           ],

@@ -1,7 +1,7 @@
 import { ImpactCategory, ModelType } from "@lib/@types/lca";
 import { Table } from "../common/table";
 import { ModelIconName } from "../common/modelIconName";
-import { uncertaintyName } from "@lib/lca";
+import { categoryFull, uncertaintyName } from "@lib/lca";
 import { useBigList } from "@lib/hooks/useBigList";
 
 export function CharacterizationFactors(p: { data: ImpactCategory }) {
@@ -14,7 +14,7 @@ export function CharacterizationFactors(p: { data: ImpactCategory }) {
         head={["Flow", "Category", "Factor", "Unit", "Uncertainty", "Location"]}
         infos={list.map((item) => [
           <ModelIconName key={1} name={item.flow?.name} type={item.flow?.flowType || ModelType.FLOW} />,
-          item.flow?.category?.name || "",
+          categoryFull(item.flow?.category),
           item.formula || item.value || "",
           item.unit ? `${data.referenceUnit || "1"}/${item.unit.name}` : "",
           uncertaintyName(item.uncertainty),

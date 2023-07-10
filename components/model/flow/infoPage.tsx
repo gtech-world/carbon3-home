@@ -2,7 +2,7 @@ import { Flow, ModelType } from "@lib/@types/lca";
 import { Infomation } from "../common/infomation";
 import { Line } from "../common/line";
 import { ModelIconName } from "../common/modelIconName";
-import { flowTypeName } from "@lib/lca";
+import { categoryFull, flowTypeName } from "@lib/lca";
 
 export function InfoPage(p: { data: Flow }) {
   const { data } = p;
@@ -14,7 +14,7 @@ export function InfoPage(p: { data: Flow }) {
           ["Name", data.name],
           [
             "Category",
-            <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW}`} name={data.category?.name} def="none" />,
+            <ModelIconName key={`info_2`} type={`folder-${ModelType.FLOW}`} name={categoryFull(data.category)} def="none" />,
           ],
           ["Description", data.description || ""],
           ["Tags", data.tags || ""],

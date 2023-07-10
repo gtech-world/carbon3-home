@@ -1,4 +1,4 @@
-import { ModelType, Uncertainty } from "@lib/@types/lca";
+import { Category, ModelType, Uncertainty } from "@lib/@types/lca";
 
 export const ModelTypeName = {
   [ModelType.PRODUCT_SYSTEM]: "Product systems",
@@ -42,4 +42,15 @@ export function uncertaintyName(uncert?: Uncertainty) {
     default:
       return "none";
   }
+}
+
+export function categoryFull(category?: Category) {
+  if (!category) return "";
+  const deepName = (current: string, cate?: Category): string => {
+    if (!cate || !cate.name) return current;
+    const next = current ? cate.name + "/" + current : cate.name;
+    if (!cate.category) return next;
+    return deepName(next, cate.category);
+  };
+  return deepName("", category);
 }
