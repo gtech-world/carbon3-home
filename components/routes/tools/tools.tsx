@@ -1,8 +1,11 @@
-import {ToolsLayout} from "@components/common/toolsLayout";
-import {Button} from "@components/common/button";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { Button } from "@components/common/button";
 import React from "react";
+import { useRouter } from "next/router";
 
-function ToolsContent(){
+function ToolsContent() {
+  const { push } = useRouter();
+
   const data = [
     {
       icon: 'alca_icon.svg',
@@ -14,7 +17,7 @@ function ToolsContent(){
         '建立产品生命周期评价模型',
         '进行环境影响的分析和评估'
       ],
-      link:'/tools/lca',
+      link: '/tools/lca',
     },
     {
       icon: 'amodel_icon.svg',
@@ -27,7 +30,7 @@ function ToolsContent(){
         '对模型进行自动化验证',
         '查看和管理实景数据输入项目'
       ],
-      link:'/tools/model',
+      link: '/tools/model',
     },
     {
       icon: 'ainventory_icon.svg',
@@ -39,18 +42,19 @@ function ToolsContent(){
         '基于模型和输入项计算碳足迹结果',
         '可信隐私计算过程的自动化验证'
       ],
-      link:'/tools/inventory',
+      link: '/tools/inventory',
     }
   ]
-  return(
-    <ul className="flex justify-between mt-5 text-lg mo:flex-col mo:items-center pb-10">
+  return (
+    <ul className="flex justify-between pb-10 mt-5 text-lg mo:flex-col mo:items-center">
+
       {
-        data.map((v,i)=>{
-          return(
+        data.map((v, i) => {
+          return (
             <li key={`data-${i}`} className="bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
               <div>
                 <div className="flex items-center">
-                  <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt=""/>
+                  <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
                   <div className="text-2xl font-semibold">
                     <div>“{v.as}”</div>
                     <h4>{v.title}</h4>
@@ -60,17 +64,17 @@ function ToolsContent(){
                 <div className="mt-5 leading-[1.725rem]">
                   <h5 className="font-semibold">“{v.as}“工具通常有以下功能</h5>
                   {
-                    v.list.map((child,childIndex)=>{
-                      return(
+                    v.list.map((child, childIndex) => {
+                      return (
                         <p key={`list${childIndex}`} className="text-gray-3">
-                          {childIndex+1}、{child}
+                          {childIndex + 1}、{child}
                         </p>
                       )
                     })
                   }
                 </div>
               </div>
-              <Button onClick={()=>window.open(v.link, "_blank")} className="mt-5 text-lg bg-green-2 w-full text-white rounded-lg flex-1 max-h-14">进入</Button>
+              <Button onClick={() => push(v.link)} className="flex-1 w-full mt-5 text-lg text-white rounded-lg bg-green-2 max-h-14">进入</Button>
             </li>
           )
         })

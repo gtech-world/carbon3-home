@@ -1,10 +1,11 @@
-import {ToolsLayout} from "@components/common/toolsLayout";
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {Table} from "@components/common/table";
-import {Modal} from "@components/common/modal";
-import {Button} from "@components/common/button";
-import {Pagination} from "@components/common/pagination";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Table } from "@components/common/table";
+import { Modal } from "@components/common/modal";
+import { Button } from "@components/common/button";
+import { Pagination } from "@components/common/pagination";
 import { useRouter } from "next/router";
+
 import _ from 'lodash'
 import {
   getLcaModelList, getLcaProductList,
@@ -13,46 +14,48 @@ import {
   updateLcaModelState,
   uploadLcaModel
 } from "@lib/http";
-import {Loading} from "@components/common/loading";
-import {SelectTree} from "@components/common/selectTree";
-import {useToast, useUser} from "@components/common/context";
-import {Select} from "@components/common/select";
+import { Loading } from "@components/common/loading";
+import { SelectTree } from "@components/common/selectTree";
+import { useToast, useUser } from "@components/common/context";
+import { Select } from "@components/common/select";
 import classNames from "classnames";
-import {shortStr} from "@lib/utils";
+import { shortStr } from "@lib/utils";
 
 export function Model() {
-  const [status,setStatus] = useState<any>(null)
-  const [viewReal,setViewReal] = useState<any>(null)
-  const [uploadView,setUploadView] = useState(false)
-  const [opResult,setOpResult] = useState<any>(null)
-  const [createProductView,setCreateProductView] = useState<boolean>(false)
-  const [pgNum,setPgNum] = useState(1)
-  const [productName,setProductName] = useState<any>('')
-  const [productSelectedType,setProductSelectedType] = useState<any>(null)
-  const [description,setDescription] = useState<any>('')
-  const [productSelectedIndex,setProductSelectedIndex] = useState<any>(null)
-  const [uploadFile,setUploadFile] = useState<any>(null)
-  const [modelName,setModelName] = useState('')
-  const [productViewSelectedIndex,setProductViewSelectedIndex] = useState<number>(-1)
-  const [productNameFilter,setProductNameFilter] = useState(-1)
-  const [reload,setReload] = useState(0)
-  const [reloadProduct,setReloadProduct] = useState(0)
+  const [status, setStatus] = useState<any>(null)
+  const [viewReal, setViewReal] = useState<any>(null)
+  const [uploadView, setUploadView] = useState(false)
+  const [opResult, setOpResult] = useState<any>(null)
+  const [createProductView, setCreateProductView] = useState<boolean>(false)
+  const [pgNum, setPgNum] = useState(1)
+  const [productName, setProductName] = useState<any>('')
+  const [productSelectedType, setProductSelectedType] = useState<any>(null)
+  const [description, setDescription] = useState<any>('')
+  const [productSelectedIndex, setProductSelectedIndex] = useState<any>(null)
+  const [uploadFile, setUploadFile] = useState<any>(null)
+  const [modelName, setModelName] = useState('')
+  const [productViewSelectedIndex, setProductViewSelectedIndex] = useState<number>(-1)
+  const [productNameFilter, setProductNameFilter] = useState(-1)
+  const [reload, setReload] = useState(0)
+  const [reloadProduct, setReloadProduct] = useState(0)
 
-  const [tableData,setTableData] = useState([])
-  const [tableDataLoading,setTableDataLoading] = useState(false)
-  const [tableDataTotal,setTableDataTotal] = useState(0)
-  const [productType,setProductType] = useState([])
-  const [productList,setProductList] = useState<any>([])
+
+  const [tableData, setTableData] = useState([])
+  const [tableDataLoading, setTableDataLoading] = useState(false)
+  const [tableDataTotal, setTableDataTotal] = useState(0)
+  const [productType, setProductType] = useState([])
+  const [productList, setProductList] = useState<any>([])
   const fileRef = useRef(null)
   const { user } = useUser();
-  const r = useRouter()
+  const { push } = useRouter();
+
   const { toast } = useToast();
-  const queryLcaModelList = async ()=>{
+  const queryLcaModelList = async () => {
     setTableDataLoading(true)
-    const res = await getLcaModelList({pgNum,productId:productNameFilter})
+    const res = await getLcaModelList({ pgNum, productId: productNameFilter })
     setTableDataLoading(false)
-    let arr:any = []
-    res.records.map((v:any)=> {
+    let arr: any = []
+    res.records.map((v: any) => {
       arr.push({
         id: v.id,
         modelName: v.modelName,
@@ -60,7 +63,7 @@ export function Model() {
         productName: v.product.name,
         state: v.state,
         createTime: v.createTime,
-        paramDetail: (JSON.parse(v.paramDetail))[0]?.parameters?.map((item:any)=>{
+        paramDetail: (JSON.parse(v.paramDetail))[0]?.parameters?.map((item: any) => {
           return {
             context: item.name,
             parameter: item.context.name,
@@ -74,23 +77,23 @@ export function Model() {
     setTableDataTotal(res.total)
     setTableData(arr)
   }
-  function formatToTree(ary:any, pid?:number) {
-    return ary.filter((item:any) =>
+  function formatToTree(ary: any, pid?: number) {
+    return ary.filter((item: any) =>
       pid === undefined ? item.parentId === 0 : item.parentId === pid
-    ).map((item:any) => {
+    ).map((item: any) => {
       // 通过父节点ID查询所有子节点
       item.children = formatToTree(ary, item.id);
       return item;
     });
   }
-  const queryLcaProductTypeList = async ()=>{
+  const queryLcaProductTypeList = async () => {
     const res = await getLcaProductTypeList()
-    setProductType(res ? formatToTree(res?.records,0):[])
+    setProductType(res ? formatToTree(res?.records, 0) : [])
   }
-  const queryLcaProductList = async ()=>{
+  const queryLcaProductList = async () => {
     const res = await getLcaProductList()
-    let arr:any = []
-    res.records.map((v:any)=>{
+    let arr: any = []
+    res.records.map((v: any) => {
       arr.push({
         id: v.id,
         text: v.name,
@@ -100,16 +103,16 @@ export function Model() {
     })
     setProductList(arr)
   }
-  useMemo(()=>{
+  useMemo(() => {
     queryLcaModelList()
-  },[productNameFilter,reload,pgNum])
-  useEffect(()=>{
+  }, [productNameFilter, reload, pgNum])
+  useEffect(() => {
     queryLcaProductList()
-  },[reloadProduct])
-  useEffect(()=>{
+  }, [reloadProduct])
+  useEffect(() => {
     queryLcaProductTypeList()
-  },[])
-  const onFileChange = async (file:any)=>{
+  }, [])
+  const onFileChange = async (file: any) => {
     setUploadFile(file.target.files[0])
   }
   const columns = [
@@ -117,8 +120,8 @@ export function Model() {
       title: "模型名称",
       dataIndex: 'modelName',
       width: '14rem',
-      render:(text:string)=>{
-        return(
+      render: (text: string) => {
+        return (
           <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
         )
       }
@@ -127,8 +130,8 @@ export function Model() {
       title: "模型ID",
       dataIndex: 'modelUuid',
       width: '13rem',
-      render: (text:string)=>{
-        return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text,8,8)}</span>
+      render: (text: string) => {
+        return <span data-tooltip-id="tooltip" data-tooltip-content={text}>{shortStr(text, 8, 8)}</span>
       }
     },
     {
@@ -136,10 +139,10 @@ export function Model() {
       dataIndex: 'productName',
       width: '14rem',
       filterOptions: productList,
-      onFilterChange: (data:any)=>{
-        setProductNameFilter(data?data.id:-1)
+      onFilterChange: (data: any) => {
+        setProductNameFilter(data ? data.id : -1)
       },
-      render:(text:string)=>{
+      render: (text: string) => {
         return <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
@@ -147,9 +150,9 @@ export function Model() {
       title: "状态",
       dataIndex: 'state',
       width: '100px',
-      render: (text:number)=>{
+      render: (text: number) => {
         let stateText = ''
-        switch (text){
+        switch (text) {
           case 0:
             stateText = '弃用'
             break;
@@ -160,7 +163,7 @@ export function Model() {
             stateText = '草稿'
             break;
         }
-        return(
+        return (
           <span>{stateText}</span>
         )
       }
@@ -169,19 +172,20 @@ export function Model() {
       title: "上传时间",
       dataIndex: 'createTime',
       width: '13rem',
-      render:(text:string)=>{
+      render: (text: string) => {
         return <div className="break-keep whitespace-nowrap">{text}</div>
       }
     },
     {
       title: "",
       width: '20rem',
-      render: (text:string,record:any)=>{
-        return(
-          <div className="flex flex-1 justify-between text-green-2 break-keep">
-            <span className="cursor-pointer" onClick={()=>{window.open(`/model?id=${record.id}`,"_blank")}}>查看模型</span>
-            <span className="cursor-pointer mx-2" onClick={()=>setViewReal(record)}>查看实景数据</span>
-            <span className="cursor-pointer" onClick={()=>setStatus(record)}>更改状态</span>
+      render: (text: string, record: any) => {
+        return (
+          <div className="flex justify-between flex-1 text-green-2 break-keep">
+
+            <span className="cursor-pointer" onClick={() => { push(`/model?id=${record.id}`) }}>查看模型</span>
+            <span className="mx-2 cursor-pointer" onClick={() => setViewReal(record)}>查看实景数据</span>
+            <span className="cursor-pointer" onClick={() => setStatus(record)}>更改状态</span>
           </div>
         )
       }
@@ -207,7 +211,7 @@ export function Model() {
     {
       title: "不确定性",
       dataIndex: 'uncertainty',
-      emptyText:'-',
+      emptyText: '-',
       width: '30%'
     },
     // {
@@ -216,52 +220,52 @@ export function Model() {
     //   emptyText:'-'
     // },
   ]
-  const doChangeState = async (state:number)=>{
+  const doChangeState = async (state: number) => {
     const title = '更改状态'
     setOpResult(
       {
         title,
-        loading:true
+        loading: true
       }
     )
-    await updateLcaModelState(status.id,state)
-    setReload(reload+1)
+    await updateLcaModelState(status.id, state)
+    setReload(reload + 1)
     setOpResult(
       {
         title,
-        loading:false,
+        loading: false,
         resultText: '操作成功'
       }
     )
     setStatus(null)
   }
-  const doAddProduct = async ()=>{
-    if(!productSelectedType?.id) return false
+  const doAddProduct = async () => {
+    if (!productSelectedType?.id) return false
 
-    const findResult = _.find(productList,(item:any)=>{
+    const findResult = _.find(productList, (item: any) => {
       return item.text === productName
     })
-    if(findResult){
+    if (findResult) {
       toast({ type: "error", msg: "产品名称已经存在" });
       return false
     }
     setCreateProductView(false)
     await insertLcaProduct({
-      name:productName,
+      name: productName,
       categoryId: productSelectedType?.id,
       orgId: user.orgId,
       description: description
     })
     toast({ type: "info", msg: "新建成功！" });
     const dom = document.getElementById('productList')
-    if(dom) dom.scrollTop = dom.scrollHeight;
-    setReloadProduct(reloadProduct+1)
+    if (dom) dom.scrollTop = dom.scrollHeight;
+    setReloadProduct(reloadProduct + 1)
   }
-  const doUpload = async ()=>{
+  const doUpload = async () => {
     const formData = new FormData()
-    formData.append('name',modelName)
+    formData.append('name', modelName)
     formData.append('file', uploadFile)
-    formData.append('productId',productList[productSelectedIndex].id)
+    formData.append('productId', productList[productSelectedIndex].id)
     const title = '上传碳足迹模型'
     setOpResult({
       title,
@@ -271,7 +275,7 @@ export function Model() {
     fileRef.current.value = ''
     setUploadView(false)
     const res = await uploadLcaModel(formData)
-    if(res){
+    if (res) {
       setOpResult({
         title,
         loading: false,
@@ -279,8 +283,8 @@ export function Model() {
       })
       setUploadView(false)
       setPgNum(1)
-      setReload(reload+1)
-    }else {
+      setReload(reload + 1)
+    } else {
       setOpResult({
         title,
         loading: false,
@@ -288,35 +292,35 @@ export function Model() {
       })
     }
   }
-  useMemo(()=>{
-    if(!uploadView){
+  useMemo(() => {
+    if (!uploadView) {
       setProductSelectedIndex(null)
       setUploadFile(null)
     }
-  },[uploadView])
-  const canUpload = useMemo(()=>{
-    return !!uploadFile && !!modelName && productSelectedIndex>-1
-  },[uploadFile,modelName,productSelectedIndex])
-  const canCreateProduct = useMemo(()=>{
+  }, [uploadView])
+  const canUpload = useMemo(() => {
+    return !!uploadFile && !!modelName && productSelectedIndex > -1
+  }, [uploadFile, modelName, productSelectedIndex])
+  const canCreateProduct = useMemo(() => {
     return !!productName && !!productSelectedType
-  },[productName,productSelectedType])
-  const onProductChange = (val:any)=>{
+  }, [productName, productSelectedType])
+  const onProductChange = (val: any) => {
     setProductName(val.target.value)
   }
   return (
-    <ToolsLayout className="text-black flex flex-col justify-between flex-1 pb-12">
+    <ToolsLayout className="flex flex-col justify-between flex-1 pb-12 text-black">
       <div className="">
         <div>
-          <h3 className="text-2xl font-semibold mt-8 flex justify-between items-center pb-5">
+          <h3 className="flex items-center justify-between pb-5 mt-8 text-2xl font-semibold">
             <span>产品定义</span>
-            <Button onClick={()=>setCreateProductView(true)} className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal">新建产品</Button>
+            <Button onClick={() => setCreateProductView(true)} className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal">新建产品</Button>
           </h3>
           <div className="max-h-[15.5rem] overflow-y-auto" id="productList">
             <ul className="flex flex-wrap ml-[-1.25rem]">
               {
-                productList.map((v:any,i:number)=>{
-                  return(
-                    <li key={`productList${i}`} onClick={()=>setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mb-5 cursor-pointer hover:border-green-2 hover:text-green-2",productViewSelectedIndex === i ? 'border-green-2 text-green-2': 'border-white')}>
+                productList.map((v: any, i: number) => {
+                  return (
+                    <li key={`productList${i}`} onClick={() => setProductViewSelectedIndex(i)} className={classNames("bg-white px-5 py-2.5 border rounded-lg ml-5 mb-5 cursor-pointer hover:border-green-2 hover:text-green-2", productViewSelectedIndex === i ? 'border-green-2 text-green-2' : 'border-white')}>
                       <div className="">
                         {
                           v.text
@@ -331,55 +335,55 @@ export function Model() {
           </div>
 
         </div>
-        <h3 className="text-2xl font-semibold mt-6 flex justify-between items-center">
+        <h3 className="flex items-center justify-between mt-6 text-2xl font-semibold">
           <span>产品碳足迹模型管理</span>
           {/*@ts-ignore*/}
-          <Button onClick={()=>setUploadView(true)} className="text-lg bg-green-2 w-40 text-white rounded-lg h-11 font-normal">上传碳足迹模型</Button>
+          <Button onClick={() => setUploadView(true)} className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">上传碳足迹模型</Button>
         </h3>
-        <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
-          <div className="mt-5 pb-6 overflow-x-auto">
+        <div className="w-full p-5 mt-5 bg-white rounded-2xl">
+          <div className="pb-6 mt-5 overflow-x-auto">
             <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
               <Table columns={columns}
-                     loading={tableDataLoading}
+                loading={tableDataLoading}
                 // size="big"
-                     cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-                     data={tableData}
-                     className=""
-                     headerStyle={{background:'#fff'}}
+                cellClassName={(item: any, cellIndex: number, rowIndex: number) => (rowIndex % 2 === 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length - 1) && 'rounded-r-lg'}` : '')}
+                data={tableData}
+                className=""
+                headerStyle={{ background: '#fff' }}
               />
-          </div>
+            </div>
           </div>
         </div>
 
       </div>
-      <Pagination onChange={(v:any)=>{setPgNum(v)}} className="my-8" total={tableDataTotal} pgSize={10} pgNum={pgNum} />
+      <Pagination onChange={(v: any) => { setPgNum(v) }} className="my-8" total={tableDataTotal} pgSize={10} pgNum={pgNum} />
       {
         status !== null &&
-        <Modal title="更改状态" onClose={()=>setStatus(null)}>
+        <Modal title="更改状态" onClose={() => setStatus(null)}>
           <div className="flex">
             {
-              opResult?.loading ? <Loading />:
+              opResult?.loading ? <Loading /> :
                 <div className="flex flex-1">
-                {
-                  status.state > -2 && <Button onClick={()=>doChangeState(status.state === 1?0:1)} className="text-lg bg-green-2 w-full text-white rounded-lg flex-1 h-11">{status.state === 1?'弃用':'激活'}</Button>
-                }
-                {
-                  status.state === -1 && <Button onClick={()=>doChangeState(-2)} className="text-lg border-2 border-green-2 ml-5 bg-green-2/10 w-full text-green-2 hover:bg-green-2/20 rounded-lg flex-1 h-11">删除</Button>
-                }
-              </div>
+                  {
+                    status.state > -2 && <Button onClick={() => doChangeState(status.state === 1 ? 0 : 1)} className="flex-1 w-full text-lg text-white rounded-lg bg-green-2 h-11">{status.state === 1 ? '弃用' : '激活'}</Button>
+                  }
+                  {
+                    status.state === -1 && <Button onClick={() => doChangeState(-2)} className="flex-1 w-full ml-5 text-lg border-2 rounded-lg border-green-2 bg-green-2/10 text-green-2 hover:bg-green-2/20 h-11">删除</Button>
+                  }
+                </div>
             }
           </div>
         </Modal>
       }
       {
         !!viewReal &&
-        <Modal title={viewReal.modelName+'模型中的实景输入项'} onClose={()=>setViewReal(null)}>
+        <Modal title={viewReal.modelName + '模型中的实景输入项'} onClose={() => setViewReal(null)}>
           <div className="flex w-[60rem] min-h-[16rem] flex-col pb-2">
             <ul className="flex mb-1">
               {
-                realColumns.map((v:any,i:number)=>{
-                  return(
-                    <li key={`columns${i}`} className="px-3 text-lg font-bold" style={{width: v.width}}>{v.title}</li>
+                realColumns.map((v: any, i: number) => {
+                  return (
+                    <li key={`columns${i}`} className="px-3 text-lg font-bold" style={{ width: v.width }}>{v.title}</li>
                   )
                 })
               }
@@ -392,82 +396,82 @@ export function Model() {
       }
       {
         opResult &&
-        <Modal title={opResult?.title || '操作'} onClose={()=>setOpResult(null)}>
-          <div className="text-center pb-2">
+        <Modal title={opResult?.title || '操作'} onClose={() => setOpResult(null)}>
+          <div className="pb-2 text-center">
             {
-              opResult.loading ? <Loading />: <span>{opResult.resultText}</span>
+              opResult.loading ? <Loading /> : <span>{opResult.resultText}</span>
             }
           </div>
         </Modal>
       }
       {
         createProductView &&
-        <Modal title="新建产品" onClose={()=>setCreateProductView(false)}>
+        <Modal title="新建产品" onClose={() => setCreateProductView(false)}>
           <div className="flex items-center">
             <label className="mr-2">产品名称 :</label>
             <input maxLength={30} type="text"
-                   onChange={(val)=>onProductChange(val)}
-                   className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
+              onChange={(val) => onProductChange(val)}
+              className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
             />
           </div>
-          <div className="mt-6 flex items-center">
+          <div className="flex items-center mt-6">
             <label className="mr-2">产品类型 :</label>
             <SelectTree classname="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem]"
-                        onChange={(val:any)=>{setProductSelectedType(val)}}
-                        node={productType}
+              onChange={(val: any) => { setProductSelectedType(val) }}
+              node={productType}
             />
           </div>
-          <div className="my-6 flex items-center">
+          <div className="flex items-center my-6">
             <label className="mr-10">描述 :</label>
             <input maxLength={100} className="border border-gray-14 rounded-lg bg-gray-28 px-3 w-[21.5rem] h-[3.125rem]"
-                   onChange={(val:any)=>{setDescription(val.target.value)}}
+              onChange={(val: any) => { setDescription(val.target.value) }}
             />
           </div>
           <div className="flex">
-            <Button onClick={()=>setCreateProductView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
-            <Button onClick={()=>canCreateProduct && doAddProduct()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",!canCreateProduct && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
+            <Button onClick={() => setCreateProductView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
+            <Button onClick={() => canCreateProduct && doAddProduct()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal", !canCreateProduct && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
           </div>
         </Modal>
       }
       {
         uploadView &&
-        <Modal title="上传碳足迹模型" onClose={()=>setUploadView(false)}>
+        <Modal title="上传碳足迹模型" onClose={() => setUploadView(false)}>
           <div className="flex items-center">
             <label className="mr-2">产品名称 : </label>
             <Select className="border border-gray-14 bg-gray-28 w-[21.5rem] py-[0.935rem] "
-                    items={productList}
-                    current={productSelectedIndex}
-                    onChange={(val)=>{setProductSelectedIndex(val)}}
+              items={productList}
+              current={productSelectedIndex}
+              onChange={(val) => { setProductSelectedIndex(val) }}
             />
           </div>
           <div className="flex items-center mt-6">
             <label className="mr-2">模型名称 : </label>
-            <input type="text" maxLength={30} onChange={(val)=>{setModelName(val.target.value)}} className="border border-gray-14 bg-gray-28 rounded-lg h-[3.125rem] w-[21.5rem] px-3"/>
+            <input type="text" maxLength={30} onChange={(val) => { setModelName(val.target.value) }} className="border border-gray-14 bg-gray-28 rounded-lg h-[3.125rem] w-[21.5rem] px-3" />
           </div>
           <div className="flex items-center my-6">
             <label className="mr-2">碳足迹模型 : </label>
             {/*@ts-ignore*/}
-            <div className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate" data-tooltip-id="tooltip" data-tooltip-content={uploadFile? uploadFile.name:''} onClick={()=>fileRef.current.click()}>
+            <div className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate" data-tooltip-id="tooltip" data-tooltip-content={uploadFile ? uploadFile.name : ''} onClick={() => fileRef.current.click()}>
               {
-                !!uploadFile? uploadFile.name:'选择文件'
+                !!uploadFile ? uploadFile.name : '选择文件'
               }
             </div>
           </div>
-          <input ref={fileRef} onChange={onFileChange} type="file" hidden/>
+          <input ref={fileRef} onChange={onFileChange} type="file" hidden />
 
           <div className="flex">
-            <Button onClick={()=>setUploadView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
-            <Button onClick={()=>canUpload && doUpload()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",!canUpload && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
+            <Button onClick={() => setUploadView(false)} className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20">取消</Button>
+            <Button onClick={() => canUpload && doUpload()} className={classNames("text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal", !canUpload && 'bg-[#CECECE] hover:bg-[#CECECE]')}>确定</Button>
           </div>
         </Modal>
       }
       {
-        productViewSelectedIndex>-1 &&
-        <Modal title="查看产品" onClose={()=>setProductViewSelectedIndex(-1)}>
+        productViewSelectedIndex > -1 &&
+        <Modal title="查看产品" onClose={() => setProductViewSelectedIndex(-1)}>
           <ul className="text-lg max-w-[32rem]">
             <li className="flex">
               <label className="inline-block min-w-[5.625rem]">产品名称 :</label>
-              <span className="text-gray-6 break-all">{productList[productViewSelectedIndex]?.text}</span>
+              <span className="break-all text-gray-6">{productList[productViewSelectedIndex]?.text}</span>
             </li>
             <li className="my-5">
               <label className="inline-block w-[5.625rem]">产品类型 :</label>
@@ -475,7 +479,7 @@ export function Model() {
             </li>
             <li className="flex">
               <label className="inline-block min-w-[5.625rem]">描述 :</label>
-              <span className="text-gray-6 break-all">{productList[productViewSelectedIndex]?.desc?productList[productViewSelectedIndex]?.desc:'-'}</span>
+              <span className="break-all text-gray-6">{productList[productViewSelectedIndex]?.desc ? productList[productViewSelectedIndex]?.desc : '-'}</span>
             </li>
           </ul>
         </Modal>
