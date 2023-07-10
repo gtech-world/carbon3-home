@@ -8,11 +8,20 @@ export function useBigList<T>(_list: T[], size: number = 50): T[] {
     setList([]);
     const chunks = chunk(_list, size);
     const fillList = () => {
-      requestIdleCallback((idel) => {
-        if (idel.timeRemaining() > 1) {
+      const requestHasRenderTime = (call: (has: boolean) => void) => {
+        if (!!window.requestIdleCallback) {
+          window.requestIdleCallback((idel) => call(idel.timeRemaining() > 1));
+        } else if (!!window.requestAnimationFrame) {
+          window.requestAnimationFrame(() => call(true));
+        } else {
+          window.setTimeout(() => call(true), size * 2);
+        }
+      };
+      requestHasRenderTime((has) => {
+        if (has) {
           setList((old) => {
             const index = Math.floor(old.length / size);
-            console.info("index:",index);
+            console.info("index:", index);
             if (index >= chunks.length) {
               stop = true;
               return old;
