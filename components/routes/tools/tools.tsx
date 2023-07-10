@@ -74,7 +74,7 @@ function ToolsContent() {
                   }
                 </div>
               </div>
-              <Button onClick={() => push(v.link)} className="flex-1 w-full mt-5 text-lg text-white rounded-lg bg-green-2 max-h-14">进入</Button>
+              <a href={v.link} className="flex items-center justify-center flex-1 w-full mt-5 ml-auto text-lg text-white rounded-lg bg-green-2 max-h-14" >进入</a>
             </li>
           )
         })
