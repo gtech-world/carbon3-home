@@ -35,7 +35,7 @@ export function Lca() {
 
         <div className="mt-4">
           在开始使用A-LCA之前，请确保您下载并导入了工具所要求的参考数据库。
-          <a className="ml-5 underline text-blue-0" rel="noreferrer" target="_blank" href="https://github.com/gtech-world/olca-app/releases/tag/v1.0.2">点击此处下载</a>
+          <a className="ml-5 underline text-blue-0" rel="noreferrer" target="_blank" href="https://github.com/gtech-world/olca-app/releases/tag/v1.0.2">请点击此处下载</a>
           {/* <a className="ml-5 underline text-blue-0" rel="noreferrer" target="_blank" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/AICP_LCA_LCIA_Method_202306.zolca">LCIA Method库</a> */}
         </div>
       </div>
