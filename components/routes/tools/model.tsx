@@ -78,7 +78,7 @@ export function Model() {
       });
     });
     setTableDataTotal(res.total);
-    console.log("arrrr", arr);
+    // console.log("arrrr", arr);
 
     setTableData(arr);
   };
@@ -99,7 +99,7 @@ export function Model() {
   };
   const queryLcaProductList = async () => {
     const res = await getLcaProductList();
-    console.log("resres", res);
+    // console.log("resres", res);
 
     let arr: any = [];
     res.records.map((v: any) => {
