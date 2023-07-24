@@ -1,19 +1,15 @@
+import "@lib/env";
 import { initStore, Store, StoreProvider } from "@components/common/context";
 import { HeaderTip } from "@components/common/headerTip";
-import { LoadingFull } from "@components/common/loading";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
-import { SupportLngs } from "@components/const";
-import "@lib/env";
+import { initI18n } from "@lib/i18n";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
-import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
-import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
+import React, { useEffect, useState } from "react";
+import { I18nextProvider, I18nextProviderProps } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import "../styles/globals.css";
@@ -26,46 +22,6 @@ const open_sans = Open_Sans({
 });
 
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
-
-async function initI18n() {
-  const start = new Date().getTime();
-  return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {
-    const ns = ["frontend", "backend"];
-    i18n
-      .use(Backend)
-      .use(LanguageDetector)
-      .use(initReactI18next)
-      .init({
-        initImmediate: false,
-        load: "currentOnly",
-        preload: SupportLngs,
-        supportedLngs: SupportLngs,
-        ns: ns,
-        fallbackLng: SupportLngs[0],
-        defaultNS: ns[0],
-        lng: "zh-CN",
-        backend: {
-          loadPath: "https://static-i18n.gtech-cn.co/I18N/{{lng}}/{{ns}}.json",
-          crossDomain: true,
-        },
-      });
-    resolve(i18n);
-    console.info("initI18n:", new Date().getTime() - start);
-    i18n.on("loaded", (data) => {
-      let loaded = 0;
-      SupportLngs.forEach((lng) => {
-        ns.forEach((ns) => {
-          if (data[lng] && data[lng][ns]) loaded++;
-        });
-      });
-      if (loaded === SupportLngs.length * ns.length) {
-        // resolve(i18n);
-        const data = i18n.store.data["zh-CN"].frontend as any;
-        if (data) data["{{value}} with authenticated account*"] = "使用经认证的专业账户*</br>{{value}}";
-      }
-    });
-  });
-}
 
 function InitProvider(p: { children: React.ReactNode }) {
   const [data, setData] = useState<[I18nextProviderProps["i18n"], Store]>();

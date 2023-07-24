@@ -18,7 +18,9 @@ specifiers:
   eslint-config-next: 13.1.1
   i18next: ^22.4.10
   i18next-browser-languagedetector: ^7.0.1
+  i18next-chained-backend: ^4.4.0
   i18next-http-backend: ^2.1.1
+  i18next-localstorage-backend: ^4.1.1
   lodash: ^4.17.21
   moment: ^2.29.4
   next: 13.1.1
@@ -54,7 +56,9 @@ dependencies:
   eslint-config-next: 13.1.1_iukboom6ndih5an6iafl45j2fe
   i18next: 22.4.10
   i18next-browser-languagedetector: 7.0.1
+  i18next-chained-backend: 4.4.0
   i18next-http-backend: 2.1.1
+  i18next-localstorage-backend: 4.1.1
   lodash: 4.17.21
   moment: registry.npmmirror.com/moment/2.29.4
   next: 13.1.1_biqbaboplfbrettd7655fr4n2y
@@ -1313,13 +1317,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/runtime/7.22.5:
     resolution: {integrity: sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/template/7.20.7:
     resolution: {integrity: sha512-8SegXApWe6VoNw0r9JHpSteLKTpTiLZ4rMlGIm9JQ18KiCtyQiAMEazujAHrUS5flrcqYZa75ukev3P6QmUwUw==}
@@ -2786,7 +2790,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
       aria-query: 5.1.3
       array-includes: 3.1.6
       array.prototype.flatmap: 1.3.1
@@ -3295,12 +3299,31 @@ packages:
       '@babel/runtime': 7.20.7
     dev: false
 
+  /i18next-chained-backend/4.4.0:
+    resolution: {integrity: sha512-I+mG0Bly9lbUk8kPZYbJuV7zPY0QDueOJ9yiUqz9o/RX2Mb7eC8RrfwtTX1QhVZmT9KSs9Oq5VDVLxPOeXBIgg==}
+    dependencies:
+      '@babel/runtime': 7.22.5
+      i18next-resources-to-backend: 1.1.4
+    dev: false
+
   /i18next-http-backend/2.1.1:
     resolution: {integrity: sha512-jByfUCDVgQ8+/Wens7queQhYYvMcGTW/lR4IJJNEDDXnmqjLrwi8ubXKpmp76/JIWEZHffNdWqnxFJcTVGeaOw==}
     dependencies:
       cross-fetch: 3.1.5
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /i18next-localstorage-backend/4.1.1:
+    resolution: {integrity: sha512-gz3OP6m0jygF2SAzarDSFpaziYzF8mS8DP/pEUze+kDquzHTz2sy/eshcSkmFEYyGXMC037xUtlT97bNGlpZPA==}
+    dependencies:
+      '@babel/runtime': 7.22.5
+    dev: false
+
+  /i18next-resources-to-backend/1.1.4:
+    resolution: {integrity: sha512-hMyr9AOmIea17AOaVe1srNxK/l3mbk81P7Uf3fdcjlw3ehZy3UNTd0OP3EEi6yu4J02kf9jzhCcjokz6AFlEOg==}
+    dependencies:
+      '@babel/runtime': 7.22.5
     dev: false
 
   /i18next/22.4.10:
@@ -4360,7 +4383,7 @@ packages:
   /regenerator-transform/0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
     dev: true
 
   /regexp.prototype.flags/1.4.3:
@@ -4439,7 +4462,7 @@ packages:
   /rtl-css-js/1.16.1:
     resolution: {integrity: sha512-lRQgou1mu19e+Ya0LsTvKrVJ5TYUbqCVPAiImX3UfLTenarvPUl1QFdvu5Z3PYmHT9RCcwIfbjRQBntExyj3Zg==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
     dev: false
 
   /run-parallel/1.2.0:
