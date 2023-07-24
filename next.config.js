@@ -4,7 +4,7 @@ console.info("nextconfig,env:", env.NODE_ENV);
 const nextConfig = {
   reactStrictMode: env.NODE_ENV === "development" ? false : true,
   output: "standalone",
-  swcMinify: false,
+  // swcMinify: false,
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/i,

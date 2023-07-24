@@ -15,9 +15,8 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
 import { Tooltip } from "react-tooltip";
-import 'react-tooltip/dist/react-tooltip.css';
+import "react-tooltip/dist/react-tooltip.css";
 import "../styles/globals.css";
-
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -29,6 +28,7 @@ const open_sans = Open_Sans({
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
 async function initI18n() {
+  const start = new Date().getTime();
   return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {
     const ns = ["frontend", "backend"];
     i18n
@@ -43,12 +43,14 @@ async function initI18n() {
         ns: ns,
         fallbackLng: SupportLngs[0],
         defaultNS: ns[0],
-        lng:'zh-CN',
+        lng: "zh-CN",
         backend: {
           loadPath: "https://static-i18n.gtech-cn.co/I18N/{{lng}}/{{ns}}.json",
           crossDomain: true,
         },
       });
+    resolve(i18n);
+    console.info("initI18n:", new Date().getTime() - start);
     i18n.on("loaded", (data) => {
       let loaded = 0;
       SupportLngs.forEach((lng) => {
@@ -57,7 +59,7 @@ async function initI18n() {
         });
       });
       if (loaded === SupportLngs.length * ns.length) {
-        resolve(i18n);
+        // resolve(i18n);
         const data = i18n.store.data["zh-CN"].frontend as any;
         if (data) data["{{value}} with authenticated account*"] = "使用经认证的专业账户*</br>{{value}}";
       }
@@ -71,11 +73,12 @@ function InitProvider(p: { children: React.ReactNode }) {
     modalRootRef.current = document.body as any;
     Promise.all([initI18n(), initStore()]).then(setData);
   }, []);
-  if (!data) return <LoadingFull />;
+  if (!data) return null;
+  // if (!data) return <LoadingFull />;
   const [i18n, store] = data;
   setTimeout(() => {
     // @ts-ignore
-    i18n.language === 'zh-CN' && import('moment/locale/zh-cn').then(() => {})
+    i18n.language === "zh-CN" && import("moment/locale/zh-cn").then(() => {});
   }, 200);
   return (
     <I18nextProvider i18n={i18n}>
@@ -84,19 +87,18 @@ function InitProvider(p: { children: React.ReactNode }) {
   );
 }
 
-function InitToolTip(){
-  const [isMounted,setIsMounted] = useState(false);
+function InitToolTip() {
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
-  },[]);
-  return(
-    isMounted ?
-      <Tooltip
-        className="z-[999999] break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
-        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
-        id="tooltip"
-      />:null
-  )
+  }, []);
+  return isMounted ? (
+    <Tooltip
+      className="z-[999999] break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
+      style={{ backgroundColor: "rgb(255, 255, 255,1)", opacity: 1, color: "#222" }}
+      id="tooltip"
+    />
+  ) : null;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -108,7 +110,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <InitProvider>
-        <HeaderTip/>
+        <HeaderTip />
         <Component {...pageProps} />
         <Toast />
       </InitProvider>

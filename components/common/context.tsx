@@ -70,6 +70,7 @@ export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
 }
 
 export async function initStore() {
+  const start = new Date().getTime();
   const store: Store = {
     isMobile: window.innerWidth <= 900,
     last_input_vin: sessionStorage.getItem("last_input_vin") || "",
@@ -77,6 +78,7 @@ export async function initStore() {
   };
   const ud = getUserData();
   if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
+  console.info('initStore:', new Date().getTime() - start);
   return store;
 }
 
