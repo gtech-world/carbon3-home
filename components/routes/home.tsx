@@ -274,7 +274,6 @@ function CardTabs(){
 
 export function Home() {
   const { t,i18n } = useTranslation();
-  console.log(i18n.language)
   const { user } = useUser();
   const isMobile = useIsMobile();
   const {push} = useRouter()

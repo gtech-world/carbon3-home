@@ -1,11 +1,12 @@
 import "@lib/env";
-import { initStore, Store, StoreProvider } from "@components/common/context";
+import { defStore, initStore, Store, StoreProvider } from "@components/common/context";
 import { HeaderTip } from "@components/common/headerTip";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
-import { initI18n } from "@lib/i18n";
+import { i18n, initI18n } from "@lib/i18n";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
+import moment from "moment";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -24,21 +25,19 @@ const open_sans = Open_Sans({
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
 function InitProvider(p: { children: React.ReactNode }) {
-  const [data, setData] = useState<[I18nextProviderProps["i18n"], Store]>();
+  const [_i18n, setI18n] = useState<I18nextProviderProps["i18n"]>(i18n);
+  const [_store, setStore] = useState<Store>(defStore);
   useEffect(() => {
     modalRootRef.current = document.body as any;
-    Promise.all([initI18n(), initStore()]).then(setData);
+    initI18n().then(setI18n);
+    initStore().then(setStore);
   }, []);
-  if (!data) return null;
-  // if (!data) return <LoadingFull />;
-  const [i18n, store] = data;
-  setTimeout(() => {
-    // @ts-ignore
-    i18n.language === "zh-CN" && import("moment/locale/zh-cn").then(() => {});
-  }, 200);
+  useEffect(() => {
+    _i18n.language === "zh-CN" && moment.locale("zh-CN");
+  }, [_i18n]);
   return (
-    <I18nextProvider i18n={i18n}>
-      <StoreProvider init={store}>{p.children}</StoreProvider>
+    <I18nextProvider i18n={_i18n}>
+      <StoreProvider init={_store}>{p.children}</StoreProvider>
     </I18nextProvider>
   );
 }

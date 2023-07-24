@@ -1,10 +1,7 @@
-import React, { useMemo } from "react";
-import {Button} from "@components/common/button";
-import SvgTeacher from '@public/teacher.svg'
-import {ProductQrcode} from "@components/common/productQrcode";
+import { CarbonLayout } from "@components/common/carbonLayout";
+import { ProductQrcode } from "@components/common/productQrcode";
+import SvgTeacher from '@public/teacher.svg';
 import Link from "next/link";
-import { UrlObject } from "url";
-import {CarbonLayout} from "@components/common/carbonLayout";
 
 function PartInfo(p: { label: string; text: string }) {
   return (

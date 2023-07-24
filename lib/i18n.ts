@@ -1,10 +1,12 @@
 import { SupportLngs } from "@components/const";
-import i18n from "i18next";
+import i18next from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import I18NextHttpBackend from "i18next-http-backend";
 import { I18nextProviderProps, initReactI18next } from "react-i18next";
 import I18NextChainedBackend from "i18next-chained-backend";
 import I18NextLocalStorageBackend from "i18next-localstorage-backend";
+
+export const i18n = i18next;
 export async function initI18n() {
   const start = new Date().getTime();
   return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {

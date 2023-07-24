@@ -9,7 +9,6 @@ import {Loading} from "@components/common/loading";
 export function InventoryNotCalc() {
   const router = useRouter()
   const {query} = router
-  console.log(router)
   const { value, loading } = useAsyncM(
     noArgs(() => getLcaResultDetail(query?.id || 'all'), [query]),
     [query]

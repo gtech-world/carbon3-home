@@ -74,7 +74,7 @@ export function SelectTree(p: { node: any,onChange:Function,classname?:string })
   const [open, onToggle] = useToggle(false);
   const [height,setHeight] = useState(20)
   useClickAway(ref, () => open && onToggle(false));
-  useMemo(()=>{
+  useEffect(()=>{
     onChange && onChange(selected)
   },[selected])
   const handleHeight = ()=>{
@@ -87,10 +87,10 @@ export function SelectTree(p: { node: any,onChange:Function,classname?:string })
     },0)
 
   }
-  useMemo(()=>{
+  useEffect(()=>{
     open && handleHeight()
   },[open])
-  const treeworker = useCallback(
+  const treeworker = useCallback<any>(
     function* () {
       for (let i = 0; i < node.length; i++) {
         yield getNodeData(node[i], 0,(data:any)=>{

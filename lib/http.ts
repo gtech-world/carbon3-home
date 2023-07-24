@@ -149,7 +149,7 @@ export async function uploadLcaModel(formData: FormData) {
   try {
     return await axios.post(creatUrl(`/api/product-lca/model/upload`), formData, headers);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 }
 export async function getLcaProductTypeList() {

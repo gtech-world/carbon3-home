@@ -62,7 +62,6 @@ export function Pagination(p: Props & HTMLAttributes<HTMLDivElement>) {
   const doLast = ()=>{
     onChange && onChange(count)
   }
-  // console.log(total)
   if(total <= pgSize ) return null
   return (
     <div className={classnames('flex justify-center text-[0.8125rem] text-center leading-8 font-semibold',className)}>

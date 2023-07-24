@@ -1,12 +1,14 @@
-import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Table } from "@components/common/table";
-import { Modal } from "@components/common/modal";
 import { Button } from "@components/common/button";
+import { Modal } from "@components/common/modal";
 import { Pagination } from "@components/common/pagination";
-import { useRouter } from "next/router";
+import { Table } from "@components/common/table";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import _ from "lodash";
+import { useToast, useUser } from "@components/common/context";
+import { Loading } from "@components/common/loading";
+import { Select } from "@components/common/select";
+import { SelectTree } from "@components/common/selectTree";
 import {
   getLcaModelList,
   getLcaProductList,
@@ -15,13 +17,21 @@ import {
   updateLcaModelState,
   uploadLcaModel,
 } from "@lib/http";
-import { Loading } from "@components/common/loading";
-import { SelectTree } from "@components/common/selectTree";
-import { useToast, useUser } from "@components/common/context";
-import { Select } from "@components/common/select";
-import classNames from "classnames";
 import { shortStr } from "@lib/utils";
-import { log } from "console";
+import classNames from "classnames";
+import _ from "lodash";
+
+function formatToTree(ary: any, pid?: number) {
+  return ary
+    .filter((item: any) =>
+      pid === undefined ? item.parentId === 0 : item.parentId === pid
+    )
+    .map((item: any) => {
+      // 通过父节点ID查询所有子节点
+      item.children = formatToTree(ary, item.id);
+      return item;
+    });
+}
 
 export function Model() {
   const [status, setStatus] = useState<any>(null);
@@ -49,8 +59,6 @@ export function Model() {
   const [productList, setProductList] = useState<any>([]);
   const fileRef = useRef(null);
   const { user } = useUser();
-  const { push } = useRouter();
-
   const { toast } = useToast();
   const queryLcaModelList = async () => {
     setTableDataLoading(true);
@@ -78,28 +86,18 @@ export function Model() {
       });
     });
     setTableDataTotal(res.total);
-    console.log("arrrr", arr);
+    // console.log("arrrr", arr);
 
     setTableData(arr);
   };
-  function formatToTree(ary: any, pid?: number) {
-    return ary
-      .filter((item: any) =>
-        pid === undefined ? item.parentId === 0 : item.parentId === pid
-      )
-      .map((item: any) => {
-        // 通过父节点ID查询所有子节点
-        item.children = formatToTree(ary, item.id);
-        return item;
-      });
-  }
+
   const queryLcaProductTypeList = async () => {
     const res = await getLcaProductTypeList();
     setProductType(res ? formatToTree(res?.records, 0) : []);
   };
   const queryLcaProductList = async () => {
     const res = await getLcaProductList();
-    console.log("resres", res);
+    // console.log("resres", res);
 
     let arr: any = [];
     res.records.map((v: any) => {
@@ -112,7 +110,7 @@ export function Model() {
     });
     setProductList(arr);
   };
-  useMemo(() => {
+  useEffect(() => {
     queryLcaModelList();
   }, [productNameFilter, reload, pgNum]);
   useEffect(() => {
@@ -124,7 +122,7 @@ export function Model() {
   const onFileChange = async (file: any) => {
     setUploadFile(file.target.files[0]);
   };
-  const columns = [
+  const columns = useMemo(() => [
     {
       title: "模型名称",
       dataIndex: "modelName",
@@ -226,9 +224,9 @@ export function Model() {
         );
       },
     },
-  ];
+  ],[]);
 
-  const realColumns = [
+  const realColumns = useMemo(() => [
     {
       title: "实景输入项",
       dataIndex: "context",
@@ -255,7 +253,7 @@ export function Model() {
     //   dataIndex: 'description',
     //   emptyText:'-'
     // },
-  ];
+  ], []);
   const doChangeState = async (state: number) => {
     const title = "更改状态";
     setOpResult({
@@ -324,7 +322,7 @@ export function Model() {
       });
     }
   };
-  useMemo(() => {
+  useEffect(() => {
     if (!uploadView) {
       setProductSelectedIndex(null);
       setUploadFile(null);
@@ -336,9 +334,9 @@ export function Model() {
   const canCreateProduct = useMemo(() => {
     return !!productName && !!productSelectedType;
   }, [productName, productSelectedType]);
-  const onProductChange = (val: any) => {
+  const onProductChange = useCallback((val: any) => {
     setProductName(val.target.value);
-  };
+  },[]);
   return (
     <ToolsLayout className="flex flex-col justify-between flex-1 pb-12 text-black">
       <div className="">
@@ -497,7 +495,7 @@ export function Model() {
             <input
               maxLength={30}
               type="text"
-              onChange={(val) => onProductChange(val)}
+              onChange={onProductChange}
               className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
             />
           </div>
@@ -505,9 +503,7 @@ export function Model() {
             <label className="mr-2">产品类型 :</label>
             <SelectTree
               classname="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem]"
-              onChange={(val: any) => {
-                setProductSelectedType(val);
-              }}
+              onChange={setProductSelectedType}
               node={productType}
             />
           </div>
@@ -524,7 +520,7 @@ export function Model() {
           <div className="flex">
             <Button
               onClick={() => setCreateProductView(false)}
-              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
+              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
             >
               取消
             </Button>
@@ -580,7 +576,7 @@ export function Model() {
           <div className="flex">
             <Button
               onClick={() => setUploadView(false)}
-              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
+              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
             >
               取消
             </Button>
