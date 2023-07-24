@@ -16,11 +16,11 @@ specifiers:
   echarts-for-react: ^3.0.2
   eslint: 8.31.0
   eslint-config-next: 13.1.1
-  i18next: ^22.4.10
-  i18next-browser-languagedetector: ^7.0.1
-  i18next-chained-backend: ^4.4.0
-  i18next-http-backend: ^2.1.1
-  i18next-localstorage-backend: ^4.1.1
+  i18next: 23.2.11
+  i18next-browser-languagedetector: 7.1.0
+  i18next-chained-backend: 4.4.0
+  i18next-http-backend: 2.2.1
+  i18next-localstorage-backend: 4.1.1
   lodash: ^4.17.21
   moment: ^2.29.4
   next: 13.4.12
@@ -29,7 +29,7 @@ specifiers:
   postcss: ^8.4.21
   react: 18.2.0
   react-dom: 18.2.0
-  react-i18next: ^12.2.0
+  react-i18next: 13.0.2
   react-icons: ^4.9.0
   react-json-view: ^1.21.3
   react-router-dom: ^6.6.2
@@ -54,10 +54,10 @@ dependencies:
   echarts-for-react: registry.npmmirror.com/echarts-for-react/3.0.2_echarts@5.4.2+react@18.2.0
   eslint: 8.31.0
   eslint-config-next: 13.1.1_iukboom6ndih5an6iafl45j2fe
-  i18next: 22.4.10
-  i18next-browser-languagedetector: 7.0.1
+  i18next: 23.2.11
+  i18next-browser-languagedetector: 7.1.0
   i18next-chained-backend: 4.4.0
-  i18next-http-backend: 2.1.1
+  i18next-http-backend: 2.2.1
   i18next-localstorage-backend: 4.1.1
   lodash: 4.17.21
   moment: registry.npmmirror.com/moment/2.29.4
@@ -65,7 +65,7 @@ dependencies:
   numbro: 2.3.6
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-i18next: 12.2.0_3yopsigl4h4eb2nqrqfsy65uwi
+  react-i18next: 13.0.2_ctize4pwwv5bii3bzjqwwlegcq
   react-icons: 4.9.0_react@18.2.0
   react-json-view: 1.21.3_ib3m5ricvtkl2cll7qpr2f6lvq
   react-router-dom: 6.6.2_biqbaboplfbrettd7655fr4n2y
@@ -2292,10 +2292,10 @@ packages:
       yaml: 1.10.2
     dev: true
 
-  /cross-fetch/3.1.5:
-    resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
+  /cross-fetch/3.1.6:
+    resolution: {integrity: sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==}
     dependencies:
-      node-fetch: 2.6.7
+      node-fetch: 2.6.12
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -2975,7 +2975,7 @@ packages:
   /fbjs/3.0.5:
     resolution: {integrity: sha512-ztsSx77JBtkuMrEypfhgc3cI0+0h+svqeie7xHbh1k/IKdcydnvadp/mUaGgjAOXQmQSxsqgaRhS3q9fy+1kxg==}
     dependencies:
-      cross-fetch: 3.1.5
+      cross-fetch: 3.1.6
       fbjs-css-vars: 1.0.2
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -3268,10 +3268,10 @@ packages:
     resolution: {integrity: sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==}
     dev: false
 
-  /i18next-browser-languagedetector/7.0.1:
-    resolution: {integrity: sha512-Pa5kFwaczXJAeHE56CHG2aWzFBMJNUNghf0Pm4SwSrEMps/PTKqW90EYWlIvhuYStf3Sn1K0vw+gH3+TLdkH1g==}
+  /i18next-browser-languagedetector/7.1.0:
+    resolution: {integrity: sha512-cr2k7u1XJJ4HTOjM9GyOMtbOA47RtUoWRAtt52z43r3AoMs2StYKyjS3URPhzHaf+mn10hY9dZWamga5WPQjhA==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
     dev: false
 
   /i18next-chained-backend/4.4.0:
@@ -3281,10 +3281,10 @@ packages:
       i18next-resources-to-backend: 1.1.4
     dev: false
 
-  /i18next-http-backend/2.1.1:
-    resolution: {integrity: sha512-jByfUCDVgQ8+/Wens7queQhYYvMcGTW/lR4IJJNEDDXnmqjLrwi8ubXKpmp76/JIWEZHffNdWqnxFJcTVGeaOw==}
+  /i18next-http-backend/2.2.1:
+    resolution: {integrity: sha512-ZXIdn/8NJIBJ0X4hzXfc3STYxKrCKh1fYjji9HPyIpEJfvTvy8/ZlTl8RuTizzCPj2ZcWrfaecyOMKs6bQ7u5A==}
     dependencies:
-      cross-fetch: 3.1.5
+      cross-fetch: 3.1.6
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -3301,10 +3301,10 @@ packages:
       '@babel/runtime': 7.22.5
     dev: false
 
-  /i18next/22.4.10:
-    resolution: {integrity: sha512-3EqgGK6fAJRjnGgfkNSStl4mYLCjUoJID338yVyLMj5APT67HUtWoqSayZewiiC5elzMUB1VEUwcmSCoeQcNEA==}
+  /i18next/23.2.11:
+    resolution: {integrity: sha512-MA4FsxOjyCaOZtRDB4yuwjCvqYEioD4G4LlXOn7SO3rnQUlxTufyLsOqfL9MKakeLRBkefe8bqcs0D6Z/xFk1w==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
     dev: false
 
   /ignore/5.2.4:
@@ -3786,8 +3786,8 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /node-fetch/2.6.7:
-    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
+  /node-fetch/2.6.12:
+    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
     engines: {node: 4.x || >=6.0.0}
     peerDependencies:
       encoding: ^0.1.0
@@ -4132,10 +4132,10 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-i18next/12.2.0_3yopsigl4h4eb2nqrqfsy65uwi:
-    resolution: {integrity: sha512-5XeVgSygaGfyFmDd2WcXvINRw2WEC1XviW1LXY/xLOEMzsCFRwKqfnHN+hUjla8ZipbVJR27GCMSuTr0BhBBBQ==}
+  /react-i18next/13.0.2_ctize4pwwv5bii3bzjqwwlegcq:
+    resolution: {integrity: sha512-NEVxC32v0oR4egwYM0QM0WE93AiJG5r0NTXTL8mhQfAhsMfDS2fSO6jpluyfsfypP988KzUQrAXncspcJ7+GHA==}
     peerDependencies:
-      i18next: '>= 19.0.0'
+      i18next: '>= 23.2.3'
       react: '>= 16.8.0'
       react-dom: '*'
       react-native: '*'
@@ -4145,9 +4145,9 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.22.5
       html-parse-stringify: 3.0.1
-      i18next: 22.4.10
+      i18next: 23.2.11
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

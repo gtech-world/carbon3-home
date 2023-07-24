@@ -10,12 +10,19 @@ export interface Toast {
   msg: string;
 }
 export interface Store {
+  inited: boolean;
   userData?: UserData;
   toast?: Toast;
   last_input_vin: string;
   isMobile: boolean;
   show_header_tip: boolean;
 }
+export const defStore: Store = {
+  inited: false,
+  last_input_vin: "",
+  isMobile: false,
+  show_header_tip: false,
+};
 
 export function getUserData() {
   const ud = localStorage.getItem("user-data");
@@ -39,8 +46,8 @@ export function useStore() {
 
 function Redrect(p: { children?: React.ReactNode }) {
   const { pathname, replace } = useRouter();
-  const { userData } = useStore();
-  if (!userData && ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname)) {
+  const { userData, inited } = useStore();
+  if (inited && !userData && ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname)) {
     replace("/login");
     return null;
   }
@@ -72,13 +79,14 @@ export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
 export async function initStore() {
   const start = new Date().getTime();
   const store: Store = {
+    inited: true,
     isMobile: window.innerWidth <= 900,
     last_input_vin: sessionStorage.getItem("last_input_vin") || "",
     show_header_tip: !localStorage.getItem("hidden_header_tip"),
   };
   const ud = getUserData();
   if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
-  console.info('initStore:', new Date().getTime() - start);
+  console.info("initStore:", new Date().getTime() - start);
   return store;
 }
 
@@ -107,7 +115,7 @@ export function useOnError() {
 }
 
 export function useUser() {
-  const { userData, update }:any = useStore();
+  const { userData, update }: any = useStore();
   const setUser = useCallback((user?: UserData, login?: boolean) => {
     if (user && login) user.loginTime = new Date().getTime();
     update({ userData: user });
@@ -121,7 +129,7 @@ export function useLastInputVin() {
   const setLastInputVin = useCallback(
     (vin: string) => {
       update({ last_input_vin: vin });
-      vin === '1500101202311001' && sessionStorage.setItem("last_input_vin", vin);
+      vin === "1500101202311001" && sessionStorage.setItem("last_input_vin", vin);
     },
     [update]
   );
