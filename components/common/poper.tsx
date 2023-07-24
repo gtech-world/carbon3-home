@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { Fragment, HTMLAttributes } from "react";
 import { RxTriangleUp } from "react-icons/rx";
 import { useClickAway, useToggle } from "react-use";
-import { useIsMobile } from "./context";
+import AButton from "./aButton";
 export interface MenuItem {
   topSplit?: boolean;
   icon?: any;
@@ -31,7 +31,7 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
     }
     toggleShow()
   };
-
+  
   return (
     <div {...other} style={{ position: "relative" }} className={classNames(className)} ref={ref}>
       <div
@@ -52,20 +52,23 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
             {menus.map((item, i) => (
               <Fragment key={`poper_menu_item${i}`}>
                 {item.topSplit && i > 0 && <div className="h-[1px] my-[.625rem] mo:my-[2px] mx-4 bg-[#eeeeee]" />}
-                <div
+                  <AButton
+                  href={item.to }
                   className={classNames(
-                    "flex items-center py-[.625rem] mo:py-[.875rem] px-4 text-black hover:text-green-2 cursor-pointer",
-                    {
-                      "text-green-2": item.selected,
-                    }
-                  )}
-                  onClick={() => onClickItem(item)}
-                >
+                  "flex items-center py-[.625rem] mo:py-[.875rem] px-4 text-black hover:text-green-2 cursor-pointer",
+                  {
+                    "text-green-2": item.selected,
+                  }
+                )}
+                onClick={() => !item.to && onClickItem(item) }
+                  >
+                 
                   {!!item.icon && <div className="text-xl mo:text-2xl">{item.icon}</div>}
-                  <div className="text-sm mo:text-base font-medium ml-3" dangerouslySetInnerHTML={{__html:item.text}}>
+                  <div className="ml-3 text-sm font-medium mo:text-base" dangerouslySetInnerHTML={{__html:item.text}}>
 
                   </div>
-                </div>
+                  </AButton>
+                
               </Fragment>
             ))}
           </div>

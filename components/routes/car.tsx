@@ -48,7 +48,7 @@ function ItemInfo(p: { label: string; text: string; link?: string }) {
         }
       )}
     >
-      <span className="text-black font-bold">{p.label}:</span>{" "}
+      <span className="font-bold text-black">{p.label}:</span>{" "}
       {p.link ? (
         <a href={p.link} target="_blank" rel="noreferrer">
           {p.text}
@@ -105,8 +105,8 @@ function ItemPhase(p: { data: SbtPhase; index: number }) {
         "flex flex-col w-0 flex-1 h-[11.5rem] p-5 bg-white rounded-lg text-black mo:h-auto mo:w-full mo:mt-5"
       )}
     >
-      <StepProgress index={index} className="mb-5 flex-shrink-0" />
-      <div className="w-full whitespace-normal font-bold text-base">{t(data.name)}</div>
+      <StepProgress index={index} className="flex-shrink-0 mb-5" />
+      <div className="w-full text-base font-bold whitespace-normal">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${
         data.progress
       }%`}</div>
@@ -114,12 +114,12 @@ function ItemPhase(p: { data: SbtPhase; index: number }) {
       <div className="flex items-center mt-3">
         {data.verified ? (
           <>
-            <IoCheckmarkCircleOutline className="text-2xl mr-3" />
+            <IoCheckmarkCircleOutline className="mr-3 text-2xl" />
             <div className="text-sm text-green-2">{t("verified")}</div>
           </>
         ) : (
           <>
-            <IoEllipsisHorizontalCircle className="text-2xl mr-3" />
+            <IoEllipsisHorizontalCircle className="mr-3 text-2xl" />
             <div className="text-sm text-orange-169">{t("estimated")}</div>
           </>
         )}
@@ -132,7 +132,7 @@ function Phases(p: { data: SbtPhase[] }) {
   const isMobile = useIsMobile();
   const { data } = p;
   return (
-    <div className="flex items-center h-auto w-full mt-5 mo:flex-col mo:mt-0 bg-white rounded-lg mo:bg-transparent">
+    <div className="flex items-center w-full h-auto mt-5 bg-white rounded-lg mo:flex-col mo:mt-0 mo:bg-transparent">
       <ItemPhase data={data[0]} index={0} />
       {!isMobile && <SVGArrowRight className="text-green-2 text-[1.875rem] mx-[.9375rem] flex-shrink-0" />}
       <ItemPhase data={data[1]} index={1} />
@@ -162,7 +162,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
           "AICP is the global, industry-level platform for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Platform. Click {{value}} to query information about this vehicle."
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" target="_blank" href="/openquery" rel="noreferrer">${t("here")}</a>`
+          `<a class="text-green-2 cursor-pointer"  href="/openquery" rel="noreferrer">${t("here")}</a>`
         )
       : t(
           "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
@@ -196,7 +196,7 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
 function QAS(p: { sbt: SbtInfo }) {
   const { sbt } = p;
   return (
-    <div className="w-full flex mt-5 mo:block mo:mt-0">
+    <div className="flex w-full mt-5 mo:block mo:mt-0">
       <ItemQA type={1} sbt={sbt} />
       <ItemQA type={2} sbt={sbt} />
       <ItemQA type={3} sbt={sbt} />
@@ -217,18 +217,18 @@ function MobileCar(p: CarUIProps) {
     <div className="w-full p-5" ref={ref}>
       <div className="flex px-[.9375rem] mt-5 py-5 rounded-lg bg-white" onClick={() => setShow(false)}>
         <SVGCarbon3 className="mr-[.625rem] max-w-[5.3rem] text-[5.375rem]" />
-        <div className="flex-1 flex flex-col leading-normal">
-          <div className="font-bold text-lg w-full">{t("Product Carbon Footprint Certified")}</div>
-          <span className="font-medium text-sm">{t("by AIAG")}</span>
+        <div className="flex flex-col flex-1 leading-normal">
+          <div className="w-full text-lg font-bold">{t("Product Carbon Footprint Certified")}</div>
+          <span className="text-sm font-medium">{t("by AIAG")}</span>
         </div>
       </div>
       {!show ? (
         <div className="w-full">
-          <div className="flex items-center p-4 w-full bg-white rounded-lg mt-5">
+          <div className="flex items-center w-full p-4 mt-5 bg-white rounded-lg">
             <img className="object-contain w-[8.75rem]" src={data.sbt.imageUrl || CAR_SRC} />
-            <div className="w-0 flex-1 ml-5 whitespace-normal">
+            <div className="flex-1 w-0 ml-5 whitespace-normal">
               <div
-                className="font-semibold text-lg"
+                className="text-lg font-semibold"
                 style={{ WebkitLineClamp: 2, display: "-webkit-box", WebkitBoxOrient: "vertical" }}
               >
                 {data.sbt.productName}
@@ -239,7 +239,7 @@ function MobileCar(p: CarUIProps) {
               </button>
             </div>
           </div>
-          <div className="bg-white rounded-lg mt-5 grid p-5 gap-y-8" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
+          <div className="grid p-5 mt-5 bg-white rounded-lg gap-y-8" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
             <div />
             <ItemEmission
               icon={<SVGCO2 className="text-[2.9644rem]" />}
@@ -273,7 +273,7 @@ function MobileCar(p: CarUIProps) {
         </div>
       ) : (
         <div className="w-full">
-          <div className="w-full p-5 rounded-lg bg-white mt-5">
+          <div className="w-full p-5 mt-5 bg-white rounded-lg">
             <div className="text-lg font-bold mb-[.9375rem]">{t("Label Information")}</div>
             <CarInfos data={data} />
           </div>
@@ -289,20 +289,20 @@ function PcCar(p: CarUIProps) {
   const { t } = useTranslation();
   return (
     <div className="w-full p-5 max-w-[1480px] mx-auto">
-      <div className="text-2xl leading-normal font-bold ">
+      <div className="text-2xl font-bold leading-normal ">
         {t("Product Carbon Footprint Certified")} <span className="text-base font-medium">{t("by AIAG")}</span>
       </div>
       <div className="flex">
-        <div className="w-0 flex-1 p-5 mt-5 mr-5 bg-white rounded-lg flex items-center">
+        <div className="flex items-center flex-1 w-0 p-5 mt-5 mr-5 bg-white rounded-lg">
           <img
             className="object-contain w-[16.25rem] h-[12.375rem] mr-5 rounded-lg border-black border border-solid"
             src={data.sbt.imageUrl || CAR_SRC}
           />
-          <div className="w-0 flex-1">
+          <div className="flex-1 w-0">
             <CarInfos data={data} />
           </div>
         </div>
-        <div className="w-0 flex-1 p-5 mt-5 pt-12 bg-white rounded-lg flex justify-between">
+        <div className="flex justify-between flex-1 w-0 p-5 pt-12 mt-5 bg-white rounded-lg">
           <ItemEmission
             icon={<SVGCO2 className="text-[2.9644rem]" />}
             value={data.tonnes}
@@ -371,7 +371,7 @@ export function Car() {
   const onBack = useGoBack();
   const { t } = useT();
   return (
-    <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
+    <div className="flex flex-col flex-1 w-full text-black bg-gray-16 min-h-fit">
       {isMobile ? (
         <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : vin ? <Empty /> : null}</>}</>
       ) : (

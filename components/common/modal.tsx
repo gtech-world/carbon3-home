@@ -9,7 +9,7 @@ export const modalRootRef: MutableRefObject<HTMLDivElement | null> = { current: 
 export function ModalHeader(p:{title?: string,onClose?: Function}){
   const {title,onClose} = p
   return(
-    <div className="text-xl font-bold flex justify-between items-center border-b pb-6 mb-6">
+    <div className="flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b">
       <span>{title}</span>
       <FiX onClick={()=>onClose && onClose()} className="text-2xl cursor-pointer" />
     </div>
@@ -30,8 +30,8 @@ export function Modal(p: {title?:string; onClose?:Function} & HTMLAttributes<HTM
   useClickAway(ref, () => onClose && onClose());
   if (!modalRootRef.current) return null;
   return createPortal(
-    <div {...other} className={classNames("fixed left-0 top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center", className)}>
-      <div ref={ref} className="bg-white rounded p-5 min-w-[20rem]">
+    <div {...other} className={classNames("fixed left-0  top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center", className)}>
+      <div id='mo' ref={ref} className="bg-white rounded p-5 min-w-[20rem] min-h-[150] ">
         <ModalHeader title={title} onClose={onClose}/>
         {children}
       </div>

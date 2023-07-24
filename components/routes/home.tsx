@@ -15,6 +15,7 @@ import React, {useState} from "react";
 import classNames from "classnames";
 import {ProductQrcode} from "@components/common/productQrcode";
 import {scrollToAnchor} from "@lib/utils";
+import AButton from "@components/common/aButton";
 
 function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNode; bt?: string | null ; className?:string}) {
   const { icon, to, children, bt,className } = p;
@@ -22,27 +23,27 @@ function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNod
   const { t } = useTranslation();
   const mBt = bt || t("Enter");
   const onClick = () => {
-    if (to) {
-      if (to.startsWith("/")) {
-        console.info("to:", to);
-        push(to);
-      } else {
-        window.open(to, "_blank");
-      }
-    }
+      return to && to.startsWith("/")
   };
   return (
-    <div className={classNames('flex flex-col items-center mr-3 p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto',className)}>
+    
+    <div className="flex justify-between w-full pb-8 mr-5 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0 ">
+    <div className={classNames('   flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto',className)}>
       {icon}
       <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
       <div className="flex-1 mo:hidden" />
-      <Button
-        onClick={onClick}
-        className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg"
-      >
-        {mBt}
-      </Button>
+      <AButton
+      href={onClick() && to}
+      onClick={()=> !onClick() &&  window.open(to, "_blank")}
+      className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
+      text= {mBt}
+
+      />
+     
     </div>
+    
+    </div>
+
   );
 }
 
@@ -53,12 +54,12 @@ function CardTabsItem1(){
     {title: '双碳解决方案&咨询',text:'减碳是高度专业性且复杂的工作，需要企业内外部的长期协作与努力。在AICP获取可靠的解决方案支持：双碳实施与认证、碳信息报告与披露、数字化减碳、管理战略咨询等。'}
   ]
   return(
-    <ul className="bg-white p-8 rounded-2xl">
+    <ul className="p-8 bg-white rounded-2xl">
       {
         data.map((v,i)=>{
           return(
             <li key={`cardTabsItem1${i}`} className="mb-6 last:mb-0">
-              <h5 className="font-semibold text-2xl mo:text-xl mb-3">{v.title}</h5>
+              <h5 className="mb-3 text-2xl font-semibold mo:text-xl">{v.title}</h5>
               <p>{v.text}</p>
             </li>
           )
@@ -97,7 +98,7 @@ function CardTabsItem2(){
   ]
   return(
     <div className="bg-white px-8 pt-8 pb-5 rounded-2xl h-[25.75rem] mo:h-auto">
-      <div className="overflow-x-auto pb-8">
+      <div className="pb-8 overflow-x-auto">
         <div className="min-w-[60rem]">
           <div style={{width:'calc(100% - 15px)'}} className="bg-gradient-to-r bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center">
             <span>实施清单</span>
@@ -109,10 +110,10 @@ function CardTabsItem2(){
             {
               data.map((v,i)=>{
                 return(
-                  <div key={`cardTabsItem2${i}`} className="flex justify-between items-center mb-4 last:mb-0">
+                  <div key={`cardTabsItem2${i}`} className="flex items-center justify-between mb-4 last:mb-0">
                     <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
                       <div style={{color:v.color}} className={classNames('z-10 relative font-semibold mb-3')}>{v.title}</div>
-                      <SvgPentagon className="w-full absolute left-0 top-0" fill={v.bgColor} />
+                      <SvgPentagon className="absolute top-0 left-0 w-full" fill={v.bgColor} />
                     </div>
                     <div className="w-[21.25rem] mt">{v.listText}</div>
                     <div className="w-[18.375rem] mt">{v.resultText}</div>
@@ -151,12 +152,12 @@ function CardTabsItem3(){
       <div>
 
       </div>
-      <ul className="bg-white p-8 rounded-2xl">
+      <ul className="p-8 bg-white rounded-2xl">
         {
           data.map((v,i)=>{
             return(
               <li key={`cardTabsItem3${i}`} className="mb-6 last:mb-0">
-                <h5 className="font-semibold text-2xl mo:text-xl mb-3">{v.title}</h5>
+                <h5 className="mb-3 text-2xl font-semibold mo:text-xl">{v.title}</h5>
                 <p>{v.text}</p>
               </li>
             )
@@ -206,15 +207,15 @@ function CardTabs(){
     }
   ]
   return(
-    <div className="w-full flex justify-center px-5">
+    <div className="flex justify-center w-full px-5">
       <a href="#" id="secondView" />
-      <div className="flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+      <div className=" flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {
             tabsList.map((v,i)=>{
               return(
-                <li key={`tabsList${i}`} className={classNames('mr-3 flex last:mr-0 mo:mr-0 mo:flex-col')}>
-                  <div className={classNames('w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
+                <li key={`tabsList${i}`} className={classNames('  mr-3 flex last:mr-0 mo:mr-0 mo:flex-col')}>
+                  <div className={classNames(' w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5',i===selected? 'border-green-2':'border-transparent')}>
                     <div className="flex flex-col">
                         <div className="flex items-center">
                           {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
@@ -222,21 +223,21 @@ function CardTabs(){
                           {
                             v.icon
                           }
-                          <span className="text-2xl mo:text-xl flex-1 font-semibold pl-5 mt-1">{v.title}</span>
+                          <span className="flex-1 pl-5 mt-1 text-2xl font-semibold mo:text-xl">{v.title}</span>
                         </div>
                         <p className="mt-5 h-[5rem]">{v.text}</p>
-                        <div className="flex flex-col mt-6 items-start font-semibold">
+                        <div className="flex flex-col items-start mt-6 font-semibold">
                           {
                             v.items.map((item,itemIndex)=>{
                               return(
-                                <div key={`items${itemIndex}`} className="border-b-2 border-green-2 pb-1 mb-5 last:mb-0">{item.text}</div>
+                                <div key={`items${itemIndex}`} className="pb-1 mb-5 border-b-2 border-green-2 last:mb-0">{item.text}</div>
                               )
                             })
                           }
                         </div>
                     </div>
                     <a href="#" id={`item${i}`} />
-                    <button className="mt-8 hover:bg-green-28 w-full h-14 mo:h-12 rounded-lg text-white bg-green-2 text-2xl mo:text-lg" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>
+                    <button className="w-full mt-8 text-2xl text-white rounded-lg hover:bg-green-28 h-14 mo:h-12 bg-green-2 mo:text-lg" onClick={()=>{setSelected(i);setTimeout(()=>scrollToAnchor(`item${i}`),100)}}>
                       了解更多
                     </button>
                     {
@@ -294,13 +295,12 @@ export function Home() {
             {/*{`${t("Learn More")} >`}*/}
             了解AICP服务
           </button>
-          <button
-            onClick={() => user?push('/carbon/allService'):push('/login')}
-            className="ml-5 mo:ml-0 mt-[3.75rem] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-5 mo:text-lg mo:px-[3.125rem] mo:w-full"
-          >
-            {/*{`${t("Learn More")} >`}*/}
-            登入AICP账户
-          </button>
+          <AButton 
+          href={user ? '/carbon/allService' : '/login' }
+          className=" inline-block ml-5 mo:ml-0 mt-[3.75rem] h-[56px] w-[13.75rem] rounded-lg bg-white whitespace-nowrap text-green-2 text-2xl font-medium px-[1.9375rem] py-3 mo:mt-5 mo:text-lg mo:px-[3.125rem] mo:w-full"
+          text={'登入AICP账户'}
+          />
+         
         </div>
       </div>
       {/* <div
@@ -314,9 +314,11 @@ export function Home() {
         <NumData num={909128401} label="Piece of Data Collected" />
       </div> */}
       <CardTabs />
-      <div className="bg-white flex flex-col items-center px-5">
-        <div className="flex justify-between px-[7.5rem] mo:px-0 w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
-          <Card icon={<SvgQuery className="h-[6.125rem]" />} to="/openquery">
+     
+      <div className="flex flex-col items-center px-5">
+        <div className="flex justify-between px-[7.5rem]  mo:px-0 w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
+                        
+          <Card icon={<SvgQuery className="h-[6.125rem] " />} to="/openquery">
             <div
               dangerouslySetInnerHTML={{
                 __html: t("{{value}} for public accessible").replace(
@@ -340,10 +342,11 @@ export function Home() {
             {/*{t("Work with AICP for a Net Zero future")}*/}
             与AIAG一起建筑零碳未来
           </Card>
-        </div>
+          </div>
+        
         <div className="w-full px-[7.5rem] mo:px-0 w-full max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
           {/*<div*/}
-          {/*  className="text-base pt-6 mo:pt-0 pb-11 flex-shrink-0"*/}
+          {/*  className="flex-shrink-0 pt-6 text-base mo:pt-0 pb-11"*/}
           {/*  dangerouslySetInnerHTML={{*/}
           {/*    __html: t(*/}
           {/*      "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."*/}
@@ -357,7 +360,7 @@ export function Home() {
             <span>*</span>
             <span className="mo:ml-2">专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。</span>
           </div>
-          <div className="mt-16 pt-4 w-full border-t border-black text-sm flex justify-between mo:flex-col mo:mt-3">
+          <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
             <div>
               <a rel="noreferrer" href="https://beian.miit.gov.cn/" target="_blank">沪ICP备2022024704号-2</a>
             </div>
