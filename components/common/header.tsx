@@ -10,8 +10,8 @@ import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
 import { CARBON_PAGES } from "@components/const";
+import { useT } from "@lib/hooks/useT";
 import { handleCarbonStr, sleep, textTo2 } from "@lib/utils";
-import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 
@@ -19,7 +19,7 @@ export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useT();
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
@@ -103,7 +103,7 @@ export function Header(
   p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean; isManager?: boolean; menus?: any }
 ) {
   const { children, className, tits, showQuery, isManager, menus, ...other } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();

@@ -1,9 +1,9 @@
 import { UserData } from "@lib/@types/type";
 import { useOn } from "@lib/hooks/useOn";
+import { useT } from "@lib/hooks/useT";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 export interface Toast {
   type: "info" | "error";
@@ -56,6 +56,13 @@ function Redrect(p: { children?: React.ReactNode }) {
 
 export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
   const [state, setState] = useState(p.init || {});
+  const unfirst = useRef(false);
+  useEffect(() => {
+    if (unfirst.current) {
+      setState((old) => ({ ...old, ...p.init }));
+    }
+    unfirst.current = true;
+  }, [p.init]);
   const update = useCallback((data: Partial<Store>) => {
     setState((old: any) => ({ ...old, ...data }));
   }, []);
@@ -108,7 +115,7 @@ export function useToast() {
 
 export function useOnError() {
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useT();
   return useOn((err: any) => {
     toast({ type: "error", msg: t(getErrorMsg(err)) });
   });

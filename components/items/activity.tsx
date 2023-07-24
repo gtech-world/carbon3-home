@@ -3,17 +3,17 @@ import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { ActivityUIProps } from "@components/carbonActivities/types";
 import { useIsMobile } from "@components/common/context";
 import { Phase } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import SvgArrowDown from "@public/arrow-down.svg";
 import classNames from "classnames";
 import { Fragment } from "react";
-import { useTranslation } from "react-i18next";
 import { useToggle } from "react-use";
 
 export function PcActivity(p: { data: Phase }) {
   const { data } = p;
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div
       className="w-full h-[6.875rem] pr-[.625rem] relative cursor-pointer "
@@ -46,7 +46,7 @@ export function PcActivity(p: { data: Phase }) {
 
 export function MobileActivity(p: { data: Phase }) {
   const { data } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const [open, toggle] = useToggle(false);
   return (
     <div

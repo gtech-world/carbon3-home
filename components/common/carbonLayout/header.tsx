@@ -1,18 +1,15 @@
-import { useGoBack } from "@lib/hooks/useGoBack";
+import { CARBON_PAGES } from "@components/const";
+import { useMenus } from "@lib/hooks/useMenus";
 import SvgAICP from "@public/AICP.svg";
 import SvgDigital3 from "@public/digital3.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { ChangeEvent, HTMLAttributes, useCallback, useMemo, useState } from "react";
+import { HTMLAttributes } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 import { PoperMenu } from "../poper";
-import { CARBON_PAGES } from "@components/const";
-import { useTranslation } from "react-i18next";
-import {useMenus} from "@lib/hooks/useMenus";
 
 export function CarbonHeader(p: HTMLAttributes<HTMLDivElement>) {
   const { children, className,...other } = p;
-  const { t } = useTranslation();
   const { push } = useRouter();
   const currentMenus = useMenus(CARBON_PAGES);
   return (

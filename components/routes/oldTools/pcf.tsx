@@ -2,12 +2,13 @@ import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile, useOnError } from "@components/common/context";
 import { Empty } from "@components/common/empty";
 import { Loading } from "@components/common/loading";
-import { MainLayout } from "@components/common/mainLayout";
+import { ToolsLayout } from "@components/common/toolsLayout";
 import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
 import { useOn } from "@lib/hooks/useOn";
+import { useT } from "@lib/hooks/useT";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
 import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
@@ -15,10 +16,8 @@ import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
 import { useRouter } from "next/router";
 import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useAsyncFn, useToggle } from "react-use";
-import {ToolsLayout} from "@components/common/toolsLayout";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
@@ -34,7 +33,7 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { query } = useRouter();
   const qVin = query["vin"] as string;
   const [loaded, setLoaded] = useToggle(false);

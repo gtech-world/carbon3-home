@@ -1,13 +1,11 @@
 import { useIsMobile, useUser } from "@components/common/context";
-import { MainLayout } from "@components/common/mainLayout";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { getProductList } from "@lib/http";
-import { Product } from "@lib/@types/type";
-import { CAR_SRC, ORG_SRC } from "@components/const";
-import { SiFord } from "react-icons/si";
 import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
-import {ToolsLayout} from "@components/common/toolsLayout";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { CAR_SRC, ORG_SRC } from "@components/const";
+import { Product } from "@lib/@types/type";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { useT } from "@lib/hooks/useT";
+import { getProductList } from "@lib/http";
 
 export function ProfileInfo(p: { label: string; text: string }) {
   const isMobile = useIsMobile();
@@ -39,7 +37,7 @@ function MLink(p: { to: string; text: string }) {
 }
 function TargetInventory(p: { data: Product }) {
   const { data } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div className="bg-white rounded-lg overflow-hidden p-5 pb-8 mo:pb-5">
       <img
@@ -59,7 +57,7 @@ function TargetInventory(p: { data: Product }) {
 export function UserDashboard() {
   const { user } = useUser();
   const { value: products, loading } = useAsyncM(getProductList);
-  const { t } = useTranslation();
+  const { t } = useT();
   if (!user) return null;
   return (
     <ToolsLayout className="text-black">

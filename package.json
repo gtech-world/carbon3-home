@@ -48,6 +48,7 @@
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
     "@types/lodash": "^4.14.195",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
     "autoprefixer": "^10.4.13",
     "only-allow": "^1.1.1",

@@ -2,16 +2,16 @@ import { MobileActL2 } from "@components/carbonActivities/mobileActL2";
 import { StepProgress } from "@components/common/progress";
 import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
-import { useTranslation } from "react-i18next";
 import { BsArrowRightShort } from "react-icons/bs";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useToggle } from "react-use";
 
 export function MobleInventoryLevel1Item(p: { data: InventoryPhase; index: number }) {
   const { data, index } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const [open, toggle] = useToggle(false);
   return (
     <div

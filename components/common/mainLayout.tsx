@@ -1,13 +1,13 @@
 import { OLD_MAIN_PAGES } from "@components/const";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
+import { useT } from "@lib/hooks/useT";
+import SvgFootprint from '@public/footprint.svg';
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { HTMLAttributes, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { FiChevronLeft } from "react-icons/fi";
 import { MainHeaderLayout } from "./headerLayout";
 import { useHeaderTipHeight } from "./headerTip";
-import { FiChevronLeft } from "react-icons/fi";
-import SvgFootprint from '@public/footprint.svg'
 
 interface IMenu {
   icon: any;
@@ -16,7 +16,7 @@ interface IMenu {
 }
 
 function useMenus() {
-  const { t } = useTranslation();
+  const { t } = useT();
   return useMemo<IMenu[]>(() => OLD_MAIN_PAGES.map((item) => ({ ...item, txt: t(item.txt) })), [t]);
 }
 

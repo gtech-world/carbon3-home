@@ -1,18 +1,18 @@
-import {useRouter} from "next/router";
-import {useTranslation} from "react-i18next";
-import {useMemo} from "react";
-import {FiHome, FiLogIn, FiLogOut, FiSearch} from "react-icons/fi";
-import {VscAccount} from "react-icons/vsc";
-import {handleCarbonStr} from "@lib/utils";
-import {CARBON_PAGES} from "@components/const";
-import {useIsMobile, useUser} from "@components/common/context";
-import {MenuItem} from "@components/common/poper";
+import { useIsMobile, useUser } from "@components/common/context";
+import { MenuItem } from "@components/common/poper";
+import { CARBON_PAGES } from "@components/const";
+import { handleCarbonStr } from "@lib/utils";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
+import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
+import { VscAccount } from "react-icons/vsc";
+import { useT } from "./useT";
 
 export function useMenus(data:any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useT();
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];

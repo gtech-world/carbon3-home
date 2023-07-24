@@ -1,16 +1,16 @@
 import { SupportLngs } from "@components/const";
-import i18next from "i18next";
+import I18next from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
-import I18NextHttpBackend from "i18next-http-backend";
-import { I18nextProviderProps, initReactI18next } from "react-i18next";
 import I18NextChainedBackend from "i18next-chained-backend";
+import I18NextHttpBackend from "i18next-http-backend";
 import I18NextLocalStorageBackend from "i18next-localstorage-backend";
+import { I18nextProviderProps, initReactI18next } from "react-i18next";
 
-export const i18n = i18next;
 export async function initI18n() {
   const start = new Date().getTime();
   return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {
     const ns = ["frontend", "backend"];
+    const i18n = I18next;
     i18n
       .use(I18NextChainedBackend)
       .use(I18nextBrowserLanguageDetector)
@@ -37,8 +37,7 @@ export async function initI18n() {
           ],
         },
       });
-    resolve(i18n);
-    console.info("initI18n:", new Date().getTime() - start);
+
     i18n.on("loaded", (data) => {
       let loaded = 0;
       SupportLngs.forEach((lng) => {
@@ -47,7 +46,8 @@ export async function initI18n() {
         });
       });
       if (loaded === SupportLngs.length * ns.length) {
-        // resolve(i18n);
+        console.info("initI18n:", new Date().getTime() - start);
+        resolve(i18n);
         const data = i18n.store.data["zh-CN"].frontend as any;
         if (data) data["{{value}} with authenticated account*"] = "使用经认证的专业账户*</br>{{value}}";
       }

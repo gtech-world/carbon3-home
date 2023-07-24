@@ -2,14 +2,14 @@ import { useCurrentActivity } from "@components/carbonActivities/context";
 import { StepProgress } from "@components/common/progress";
 import { PHASE } from "@components/const";
 import { InventoryPhase } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
-import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 
 export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }) {
   const { data, index } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const { activity, update } = useCurrentActivity();
   const selected = activity === data;
   return (

@@ -3,14 +3,15 @@ import { defStore, initStore, Store, StoreProvider } from "@components/common/co
 import { HeaderTip } from "@components/common/headerTip";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
-import { i18n, initI18n } from "@lib/i18n";
+import { MI18Context } from "@lib/hooks/useT";
+import { initI18n } from "@lib/i18n";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
 import moment from "moment";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import { I18nextProvider, I18nextProviderProps } from "react-i18next";
+import { I18nextProviderProps } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import "../styles/globals.css";
@@ -25,7 +26,7 @@ const open_sans = Open_Sans({
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
 function InitProvider(p: { children: React.ReactNode }) {
-  const [_i18n, setI18n] = useState<I18nextProviderProps["i18n"]>(i18n);
+  const [_i18n, setI18n] = useState<I18nextProviderProps["i18n"]>();
   const [_store, setStore] = useState<Store>(defStore);
   useEffect(() => {
     modalRootRef.current = document.body as any;
@@ -33,12 +34,12 @@ function InitProvider(p: { children: React.ReactNode }) {
     initStore().then(setStore);
   }, []);
   useEffect(() => {
-    _i18n.language === "zh-CN" && moment.locale("zh-CN");
+    _i18n?.language === "zh-CN" && moment.locale("zh-CN");
   }, [_i18n]);
   return (
-    <I18nextProvider i18n={_i18n}>
+    <MI18Context.Provider value={_i18n}>
       <StoreProvider init={_store}>{p.children}</StoreProvider>
-    </I18nextProvider>
+    </MI18Context.Provider>
   );
 }
 

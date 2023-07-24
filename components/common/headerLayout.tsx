@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { HTMLAttributes } from "react";
-import { useTranslation } from "react-i18next";
 import { useIsMobile } from "./context";
 import { Header, MobileHeader } from "./header";
 import { useHeaderTipHeight } from "./headerTip";
@@ -74,7 +73,6 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement> & { tits?: string
 
 export function MainHeaderLayout(p:{showQuery?:boolean,menus?:any[]} & HTMLAttributes<HTMLDivElement>) {
   const { className, children,showQuery=true,menus=[], ...props } = p;
-  // const { t } = useTranslation();
   const h = useHeaderTipHeight();
   return (
     <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">

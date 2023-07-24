@@ -2,13 +2,13 @@ import { Button } from "@components/common/button";
 import { useIsMobile, useOnError } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
+import { useT } from "@lib/hooks/useT";
 import SvgQuery from "@public/query.svg";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 export function OpenQuery() {
-  const {t} = useTranslation()
+  const {t} = useT()
   const onBack = useGoBack();
   const [vin, setVin] = useState("");
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

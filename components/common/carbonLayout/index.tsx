@@ -1,13 +1,11 @@
-import {CARBON_PAGES} from "@components/const";
+import { CarbonHeader } from "@components/common/carbonLayout/header";
+import { CARBON_PAGES } from "@components/const";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
+import { useT } from "@lib/hooks/useT";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { HTMLAttributes, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { MainHeaderLayout } from "../headerLayout";
 import { useHeaderTipHeight } from "../headerTip";
-import {Header} from "@components/common/header";
-import {CarbonHeader} from "@components/common/carbonLayout/header";
 
 interface IMenu {
   icon: any;
@@ -15,7 +13,7 @@ interface IMenu {
   to: string;
 }
 function useCarbonMenus() {
-  const { t } = useTranslation();
+  const { t } = useT();
   return useMemo<IMenu[]>(() => CARBON_PAGES.map((item) => ({ ...item, txt: t(item.txt) })), [t]);
 }
 export function CarbonLayout(p: HTMLAttributes<HTMLDivElement>) {

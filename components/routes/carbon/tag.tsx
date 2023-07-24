@@ -46,31 +46,32 @@ function Card(p: ICard) {
   )
 }
 
+const tagData =[
+  {
+    title: '完成[AT01]系列培训-双碳基础 认证',
+    icon: <SvgTeacher className="w-[2.75rem]" />,
+    by: '2023年4月30日签发 by AIAG',
+    id: '144095402',
+    qrcodeDisable: true,
+    link:[
+      {text:'标签信息',href:''},
+      {text:'在区块链浏览器查看',target:'',href:''},
+    ]
+  },
+  {
+    title: '完成[AI09]产品碳足迹测算',
+    icon: <SvgTeacher className="w-[2.75rem]" />,
+    by: '2023年4月30日签发 by AIAG',
+    id: '144049913',
+    qrcodeDisable: false,
+    link:[
+      {text:'标签信息',href:'/car?vin=1500101202311001'},
+      {text:'在区块链浏览器查看',target:'_blank',href:'/blockchain?tokenId=1000000'},
+    ]
+  }
+]
+
 export function Tag() {
-  const tagData =[
-    {
-      title: '完成[AT01]系列培训-双碳基础 认证',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
-      by: '2023年4月30日签发 by AIAG',
-      id: '144095402',
-      qrcodeDisable: true,
-      link:[
-        {text:'标签信息',href:''},
-        {text:'在区块链浏览器查看',target:'',href:''},
-      ]
-    },
-    {
-      title: '完成[AI09]产品碳足迹测算',
-      icon: <SvgTeacher className="w-[2.75rem]" />,
-      by: '2023年4月30日签发 by AIAG',
-      id: '144049913',
-      qrcodeDisable: false,
-      link:[
-        {text:'标签信息',href:'/car?vin=1500101202311001'},
-        {text:'在区块链浏览器查看',target:'_blank',href:'/blockchain?tokenId=1000000'},
-      ]
-    }
-  ]
   return (
     <CarbonLayout className="bg-gray-16 h-full">
       <div className="flex flex-wrap">

@@ -1,9 +1,9 @@
 import { Modal } from "@components/common/modal";
 import { InventoryPhase, InventoryProductProcess, Phase, ProductProcess } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
 import { Fragment, MouseEventHandler } from "react";
-import { useTranslation } from "react-i18next";
 import { IoChevronBackOutline, IoChevronForward } from "react-icons/io5";
 import { useToggle } from "react-use";
 import { MobileActL3 } from "./mobileActL3";
@@ -12,7 +12,7 @@ export function MobileActL2Item(p: { data: ProductProcess | InventoryProductProc
   const { data, index } = p;
   const [open, toggle] = useToggle(false);
   const iData = data as InventoryProductProcess;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div
       className="w-full min-h-[4.5rem] cursor-pointer p-3 flex flex-col justify-center border border-solid border-black rounded-lg"
@@ -56,7 +56,7 @@ export function MobileActL2Item(p: { data: ProductProcess | InventoryProductProc
 
 export function MobileActL2(p: { data: Phase | InventoryPhase; onBack: MouseEventHandler<HTMLButtonElement> }) {
   const { data, onBack } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <Modal>
       <div className="sticky top-0 w-full bg-green-2 flex justify-between items-center h-[4.25rem] px-4 text-white">

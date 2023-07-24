@@ -1,14 +1,14 @@
 import { useCurrentActivity } from "@components/carbonActivities/context";
 import { InventoryProductProcess } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
 import classNames from "classnames";
-import { useTranslation } from "react-i18next";
 
 export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index: number }) {
   const { data, index } = p;
   const { sourcing, update } = useCurrentActivity();
   const selected = sourcing === index;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div
       className={classNames("relative w-full pr-[.625rem] cursor-pointer [&:nth-child(n+2)]:mt-5")}

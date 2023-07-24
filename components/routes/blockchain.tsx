@@ -1,20 +1,20 @@
 import { useIsMobile } from "@components/common/context";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import {getSbtDetail, noArgs} from "@lib/oldHttp";
-import React, { useMemo } from "react";
 import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
-import {useRouter} from "next/router";
-import {ProductQrcode} from "@components/common/productQrcode";
-import { VscVerified,VscQuestion } from "react-icons/vsc";
-import classNames from "classnames";
-import {Table} from "@components/common/table";
-import {genScanTokenUrl, genScanUrl, shortStr,titleCase} from "@lib/utils";
-import Link from "next/link";
-import SVGAICP from '/public/AICP.svg'
-import SVGPolygon from '/public/polygon.svg'
-import moment from 'moment'
+import { ProductQrcode } from "@components/common/productQrcode";
+import { Table } from "@components/common/table";
 import { SCAN_BASE } from "@lib/env";
+import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { useT } from "@lib/hooks/useT";
+import { getSbtDetail, noArgs } from "@lib/oldHttp";
+import { genScanTokenUrl, genScanUrl, shortStr, titleCase } from "@lib/utils";
+import classNames from "classnames";
+import moment from 'moment';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
+import { VscQuestion, VscVerified } from "react-icons/vsc";
+import SVGAICP from '/public/AICP.svg';
+import SVGPolygon from '/public/polygon.svg';
 
 function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
   return (
@@ -59,7 +59,7 @@ function CardInfo(p: LabelDetail){
   attributes && attributes.map((v:any)=>{
     obj[v.trait_type] = v.value
   })
-  const { t } = useTranslation();
+  const { t } = useT();
   return(
     <div className="break-all">
       <ItemInfo label={t("SBT Token ID")} text={data.sbtTokenId} link={genScanTokenUrl(data.sbtTokenId)} tip={t('SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.')} />
@@ -79,7 +79,7 @@ function CardInfo(p: LabelDetail){
 export function Blockchain() {
   const { query } = useRouter();
   const tokenId: string = query.tokenId as string;
-  const { t } = useTranslation();
+  const { t } = useT();
   const isMobile = useIsMobile();
   const { value, loading }:any = useAsyncM(
     noArgs(() => getSbtDetail(tokenId), [tokenId]),

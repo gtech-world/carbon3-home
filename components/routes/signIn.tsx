@@ -1,17 +1,17 @@
 import { Button } from "@components/common/button";
-import {useIsMobile, useOnError, useUser} from "@components/common/context";
+import { useIsMobile, useOnError, useUser } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { LoadingFull } from "@components/common/loading";
 import { useGoBack } from "@lib/hooks/useGoBack";
+import { useT } from "@lib/hooks/useT";
 import { login } from "@lib/http";
 import SvgSignIn from "@public/sign-in.svg";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useToggle } from "react-use";
 
 export function SignIn() {
-  const { t } = useTranslation();
+  const { t } = useT();
   const onBack = useGoBack();
   const [account, setAccount] = useState("");
   const onAccountChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

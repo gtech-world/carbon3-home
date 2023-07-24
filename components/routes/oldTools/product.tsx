@@ -1,21 +1,20 @@
 import { MobileBom } from "@components/boms/mobilebom";
 import { PcBom } from "@components/boms/pcbom";
 import { useIsMobile } from "@components/common/context";
-import { MainLayout } from "@components/common/mainLayout";
+import { Loading } from "@components/common/loading";
 import { Select } from "@components/common/select";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { CAR_SRC } from "@components/const";
+import { ProductBom } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
+import { useT } from "@lib/hooks/useT";
 import { getProductBomList, getProductPcfAccountable } from "@lib/http";
-import { ProductBom } from "@lib/@types/type";
 import { useMemo } from "react";
 import { ProfileInfo } from "./dashboard";
-import { CAR_SRC } from "@components/const";
-import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
-import {ToolsLayout} from "@components/common/toolsLayout";
 
 export function ProductDefinition() {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { current, items, onChange, current_product, loading: load0 } = useProductsState();
   const { value: pcfAccountable, loading: load1 } = useAsyncM(
     () => (current_product ? getProductPcfAccountable(current_product.id) : Promise.resolve(undefined)),

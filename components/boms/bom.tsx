@@ -2,9 +2,9 @@ import { Loading } from "@components/common/loading";
 import { Modal } from "@components/common/modal";
 import { Attrs } from "@components/items/attrs";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
+import { useT } from "@lib/hooks/useT";
 import { getProductBomActivityTypes } from "@lib/http";
 import { HTMLAttributes, MouseEventHandler, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 import { useToggle } from "react-use";
 import { PartInfos } from "./pcbom";
@@ -12,7 +12,7 @@ import { BomUIProps } from "./types";
 
 export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLButtonElement> }) {
   const { node, onBack } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(node.id), [node.id]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];

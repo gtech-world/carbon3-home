@@ -1,16 +1,16 @@
 import { Attrs } from "@components/items/attrs";
+import { ProductBom } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductBomActivityTypes } from "@lib/http";
-import { ProductBom } from "@lib/@types/type";
 import classNames from "classnames";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 //@ts-ignore
+import { Loading } from "@components/common/loading";
+import { useT } from "@lib/hooks/useT";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { BomUIProps } from "./types";
-import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
 
 type SelectState = [ProductBom, (v: ProductBom) => void];
 const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
@@ -75,7 +75,7 @@ export function PartInfo(p: { label: string; text: string }) {
 
 export function PartInfos(p: BomUIProps) {
   const { node } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <>
       <PartInfo label={t("Part Name")} text={node.partDisplayName} />
@@ -91,7 +91,7 @@ export function PartInfos(p: BomUIProps) {
 
 export function PcBom(p: BomUIProps) {
   const { node } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const [selectNode, setSelectNode] = useState(node.children[0]);
   const treeworker = useCallback(
     function* () {

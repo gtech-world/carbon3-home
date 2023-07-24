@@ -1,26 +1,25 @@
 import { Button } from "@components/common/button";
 import { useIsMobile, useUser } from "@components/common/context";
 import { HomeHeaderLayout } from "@components/common/headerLayout";
-import { AICP_SOLUTIONS } from "@lib/env";
 // @ts-ignore
-import SvgQuery from "@public/query.svg";
-import SvgSignIn from "@public/sign-in.svg";
-import SvgPentagon from "@public/pentagon.svg";
-import SvgTeacher from "@public/teacher.svg";
+import { ProductQrcode } from "@components/common/productQrcode";
+import { useT } from "@lib/hooks/useT";
+import { scrollToAnchor } from "@lib/utils";
 import SvgCTag from "@public/c_tag.svg";
 import SvgMarket from "@public/market.svg";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
-import React, {useState} from "react";
+import SvgPentagon from "@public/pentagon.svg";
+import SvgQuery from "@public/query.svg";
+import SvgSignIn from "@public/sign-in.svg";
+import SvgTeacher from "@public/teacher.svg";
 import classNames from "classnames";
-import {ProductQrcode} from "@components/common/productQrcode";
-import {scrollToAnchor} from "@lib/utils";
 import AButton from "@components/common/aButton";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 function Card(p: { icon: React.ReactNode; to?: string; children?: React.ReactNode; bt?: string | null ; className?:string}) {
   const { icon, to, children, bt,className } = p;
   const { push } = useRouter();
-  const { t } = useTranslation();
+  const { t } = useT();
   const mBt = bt || t("Enter");
   const onClick = () => {
       return to && to.startsWith("/")
@@ -273,7 +272,7 @@ function CardTabs(){
 }
 
 export function Home() {
-  const { t,i18n } = useTranslation();
+  const { t,i18n } = useT();
   const { user } = useUser();
   const isMobile = useIsMobile();
   const {push} = useRouter()

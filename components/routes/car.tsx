@@ -19,10 +19,9 @@ import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/oldHttp";
-import {ftmCarbonEmission, ftmTimestamp, genScanTokenUrl, handleCarbonStr} from "@lib/utils";
+import { ftmCarbonEmission, ftmTimestamp, handleCarbonStr } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useToggle } from "react-use";
 interface CarUIProps {
@@ -63,7 +62,7 @@ function CarInfos(p: CarUIProps) {
   const {
     data: { sbt },
   } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div className="w-full">
       <ItemInfo label={t("Label No.")} text={sbt.sbtTokenId} />
@@ -98,7 +97,7 @@ function ItemEmission(p: { icon: React.ReactNode; value: string; sub: string }) 
 
 function ItemPhase(p: { data: SbtPhase; index: number }) {
   const { data, index } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div
       className={classNames(
@@ -146,7 +145,7 @@ function Phases(p: { data: SbtPhase[] }) {
 
 function ItemQA(p: { type: number; sbt: SbtInfo }) {
   const { type, sbt } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const content = useMemo(() => {
     return type == 1
       ? handleCarbonStr(t(
@@ -205,7 +204,7 @@ function QAS(p: { sbt: SbtInfo }) {
 }
 
 function MobileCar(p: CarUIProps) {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { data } = p;
   const [show, setShow] = useToggle(false);
   const ref = useAutoAnim<HTMLDivElement>();
@@ -286,7 +285,7 @@ function MobileCar(p: CarUIProps) {
 
 function PcCar(p: CarUIProps) {
   const { data } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div className="w-full p-5 max-w-[1480px] mx-auto">
       <div className="text-2xl font-bold leading-normal ">
