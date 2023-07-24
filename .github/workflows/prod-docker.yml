@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    if: github.repository == 'gtech-world/carbon3-home'
+    if: ${{github.repository == 'gtech-world/carbon3-home' && github.ref == 'refs/heads/prod'}}
     runs-on: ubuntu-latest
 
     steps:
@@ -28,4 +28,4 @@ jobs:
         with:
           file: ./docker/beta/Dockerfile
           push: true
-          tags: gavfu/aicp-home-beta:latest
+          tags: gavfu/aicp-home:latest

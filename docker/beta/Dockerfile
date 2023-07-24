@@ -21,7 +21,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # This will do the trick, use the corresponding env file for each environment.
 COPY .env.beta .env.production
-RUN yarn build
+RUN pnpm build
 
 # 3. Production image, copy all the files and run next
 FROM node:16-alpine AS runner
