@@ -13,7 +13,7 @@ const AButton: FC<AllComponent.AButton> = ({
 
   return (
     <a
-      href={href || ''}
+      href={href || '#'}
       className={classNames(
         className,
       )}

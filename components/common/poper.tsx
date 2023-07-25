@@ -22,11 +22,8 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
   const [show, toggleShow] = useToggle(false);
   const ref = useAutoAnim<HTMLDivElement>("t-side");
   useClickAway(ref, () => show && toggleShow(false));
-  const { push } = useRouter();
   const onClickItem = (item: MenuItem) => {
-    if (item.to) {
-      push(item.to);
-    } else if (item.onClick) {
+   if (item.onClick) {
       item.onClick();
     }
     toggleShow()
@@ -53,7 +50,7 @@ function _PoperMenu(p: HTMLAttributes<HTMLDivElement> & PoperMenuProps) {
               <Fragment key={`poper_menu_item${i}`}>
                 {item.topSplit && i > 0 && <div className="h-[1px] my-[.625rem] mo:my-[2px] mx-4 bg-[#eeeeee]" />}
                   <AButton
-                  href={item.to }
+                  href={item.to ? item.to : '#' }
                   className={classNames(
                   "flex items-center py-[.625rem] mo:py-[.875rem] px-4 text-black hover:text-green-2 cursor-pointer",
                   {

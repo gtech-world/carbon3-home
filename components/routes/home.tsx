@@ -30,7 +30,7 @@ function Card(p: {
     return to && to.startsWith("/");
   };
   return (
-    <div className="flex justify-between w-full pb-8 mr-5 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0 ">
+    <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0">
       <div
         className={classNames(
           "   flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto",
@@ -41,7 +41,7 @@ function Card(p: {
         <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
         <div className="flex-1 mo:hidden" />
         <AButton
-          href={onClick() && to}
+          href={onClick() ? to : '#'}
           onClick={() => !onClick() && window.open(to, "_blank")}
           className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
           text={mBt}
@@ -206,7 +206,7 @@ function CardTabs() {
   return (
     <div className="flex justify-center w-full px-5">
       <a href="#" id="secondView" />
-      <div className=" flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+      <div className="  flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
@@ -303,6 +303,7 @@ export function Home() {
 
       <div className="flex flex-col items-center px-5">
         <div className="flex justify-between px-[7.5rem]  mo:px-0 w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
+          <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0" >
           <Card icon={<SvgQuery className="h-[6.125rem] " />} to="/openquery">
             <div
               dangerouslySetInnerHTML={{
@@ -332,6 +333,7 @@ export function Home() {
             {/*{t("Work with AICP for a Net Zero future")}*/}
             与AIAG一起建筑零碳未来
           </Card>
+          </div>
         </div>
 
         <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
