@@ -20,7 +20,7 @@ function Card() {
   const { t } = useT();
   const isMobile = useIsMobile();
 
-  const onClick = (item:string) => {
+  const onClick = (item: string) => {
     return item && item.startsWith("/");
   };
 
@@ -80,10 +80,7 @@ function Card() {
                 )}
               >
                 <div
-
-              // 
                   className={classNames(
-                    // 'flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto'
                     " pt-10 mo:pt-[3.125rem] w-[22.5rem] mo:w-full relative flex flex-col justify-between p-5 rounded-2xl h-[23.25rem] mo:mb-5 border-solid border-black border-[3px] "
                   )}
                 >
@@ -98,7 +95,9 @@ function Card() {
 
                   <AButton
                     href={onClick(v.to) ? v.to : "#"}
-                    onClick={() => !onClick(v.to) && window.open(v.to, "_blank")}
+                    onClick={() =>
+                      !onClick(v.to) && window.open(v.to, "_blank")
+                    }
                     className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
                     text={v.btText}
                   />
@@ -191,11 +190,11 @@ function CardTabsItem2() {
   ];
   return (
     <div className="bg-white px-8 pt-8 pb-5 rounded-2xl h-[25.75rem] mo:h-auto">
-      <div className="pb-8 overflow-x-auto">
-        <div className="min-w-[60rem]">
+      <div className="pb-8 md:overflow-x-auto">
+        <div className="min-w-[60rem] ">
           <div
-            style={{ width: "calc(100% - 15px)" }}
-            className="bg-gradient-to-r from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center"
+            style={{ width: "calc(100% - 15px) " }}
+            className="bg-gradient-to-r  from-[#FFF2CC] relative to-[#FFE184] font-semibold mb-5 h-10 w-full bg-contain flex justify-center items-center"
           >
             <span>实施清单</span>
             <span className="ml-[20rem]">输出结果</span>
@@ -423,45 +422,42 @@ export function Home() {
       </div> */}
       <CardTabs />
 
-
       <Card />
-      
-    <div className="flex justify-center w-full px-5 ">
-      <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
-      
-        <div className="flex mo:mb-10">
-          <span>*</span>
-          <span className="mo:ml-2">
-            专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
-          </span>
-        </div>
-        <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
-          <div>
-            <a
-              rel="noreferrer"
-              href="https://beian.miit.gov.cn/"
-              target="_blank"
-            >
-              沪ICP备2022024704号-2
-            </a>
-          </div>
-          <span
-            onClick={() =>
-              window.open(
-                i18n.language === "zh-CN"
-                  ? "https://gtech-cn.co/zhstatement"
-                  : "https://gtech-cn.co/enstatement",
-                "_blank"
-              )
-            }
-            className="cursor-pointer mo:mt-5 link-hover"
-          >
-            网站使用有关Cookie及隐私政策的声明
-          </span>
-        </div>
-      </div>
-      </div>
 
+      <div className="flex justify-center w-full px-5 ">
+        <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
+          <div className="flex mo:mb-10">
+            <span>*</span>
+            <span className="mo:ml-2">
+              专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
+            </span>
+          </div>
+          <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
+            <div>
+              <a
+                rel="noreferrer"
+                href="https://beian.miit.gov.cn/"
+                target="_blank"
+              >
+                沪ICP备2022024704号-2
+              </a>
+            </div>
+            <span
+              onClick={() =>
+                window.open(
+                  i18n.language === "zh-CN"
+                    ? "https://gtech-cn.co/zhstatement"
+                    : "https://gtech-cn.co/enstatement",
+                  "_blank"
+                )
+              }
+              className="cursor-pointer mo:mt-5 link-hover"
+            >
+              网站使用有关Cookie及隐私政策的声明
+            </span>
+          </div>
+        </div>
+      </div>
     </HomeHeaderLayout>
   );
 }
