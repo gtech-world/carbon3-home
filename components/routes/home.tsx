@@ -108,7 +108,7 @@ function Card() {
     </div>
 
 <div className="flex justify-center w-full px-5 bg-white ">
-<div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base  mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
+<div className="w-full px-[7.5rem] md:px-0 max-w-[90rem] text-base  mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
   <div className="flex mo:mb-10">
     <span>*</span>
     <span className="mo:ml-2">
@@ -417,7 +417,6 @@ function CardTabs() {
 export function Home() {
   const { user } = useUser();
   const isMobile = useIsMobile();
-  const { push } = useRouter();
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
