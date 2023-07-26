@@ -8,7 +8,7 @@ module.exports = {
         ssm: { max: "460px" },
         mo: { max: "900px" },
         md:  [
-          {'min': '0', 'max': '900px'},
+          {'min': '0', 'max': '1280px'},
         ]
       },
       fontFamily: {
