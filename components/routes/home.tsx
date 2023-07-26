@@ -13,7 +13,7 @@ import SvgSignIn from "@public/sign-in.svg";
 import SvgTeacher from "@public/teacher.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 function Card() {
   const { user } = useUser();
@@ -68,9 +68,10 @@ function Card() {
     },
   ];
   return (
-    <div className="flex justify-center w-full px-5 mt-5 ">
-      <div className="  flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mb-0">
-        <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
+   <Fragment >
+   <div className="flex justify-center w-full px-5 bg-white">
+      <div className=" mt-[30px] flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto  flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mb-0">
+        <ul className="flex justify-between w-full pb-6 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
               <li
@@ -95,12 +96,9 @@ function Card() {
 
                   <AButton
                     href={onClick(v.to) ? v.to : "#"}
-                    onClick={() =>
-                      !onClick(v.to) && window.open(v.to, "_blank")
-                    }
+                    onClick={() => !onClick(v.to) && window.open(v.to, "_blank")}
                     className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
-                    text={v.btText}
-                  />
+                    text={v.btText} />
                 </div>
               </li>
             );
@@ -108,6 +106,41 @@ function Card() {
         </ul>
       </div>
     </div>
+
+<div className="flex justify-center w-full px-5 bg-white ">
+<div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base  mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
+  <div className="flex mo:mb-10">
+    <span>*</span>
+    <span className="mo:ml-2">
+      专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
+    </span>
+  </div>
+  <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
+    <div>
+      <a
+        rel="noreferrer"
+        href="https://beian.miit.gov.cn/"
+        target="_blank"
+      >
+        沪ICP备2022024704号-2
+      </a>
+    </div>
+    <span
+      onClick={() => window.open(
+        i18n.language === "zh-CN"
+          ? "https://gtech-cn.co/zhstatement"
+          : "https://gtech-cn.co/enstatement",
+        "_blank"
+      )}
+      className="cursor-pointer mo:mt-5 link-hover"
+    >
+      网站使用有关Cookie及隐私政策的声明
+    </span>
+  </div>
+</div>
+</div>
+</Fragment>
+
 
     // <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0">
     //   <div
@@ -424,40 +457,7 @@ export function Home() {
 
       <Card />
 
-      <div className="flex justify-center w-full px-5 ">
-        <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
-          <div className="flex mo:mb-10">
-            <span>*</span>
-            <span className="mo:ml-2">
-              专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
-            </span>
-          </div>
-          <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
-            <div>
-              <a
-                rel="noreferrer"
-                href="https://beian.miit.gov.cn/"
-                target="_blank"
-              >
-                沪ICP备2022024704号-2
-              </a>
-            </div>
-            <span
-              onClick={() =>
-                window.open(
-                  i18n.language === "zh-CN"
-                    ? "https://gtech-cn.co/zhstatement"
-                    : "https://gtech-cn.co/enstatement",
-                  "_blank"
-                )
-              }
-              className="cursor-pointer mo:mt-5 link-hover"
-            >
-              网站使用有关Cookie及隐私政策的声明
-            </span>
-          </div>
-        </div>
-      </div>
+
     </HomeHeaderLayout>
   );
 }
