@@ -15,39 +15,119 @@ import classNames from "classnames";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-function Card(p: {
-  icon: React.ReactNode;
-  to?: string;
-  children?: React.ReactNode;
-  bt?: string | null;
-  className?: string;
-}) {
-  const { icon, to, children, bt, className } = p;
-  const { push } = useRouter();
+function Card() {
+  const { user } = useUser();
   const { t } = useT();
-  const mBt = bt || t("Enter");
-  const onClick = () => {
-    return to && to.startsWith("/");
+  const isMobile = useIsMobile();
+
+  const onClick = (item:string) => {
+    return item && item.startsWith("/");
   };
-  return (
-    <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0">
-      <div
-        className={classNames(
-          "   flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto",
-          className
-        )}
-      >
-        {icon}
-        <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
-        <div className="flex-1 mo:hidden" />
-        <AButton
-          href={onClick() ? to : '#'}
-          onClick={() => !onClick() && window.open(to, "_blank")}
-          className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
-          text={mBt}
+
+  const tabsList = [
+    {
+      icon: <SvgQuery className="h-[6.125rem] " />,
+      to: "/openquery",
+      children: (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: t("{{value}} for public accessible").replace(
+              "{{value}}",
+              `<span class="font-bold">${t("Open Query")}</span>`
+            ),
+          }}
         />
+      ),
+      btText: t("Enter"),
+    },
+
+    {
+      icon: <SvgSignIn className="h-[5.875rem]" />,
+      to: user ? "/carbon/allService" : "/login",
+      children: (
+        <div
+          className="mx-3"
+          dangerouslySetInnerHTML={{
+            __html: t("{{value}} with authenticated account*")
+              .replace(
+                "{{value}}",
+                `<span class="font-bold">${t("Sign in")}</span>`
+              )
+              .replace(isMobile ? "</br>" : "", ""),
+          }}
+        />
+      ),
+      btText: t("Enter"),
+    },
+
+    {
+      icon: <img src="/earth.png" className="w-[6.25rem]" />,
+      to: "https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee",
+      btText: t("了解更多"),
+      children: "与AIAG一起建筑零碳未来",
+    },
+  ];
+  return (
+    <div className="flex justify-center w-full px-5 mt-5 ">
+      <div className="  flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mb-0">
+        <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
+          {tabsList.map((v, i) => {
+            return (
+              <li
+                key={`tabsList${i}`}
+                className={classNames(
+                  "  mr-3 flex last:mr-0 mo:mr-0 mo:flex-col"
+                )}
+              >
+                <div
+
+              // 
+                  className={classNames(
+                    // 'flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto'
+                    " pt-10 mo:pt-[3.125rem] w-[22.5rem] mo:w-full relative flex flex-col justify-between p-5 rounded-2xl h-[23.25rem] mo:mb-5 border-solid border-black border-[3px] "
+                  )}
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    {v.icon}
+                  </div>
+
+                  <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">
+                    {v.children}
+                  </div>
+                  <div className="flex-1 mo:hidden" />
+
+                  <AButton
+                    href={onClick(v.to) ? v.to : "#"}
+                    onClick={() => !onClick(v.to) && window.open(v.to, "_blank")}
+                    className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
+                    text={v.btText}
+                  />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
+
+    // <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0 last:mr-0 mo:mr-0">
+    //   <div
+    //     className={classNames(
+    //       "   flex flex-col items-center md:mr-5 mr-[60px] p-5 pt-10 w-[22.5rem] h-[23.25rem] border-solid border-black border-[3px] rounded-2xl mo:mb-5 mo:w-full mo:pt-[3.125rem] mo:h-auto",
+    //       className
+    //     )}
+    //   >
+    //     {icon}
+    //     <div className="text-black mt-16 text-2xl text-center mo:text-lg mo:mt-[3.125rem]">{children}</div>
+    //     <div className="flex-1 mo:hidden" />
+    //     <AButton
+    //       href={onClick() ? to : '#'}
+    //       onClick={() => !onClick() && window.open(to, "_blank")}
+    //       className="w-full bg-green-2 rounded-lg text-white text-2xl py-3 mo:mt-[3.75rem] mo:text-lg flex justify-center"
+    //       text={mBt}
+    //     />
+    //   </div>
+    // </div>
   );
 }
 
@@ -71,7 +151,9 @@ function CardTabsItem1() {
       {data.map((v, i) => {
         return (
           <li key={`cardTabsItem1${i}`} className="mb-6 last:mb-0">
-            <h5 className="mb-3 text-2xl font-semibold mo:text-xl">{v.title}</h5>
+            <h5 className="mb-3 text-2xl font-semibold mo:text-xl">
+              {v.title}
+            </h5>
             <p>{v.text}</p>
           </li>
         );
@@ -122,12 +204,21 @@ function CardTabsItem2() {
           <div className="">
             {data.map((v, i) => {
               return (
-                <div key={`cardTabsItem2${i}`} className="flex items-center justify-between mb-4 last:mb-0">
+                <div
+                  key={`cardTabsItem2${i}`}
+                  className="flex items-center justify-between mb-4 last:mb-0"
+                >
                   <div className="h-[3.75rem] relative flex items-center justify-center w-[7.25rem] bg-[url('/pentagon.svg')]">
-                    <div style={{ color: v.color }} className={classNames("z-10 relative font-semibold mb-3")}>
+                    <div
+                      style={{ color: v.color }}
+                      className={classNames("z-10 relative font-semibold mb-3")}
+                    >
                       {v.title}
                     </div>
-                    <SvgPentagon className="absolute top-0 left-0 w-full" fill={v.bgColor} />
+                    <SvgPentagon
+                      className="absolute top-0 left-0 w-full"
+                      fill={v.bgColor}
+                    />
                   </div>
                   <div className="w-[21.25rem] mt">{v.listText}</div>
                   <div className="w-[18.375rem] mt">{v.resultText}</div>
@@ -165,7 +256,9 @@ function CardTabsItem3() {
         {data.map((v, i) => {
           return (
             <li key={`cardTabsItem3${i}`} className="mb-6 last:mb-0">
-              <h5 className="mb-3 text-2xl font-semibold mo:text-xl">{v.title}</h5>
+              <h5 className="mb-3 text-2xl font-semibold mo:text-xl">
+                {v.title}
+              </h5>
               <p>{v.text}</p>
             </li>
           );
@@ -188,19 +281,32 @@ function CardTabs() {
       title: "培训与解决方案",
       icon: <SvgTeacher className="w-[5rem] mo:h-[3.75rem]" />,
       text: "AICP组织行业领域内的专家，帮助用户在着手实施双碳活动之前解决疑难、明确方向。",
-      items: [{ text: "双碳与数字化培训" }, { text: "目标设定与实施规划" }, { text: "双碳解决方案&咨询" }],
+      items: [
+        { text: "双碳与数字化培训" },
+        { text: "目标设定与实施规划" },
+        { text: "双碳解决方案&咨询" },
+      ],
     },
     {
       title: "双碳实施与碳标签",
       icon: <SvgCTag className="w-[5rem] mo:h-[3.75rem]" />,
       text: "从碳核查到碳中和，AICP提供明确的双碳路径等待您行动。AIAG碳标签将见证您的努力。",
-      items: [{ text: "公司碳核查" }, { text: "产品碳足迹" }, { text: "碳减排" }, { text: "碳中和" }],
+      items: [
+        { text: "公司碳核查" },
+        { text: "产品碳足迹" },
+        { text: "碳减排" },
+        { text: "碳中和" },
+      ],
     },
     {
       title: "市场化双碳",
       icon: <SvgMarket className="w-[5rem] mo:h-[3.75rem]" />,
       text: "AICP的另一大职责是帮助汽车行业的用户寻找和匹配其双碳活动的市场化资源，并积极提供相关支持方案。",
-      items: [{ text: "绿色能源转型" }, { text: "绿色金融" }, { text: "碳信用资产与交易" }],
+      items: [
+        { text: "绿色能源转型" },
+        { text: "绿色金融" },
+        { text: "碳信用资产与交易" },
+      ],
     },
   ];
   return (
@@ -210,7 +316,12 @@ function CardTabs() {
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
-              <li key={`tabsList${i}`} className={classNames("  mr-3 flex last:mr-0 mo:mr-0 mo:flex-col")}>
+              <li
+                key={`tabsList${i}`}
+                className={classNames(
+                  "  mr-3 flex last:mr-0 mo:mr-0 mo:flex-col"
+                )}
+              >
                 <div
                   className={classNames(
                     " w-[22.5rem] mo:w-full relative flex flex-col justify-between bg-white p-5 rounded-2xl border-2 mo:mb-5",
@@ -222,13 +333,18 @@ function CardTabs() {
                       {/*<div className="w-[5rem] h-[5rem] border border-green-2">*/}
                       {/*</div>*/}
                       {v.icon}
-                      <span className="flex-1 pl-5 mt-1 text-2xl font-semibold mo:text-xl">{v.title}</span>
+                      <span className="flex-1 pl-5 mt-1 text-2xl font-semibold mo:text-xl">
+                        {v.title}
+                      </span>
                     </div>
                     <p className="mt-5 h-[5rem]">{v.text}</p>
                     <div className="flex flex-col items-start mt-6 font-semibold">
                       {v.items.map((item, itemIndex) => {
                         return (
-                          <div key={`items${itemIndex}`} className="pb-1 mb-5 border-b-2 border-green-2 last:mb-0">
+                          <div
+                            key={`items${itemIndex}`}
+                            className="pb-1 mb-5 border-b-2 border-green-2 last:mb-0"
+                          >
                             {item.text}
                           </div>
                         );
@@ -249,12 +365,18 @@ function CardTabs() {
                     <div className="h-5 w-5 bg-white border-b-2 border-r-2 border-green-2 absolute bottom-[-0.71rem] left-[50%] ml-[-0.625rem] rotate-45"></div>
                   )}
                 </div>
-                {isMobile && selected === i && <div className="mb-10 mo:mb-5">{tabsItemComponent[selected]}</div>}
+                {isMobile && selected === i && (
+                  <div className="mb-10 mo:mb-5">
+                    {tabsItemComponent[selected]}
+                  </div>
+                )}
               </li>
             );
           })}
         </ul>
-        {!isMobile && selected > -1 && <div className="mb-10 mo:mb-5">{tabsItemComponent[selected]}</div>}
+        {!isMobile && selected > -1 && (
+          <div className="mb-10 mo:mb-5">{tabsItemComponent[selected]}</div>
+        )}
       </div>
     </div>
   );
@@ -301,79 +423,45 @@ export function Home() {
       </div> */}
       <CardTabs />
 
-      <div className="flex flex-col items-center px-5">
-        <div className="flex justify-between px-[7.5rem]  mo:px-0 w-full max-w-[90rem] flex-shrink-0 mt-14 mo:flex-col mo:mt-11 mo:mb-0">
-          <div className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0" >
-          <Card icon={<SvgQuery className="h-[6.125rem] " />} to="/openquery">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: t("{{value}} for public accessible").replace(
-                  "{{value}}",
-                  `<span class="font-bold">${t("Open Query")}</span>`
-                ),
-              }}
-            />
-          </Card>
-          <Card icon={<SvgSignIn className="h-[5.875rem]" />} to={user ? "/carbon/allService" : "/login"}>
-            <div
-              className="mx-3"
-              dangerouslySetInnerHTML={{
-                __html: t("{{value}} with authenticated account*")
-                  .replace("{{value}}", `<span class="font-bold">${t("Sign in")}</span>`)
-                  .replace(isMobile ? "</br>" : "", ""),
-              }}
-            />
-          </Card>
-          <Card
-            className="mr-0"
-            icon={<img src="/earth.png" className="w-[6.25rem]" />}
-            to={"https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee"}
-            bt={t("了解更多")}
-          >
-            {/*{t("Work with AICP for a Net Zero future")}*/}
-            与AIAG一起建筑零碳未来
-          </Card>
-          </div>
-        </div>
 
-        <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
-          {/*<div*/}
-          {/*  className="flex-shrink-0 pt-6 text-base mo:pt-0 pb-11"*/}
-          {/*  dangerouslySetInnerHTML={{*/}
-          {/*    __html: t(*/}
-          {/*      "＊ AICP Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world."*/}
-          {/*    ).replace(*/}
-          {/*      "hi@gtech.world",*/}
-          {/*      `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`*/}
-          {/*    ),*/}
-          {/*  }}*/}
-          {/*/>*/}
-          <div className="flex mo:mb-10">
-            <span>*</span>
-            <span className="mo:ml-2">
-              专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
-            </span>
-          </div>
-          <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
-            <div>
-              <a rel="noreferrer" href="https://beian.miit.gov.cn/" target="_blank">
-                沪ICP备2022024704号-2
-              </a>
-            </div>
-            <span
-              onClick={() =>
-                window.open(
-                  i18n.language === "zh-CN" ? "https://gtech-cn.co/zhstatement" : "https://gtech-cn.co/enstatement",
-                  "_blank"
-                )
-              }
-              className="cursor-pointer mo:mt-5 link-hover"
+      <Card />
+      
+    <div className="flex justify-center w-full px-5 ">
+      <div className="w-full px-[7.5rem] mo:px-0 max-w-[90rem] text-base pt-6 mo:pt-0 pb-11 mo:flex-col flex-shrink-0 mo:flex">
+      
+        <div className="flex mo:mb-10">
+          <span>*</span>
+          <span className="mo:ml-2">
+            专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。
+          </span>
+        </div>
+        <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
+          <div>
+            <a
+              rel="noreferrer"
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
             >
-              网站使用有关Cookie及隐私政策的声明
-            </span>
+              沪ICP备2022024704号-2
+            </a>
           </div>
+          <span
+            onClick={() =>
+              window.open(
+                i18n.language === "zh-CN"
+                  ? "https://gtech-cn.co/zhstatement"
+                  : "https://gtech-cn.co/enstatement",
+                "_blank"
+              )
+            }
+            className="cursor-pointer mo:mt-5 link-hover"
+          >
+            网站使用有关Cookie及隐私政策的声明
+          </span>
         </div>
       </div>
+      </div>
+
     </HomeHeaderLayout>
   );
 }
