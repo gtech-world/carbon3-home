@@ -17,8 +17,8 @@ import React, { Fragment, useState } from "react";
 
 function Card() {
   const { user } = useUser();
-  const { t } = useT();
   const isMobile = useIsMobile();
+  const { t, i18n } = useT();
 
   const onClick = (item: string) => {
     return item && item.startsWith("/");
@@ -415,7 +415,6 @@ function CardTabs() {
 }
 
 export function Home() {
-  const { t, i18n } = useT();
   const { user } = useUser();
   const isMobile = useIsMobile();
   const { push } = useRouter();
