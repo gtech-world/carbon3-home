@@ -70,7 +70,7 @@ function Card() {
   return (
    <Fragment >
    <div className="flex justify-center w-full px-5 bg-white">
-      <div className=" mt-[30px] flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto  flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mb-0">
+      <div className=" mt-[30px] flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto  flex-col px-[7.5rem] md:px-0  w-full mo:flex-col mo:mb-0">
         <ul className="flex justify-between w-full pb-6 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
@@ -344,7 +344,7 @@ function CardTabs() {
   return (
     <div className="flex justify-center w-full px-5">
       <a href="#" id="secondView" />
-      <div className="  flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5 flex-col px-[7.5rem] mo:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+      <div className=" flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col px-[7.5rem] md:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
