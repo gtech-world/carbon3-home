@@ -22,6 +22,7 @@ const open_sans = Open_Sans({
   variable: "--open-sans",
 });
 
+
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
 function InitProvider(p: { children: React.ReactNode }) {
@@ -47,9 +48,12 @@ function InitToolTip() {
   }, []);
   return isMounted ? (
     <Tooltip
-      className="z-[999999] break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
+      className="z-[999999]  break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
       style={{ backgroundColor: "rgb(255, 255, 255,1)", opacity: 1, color: "#222" }}
       id="tooltip"
+      closeOnScroll={true}
+      closeOnResize={true}
+      delayHide={100}
     />
   ) : null;
 }

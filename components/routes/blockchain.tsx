@@ -1,7 +1,6 @@
 import { useIsMobile } from "@components/common/context";
 import { Loading } from "@components/common/loading";
 import { ProductQrcode } from "@components/common/productQrcode";
-import { Table } from "@components/common/table";
 import { SCAN_BASE } from "@lib/env";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useT } from "@lib/hooks/useT";
@@ -15,12 +14,13 @@ import { useMemo } from "react";
 import { VscQuestion, VscVerified } from "react-icons/vsc";
 import SVGAICP from '/public/AICP.svg';
 import SVGPolygon from '/public/polygon.svg';
+import Table from "@components/common/table";
 
 function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
   return (
     <div
       className={classNames(
-        "w-full text-base whitespace-normal leading-[1.8rem] mo:text-[.9375rem] mo:leading-[1.6875rem] relative",
+        "w-full  text-base whitespace-normal leading-[1.8rem] mo:text-[.9375rem] mo:leading-[1.6875rem] relative",
         {
           "text-green-2": p.link,
           "text-gray-6": !p.link,
@@ -31,7 +31,7 @@ function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; cl
         !!p.tip &&
         <VscQuestion data-tooltip-id="tooltip" data-tooltip-content={p.tip} className="absolute text-black left-[-1.6rem] text-xl top-[0.29rem]" />
       }
-      <span className="text-black font-bold">{p.label}:</span>{" "}
+      <span className="font-bold text-black">{p.label}:</span>{" "}
       {p.link ? (
         <a href={p.link} target="_blank" rel="noreferrer">
           {p.text}
@@ -148,7 +148,7 @@ export function Blockchain() {
     `<a href="${SCAN_BASE}" target="_blank" rel="noreferrer" class="text-green-2">polygonscan</a>`
   )
   return (
-    <div className="bg-gray-16 flex-1 flex flex-col w-full min-h-fit text-black">
+    <div className="flex flex-col flex-1 w-full text-black bg-gray-16 min-h-fit">
       <header className="bg-green-2 text-white flex items-center h-[4.25rem]">
         <SVGAICP fill="#29953A" className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
         <div className="w-[5.9rem] mo:w-[4.5rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem]">
@@ -173,7 +173,7 @@ export function Blockchain() {
                       <span className="w-full font-bold">
                         {t('Automotive Carbon Footprint Trust Label')}
                         {
-                          isMobile && <span className="font-medium ml-3">#1940327340</span>
+                          isMobile && <span className="ml-3 font-medium">#1940327340</span>
                         }
                       </span>
                     {
@@ -183,14 +183,14 @@ export function Blockchain() {
                   <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t('Certified by AIAG')}</span>
                 </div>
               </div>
-              <div className="bg-white px-12 py-5 rounded-lg mo:pl-10 mo:pr-3">
+              <div className="px-12 py-5 bg-white rounded-lg mo:pl-10 mo:pr-3">
                 <h5 className="text-xl mb-3.5 font-bold mo:text-lg">{t('Label Details')}</h5>
                 <CardInfo data={data} />
               </div>
             </div>
           </div>
 
-          <div className="bg-white mt-5 px-8 py-5 rounded-lg mo:px-4">
+          <div className="px-8 py-5 mt-5 bg-white rounded-lg mo:px-4">
             <h3 className="font-bold">{t('Item Activity on Blockchain')}</h3>
             <div className="w-full overflow-hidden overflow-x-auto mo:pb-5">
               <Table className="mt-5 mo:w-[52rem]" columns={columns} data={data.activityList} />
