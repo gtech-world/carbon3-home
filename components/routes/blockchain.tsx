@@ -14,7 +14,7 @@ import { useMemo } from "react";
 import { VscQuestion, VscVerified } from "react-icons/vsc";
 import SVGAICP from '/public/AICP.svg';
 import SVGPolygon from '/public/polygon.svg';
-import Table from "@components/common/table";
+import { Table } from "@components/common/table";
 
 function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?:string }) {
   return (

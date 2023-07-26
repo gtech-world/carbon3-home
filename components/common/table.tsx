@@ -17,7 +17,7 @@ interface ITable {
   hiddenHeader?: boolean;
 }
 
-const Table: FC<ITable> = ({
+export const Table: FC<ITable> = ({
     columns,
     data,
     className,
@@ -289,5 +289,3 @@ const Table: FC<ITable> = ({
     </div>
   );
 }
-
-export default Table
