@@ -38,7 +38,7 @@
     "react-json-view": "^1.21.3",
     "react-router-dom": "^6.6.2",
     "react-split": "^2.0.14",
-    "react-tooltip": "^5.10.1",
+    "react-tooltip": "^5.18.1",
     "react-use": "^17.4.0",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-vtree": "3.0.0-beta.3",
