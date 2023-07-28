@@ -12,10 +12,10 @@ import SvgQuery from "@public/query.svg";
 import SvgSignIn from "@public/sign-in.svg";
 import SvgTeacher from "@public/teacher.svg";
 import classNames from "classnames";
-import { useRouter } from "next/router";
-import React, { Fragment, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 
-function Card() {
+const Card: FC<{windowWidth:number}> = ({windowWidth}) => {
+
   const { user } = useUser();
   const isMobile = useIsMobile();
   const { t, i18n } = useT();
@@ -23,6 +23,7 @@ function Card() {
   const onClick = (item: string) => {
     return item && item.startsWith("/");
   };
+  
 
   const tabsList = [
     {
@@ -70,7 +71,10 @@ function Card() {
   return (
    <Fragment >
    <div className="flex justify-center w-full px-5 bg-white">
-      <div className=" mt-[30px] flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto  flex-col px-[7.5rem] md:px-0  w-full mo:flex-col mo:mb-0">
+   <div className={` flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col
+        mo:px-0  ${windowWidth > 1200 && windowWidth <=1280 ? 'px-[3%]' :'px-[7.5rem]'  }
+       w-full mo:flex-col mo:mt-11 mo:mb-0`}>
+
         <ul className="flex justify-between w-full pb-6 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
             return (
@@ -300,13 +304,14 @@ function CardTabsItem3() {
   );
 }
 
-function CardTabs() {
+const CardTabs: FC<{windowWidth:number}> = ({windowWidth}) => {
   const [selected, setSelected] = useState(-1);
   const tabsItemComponent = [
     <CardTabsItem1 key={`CardTabsItem1`} />,
     <CardTabsItem2 key={`CardTabsItem2`} />,
     <CardTabsItem3 key={`CardTabsItem3`} />,
   ];
+
   const isMobile = useIsMobile();
   const tabsList = [
     {
@@ -341,11 +346,15 @@ function CardTabs() {
       ],
     },
   ];
+
   return (
     <div className="flex justify-center w-full px-5">
       <a href="#" id="secondView" />
-      <div className=" flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col px-[7.5rem] md:px-0 w-full mo:flex-col mo:mt-11 mo:mb-0">
+      <div className={` flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col
+        mo:px-0  ${windowWidth > 1200 && windowWidth <=1280 ? 'px-[3%]' :'px-[7.5rem]'  }
+       w-full mo:flex-col mo:mt-11 mo:mb-0`}>
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
+
           {tabsList.map((v, i) => {
             return (
               <li
@@ -416,7 +425,19 @@ function CardTabs() {
 
 export function Home() {
   const { user } = useUser();
-  const isMobile = useIsMobile();
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <HomeHeaderLayout>
       <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
@@ -451,9 +472,8 @@ export function Home() {
         <NumData num={277148} label="Labelled Vehicles" />
         <NumData num={909128401} label="Piece of Data Collected" />
       </div> */}
-      <CardTabs />
-
-      <Card />
+      <CardTabs windowWidth ={windowWidth} />
+      <Card windowWidth ={windowWidth}/>
 
 
     </HomeHeaderLayout>
