@@ -15,32 +15,31 @@ interface ITable {
   loading?: boolean;
   maxHeight?: string;
   hiddenHeader?: boolean;
-  mouseHoverKey?:string;
-  columnsHeight?:string
+  mouseHoverKey?: string;
+  columnsHeight?: string;
 }
 
 const SIZE = {
-  'small':'py-1',
-  'big':'py-3',
-}
+  small: "py-1",
+  big: "py-3",
+};
 
 export const Table: FC<ITable> = ({
-    columns,
-    data,
-    className,
-    cellClassName,
-    headerStyle,
-    size = '',
-    maxHeight,
-    loading = false,
-    hiddenHeader = false,
-    mouseHoverKey = '',
-    columnsHeight = ''
+  columns,
+  data,
+  className,
+  cellClassName,
+  headerStyle,
+  size = "",
+  maxHeight,
+  loading = false,
+  hiddenHeader = false,
+  mouseHoverKey = "",
+  columnsHeight = "",
 }) => {
-
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
-  const [mouseHoverItem,setMouseHoverItem] = useState<Record<string,any>>({})
+  const [mouseHoverItem, setMouseHoverItem] = useState<Record<string, any>>({});
   const ref = useRef(null);
 
   useClickAway(ref, () => {
@@ -116,7 +115,6 @@ export const Table: FC<ITable> = ({
       !filters[item.dataIndex].isFilterOpen;
     setFilters({ ...filters });
   };
- 
 
   return (
     <div
@@ -148,7 +146,7 @@ export const Table: FC<ITable> = ({
                         "px-3 relative break-keep",
                         i === 0 && "rounded-l overflow-hidden",
                         i === columns.length - 1 && "rounded-r overflow-hidden",
-                        (SIZE as any)[size] || 'py-2'
+                        (SIZE as any)[size] || "py-2"
                       )}
                     >
                       {!!v.tip && (
@@ -230,26 +228,26 @@ export const Table: FC<ITable> = ({
               return (
                 <tr
                   key={`table_data_${itemIndex}`}
-                  className={`column-level-${item.level ? item.level : 0} ${columnsHeight}` }
+                  className={`column-level-${
+                    item.level ? item.level : 0
+                  } ${columnsHeight}`}
                 >
                   {columns.map((column, columnIndex) => {
                     return (
                       <td
-
                         key={`data_column_${columnIndex}`}
                         className={classNames(
                           `px-3 cursor-pointer  `,
-                          mouseHoverItem[mouseHoverKey] === item[mouseHoverKey] ? ' bg-[#F3F3F3]' : '',
-                          size === "small"
-                            ? "py-1"
-                            : size === "big"
-                            ? "py-3"
-                            : "py-2",
+                          {
+                            "bg-[#F3F3F3]":
+                              mouseHoverItem[mouseHoverKey] ===
+                              item[mouseHoverKey],
+                          },
+                          (SIZE as any)[size] || "py-2",
                           !!column.tip && "pl-9",
                           cellClassName &&
                             cellClassName(column, columnIndex, itemIndex)
-                        )
-                      }
+                        )}
                         style={{ width: column.width ? column.width : "auto" }}
                       >
                         <div
@@ -299,4 +297,4 @@ export const Table: FC<ITable> = ({
       )}
     </div>
   );
-}
+};
