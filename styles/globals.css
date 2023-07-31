@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 html,
 body,
 .App {
@@ -121,4 +120,21 @@ img[src=""] {
 .split .gutter {
   width: 6px;
   cursor: col-resize;
+}
+input{
+  padding-left: 10px; 
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  /* 添加自定义的下拉图标（使用 Font Awesome 字体图标库为例） */
+  background-image: url("../public/select.svg"); /* 或者使用其他自定义图标的路径 */
+  background-repeat: no-repeat;
+  background-position: 97% 50%;
+  padding-right: -50px; /* 为图标预留空间，避免内容与图标重叠 */
+  padding-left: 10px; /* 为图标预留空间，避免内容与图标重叠 */
+
 }

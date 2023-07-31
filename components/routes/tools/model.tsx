@@ -171,7 +171,7 @@ export function Model() {
       dataIndex: "createTime",
       width: "9.375rem",
       render: (text: string) => {
-        return <div className="break-keep whitespace-nowrap">{text}</div>;
+        return 1;
       },
     },
     {
