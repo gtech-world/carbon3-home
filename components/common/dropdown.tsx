@@ -23,7 +23,7 @@ export function Dropdown(p: DropdownProps) {
     <div
       ref={ref}
       className={classNames(
-        "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer",
+        "bg-white text-black px-5 py-3 text-lg rounded-lg relative cursor-pointer",
         className
       )}
       onClick={() => onToggle()}

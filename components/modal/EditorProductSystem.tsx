@@ -112,10 +112,11 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         <PairInfo
           tit="版本"
           value={
-            <div className="flex justify-between gap-2.5 text-neutral-400 text-base font-normal leading-none">
+            <div className="flex justify-between items-center gap-2.5 px-5 py-4 bg-stone-50 rounded-lg border border-neutral-200">
               {"3"}
               <Dropdown
                 items={[{ text: "版本3" }, { text: "版本2" }, { text: "版本1" }]}
+                className="px-2.5 py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
                 onClick={() => {
                   toggleOldPs(true);
                 }}
