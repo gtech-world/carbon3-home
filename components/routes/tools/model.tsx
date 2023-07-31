@@ -20,6 +20,8 @@ import {
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
 import _ from "lodash";
+import { NewProductSystem } from "@components/modal/NewProductSystem";
+import { EditorProductSystem } from "@components/modal/EditorProductSystem";
 
 function formatToTree(ary: any, pid?: number) {
   return ary
@@ -36,7 +38,8 @@ function formatToTree(ary: any, pid?: number) {
 export function Model() {
   const [status, setStatus] = useState<any>(null);
   const [viewReal, setViewReal] = useState<any>(null);
-  const [uploadView, setUploadView] = useState(false);
+  // const [uploadView, setUploadView] = useState(false);
+  const [editorProductSystem, setEditorProductSystem] = useState<any>()
   const [opResult, setOpResult] = useState<any>(null);
   const [createProductView, setCreateProductView] = useState<boolean>(false);
   const [pgNum, setPgNum] = useState(1);
@@ -179,6 +182,7 @@ export function Model() {
           <div className="flex justify-between flex-1 text-green-2 break-keep">
             <div
               className="flex items-center justify-center cursor-pointer"
+              onClick={() => setEditorProductSystem(record)}
             >
               编辑
             </div>
@@ -254,43 +258,43 @@ export function Model() {
     if (dom) dom.scrollTop = dom.scrollHeight;
     setReloadProduct(reloadProduct + 1);
   };
-  const doUpload = async () => {
-    const formData = new FormData();
-    formData.append("name", modelName);
-    formData.append("file", uploadFile);
-    formData.append("productId", productList[productSelectedIndex].id);
-    const title = "上传碳足迹模型";
-    setOpResult({
-      title,
-      loading: true,
-    });
-    // @ts-ignore
-    fileRef.current.value = "";
-    setUploadView(false);
-    const res = await uploadLcaModel(formData);
-    if (res) {
-      setOpResult({
-        title,
-        loading: false,
-        resultText: "上传成功！",
-      });
-      setUploadView(false);
-      setPgNum(1);
-      setReload(reload + 1);
-    } else {
-      setOpResult({
-        title,
-        loading: false,
-        resultText: "上传失败！",
-      });
-    }
-  };
-  useEffect(() => {
-    if (!uploadView) {
-      setProductSelectedIndex(null);
-      setUploadFile(null);
-    }
-  }, [uploadView]);
+  // const doUpload = async () => {
+  //   const formData = new FormData();
+  //   formData.append("name", modelName);
+  //   formData.append("file", uploadFile);
+  //   formData.append("productId", productList[productSelectedIndex].id);
+  //   const title = "上传碳足迹模型";
+  //   setOpResult({
+  //     title,
+  //     loading: true,
+  //   });
+  //   // @ts-ignore
+  //   fileRef.current.value = "";
+  //   setUploadView(false);
+  //   const res = await uploadLcaModel(formData);
+  //   if (res) {
+  //     setOpResult({
+  //       title,
+  //       loading: false,
+  //       resultText: "上传成功！",
+  //     });
+  //     setUploadView(false);
+  //     setPgNum(1);
+  //     setReload(reload + 1);
+  //   } else {
+  //     setOpResult({
+  //       title,
+  //       loading: false,
+  //       resultText: "上传失败！",
+  //     });
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (!uploadView) {
+  //     setProductSelectedIndex(null);
+  //     setUploadFile(null);
+  //   }
+  // }, [uploadView]);
   const canUpload = useMemo(() => {
     return !!uploadFile && !!modelName && productSelectedIndex > -1;
   }, [uploadFile, modelName, productSelectedIndex]);
@@ -308,7 +312,7 @@ export function Model() {
           <span>我的产品系统</span>
           {/*@ts-ignore*/}
           <Button
-            onClick={() => setUploadView(true)}
+            onClick={() => setCreateProductView(true)}
             className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11"
           >
             新建产品系统
@@ -411,110 +415,8 @@ export function Model() {
           </div>
         </Modal>
       )}
-      {createProductView && (
-        <Modal title="新建产品" onClose={() => setCreateProductView(false)}>
-          <div className="flex items-center">
-            <label className="mr-2">产品名称 :</label>
-            <input
-              maxLength={30}
-              type="text"
-              onChange={onProductChange}
-              className="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem] rounded-lg px-3"
-            />
-          </div>
-          <div className="flex items-center mt-6">
-            <label className="mr-2">产品类型 :</label>
-            <SelectTree
-              classname="border border-gray-14 bg-gray-28 w-[21.5rem] h-[3.125rem]"
-              onChange={setProductSelectedType}
-              node={productType}
-            />
-          </div>
-          <div className="flex items-center my-6">
-            <label className="mr-10">描述 :</label>
-            <input
-              maxLength={100}
-              className="border border-gray-14 rounded-lg bg-gray-28 px-3 w-[21.5rem] h-[3.125rem]"
-              onChange={(val: any) => {
-                setDescription(val.target.value);
-              }}
-            />
-          </div>
-          <div className="flex">
-            <Button
-              onClick={() => setCreateProductView(false)}
-              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
-            >
-              取消
-            </Button>
-            <Button
-              onClick={() => canCreateProduct && doAddProduct()}
-              className={classNames(
-                "text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",
-                !canCreateProduct && "bg-[#CECECE] hover:bg-[#CECECE]"
-              )}
-            >
-              确定
-            </Button>
-          </div>
-        </Modal>
-      )}
-      {uploadView && (
-        <Modal title="上传碳足迹模型" onClose={() => setUploadView(false)}>
-          <div className="flex items-center">
-            <label className="mr-2">产品名称 : </label>
-            <Select
-              className="border border-gray-14 bg-gray-28 w-[21.5rem] py-[0.935rem] "
-              items={productList}
-              current={productSelectedIndex}
-              onChange={(val) => {
-                setProductSelectedIndex(val);
-              }}
-            />
-          </div>
-          <div className="flex items-center mt-6">
-            <label className="mr-2">模型名称 : </label>
-            <input
-              type="text"
-              maxLength={30}
-              onChange={(val) => {
-                setModelName(val.target.value);
-              }}
-              className="border border-gray-14 bg-gray-28 rounded-lg h-[3.125rem] w-[21.5rem] px-3"
-            />
-          </div>
-          <div className="flex items-center my-6">
-            <label className="mr-2">碳足迹模型 : </label>
-            {/*@ts-ignore*/}
-            <div className="cursor-pointer underline text-blue-0 max-w-[20rem] truncate" data-tooltip-id="tooltip" data-tooltip-content={uploadFile ? uploadFile.name : ''} onClick={() => fileRef.current.click()}>
-              {
-                !!uploadFile ? uploadFile.name : '选择文件'
-              }
-            </div>
-
-            
-          </div>
-          <input ref={fileRef} onChange={onFileChange} type="file" hidden />
-
-          <div className="flex">
-            <Button
-              onClick={() => setUploadView(false)}
-              className="text-lg flex-1 bg-green-2/10 border-2 border-green-2 text-green-2 w-40 rounded-lg h-[2.875rem] font-normal hover:bg-green-2/20"
-            >
-              取消
-            </Button>
-            <Button
-              onClick={() => canUpload && doUpload()}
-              className={classNames(
-                "text-lg ml-5 flex-1 bg-green-2 w-40 text-white rounded-lg h-[2.875rem] font-normal",
-                !canUpload && "bg-[#CECECE] hover:bg-[#CECECE]"
-              )}
-            >
-              确定
-            </Button>
-          </div>
-        </Modal>
-      )}
+      {createProductView && <NewProductSystem onClose={() => setCreateProductView(false)}/>}
+      {editorProductSystem && <EditorProductSystem ps={editorProductSystem} onClose={() => setEditorProductSystem(undefined)} />}
       {productViewSelectedIndex > -1 && (
         <Modal title="查看产品" onClose={() => setProductViewSelectedIndex(-1)}>
           <ul className="text-lg max-w-[32rem]">
