@@ -19,13 +19,18 @@ interface ITable {
   columnsHeight?:string
 }
 
+const SIZE = {
+  'small':'py-1',
+  'big':'py-3',
+}
+
 export const Table: FC<ITable> = ({
     columns,
     data,
     className,
     cellClassName,
     headerStyle,
-    size,
+    size = '',
     maxHeight,
     loading = false,
     hiddenHeader = false,
@@ -38,8 +43,6 @@ export const Table: FC<ITable> = ({
   const [mouseHoverItem,setMouseHoverItem] = useState<Record<string,any>>({})
   const ref = useRef(null);
 
-
-  
   useClickAway(ref, () => {
     for (let key in filters) {
       if (filters[key]) {
@@ -48,6 +51,7 @@ export const Table: FC<ITable> = ({
       }
     }
   });
+
   useEffect(() => {
     setTableData(data);
   }, [data]);
@@ -65,6 +69,7 @@ export const Table: FC<ITable> = ({
     });
     setFilters(filters);
   }, [columns]);
+
   const expand = (itemIndex: number) => {
     if (tableData[itemIndex].level === undefined) {
       tableData[itemIndex].level = 0;
@@ -93,6 +98,7 @@ export const Table: FC<ITable> = ({
       setTableData([...tableData]);
     }
   };
+
   const handleFilterValue = (item: any, index: number) => {
     Object.assign(filters, {
       [item.dataIndex]: {
@@ -104,14 +110,13 @@ export const Table: FC<ITable> = ({
       item.onFilterChange(index > -1 ? item.filterOptions[index] : null);
     setFilters(filters);
   };
+
   const handleFilterOpen = (item: any) => {
     filters[item.dataIndex].isFilterOpen =
       !filters[item.dataIndex].isFilterOpen;
     setFilters({ ...filters });
   };
-  const handleMouseLeave = (e: number) => {
-    console.log("handleMouseLeave", e);
-  };
+ 
 
   return (
     <div
@@ -143,11 +148,7 @@ export const Table: FC<ITable> = ({
                         "px-3 relative break-keep",
                         i === 0 && "rounded-l overflow-hidden",
                         i === columns.length - 1 && "rounded-r overflow-hidden",
-                        size === "small"
-                          ? "py-1"
-                          : size === "big"
-                          ? "py-3"
-                          : "py-2"
+                        (SIZE as any)[size] || 'py-2'
                       )}
                     >
                       {!!v.tip && (
