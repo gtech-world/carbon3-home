@@ -49,8 +49,9 @@ function InitToolTip() {
   return isMounted ? (
     <Tooltip
       className="z-[999999]  break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
-      style={{ backgroundColor: "rgb(255, 255, 255,1)", opacity: 1, color: "#222" }}
+      style={{ backgroundColor: "rgb(255, 255, 255,1)", color: "#222" }}
       id="tooltip"
+      opacity={1}
       closeOnScroll={true}
       closeOnResize={true}
       delayHide={100}

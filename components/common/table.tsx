@@ -15,6 +15,8 @@ interface ITable {
   loading?: boolean;
   maxHeight?: string;
   hiddenHeader?: boolean;
+  mouseHoverKey?:string;
+  columnsHeight?:string
 }
 
 export const Table: FC<ITable> = ({
@@ -27,12 +29,17 @@ export const Table: FC<ITable> = ({
     maxHeight,
     loading = false,
     hiddenHeader = false,
+    mouseHoverKey = '',
+    columnsHeight = ''
 }) => {
 
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
+  const [mouseHoverItem,setMouseHoverItem] = useState<Record<string,any>>({})
   const ref = useRef(null);
 
+
+  
   useClickAway(ref, () => {
     for (let key in filters) {
       if (filters[key]) {
@@ -222,14 +229,16 @@ export const Table: FC<ITable> = ({
               return (
                 <tr
                   key={`table_data_${itemIndex}`}
-                  className={`column-level-${item.level ? item.level : 0}`}
+                  className={`column-level-${item.level ? item.level : 0} ${columnsHeight}` }
                 >
                   {columns.map((column, columnIndex) => {
                     return (
                       <td
+
                         key={`data_column_${columnIndex}`}
                         className={classNames(
-                          "px-3",
+                          `px-3 cursor-pointer  `,
+                          mouseHoverItem[mouseHoverKey] === item[mouseHoverKey] ? ' bg-[#F3F3F3]' : '',
                           size === "small"
                             ? "py-1"
                             : size === "big"
@@ -238,11 +247,12 @@ export const Table: FC<ITable> = ({
                           !!column.tip && "pl-9",
                           cellClassName &&
                             cellClassName(column, columnIndex, itemIndex)
-                        )}
+                        )
+                      }
                         style={{ width: column.width ? column.width : "auto" }}
                       >
                         <div
-                          onMouseLeave={() => handleMouseLeave(0)}
+                          onMouseOver={() => setMouseHoverItem(item)}
                           className="flex items-center"
                           style={{
                             marginLeft:

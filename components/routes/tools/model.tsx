@@ -86,8 +86,6 @@ export function Model() {
       });
     });
     setTableDataTotal(res.total);
-    // console.log("arrrr", arr);
-
     setTableData(arr);
   };
 
@@ -124,13 +122,13 @@ export function Model() {
   };
   const columns = useMemo(() => [
     {
-      title: "模型名称",
+      title: "产品系统",
       dataIndex: "modelName",
-      width: "14rem",
+      width: "23.75rem",
       render: (text: string) => {
         return (
           <span
-            className="max-w-[14rem] truncate inline-block"
+            className="max-w-[23.75rem] truncate inline-block"
             data-tooltip-id="tooltip"
             data-tooltip-content={text}
           >
@@ -140,9 +138,9 @@ export function Model() {
       },
     },
     {
-      title: "模型ID",
+      title: "产品系统ID",
       dataIndex: "modelUuid",
-      width: "13rem",
+      width: "12.5rem",
       render: (text: string) => {
         return (
           <span data-tooltip-id="tooltip" data-tooltip-content={text}>
@@ -152,49 +150,23 @@ export function Model() {
       },
     },
     {
-      title: "产品名称",
-      dataIndex: "productName",
-      width: "14rem",
-      filterOptions: productList,
-      onFilterChange: (data: any) => {
-        setProductNameFilter(data ? data.id : -1);
-      },
-      render: (text: string) => {
-        return (
-          <span
-            className="max-w-[14rem] truncate inline-block"
-            data-tooltip-id="tooltip"
-            data-tooltip-content={text}
-          >
-            {text}
-          </span>
-        );
-      },
-    },
-    {
-      title: "状态",
-      dataIndex: "state",
-      width: "100px",
-      render: (text: number) => {
-        let stateText = "";
-        switch (text) {
-          case 0:
-            stateText = "弃用";
-            break;
-          case 1:
-            stateText = "激活";
-            break;
-          case -1:
-            stateText = "草稿";
-            break;
-        }
-        return <span>{stateText}</span>;
-      },
-    },
-    {
-      title: "上传时间",
+      title: "变更人",
       dataIndex: "createTime",
-      width: "13rem",
+      width: "12.5rem",
+      render: (text: string) =>  text
+    },
+    {
+      title: "变更时间",
+      dataIndex: "createTime",
+      width: "12.5rem",
+      render: (text: string) => {
+        return <div className="break-keep whitespace-nowrap">{text}</div>;
+      },
+    },
+    {
+      title: "版本",
+      dataIndex: "createTime",
+      width: "9.375rem",
       render: (text: string) => {
         return <div className="break-keep whitespace-nowrap">{text}</div>;
       },
@@ -205,21 +177,12 @@ export function Model() {
       render: (text: string, record: any) => {
         return (
           <div className="flex justify-between flex-1 text-green-2 break-keep">
-            <a
-              href={`/model?id=${record.id}`}
+            <div
               className="flex items-center justify-center cursor-pointer"
             >
-              查看模型
-            </a>
-            <span
-              className="mx-2 cursor-pointer"
-              onClick={() => setViewReal(record)}
-            >
-              查看实景数据
-            </span>
-            <span className="cursor-pointer" onClick={() => setStatus(record)}>
-              更改状态
-            </span>
+              编辑
+            </div>
+           
           </div>
         );
       },
@@ -338,47 +301,17 @@ export function Model() {
     setProductName(val.target.value);
   },[]);
   return (
-    <ToolsLayout className="flex flex-col justify-between flex-1 pb-12 text-black">
+    <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
-        <div>
-          <h3 className="flex items-center justify-between pb-5 mt-8 text-2xl font-semibold">
-            <span>产品定义</span>
-            <Button
-              onClick={() => setCreateProductView(true)}
-              className="text-lg bg-green-2 w-[7.25rem] text-white rounded-lg h-11 font-normal"
-            >
-              新建产品
-            </Button>
-          </h3>
-          <div className="max-h-[15.5rem] overflow-y-auto" id="productList">
-            <ul className="flex flex-wrap ml-[-1.25rem]">
-              {productList.map((v: any, i: number) => {
-                return (
-                  <li
-                    key={`productList${i}`}
-                    onClick={() => setProductViewSelectedIndex(i)}
-                    className={classNames(
-                      "bg-white px-5 py-2.5 border rounded-lg ml-5 mb-5 cursor-pointer hover:border-green-2 hover:text-green-2",
-                      productViewSelectedIndex === i
-                        ? "border-green-2 text-green-2"
-                        : "border-white"
-                    )}
-                  >
-                    <div className="">{v.text}</div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-        <h3 className="flex items-center justify-between mt-6 text-2xl font-semibold">
-          <span>产品碳足迹模型管理</span>
+      
+        <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
+          <span>我的产品系统</span>
           {/*@ts-ignore*/}
           <Button
             onClick={() => setUploadView(true)}
             className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11"
           >
-            上传碳足迹模型
+            新建产品系统
           </Button>
         </h3>
         <div className="w-full p-5 mt-5 bg-white rounded-2xl">
@@ -386,19 +319,9 @@ export function Model() {
             <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
               <Table
                 columns={columns}
+                columnsHeight={'h-[3.125rem]'}
                 loading={tableDataLoading}
-                // size="big"
-                cellClassName={(
-                  item: any,
-                  cellIndex: number,
-                  rowIndex: number
-                ) =>
-                  rowIndex % 2 === 0
-                    ? `bg-gray-16 ${cellIndex === 0 && "rounded-l-lg"} ${
-                        cellIndex === columns.length - 1 && "rounded-r-lg"
-                      }`
-                    : ""
-                }
+                mouseHoverKey={'id'}
                 data={tableData}
                 className=""
                 headerStyle={{ background: "#fff" }}

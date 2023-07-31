@@ -10,9 +10,9 @@ export function Inventory() {
   const [tableData,setTableData] = useState([])
   const columns = [
     {
-      title: "产品批次号",
+      title: "碳足迹批次",
       dataIndex: 'loadNumber',
-      width: '14rem',
+      width: '18.75rem',
       render:(text:string)=>{
         return(
           <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
@@ -20,30 +20,90 @@ export function Inventory() {
       }
     },
     {
-      title: "产品名称",
+      title: "实景数据",
       dataIndex: 'productName',
-      width: '14rem',
+      width: '18.75rem',
       render: (text:string)=>{
         return <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
       }
     },
     {
-      title: "模型名称",
+      title: "批次结果ID",
       dataIndex: 'modelName',
-      width: '12.5rem',
+      width: '7.5rem',
       render:(text:string)=>{
-        return <span className="max-w-[12.5rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
+        return 'PCFI-1'
       }
     },
-    // {
-    //   title: "描述",
-    //   dataIndex: 'description',
-    //   emptyText:'-'
-    // },
+   
     {
-      title: "报告时间",
-      width: '12rem',
+      title: "产品系统名称",
+      width: '18.75rem',
       dataIndex: 'createTime',
+      render:(text:string)=>{
+        return 'PCFI-1'
+      }
+    },
+    {
+      title: "系统产品ID",
+      width: '8.125rem',
+      dataIndex: 'createTime',
+      render:(text:string)=>{
+        return 'PCFI-1'
+      }
+    },
+    {
+      title: "产品系统版本",
+      width: '9.375rem',
+      dataIndex: 'createTime',
+      render:(text:string)=>{
+        return '1'
+      }
+    },
+    {
+      title: "描述",
+      dataIndex: 'description',
+      width: '18.75rem',
+      emptyText:'-'
+    },
+    {
+      title: "操作人",
+      dataIndex: 'description',
+      width: '6.25rem',
+      emptyText:'-'
+    },
+    {
+      title: "生成时间",
+      dataIndex: 'description',
+      width: '10.625rem',
+      emptyText:'-'
+    },
+    {
+      title: "碳足迹结果",
+      dataIndex: 'description',
+      width: '8.125rem',
+      render:(text:string,record:any)=>{
+        return (
+        <div className="flex justify-between text-green-2">
+        <span className="cursor-pointer" onClick={()=>window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>查看结果</span>
+        </div>
+        )
+        
+      }
+     
+
+    },
+    {
+      title: "组织名称",
+      dataIndex: 'description',
+      width: '8.125rem',
+      emptyText:'-'
+    },
+    {
+      title: "组织编号",
+      dataIndex: 'description',
+      width: '8.125rem',
+      emptyText:'-'
     },
     {
       title: "",
@@ -51,7 +111,6 @@ export function Inventory() {
       render: (text:string,record:any)=>{
         return(
           <div className="flex justify-between text-green-2">
-              <span className="cursor-pointer" onClick={()=>window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>碳足迹结果</span>
           </div>
         )
       }
@@ -78,14 +137,15 @@ export function Inventory() {
     setTableData(arr)
   },[value])
   return (
-    <ToolsLayout className="text-black flex flex-col justify-between flex-1">
-      <div>
-        <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
-        <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
-          <div className="mt-5 pb-6 overflow-x-auto">
+    <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
+      <div className="">
+        <h3 className="mt-8 text-2xl font-semibold">我的产品碳足迹结果</h3>
+        <div className="w-full p-5 mt-5 bg-white rounded-2xl">
+          <div className="pb-6 mt-5 overflow-x-auto">
             <div className="text-base leading-[1.625rem] min-w-[62.25rem]">
               <Table columns={columns}
-                     cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
+                     columnsHeight={'h-[3.125rem]'}
+                     mouseHoverKey="id"
                      data={tableData}
                      loading={loading}
                      className=""
