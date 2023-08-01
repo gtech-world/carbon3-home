@@ -6,4 +6,4 @@ const config = {
   bracketSameLine: true,
 };
 
-export default config;
+module.exports = config;
