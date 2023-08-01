@@ -14,7 +14,7 @@ export function ViewProductSystem(p: ModalProps & { ps: any }) {
         <PairInfo tit="描述" value="ES6 2023 120kWh Sports" />
         <PairInfo tit="状态" value={<PsStatus status={2} />} />
         <PairInfo tit="变更人" value="Cherry" />
-        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo name="" isRead={true} />} />
+        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo isRead={true} />} />
         <PairInfo tit="实景数据" value={<ActionBtn action="查看" />} />
         <PairInfo tit="组织名称" value="蔚来江淮" />
         <PairInfo tit="组织编号" value="00007" />

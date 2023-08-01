@@ -51,11 +51,12 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
   );
 }
 
-export function LcaActionInfo(p: { name: string; psId?: string; modelId?: string; isNew?: boolean; isRead?: boolean }) {
-  const { name, psId, modelId, isNew, isRead } = p;
+export function LcaActionInfo(p: { psId?: string; modelId?: string; isNew?: boolean; isRead?: boolean }) {
+  const { psId, modelId, isNew, isRead } = p;
+
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
-      {name}
+      {isNew && "FileName"}
       {isRead ? (
         <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
       ) : isNew ? (
@@ -124,7 +125,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         <PairInfo tit="描述" value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />} />
         <PairInfo tit="状态" value={<PsStatus status={1} />} />
         <PairInfo tit="变更人" value="Cherry" />
-        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo name="PC Transport C-Model V1.0" />} />
+        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo />} />
         <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
         <PairInfo tit="组织名称" value="蔚来江淮" />
         <PairInfo tit="组织编号" value="00007" />
