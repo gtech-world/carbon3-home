@@ -10,13 +10,15 @@ pnpm dev
 ```
 
 
-### custom className use *ClassName and config extension 
-#### VSCode Tailwind CSS IntelliSense 
+### Custom className use *ClassName and config extension 
+
+VSCode Tailwind CSS IntelliSense:
+ 
 ```json
   "tailwindCSS.classAttributes": [
     "class",
     "className",
     "ngClass",
-    "[\\s\\S]*ClassName[\\s\\S]*"
+    ".*ClassName"
   ]
 ```   
