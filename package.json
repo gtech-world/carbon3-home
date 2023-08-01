@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "plint": "prettier . --check",
     "export": "next build && next export"
   },
   "dependencies": {
