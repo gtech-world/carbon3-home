@@ -1,44 +1,69 @@
-import React, { useState } from "react";
+import React, { FC,useState } from "react";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
 
-const InventoryAddRealDataModal = () => {
-  const [tableData, setTableData] = useState<Record<string, any>[]>([{ loadNumber: "这手机" }]);
+ 
+const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({
+  onOpenModal
+}) => {
+  const [tableData, setTableData] = useState<Record<string, any>[]>([{},{},{}])
+
 
   const onAddInfo = () => {
-    setTableData([...tableData, []]);
-  };
+    setTableData([...tableData, []])
+  }
+
+  const onSubmit = () => {
+    const table = document?.getElementById("realDataTable") as HTMLTableElement;
+    const rows = table.getElementsByTagName("tr");
+    const values = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const rowValues = [];
+      const inputs = rows[i].getElementsByTagName("input");
+      for (let j = 0; j < inputs.length; j++) {
+        const da = ['name', 'id', 'type', 'data', 'inputData', 'res'];
+        const keys = da[j];
+        const inputValue = inputs[j].value;
+        const obj = { [keys]: inputValue };
+        rowValues.push(obj);
+      }
+      values.push(rowValues);
+    }
+    typeof onOpenModal === 'function' && onOpenModal()
+
+    console.log('值-----',values.slice(1));
+  }
+  
   const columns = [
     {
       title: "参数名",
       dataIndex: "loadNumber",
-      width: "10rem",
+      width: "9rem",
       render: (text: string) => {
         return (
-          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
-            {text}
-          </span>
+          <input className="w-[9rem]  h-[40px] bg-[#F3F3F3]"></input>
         );
       },
     },
     {
       title: "描述",
       dataIndex: "productName",
-      width: "8.5rem",
+      width: "8rem",
       render: (text: string) => {
         return (
-          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
-            {text}
-          </span>
+          <input className="w-[8rem]  h-[40px] bg-[#F3F3F3]"></input>
         );
       },
     },
     {
       title: "过程名称",
       dataIndex: "modelName",
-      width: "10rem",
+      width: "7rem",
       render: (text: string) => {
-        return "PCFI-1";
+        return (
+          <input className=" w-[7rem] h-[40px] bg-[#F3F3F3]"></input>
+        )
       },
     },
 
@@ -47,7 +72,10 @@ const InventoryAddRealDataModal = () => {
       width: "9rem",
       dataIndex: "createTime",
       render: (text: string) => {
-        return "PCFI-1";
+        return (
+          <input className="w-[9rem]  h-[40px] bg-[#F3F3F3]"></input>
+        )
+        
       },
     },
     {
@@ -55,7 +83,9 @@ const InventoryAddRealDataModal = () => {
       width: "10rem",
       dataIndex: "createTime",
       render: (text: string) => {
-        return "PCFI-1";
+        return (
+          <input className="w-[10rem]  h-[40px] bg-[#F3F3F3]"></input>
+        )
       },
     },
     {
@@ -63,36 +93,43 @@ const InventoryAddRealDataModal = () => {
       width: "10rem",
       dataIndex: "createTime",
       render: (text: string) => {
-        return "1";
+        return (
+          <input className="w-[10rem] h-[40px] bg-[#F3F3F3]"></input>
+        )
       },
     },
-  ];
+  ]
+
   return (
-    <Modal title="实景数据填报" containerStyle={"mx-5 max-w-[1000px] "} titleStyle={"text-[20px] leading-5 font-bold"}>
-      <div className="mx-5 max-w-[1000px] ">
+    <Modal
+      title="实景数据填报"
+      containerStyle={"mx-5 max-w-[1000px] "}
+      titleStyle={"text-[20px] leading-5 font-bold"}
+      onClose={typeof onOpenModal === 'function' && onOpenModal || undefined}
+    >
+      <div className="mx-5 max-w-[1000px] max-h-96 overflow-y-auto ">
+
         <Table
           columns={columns}
+          tableId='realDataTable'
           columnsHeight={"h-[3.125rem]"}
           mouseHoverKey="id"
           data={tableData}
           isSetBorder={true}
-          // loading={loading}
           className=""
-          headerStyle={{ background: "#DDDDDD" }}
+          headerStyle={{
+            background: "#DDDDDD", position: 'sticky', top: '0', fontWeight: 'bold',
+          }}
         />
-        <span onClick={() => onAddInfo()} className="text-[14px] font-normal leading-[21px] text-[#999999]">
-          +新增
-        </span>
-
+      </div>
+      <div className="mx-5 ">
+        <span onClick={() => onAddInfo()} className="text-[14px] font-normal leading-[21px] text-[#999999]" >+新增</span>
         <div className="flex flex-row justify-between gap-5 mt-5">
-          <div className=" cursor-pointer bg-[#29953A1A] w-[450px] text-[18px] border-2 border-[#29953A]   font-normal  text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">
-            取消
-          </div>
-          <div className="  cursor-pointer bg-[#29953A] w-[450px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">
-            确定
-          </div>
+          <div onClick={typeof onOpenModal === 'function' && onOpenModal || undefined} className=" cursor-pointer bg-[#29953A1A] w-[450px] text-[18px] border-2 border-[#29953A] font-normal text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">取消</div>
+          <div onClick={()=>onSubmit()} className="  cursor-pointer bg-[#29953A] w-[450px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">确定</div>
         </div>
       </div>
+
     </Modal>
   );
 };

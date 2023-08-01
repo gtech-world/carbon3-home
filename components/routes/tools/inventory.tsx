@@ -226,7 +226,11 @@ export function Inventory() {
         </Modal>
       ) : null}
 
-      {openAddInfoModal ? <InventoryAddRealDataModal /> : null}
+      {openAddInfoModal ?
+       <InventoryAddRealDataModal 
+       onOpenModal={()=>setOpenAddInfoModal(false)}
+       /> 
+       : null}
     </ToolsLayout>
   );
 }

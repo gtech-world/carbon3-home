@@ -17,7 +17,8 @@ interface ITable {
   hiddenHeader?: boolean;
   mouseHoverKey?: string;
   columnsHeight?: string;
-  isSetBorder?: boolean;
+  isSetBorder?:boolean;
+  tableId?:string;
 }
 
 const SIZE = {
@@ -38,6 +39,7 @@ export const Table: FC<ITable> = ({
   mouseHoverKey = "",
   columnsHeight = "",
   isSetBorder = false,
+  tableId= undefined
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -121,7 +123,8 @@ export const Table: FC<ITable> = ({
         size === "small" && "text-xs",
         size === "big" && "text-lg mo:text-[.9375rem] ",
       )}>
-      <table border={1} cellSpacing={0} className="w-full text-left ">
+
+      <table border={1} cellSpacing={0} className="w-full text-left " id={tableId}>
         {!hiddenHeader && (
           <thead className={classNames("bg-gray-14 ", className, size === "small" && "text-sm")} style={headerStyle}>
             <tr className="px-3">
