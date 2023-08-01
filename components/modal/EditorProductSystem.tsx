@@ -54,7 +54,7 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
 export function LcaActionInfo(p: { name: string; psId?: string; modelId?: string; isNew?: boolean; isRead?: boolean }) {
   const { name, psId, modelId, isNew, isRead } = p;
   return (
-    <div className="text-neutral-400 text-base font-normal leading-none flex gap-2.5">
+    <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
       {name}
       {isRead ? (
         <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
