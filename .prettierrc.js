@@ -7,7 +7,7 @@ const config = {
 	semi: true, // 在每个语句后加上分号
 	singleQuote: false, // 使用单引号，会把双引号转换为单引号(对jsx无效)。
 	tabWidth: 2, // 缩进2个空格
-	useTabs: true, // 使用制表符进行缩进。
+	useTabs: false, // 使用制表符进行缩进。
 	jsxSingleQuote: false, // 在 jsx 或 tsx文件使用单引号
 	/**
 	 * 对象属性需要加引号设置 default: "as-needed"
@@ -36,7 +36,7 @@ const config = {
 	 *    true: 强制执行，一个属性占一行
 	 *    false: 不强制执行一个属性占一行
 	 */
-	singleAttributePerLine: true,
+	singleAttributePerLine: false,
 };
 
 module.exports = config;

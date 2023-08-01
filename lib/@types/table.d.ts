@@ -1,4 +1,4 @@
-declare namespace Table  {
+declare namespace Table {
   interface ITable {
     columns: any[];
     data: any[];
@@ -14,5 +14,4 @@ declare namespace Table  {
     isSetBorder?: boolean;
     tableId?: string;
   }
-
 }

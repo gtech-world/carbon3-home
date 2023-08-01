@@ -3,4 +3,8 @@
 node_modules
 out
 pnpm-lock.yaml
-
+.prettierrc.js
+.eslintrc.json
+.tailwind.config.js
+package.json
+*.md

@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "plint": "prettier . --check",
+    "pfix": "prettier . --write",
     "export": "next build && next export"
   },
   "dependencies": {
