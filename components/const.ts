@@ -73,3 +73,8 @@ export const CARBON_PAGES: CarbonPage[] = [
   { icon: RiPieChartLine, txt: "我的碳资产", to: "" },
   { icon: FiSettings, txt: "用户管理与设定", to: "" },
 ];
+
+export const SIZE = {
+  small: "py-1",
+  big: "py-3",
+};

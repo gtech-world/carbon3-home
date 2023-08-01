@@ -1,32 +1,14 @@
 import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
 import { FiChevronRight, FiFilter } from "react-icons/fi";
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Loading } from "@components/common/loading";
 import { useClickAway } from "react-use";
+import { SIZE } from "@components/const";
 
-interface ITable {
-  columns: any[];
-  data: any[];
-  className?: string;
-  headerStyle?: object;
-  cellClassName?: Function;
-  size?: string;
-  loading?: boolean;
-  maxHeight?: string;
-  hiddenHeader?: boolean;
-  mouseHoverKey?: string;
-  columnsHeight?: string;
-  isSetBorder?:boolean;
-  tableId?:string;
-}
 
-const SIZE = {
-  small: "py-1",
-  big: "py-3",
-};
 
-export const Table: FC<ITable> = ({
+export const Table: FC<Table.ITable> = ({
   columns,
   data,
   className,
@@ -39,7 +21,7 @@ export const Table: FC<ITable> = ({
   mouseHoverKey = "",
   columnsHeight = "",
   isSetBorder = false,
-  tableId= undefined
+  tableId = undefined
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -55,9 +37,13 @@ export const Table: FC<ITable> = ({
     }
   });
 
+  console.log('datadata',data);
+  
+
   useEffect(() => {
     setTableData(data);
   }, [data]);
+  
   useEffect(() => {
     columns.map((v: any) => {
       if (v.filterOptions) {
@@ -124,9 +110,11 @@ export const Table: FC<ITable> = ({
         size === "big" && "text-lg mo:text-[.9375rem] ",
       )}>
 
+
+
       <table border={1} cellSpacing={0} className="w-full text-left " id={tableId}>
         {!hiddenHeader && (
-          <thead className={classNames("bg-gray-14 ", className, size === "small" && "text-sm")} style={headerStyle}>
+          <thead className={classNames("bg-gray-14 ", {'border bg-[#E5E5E5]': isSetBorder},className, size === "small" && "text-sm")} style={headerStyle}>
             <tr className="px-3">
               {columns &&
                 columns.map((v, i) => {
@@ -136,8 +124,8 @@ export const Table: FC<ITable> = ({
                       key={`columns${i}`}
                       className={classNames(
                         "px-3 relative break-keep",
-                        i === 0 && "rounded-l overflow-hidden",
-                        i === columns.length - 1 && "rounded-r overflow-hidden",
+                        i === 0 && ` ${!isSetBorder && 'rounded-l' || '' } overflow-hidden`,
+                        i === columns.length - 1 && `${!isSetBorder && 'rounded-r' || '' } overflow-hidden`,
                         (SIZE as any)[size] || "py-2",
                       )}>
                       {!!v.tip && (
@@ -237,8 +225,8 @@ export const Table: FC<ITable> = ({
                           {column.render
                             ? column.render(item[column.dataIndex], item)
                             : column.emptyText && !item[column.dataIndex]
-                            ? "-"
-                            : item[column.dataIndex]}
+                              ? "-"
+                              : item[column.dataIndex]}
                         </div>
                       </td>
                     );
