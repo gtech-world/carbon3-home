@@ -41,8 +41,8 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
 		{
 			title: '描述',
 			dataIndex: 'productName',
-			width: '8rem',
-			render: (text: string) => <input className='w-[8rem]  h-[40px] bg-[#F3F3F3]' />,
+			width: '5.5rem',
+			render: (text: string) => <input className='w-[5.5rem]  h-[40px] bg-[#F3F3F3]' />,
 		},
 		{
 			title: '过程名称',
@@ -53,9 +53,9 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
 
 		{
 			title: '类型',
-			width: '9rem',
+			width: '5.5rem',
 			dataIndex: 'createTime',
-			render: (text: string) => <input className='w-[9rem]  h-[40px] bg-[#F3F3F3]' />,
+			render: (text: string) => <input className='w-[5.5rem]  h-[40px] bg-[#F3F3F3]' />,
 		},
 		{
 			title: '参考值',
@@ -74,8 +74,8 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
 	return (
 		<Modal
 			title='实景数据填报'
-			containerStyle={'mx-5 max-w-[1000px] '}
-			titleStyle={'text-[20px] leading-5 font-bold'}
+			containerClassName={'mx-5 max-w-[1000px] '}
+			titleClassName={'text-[20px] leading-5 font-bold'}
 			onClose={(typeof onOpenModal === 'function' && onOpenModal) || undefined}>
 			<div className='mx-5 max-w-[1000px] max-h-96 overflow-y-auto '>
 				<Table
@@ -86,7 +86,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
 					data={tableData}
 					isSetBorder={true}
 					className=''
-					headerStyle={{
+					headerClassName={{
 						background: '#DDDDDD',
 						position: 'sticky',
 						top: '0',

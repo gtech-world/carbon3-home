@@ -3,7 +3,7 @@ declare namespace Table  {
     columns: any[];
     data: any[];
     className?: string;
-    headerStyle?: object;
+    headerClassName?: object;
     cellClassName?: Function;
     size?: string;
     loading?: boolean;
