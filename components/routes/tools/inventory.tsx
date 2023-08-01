@@ -6,11 +6,13 @@ import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getLcaResultList, noArgs } from "@lib/http";
 import { Button } from "@components/common/button";
 import { Modal } from "@components/common/modal";
+import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 
 export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
+  const [openAddInfoModal, setOpenAddInfoModal] =useState<boolean>(false);
 
   const columns = [
     {
@@ -155,6 +157,12 @@ export function Inventory() {
     });
     setTableData(arr);
   }, [value]);
+
+
+  const onAddInfo = () =>{
+    setOpenAddInfoModal(true)
+
+  }
   return (
     <ToolsLayout
       isNew
@@ -215,7 +223,7 @@ export function Inventory() {
               <option value="option3">Option 3</option>
             </select>
             <span className="font-normal leading-6 ">实景数据填报：</span>
-            <div onClick={()=>{alert('点击了')}} className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
+            <div onClick={()=>onAddInfo()} className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
               前往填写
               </div> 
             <div className="flex flex-row justify-between gap-5 mt-5">
@@ -227,6 +235,8 @@ export function Inventory() {
           </div>
         </Modal>
       ) : null}
+
+      {openAddInfoModal ? <InventoryAddRealDataModal /> : null}
     </ToolsLayout>
   );
 }

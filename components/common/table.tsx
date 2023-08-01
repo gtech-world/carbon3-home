@@ -17,6 +17,7 @@ interface ITable {
   hiddenHeader?: boolean;
   mouseHoverKey?: string;
   columnsHeight?: string;
+  isSetBorder?:boolean;
 }
 
 const SIZE = {
@@ -36,6 +37,7 @@ export const Table: FC<ITable> = ({
   hiddenHeader = false,
   mouseHoverKey = "",
   columnsHeight = "",
+  isSetBorder = false
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -125,7 +127,7 @@ export const Table: FC<ITable> = ({
         size === "big" && "text-lg mo:text-[.9375rem] "
       )}
     >
-      <table className="w-full text-left ">
+      <table border={1} cellSpacing={0} className="w-full text-left ">
         {!hiddenHeader && (
           <thead
             className={classNames(
@@ -235,6 +237,7 @@ export const Table: FC<ITable> = ({
                   {columns.map((column, columnIndex) => {
                     return (
                       <td
+                        
                         key={`data_column_${columnIndex}`}
                         className={classNames(
                           `px-3 cursor-pointer  `,
@@ -242,6 +245,8 @@ export const Table: FC<ITable> = ({
                             "bg-[#F3F3F3]":
                               mouseHoverItem[mouseHoverKey] ===
                               item[mouseHoverKey],
+                            'border':isSetBorder
+
                           },
                           (SIZE as any)[size] || "py-2",
                           !!column.tip && "pl-9",
