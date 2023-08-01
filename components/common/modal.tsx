@@ -1,8 +1,8 @@
-import { useOn } from '@lib/hooks/useOn';
-import classNames from 'classnames';
-import { HTMLAttributes, MouseEvent, MutableRefObject, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { FiX } from 'react-icons/fi';
+import { useOn } from "@lib/hooks/useOn";
+import classNames from "classnames";
+import { HTMLAttributes, MouseEvent, MutableRefObject, useRef } from "react";
+import { createPortal } from "react-dom";
+import { FiX } from "react-icons/fi";
 
 export const modalRootRef: MutableRefObject<HTMLDivElement | null> = {
 	current: null,
@@ -18,7 +18,7 @@ export function ModalHeader(p: {
 	return (
 		<div
 			className={classNames(
-				'flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b',
+				"flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b",
 				containerClassName,
 			)}>
 			<span className={titleClassName}>{title}</span>
@@ -27,7 +27,7 @@ export function ModalHeader(p: {
 					e.stopPropagation();
 					onClose && onClose();
 				}}
-				className='text-2xl cursor-pointer'
+				className="text-2xl cursor-pointer"
 			/>
 		</div>
 	);
@@ -60,14 +60,14 @@ export function Modal(p: ModalProps) {
 			{...other}
 			ref={ref}
 			className={classNames(
-				'fixed left-0  top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center',
+				"fixed left-0  top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center",
 				className,
 			)}
 			onClick={onClickOut}>
 			<div
-				id='mo'
+				id="mo"
 				ref={ref}
-				className={classNames('bg-white rounded p-5 min-w-[20rem] min-h-[150] ')}>
+				className={classNames("bg-white rounded p-5 min-w-[20rem] min-h-[150] ")}>
 				<ModalHeader
 					title={title}
 					containerClassName={containerClassName}
