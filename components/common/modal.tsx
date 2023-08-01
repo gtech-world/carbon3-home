@@ -38,6 +38,9 @@ export function ModalFooter(p: {}) {
   return <div></div>;
 }
 
+export type ModalProps = { title?: string; onClose?: Function; outClose?: boolean } & HTMLAttributes<HTMLDivElement>;
+
+
 export function Modal(
   p: {
     title?: string;
