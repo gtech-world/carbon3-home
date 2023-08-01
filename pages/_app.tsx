@@ -14,6 +14,8 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import "../styles/globals.css";
 import { I18nextProvider } from "react-i18next";
+import { SWRConfig } from "swr/_internal";
+import axios from "axios";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -35,7 +37,13 @@ function InitProvider(p: { children: React.ReactNode }) {
   }, [i18n]);
   return (
     <I18nextProvider i18n={i18n}>
-      <StoreProvider init={_store}>{p.children}</StoreProvider>
+      <SWRConfig
+        value={{
+          revalidateOnFocus: false,
+          errorRetryCount: 3,
+        }}>
+        <StoreProvider init={_store}>{p.children}</StoreProvider>
+      </SWRConfig>
     </I18nextProvider>
   );
 }
