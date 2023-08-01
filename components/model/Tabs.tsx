@@ -13,8 +13,7 @@ export function Tabs() {
           onClick={() => setActive(item)}
           className={classNames("flex gap-1  text-sm w-min leading-[14px] p-[.625rem] cursor-pointer", {
             "bg-gray-bg border border-solid border-gray-14 border-b-0": item === active,
-          })}
-        >
+          })}>
           <ModelIcon type={item.modelType} />
           <span className="text-black whitespace-nowrap overflow-hidden text-ellipsis max-w-[600px]">{item.name}</span>
           <FiX

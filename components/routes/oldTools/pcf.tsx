@@ -42,7 +42,7 @@ export function PCF() {
   const onError = useOnError();
   const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
-    []
+    [],
   );
   const onVinChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setVin(e.target.value || "");
@@ -54,9 +54,9 @@ export function PCF() {
     doGet(mVin)
       .then((value) => {
         if (value[0]) {
-          setVinResult(mVin)
+          setVinResult(mVin);
           sessionStorage.setItem("last_vin", mVin);
-        }else {
+        } else {
           sessionStorage.removeItem("last_vin");
         }
       })
@@ -65,14 +65,14 @@ export function PCF() {
         setLoaded(true);
       });
   });
-  const onVinFocus = ()=>{
-    if(vin) return false
+  const onVinFocus = () => {
+    if (vin) return false;
     const lastVin = sessionStorage.getItem("last_vin") || "1500101202311001";
     const mVin = lastVin;
-      if (mVin) {
-        setVin(mVin);
-      }
-  }
+    if (mVin) {
+      setVin(mVin);
+    }
+  };
   useEffect(() => {
     const lastVin = sessionStorage.getItem("last_vin") || "";
     const mVin = qVin || lastVin;
@@ -88,11 +88,11 @@ export function PCF() {
     const phaseMap: { [k: string]: InventoryPhase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
     let total = 0;
-    pcfData.forEach((p:any) => {
+    pcfData.forEach((p: any) => {
       p.carbon_emission = 0;
-      p.activityTypes.forEach((act:any) => {
+      p.activityTypes.forEach((act: any) => {
         act.carbon_emission = 0;
-        act.inventoryActivityList.forEach((iAct:any) => {
+        act.inventoryActivityList.forEach((iAct: any) => {
           act.carbon_emission += iAct.ghgEmission;
           total += iAct.ghgEmission;
         });

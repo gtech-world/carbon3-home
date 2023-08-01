@@ -27,7 +27,7 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
       }
       setActive(nav);
     },
-    [navs, active]
+    [navs, active],
   );
   const del = useCallback(
     (nav: NavNode) => {
@@ -35,7 +35,7 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
       setNavs(nList);
       if (!nList.find((item) => item === active)) setActive(nList[0]);
     },
-    [navs, active]
+    [navs, active],
   );
   return (
     <SelectNavsContext.Provider
@@ -45,8 +45,7 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
         del,
         active,
         setActive,
-      }}
-    >
+      }}>
       {p.children}
     </SelectNavsContext.Provider>
   );
@@ -57,5 +56,6 @@ export function SelectNavsContextProvider(p: { children?: ReactNode | undefined 
 export type NavigationTreeState = {
   descriptores: { [k: string]: { [k: string]: Descriptor[] } };
 };
-export const NavigationTreeContext = createContext<NavigationTreeState>({ descriptores: {} });
-
+export const NavigationTreeContext = createContext<NavigationTreeState>({
+  descriptores: {},
+});

@@ -17,7 +17,7 @@ export function useHeaderTipHeight() {
       setH(ht.clientHeight);
       obs = new ResizeObserver(onResize);
       obs.observe(ht);
-      onResize()
+      onResize();
     }
     return () => {
       obs && ht && obs.unobserve(ht);
@@ -35,18 +35,20 @@ export function HeaderTip() {
   return (
     <div
       id="header-tip"
-      style={{ boxShadow: isMobile ? "0px -3px 15px rgba(0, 0, 0, 0.1)" : "none", top: isMobile ? "unset" : "0px" }}
-      className="w-full sticky h-[4.25rem] z-50 flex p-6 bg-white text-black mo:px-5 mo:pt-[.625rem] mo:pb-8 mo:flex mo:flex-col-reverse mo:h-auto mo:fixed mo:bottom-0"
-    >
+      style={{
+        boxShadow: isMobile ? "0px -3px 15px rgba(0, 0, 0, 0.1)" : "none",
+        top: isMobile ? "unset" : "0px",
+      }}
+      className="w-full sticky h-[4.25rem] z-50 flex p-6 bg-white text-black mo:px-5 mo:pt-[.625rem] mo:pb-8 mo:flex mo:flex-col-reverse mo:h-auto mo:fixed mo:bottom-0">
       <div className="flex-1" />
       <div
         className="text-base mo:text-center mo:px-5"
         dangerouslySetInnerHTML={{
           __html: t(
-            "The AICP site is under development. This version is for demonstration purpose only and the data is not real. For more information, please contract email hi@gtech.world."
+            "The AICP site is under development. This version is for demonstration purpose only and the data is not real. For more information, please contract email hi@gtech.world.",
           ).replace(
             "hi@gtech.world",
-            `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`
+            `<a class="underline" target="_blank" href="mailto:hi@gtech.world">hi@gtech.world</a>`,
           ),
         }}
       />

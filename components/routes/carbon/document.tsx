@@ -28,7 +28,8 @@ function Card(p: ICard) {
         <h3 className="text-xl font-semibold">{title}</h3>
         <div className="mt-5">
           <div>
-            文档摘要 ：<span className="text-green-2">{total.folder}</span>子项文件夹；
+            文档摘要 ：<span className="text-green-2">{total.folder}</span>
+            子项文件夹；
             <span className="text-green-2">{total.file}</span>文件；
             <span className="text-green-2">{total.collaborate}</span>用户协作；
             <span className="text-green-2">{total.auth}</span>项活跃开放授权； 公开非公开混合权限；
@@ -69,7 +70,7 @@ export function Document() {
         btn: { text: "验证并进入隐私文档", onClick: () => {} },
       },
     ],
-    []
+    [],
   );
   return (
     <CarbonLayout className="bg-gray-16 h-full">

@@ -13,7 +13,11 @@ type IconConfig = {
   color: string;
   needFixColor?: boolean;
 };
-const def: IconConfig = { Icon: GrDocumentConfig, color: "#9C27B0", needFixColor: true };
+const def: IconConfig = {
+  Icon: GrDocumentConfig,
+  color: "#9C27B0",
+  needFixColor: true,
+};
 const TypeIconConfig: {
   [k: string]: IconConfig;
 } = {
@@ -26,7 +30,10 @@ const TypeIconConfig: {
   [ModelType.LOCATION]: { Icon: FaMapMarkerAlt, color: "#556164" },
   [ModelType.DQ_SYSTEM]: { Icon: MdGridOn, color: "#3A8772" },
   [ModelType.IMPACT_METHOD]: { Icon: MdNaturePeople, color: "#69B13E" },
-  [ModelType.IMPACT_CATEGORY]: { Icon: MdOutlineFormatListBulleted, color: "#69B13E" },
+  [ModelType.IMPACT_CATEGORY]: {
+    Icon: MdOutlineFormatListBulleted,
+    color: "#69B13E",
+  },
 
   [`folder-${ModelType.PRODUCT_SYSTEM}`]: { Icon: FaFolder, color: "#1565C0" },
   [`folder-${ModelType.PROCESS}`]: { Icon: FaFolder, color: "#9C27B0" },
@@ -35,7 +42,10 @@ const TypeIconConfig: {
   [`folder-${ModelType.EPD}`]: { Icon: FaFolder, color: "#21C393" },
   [`folder-${ModelType.IMPACT_METHOD}`]: { Icon: FaFolder, color: "#69B13E" },
   [`folder-${ModelType.IMPACT_CATEGORY}`]: { Icon: FaFolder, color: "#69B13E" },
-  [`folder-${ModelType.SOCIAL_INDICATOR}`]: { Icon: FaFolder, color: "#EA9119" },
+  [`folder-${ModelType.SOCIAL_INDICATOR}`]: {
+    Icon: FaFolder,
+    color: "#EA9119",
+  },
   [`folder-${ModelType.DQ_SYSTEM}`]: { Icon: FaFolder, color: "#37997D" },
   [`folder-${ModelType.PARAMETER}`]: { Icon: FaFolder, color: "#C60116" },
   [`folder-${ModelType.UNIT_GROUP}`]: { Icon: FaFolder, color: "#2F363A" },

@@ -108,7 +108,7 @@ export function useToast() {
     (t?: Toast) => {
       update({ toast: t });
     },
-    [update]
+    [update],
   );
   return { current, toast };
 }
@@ -138,7 +138,7 @@ export function useLastInputVin() {
       update({ last_input_vin: vin });
       vin === "1500101202311001" && sessionStorage.setItem("last_input_vin", vin);
     },
-    [update]
+    [update],
   );
   return { last_input_vin, setLastInputVin };
 }
@@ -150,7 +150,7 @@ export function useShowHeadTip() {
       update({ show_header_tip: show });
       localStorage.setItem("hidden_header_tip", show ? "" : "1");
     },
-    [update]
+    [update],
   );
   return { show_header_tip, setShowHeaderTip };
 }

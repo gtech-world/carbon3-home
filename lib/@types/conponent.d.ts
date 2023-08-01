@@ -1,20 +1,19 @@
 declare namespace AllComponent {
+  type AButton = EitherOr<
+    {
+      text?: string | number | React.ReactElement[] | DefaultTFuncReturn;
+      transComponent?: React.ReactElement[] | DefaultTFuncReturn;
+      href?: any;
+      className?: string;
+      children?: any;
+      transComponent?: React.ReactElement[] | DefaultTFuncReturn;
+      onClick?: MouseEventHandler<HTMLAnchorElement>;
+    },
+    "text",
+    "transComponent"
+  >;
 
-type AButton = EitherOr<
-  {
-  text?: string | number | React.ReactElement[] | DefaultTFuncReturn;
-  transComponent?:React.ReactElement[] | DefaultTFuncReturn;
-  href?:any
-  className?:string
-  children?:any
-  transComponent?:React.ReactElement[] | DefaultTFuncReturn
-  onClick?:MouseEventHandler<HTMLAnchorElement>;
-  },'text','transComponent'
-  >
-  
-  
-  
-type FilterOptional<T> = Pick<
+  type FilterOptional<T> = Pick<
     T,
     Exclude<
       {
@@ -23,8 +22,8 @@ type FilterOptional<T> = Pick<
       undefined
     >
   >;
-  
-type FilterNotOptional<T> = Pick<
+
+  type FilterNotOptional<T> = Pick<
     T,
     Exclude<
       {
@@ -32,22 +31,21 @@ type FilterNotOptional<T> = Pick<
       }[keyof T],
       undefined
     >
->;
-  
-type PartialEither<T, K extends keyof any> = { [P in Exclude<keyof FilterOptional<T>, K>]-?: T[P] } &
-    { [P in Exclude<keyof FilterNotOptional<T>, K>]?: T[P] } &
-    { [P in Extract<keyof T, K>]?: undefined };
-  
-type Object = {
+  >;
+
+  type PartialEither<T, K extends keyof any> = {
+    [P in Exclude<keyof FilterOptional<T>, K>]-?: T[P];
+  } & { [P in Exclude<keyof FilterNotOptional<T>, K>]?: T[P] } & {
+    [P in Extract<keyof T, K>]?: undefined;
+  };
+
+  type Object = {
     [name: string]: any;
-};
-  
-type EitherOr<O extends Object, L extends string, R extends string> = 
-    (
-      PartialEither<Pick<O, L | R>, L> | 
-      PartialEither<Pick<O, L | R>, R>
-    )  & Omit<O, L | R>;
-  
+  };
+
+  type EitherOr<O extends Object, L extends string, R extends string> = (
+    | PartialEither<Pick<O, L | R>, L>
+    | PartialEither<Pick<O, L | R>, R>
+  ) &
+    Omit<O, L | R>;
 }
-  
-  

@@ -17,7 +17,7 @@ interface ITable {
   hiddenHeader?: boolean;
   mouseHoverKey?: string;
   columnsHeight?: string;
-  isSetBorder?:boolean;
+  isSetBorder?: boolean;
 }
 
 const SIZE = {
@@ -37,7 +37,7 @@ export const Table: FC<ITable> = ({
   hiddenHeader = false,
   mouseHoverKey = "",
   columnsHeight = "",
-  isSetBorder = false
+  isSetBorder = false,
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -61,10 +61,7 @@ export const Table: FC<ITable> = ({
       if (v.filterOptions) {
         filters[v.dataIndex] = {
           isFilterOpen: false,
-          filterValueIndex:
-            filters[v.dataIndex]?.filterValueIndex > -1
-              ? filters[v.dataIndex].filterValueIndex
-              : -1,
+          filterValueIndex: filters[v.dataIndex]?.filterValueIndex > -1 ? filters[v.dataIndex].filterValueIndex : -1,
         };
       }
     });
@@ -84,7 +81,7 @@ export const Table: FC<ITable> = ({
         tableData
           .slice(0, itemIndex + 1)
           .concat(tableData[itemIndex].children)
-          .concat(tableData.slice(itemIndex + 1))
+          .concat(tableData.slice(itemIndex + 1)),
       );
     } else {
       // 计算所有展开的 children 数量
@@ -107,14 +104,12 @@ export const Table: FC<ITable> = ({
         isFilterOpen: false,
       },
     });
-    item.onFilterChange &&
-      item.onFilterChange(index > -1 ? item.filterOptions[index] : null);
+    item.onFilterChange && item.onFilterChange(index > -1 ? item.filterOptions[index] : null);
     setFilters(filters);
   };
 
   const handleFilterOpen = (item: any) => {
-    filters[item.dataIndex].isFilterOpen =
-      !filters[item.dataIndex].isFilterOpen;
+    filters[item.dataIndex].isFilterOpen = !filters[item.dataIndex].isFilterOpen;
     setFilters({ ...filters });
   };
 
@@ -124,19 +119,11 @@ export const Table: FC<ITable> = ({
         "w-full",
         className,
         size === "small" && "text-xs",
-        size === "big" && "text-lg mo:text-[.9375rem] "
-      )}
-    >
+        size === "big" && "text-lg mo:text-[.9375rem] ",
+      )}>
       <table border={1} cellSpacing={0} className="w-full text-left ">
         {!hiddenHeader && (
-          <thead
-            className={classNames(
-              "bg-gray-14 ",
-              className,
-              size === "small" && "text-sm"
-            )}
-            style={headerStyle}
-          >
+          <thead className={classNames("bg-gray-14 ", className, size === "small" && "text-sm")} style={headerStyle}>
             <tr className="px-3">
               {columns &&
                 columns.map((v, i) => {
@@ -148,9 +135,8 @@ export const Table: FC<ITable> = ({
                         "px-3 relative break-keep",
                         i === 0 && "rounded-l overflow-hidden",
                         i === columns.length - 1 && "rounded-r overflow-hidden",
-                        (SIZE as any)[size] || "py-2"
-                      )}
-                    >
+                        (SIZE as any)[size] || "py-2",
+                      )}>
                       {!!v.tip && (
                         <VscQuestion
                           data-tooltip-id="tooltip"
@@ -162,11 +148,7 @@ export const Table: FC<ITable> = ({
                       {!!filters[v.dataIndex] && (
                         <div className="inline-block" ref={ref}>
                           <FiFilter
-                            color={
-                              filters[v.dataIndex]?.filterValueIndex > -1
-                                ? "#29953A"
-                                : ""
-                            }
+                            color={filters[v.dataIndex]?.filterValueIndex > -1 ? "#29953A" : ""}
                             onClick={() => {
                               handleFilterOpen(v);
                             }}
@@ -178,41 +160,32 @@ export const Table: FC<ITable> = ({
                                 className="bg-white w-[12.375rem] max-h-[14.875rem] overflow-auto text-sm rounded-lg py-3"
                                 style={{
                                   boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
-                                }}
-                              >
+                                }}>
                                 <li
                                   className={classNames(
                                     "py-2.5 px-5 hover:bg-[#F3F3F3] cursor-pointer",
-                                    filters[v.dataIndex].filterValueIndex ===
-                                      -1 && "text-green-2"
+                                    filters[v.dataIndex].filterValueIndex === -1 && "text-green-2",
                                   )}
                                   onClick={() => {
                                     handleFilterValue(v, -1);
-                                  }}
-                                >
+                                  }}>
                                   All
                                 </li>
-                                {v.filterOptions.map(
-                                  (option: any, optionIndex: number) => {
-                                    return (
-                                      <li
-                                        key={`productList${optionIndex}`}
-                                        onClick={() => {
-                                          handleFilterValue(v, optionIndex);
-                                        }}
-                                        className={classNames(
-                                          "py-1.5 hover:bg-[#F3F3F3] px-5 break-all cursor-pointer",
-                                          filters[v.dataIndex]
-                                            .filterValueIndex === optionIndex
-                                            ? "text-green-2"
-                                            : ""
-                                        )}
-                                      >
-                                        {option.text}
-                                      </li>
-                                    );
-                                  }
-                                )}
+                                {v.filterOptions.map((option: any, optionIndex: number) => {
+                                  return (
+                                    <li
+                                      key={`productList${optionIndex}`}
+                                      onClick={() => {
+                                        handleFilterValue(v, optionIndex);
+                                      }}
+                                      className={classNames(
+                                        "py-1.5 hover:bg-[#F3F3F3] px-5 break-all cursor-pointer",
+                                        filters[v.dataIndex].filterValueIndex === optionIndex ? "text-green-2" : "",
+                                      )}>
+                                      {option.text}
+                                    </li>
+                                  );
+                                })}
                               </ul>
                             </div>
                           )}
@@ -230,54 +203,34 @@ export const Table: FC<ITable> = ({
               return (
                 <tr
                   key={`table_data_${itemIndex}`}
-                  className={`column-level-${
-                    item.level ? item.level : 0
-                  } ${columnsHeight}`}
-                >
+                  className={`column-level-${item.level ? item.level : 0} ${columnsHeight}`}>
                   {columns.map((column, columnIndex) => {
                     return (
                       <td
-                        
                         key={`data_column_${columnIndex}`}
                         className={classNames(
                           `px-3 cursor-pointer  `,
                           {
-                            "bg-[#F3F3F3]":
-                              mouseHoverItem[mouseHoverKey] ===
-                              item[mouseHoverKey],
-                            'border':isSetBorder
-
+                            "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey],
+                            border: isSetBorder,
                           },
                           (SIZE as any)[size] || "py-2",
                           !!column.tip && "pl-9",
-                          cellClassName &&
-                            cellClassName(column, columnIndex, itemIndex)
+                          cellClassName && cellClassName(column, columnIndex, itemIndex),
                         )}
-                        style={{ width: column.width ? column.width : "auto" }}
-                      >
+                        style={{ width: column.width ? column.width : "auto" }}>
                         <div
                           onMouseOver={() => setMouseHoverItem(item)}
                           className="flex items-center"
                           style={{
-                            marginLeft:
-                              (item.level && columnIndex === 0
-                                ? item.level
-                                : 0) *
-                                1.25 +
-                              "rem",
-                          }}
-                        >
-                          {!!item?.children &&
-                            item?.children.length > 0 &&
-                            columnIndex === 0 && (
-                              <FiChevronRight
-                                onClick={() => expand(itemIndex)}
-                                className={classNames(
-                                  "mr-2 cursor-pointer text-gray-9",
-                                  item.open && "rotate-[90deg]"
-                                )}
-                              />
-                            )}
+                            marginLeft: (item.level && columnIndex === 0 ? item.level : 0) * 1.25 + "rem",
+                          }}>
+                          {!!item?.children && item?.children.length > 0 && columnIndex === 0 && (
+                            <FiChevronRight
+                              onClick={() => expand(itemIndex)}
+                              className={classNames("mr-2 cursor-pointer text-gray-9", item.open && "rotate-[90deg]")}
+                            />
+                          )}
                           {column.render
                             ? column.render(item[column.dataIndex], item)
                             : column.emptyText && !item[column.dataIndex]
@@ -296,9 +249,7 @@ export const Table: FC<ITable> = ({
       {loading ? (
         <Loading className="pt-8" />
       ) : (
-        !(tableData && tableData.length > 0) && (
-          <div className="flex justify-center w-full py-20">无数据</div>
-        )
+        !(tableData && tableData.length > 0) && <div className="flex justify-center w-full py-20">无数据</div>
       )}
     </div>
   );

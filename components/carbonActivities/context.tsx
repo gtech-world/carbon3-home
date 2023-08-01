@@ -21,7 +21,11 @@ export function useCurrentActivity() {
 }
 
 export function CurrentActivityProvider(p: { children?: React.ReactNode; init: Partial<CurrentActivity> }) {
-  const [value, setValue] = useState<CurrentActivity>({ activity: null, sourcing: 0, ...p.init });
+  const [value, setValue] = useState<CurrentActivity>({
+    activity: null,
+    sourcing: 0,
+    ...p.init,
+  });
   useEffect(() => {
     setValue((old) => ({ ...old, ...p.init }));
   }, [p.init]);

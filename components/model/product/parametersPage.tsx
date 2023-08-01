@@ -21,7 +21,7 @@ export function ParametersPage(p: { data: ProductSystem }) {
     }
     const others = _.sortBy(
       (data.parameterSets || []).filter((item) => item !== base),
-      ["isBaseline", "name"]
+      ["isBaseline", "name"],
     );
     const getContext = (type: string, id: number) => {
       return _.chain(descriptores[type])

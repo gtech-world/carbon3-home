@@ -16,7 +16,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(node.id), [node.id]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
-    return actTypes.map((item:any) => ({
+    return actTypes.map((item: any) => ({
       title: item.displayName,
       sub: item.name,
     }));
@@ -41,7 +41,7 @@ export function BomNodeModal(p: BomUIProps & { onBack: MouseEventHandler<HTMLBut
         <PartInfos node={node} />
         <div className="text-[.9375rem] font-bold mt-5 mb-[.875rem]">{t("Attributable to Carbon Activities")}:</div>
         {loading && <Loading />}
-        {currentAttrs.map((attr:any, i:number) => (
+        {currentAttrs.map((attr: any, i: number) => (
           <Attrs key={`attrs_${i}`} {...attr} />
         ))}
       </div>
@@ -58,8 +58,7 @@ export function BomItem(p: BomUIProps & HTMLAttributes<HTMLDivElement>) {
         toggle(true);
         console.info("open bom modal");
       }}
-      className="cursor-pointer flex justify-between items-end w-full px-5 py-3 border border-solid border-black rounded-lg [&:nth-child(n+2)]:mt-5"
-    >
+      className="cursor-pointer flex justify-between items-end w-full px-5 py-3 border border-solid border-black rounded-lg [&:nth-child(n+2)]:mt-5">
       <div className="text-lg flex-grow-0 whitespace-nowrap overflow-hidden text-ellipsis">{node.partDisplayName}</div>
       <IoChevronForwardOutline className="text-2xl flex-shrink-0" />
       {open && (

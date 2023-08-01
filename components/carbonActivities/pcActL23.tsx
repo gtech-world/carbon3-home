@@ -13,16 +13,14 @@ export function PcActL2Item(p: { data: ProductProcess; index: number }) {
     <div
       className="w-full h-[4.5rem] pr-[.625rem] relative cursor-pointer"
       style={{ marginTop: index > 0 ? "1.25rem" : "0px" }}
-      onClick={() => update({ sourcing: index })}
-    >
+      onClick={() => update({ sourcing: index })}>
       <div
         className={classNames(
           "bg-white w-full h-full px-3 rounded-lg flex items-center border border-solid border-black",
           {
             "border-green-2": selected,
-          }
-        )}
-      >
+          },
+        )}>
         <div
           style={{
             WebkitLineClamp: 2,
@@ -33,9 +31,8 @@ export function PcActL2Item(p: { data: ProductProcess; index: number }) {
             " grow-0 text-base w-full whitespace-normal break-words overflow-hidden text-ellipsis",
             {
               "text-green-2": selected,
-            }
-          )}
-        >
+            },
+          )}>
           {data.name}
         </div>
       </div>

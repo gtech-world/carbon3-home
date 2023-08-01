@@ -46,8 +46,7 @@ function PcBomItem(p: any) {
       }}
       className={classNames("flex items-center px-5 py-3 rounded-lg", {
         "text-green-2": node === selectNode,
-      })}
-    >
+      })}>
       {!isLeaf && (
         <button onClick={() => setOpen(!isOpen)} className="text-2xl mr-3">
           {isOpen ? <BsDashCircle /> : <BsPlusCircle />}
@@ -57,8 +56,7 @@ function PcBomItem(p: any) {
         className={classNames("whitespace-nowrap cursor-pointer", {
           "font-bold": nestingLevel === 0,
         })}
-        onClick={() => nestingLevel !== 0 && setSelectNode(node)}
-      >
+        onClick={() => nestingLevel !== 0 && setSelectNode(node)}>
         {name}
       </span>
     </div>
@@ -109,12 +107,12 @@ export function PcBom(p: BomUIProps) {
         }
       }
     },
-    [node]
+    [node],
   );
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
-    return actTypes.map((item:any) => ({
+    return actTypes.map((item: any) => ({
       title: item.displayName,
       sub: item.name,
     }));
@@ -144,7 +142,7 @@ export function PcBom(p: BomUIProps) {
             <Loading />
           ) : (
             <div className="flex-1 w-full overflow-y-auto">
-              {currentAttrs.map((attr:any, i:number) => (
+              {currentAttrs.map((attr: any, i: number) => (
                 <Attrs key={`attrs_${i}`} {...attr} />
               ))}
             </div>

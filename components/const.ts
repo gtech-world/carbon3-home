@@ -1,7 +1,7 @@
 import SvgCO2 from "@public/co2.svg";
 import { Phase, SbtPhase } from "@lib/@types/type";
 import { AiOutlineUser } from "react-icons/ai";
-import { FiLayers,FiFileText,FiSettings } from "react-icons/fi";
+import { FiLayers, FiFileText, FiSettings } from "react-icons/fi";
 import { IoCarSportOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
 import { InventoryPhase } from "../lib/@types/type";

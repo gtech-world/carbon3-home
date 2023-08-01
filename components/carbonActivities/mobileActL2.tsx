@@ -17,8 +17,7 @@ export function MobileActL2Item(p: { data: ProductProcess | InventoryProductProc
     <div
       className="w-full min-h-[4.5rem] cursor-pointer p-3 flex flex-col justify-center border border-solid border-black rounded-lg"
       style={{ marginTop: index > 0 ? "1.25rem" : "0px" }}
-      onClick={() => toggle(true)}
-    >
+      onClick={() => toggle(true)}>
       <div className="flex items-center">
         <div className="w-0 flex-1">
           <div
@@ -28,9 +27,8 @@ export function MobileActL2Item(p: { data: ProductProcess | InventoryProductProc
               WebkitBoxOrient: "vertical",
             }}
             className={classNames(
-              "grow-0 text-base w-full whitespace-normal break-words overflow-hidden text-ellipsis"
-            )}
-          >
+              "grow-0 text-base w-full whitespace-normal break-words overflow-hidden text-ellipsis",
+            )}>
             {data.name}
           </div>
           {iData.carbon_emission !== undefined && (

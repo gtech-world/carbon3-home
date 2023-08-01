@@ -156,7 +156,7 @@ export interface SbtEmissionInventory {
 }
 
 export interface SbtDetail {
-  sbtTokenId: string
+  sbtTokenId: string;
 }
 
 export interface SbtPhase {

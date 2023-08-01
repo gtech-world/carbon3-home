@@ -5,9 +5,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import { ToolsHeader } from "@components/common/toolsLayout/header";
 import classNames from "classnames";
 
-export function ToolsLayout(
-  p: { canBack?: boolean; isNew?: boolean } & HTMLAttributes<HTMLDivElement>
-) {
+export function ToolsLayout(p: { canBack?: boolean; isNew?: boolean } & HTMLAttributes<HTMLDivElement>) {
   const { className, canBack, children, isNew, ...props } = p;
   const { push, pathname } = useRouter();
   const h = useHeaderTipHeight();
@@ -20,18 +18,11 @@ export function ToolsLayout(
       />
 
       <div
-        className={classNames(
-          "w-full h-full mx-auto px-[60px] flex flex-col flex-1",
-          {
-            " max-w-[90rem]": !isNew,
-          }
-        )}
-      >
+        className={classNames("w-full h-full mx-auto px-[60px] flex flex-col flex-1", {
+          " max-w-[90rem]": !isNew,
+        })}>
         {canBack && (
-          <div
-            className="flex items-center my-5 text-sm cursor-pointer"
-            onClick={() => push("/carbon/service")}
-          >
+          <div className="flex items-center my-5 text-sm cursor-pointer" onClick={() => push("/carbon/service")}>
             <FiChevronLeft className="text-lg" />
             返回
           </div>

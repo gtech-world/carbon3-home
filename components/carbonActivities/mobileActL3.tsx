@@ -30,7 +30,7 @@ export function MobileActL3(p: {
         </div>
         {iData.carbon_emission !== undefined && (
           <div className="text-sm mt-[.625rem] text-gray-6">{`${t("Total")}: ${ftmCarbonEmission(
-            iData.carbon_emission
+            iData.carbon_emission,
           )} / ${iData.activityTypes.length} ${t("items")}`}</div>
         )}
         <div className="w-full mt-5">

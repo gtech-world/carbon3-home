@@ -7,9 +7,7 @@ module.exports = {
         lg: { min: "90rem" },
         ssm: { max: "460px" },
         mo: { max: "900px" },
-        md:  [
-          {'min': '0', 'max': '1280px'},
-        ]
+        md: [{ min: "0", max: "1280px" }],
       },
       fontFamily: {
         OpenSans: "var(--open-sans)",
@@ -24,11 +22,11 @@ module.exports = {
           18: "#4A4A4A",
           20: "#eeeeee",
           bg: "#f1f1f1",
-          28: "#f8f8f8"
+          28: "#f8f8f8",
         },
         green: {
           2: "#29953A",
-          28: '#2E8C3D',
+          28: "#2E8C3D",
           3: "#38942C",
           4: "#CBDED0",
         },

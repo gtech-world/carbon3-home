@@ -43,8 +43,7 @@ function NavItem(p: any) {
       }}
       className={classNames("flex items-center py-[2px]", {
         "": node === active,
-      })}
-    >
+      })}>
       <button onClick={() => setOpen(!isOpen)} className={classNames("text-sm mr-[6px]", { invisible: isLeaf })}>
         {isOpen ? <RiArrowDownSLine /> : <RiArrowRightSLine />}
       </button>
@@ -57,8 +56,7 @@ function NavItem(p: any) {
             setOpen(!isOpen);
           }
         }}
-        className={classNames("flex text-sm gap-1 items-center cursor-pointer")}
-      >
+        className={classNames("flex text-sm gap-1 items-center cursor-pointer")}>
         <ModelIcon
           type={
             mNode.type == "folder"
@@ -94,7 +92,7 @@ export function Nav(p: { node: NavNode }) {
         }
       }
     },
-    [node]
+    [node],
   );
   return (
     <AutoSizer>

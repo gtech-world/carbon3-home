@@ -28,7 +28,7 @@ export function CarbonActivities() {
     const phaseList = genPhase();
     const phaseMap: { [k: string]: Phase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
-    list.forEach((p:any) => phaseMap[p.phase]?.processList?.push(p));
+    list.forEach((p: any) => phaseMap[p.phase]?.processList?.push(p));
     return phaseList;
   }, [list]);
   const loading = load0 || load1 || list == undefined;
@@ -40,7 +40,7 @@ export function CarbonActivities() {
         <>
           <div className="text-lg font-medium text-gray-6 mb-5 mo:leading-5 mo:text-[.9375rem]">
             {t(
-              "Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the PCF Inventory."
+              "Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the PCF Inventory.",
             )}
           </div>
           <Select current={current} onChange={onChange} items={items} />

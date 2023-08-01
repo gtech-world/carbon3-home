@@ -30,10 +30,10 @@ export function RealData(p: ModalProps) {
   const { ...props } = p;
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState([]);
-//   const { value, loading } = useAsyncM(
-//     noArgs(() => getLcaResultList({ pgNum }), [pgNum]),
-//     [pgNum]
-//   );
+  //   const { value, loading } = useAsyncM(
+  //     noArgs(() => getLcaResultList({ pgNum }), [pgNum]),
+  //     [pgNum]
+  //   );
 
   return (
     <Modal title="实景数据" {...props}>

@@ -17,11 +17,12 @@ export function PcInventoryLevel1Item(p: { data: InventoryPhase; index: number }
       className={classNames("w-0 flex-1 text-black cursor-pointer [&:nth-child(n+2)]:ml-5", {
         "text-gray-9": !selected,
       })}
-      onClick={() => update({ activity: data, sourcing: 0 })}
-    >
+      onClick={() => update({ activity: data, sourcing: 0 })}>
       <StepProgress full={true} color={selected ? "#29953A" : "transparent"} index={index} className="my-5" />
       <div className="w-full whitespace-normal font-bold text-xl">{t(data.name)}</div>
-      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${data.progress}%`}</div>
+      <div className="w-full whitespace-nowrap text-base mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${
+        data.progress
+      }%`}</div>
       {data.carbon_emission > 0 && data.name !== PHASE[PHASE.length - 1] ? (
         <IoCheckmarkCircleOutline className="text-2xl mt-3" />
       ) : (

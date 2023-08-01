@@ -25,8 +25,7 @@ export function Btn(p: BtnProps) {
         [defStyle]: !disable,
         "btn-disable": disable,
       })}
-      {...props}
-    >
+      {...props}>
       {busy ? <FaSpinner className="animate-spin" /> : children}
     </button>
   );

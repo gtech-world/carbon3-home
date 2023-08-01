@@ -22,25 +22,22 @@ export function Dropdown(p: DropdownProps) {
   return (
     <div
       ref={ref}
-      className={classNames(
-        "bg-white text-black px-5 py-3 text-lg rounded-lg relative cursor-pointer",
-        className
-      )}
-      onClick={() => onToggle()}
-    >
+      className={classNames("bg-white text-black px-5 py-3 text-lg rounded-lg relative cursor-pointer", className)}
+      onClick={() => onToggle()}>
       <div className="flex justify-between items-center">{children}</div>
       {open && (
         <div
           className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
-          style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
-        >
+          style={{
+            boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
+            top: "calc(100% + 8px)",
+          }}>
           <div className="">
             {items.map((item, index) => (
               <div
                 key={`select_item_${index}`}
                 className={classNames("w-full break-all px-5 py-2 text-sm hover:bg-gray-16")}
-                onClick={() => onClick && onClick(index)}
-              >
+                onClick={() => onClick && onClick(index)}>
                 {item.text}
               </div>
             ))}

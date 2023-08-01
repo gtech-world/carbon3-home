@@ -8,7 +8,7 @@ import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 import { useT } from "./useT";
 
-export function useMenus(data:any[] = []) {
+export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
@@ -17,17 +17,27 @@ export function useMenus(data:any[] = []) {
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
-    menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
+    menus.push({
+      icon: <FiSearch />,
+      text: t("AICP Open Query"),
+      to: "/openquery",
+    });
     if (user && !data.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: CARBON_PAGES[0].to });
+      menus.push({
+        icon: <VscAccount />,
+        text: handleCarbonStr(t("AICP Digital3 Carbon System")),
+        to: CARBON_PAGES[0].to,
+      });
     }
     if (isMobile && user) {
-      data.map<MenuItem>((item) => ({
-        icon: <item.icon />,
-        text: t(item.txt),
-        to: item.to,
-        selected: pathname === item.to,
-      })).forEach((item) => menus.push(item));
+      data
+        .map<MenuItem>((item) => ({
+          icon: <item.icon />,
+          text: t(item.txt),
+          to: item.to,
+          selected: pathname === item.to,
+        }))
+        .forEach((item) => menus.push(item));
     }
     // menus.push({
     //   topSplit: true,

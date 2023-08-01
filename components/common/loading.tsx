@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { HTMLAttributes } from "react";
 import { RiLoader2Fill } from "react-icons/ri";
 
-export function Loading(p:{size?:string} & HTMLAttributes<HTMLDivElement>) {
-  const { className,color,size="", ...other } = p;
+export function Loading(p: { size?: string } & HTMLAttributes<HTMLDivElement>) {
+  const { className, color, size = "", ...other } = p;
   return (
     <div {...other} className={classNames("text-black w-full h-full flex items-center justify-center", className)}>
-      <RiLoader2Fill color={color} style={{fontSize:size}} className="text-[3.125rem] animate-spin" />
+      <RiLoader2Fill color={color} style={{ fontSize: size }} className="text-[3.125rem] animate-spin" />
     </div>
   );
 }

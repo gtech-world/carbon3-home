@@ -32,7 +32,12 @@ export function InfoPage(p: { data: ProductSystem }) {
         infos={[
           [
             "Process",
-            <ModelIconName key={`ref_process`} type={ModelType.PROCESS} name={data.referenceProcess?.name} def="none" />,
+            <ModelIconName
+              key={`ref_process`}
+              type={ModelType.PROCESS}
+              name={data.referenceProcess?.name}
+              def="none"
+            />,
           ],
           [
             "Product",
@@ -56,7 +61,7 @@ export function InfoPage(p: { data: ProductSystem }) {
             "Unit",
             <ModelIconName key={`ref_unit`} type={ModelType.UNIT_GROUP} name={flow?.referenceUnit?.name} def="none" />,
           ],
-          ["Target amount", data.targetAmount + ""]
+          ["Target amount", data.targetAmount + ""],
         ]}
       />
     </>

@@ -22,7 +22,6 @@ const open_sans = Open_Sans({
   variable: "--open-sans",
 });
 
-
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
 function InitProvider(p: { children: React.ReactNode }) {

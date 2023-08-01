@@ -12,22 +12,22 @@ export function PcInventoryLevel2Item(p: { data: InventoryProductProcess; index:
   return (
     <div
       className={classNames("relative w-full pr-[.625rem] cursor-pointer [&:nth-child(n+2)]:mt-5")}
-      onClick={() => update({ sourcing: index })}
-    >
+      onClick={() => update({ sourcing: index })}>
       <div className="w-full p-3 rounded-lg" style={{ border: selected ? "1px solid #29953A" : "1px solid #000000" }}>
         <div
           className={classNames(
             {
               "text-green-2": selected,
             },
-            "text-base leading-normal w-full text-ellipsis whitespace-nowrap overflow-hidden"
-          )}
-        >
+            "text-base leading-normal w-full text-ellipsis whitespace-nowrap overflow-hidden",
+          )}>
           {data.name}
         </div>
         <div
-          className={classNames(selected ? "text-green-2" : "text-gray-6", "text-sm mt-[.625rem]")}
-        >{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} ${t("items")}`}</div>
+          className={classNames(
+            selected ? "text-green-2" : "text-gray-6",
+            "text-sm mt-[.625rem]",
+          )}>{`${ftmCarbonEmission(data.carbon_emission)} / ${data.activityTypes.length} ${t("items")}`}</div>
       </div>
       {selected && (
         <div

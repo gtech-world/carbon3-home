@@ -18,17 +18,17 @@ export function ProductDefinition() {
   const { current, items, onChange, current_product, loading: load0 } = useProductsState();
   const { value: pcfAccountable, loading: load1 } = useAsyncM(
     () => (current_product ? getProductPcfAccountable(current_product.id) : Promise.resolve(undefined)),
-    [current_product]
+    [current_product],
   );
   const { value: boms, loading: load2 } = useAsyncM(
     () => (current_product ? getProductBomList(current_product.id) : Promise.resolve(undefined)),
-    [current_product]
+    [current_product],
   );
   const root = useMemo(() => {
     if (!boms || boms.length === 0) return undefined;
     const map: { [k: string]: ProductBom[] } = {};
     let rootBomPartNumber: string = "";
-    boms.forEach((bom:any) => {
+    boms.forEach((bom: any) => {
       if (bom.parentPartNumberId === null) {
         rootBomPartNumber = bom.id + "";
       }
@@ -36,7 +36,7 @@ export function ProductDefinition() {
       if (!map[bom.id]) map[bom.id] = [];
       map[bom.id].push(bom);
     });
-    boms.forEach((bom:any) => {
+    boms.forEach((bom: any) => {
       const parents = map[bom.parentPartNumberId];
       if (parents) {
         parents.forEach((p, index) => {

@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useState } from "react";
 
 export function OpenQuery() {
-  const {t} = useT()
+  const { t } = useT();
   const onBack = useGoBack();
   const [vin, setVin] = useState("");
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -20,11 +20,11 @@ export function OpenQuery() {
     if (!vin) return onError("Please input VIN Code");
     push(`car?vin=${vin}`);
   };
-  const onVinFocus = ()=>{
-    if(!vin){
-      setVin('1500101202311001')
+  const onVinFocus = () => {
+    if (!vin) {
+      setVin("1500101202311001");
     }
-  }
+  };
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
@@ -67,8 +67,7 @@ export function OpenQuery() {
           />
           <Button
             onClick={onQuery}
-            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2"
-          >
+            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2">
             {t("Query")}
           </Button>
         </div>

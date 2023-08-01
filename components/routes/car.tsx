@@ -44,9 +44,8 @@ function ItemInfo(p: { label: string; text: string; link?: string }) {
         {
           "text-green-2": p.link,
           "text-gray-6": !p.link,
-        }
-      )}
-    >
+        },
+      )}>
       <span className="font-bold text-black">{p.label}:</span>{" "}
       {p.link ? (
         <a href={p.link} target="_blank" rel="noreferrer">
@@ -78,7 +77,7 @@ function CarInfos(p: CarUIProps) {
         label={t("Label SBT Address")}
         text={t("View on blockchain explorer")}
         // link={genScanTokenUrl(sbt.sbtTokenId)}
-        link={'/blockchain?tokenId='+sbt.sbtTokenId}
+        link={"/blockchain?tokenId=" + sbt.sbtTokenId}
       />
     </div>
   );
@@ -101,9 +100,8 @@ function ItemPhase(p: { data: SbtPhase; index: number }) {
   return (
     <div
       className={classNames(
-        "flex flex-col w-0 flex-1 h-[11.5rem] p-5 bg-white rounded-lg text-black mo:h-auto mo:w-full mo:mt-5"
-      )}
-    >
+        "flex flex-col w-0 flex-1 h-[11.5rem] p-5 bg-white rounded-lg text-black mo:h-auto mo:w-full mo:mt-5",
+      )}>
       <StepProgress index={index} className="flex-shrink-0 mb-5" />
       <div className="w-full text-base font-bold whitespace-normal">{t(data.name)}</div>
       <div className="w-full whitespace-nowrap text-sm mt-[.625rem]">{`${ftmCarbonEmission(data.carbon_emission)} / ${
@@ -148,26 +146,30 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
   const { t } = useT();
   const content = useMemo(() => {
     return type == 1
-      ? handleCarbonStr(t(
-          "The AIAG Digital3 Carbon Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance."
-        ).replace(
-          "{{value}}",
-          `<a class="text-green-2 cursor-pointer" target="_blank" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
-            "AIAG’s carbon reduction / Net Zero 2050 initiatives"
-          )}</a>`
-        ))
+      ? handleCarbonStr(
+          t(
+            "The AIAG Digital3 Carbon Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance.",
+          ).replace(
+            "{{value}}",
+            `<a class="text-green-2 cursor-pointer" target="_blank" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
+              "AIAG’s carbon reduction / Net Zero 2050 initiatives",
+            )}</a>`,
+          ),
+        )
       : type == 2
       ? t(
-          "AICP is the global, industry-level platform for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Platform. Click {{value}} to query information about this vehicle."
+          "AICP is the global, industry-level platform for long-term carbon performance traceability and visibility under the 2050 Net Zero commitment. The data on this label is supported by the Automotive Industry Carbon Platform. Click {{value}} to query information about this vehicle.",
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer"  href="/openquery" rel="noreferrer">${t("here")}</a>`
+          `<a class="text-green-2 cursor-pointer"  href="/openquery" rel="noreferrer">${t("here")}</a>`,
         )
       : t(
-          "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer."
+          "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",
         ).replace(
           "{{value}}",
-          `<a class="text-green-2 cursor-pointer" target="_blank" href="/blockchain?tokenId=1000000" rel="noreferrer">${t("here")}</a>`
+          `<a class="text-green-2 cursor-pointer" target="_blank" href="/blockchain?tokenId=1000000" rel="noreferrer">${t(
+            "here",
+          )}</a>`,
         );
   }, [type, sbt, t]);
   return (
@@ -179,14 +181,19 @@ function ItemQA(p: { type: number; sbt: SbtInfo }) {
       ) : (
         <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
       )}
-      <div className="text-lg font-bold mb-[.9375rem]" dangerouslySetInnerHTML={{__html:handleCarbonStr(t(
-          type === 1
-            ? "What is AIAG Digital3 Carbon Trust Label?"
-            : type === 2
-              ? "The Raw Data Behind Trust Label"
-              : "Immutability and Traceability"
-        ))}}>
-      </div>
+      <div
+        className="text-lg font-bold mb-[.9375rem]"
+        dangerouslySetInnerHTML={{
+          __html: handleCarbonStr(
+            t(
+              type === 1
+                ? "What is AIAG Digital3 Carbon Trust Label?"
+                : type === 2
+                ? "The Raw Data Behind Trust Label"
+                : "Immutability and Traceability",
+            ),
+          ),
+        }}></div>
       <div className="text-[.9375rem] font-medium text-center" dangerouslySetInnerHTML={{ __html: content }} />
     </div>
   );
@@ -228,8 +235,11 @@ function MobileCar(p: CarUIProps) {
             <div className="flex-1 w-0 ml-5 whitespace-normal">
               <div
                 className="text-lg font-semibold"
-                style={{ WebkitLineClamp: 2, display: "-webkit-box", WebkitBoxOrient: "vertical" }}
-              >
+                style={{
+                  WebkitLineClamp: 2,
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                }}>
                 {data.sbt.productName}
               </div>
               <div className="text-base">{"VIN #111923789123"}</div>
@@ -267,8 +277,12 @@ function MobileCar(p: CarUIProps) {
             <div />
           </div>
           <Phases data={data.sbtPhase} />
-          <div className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center" onClick={onClickShow} dangerouslySetInnerHTML={{__html:handleCarbonStr(t("Learn More about AIAG’s Digital3 Carbon Trust Label"))}}>
-          </div>
+          <div
+            className="text-green-2 cursor-pointer text-[.9375rem] my-6 mb-3 text-center"
+            onClick={onClickShow}
+            dangerouslySetInnerHTML={{
+              __html: handleCarbonStr(t("Learn More about AIAG’s Digital3 Carbon Trust Label")),
+            }}></div>
         </div>
       ) : (
         <div className="w-full">
@@ -336,7 +350,7 @@ export function Car() {
   const isMobile = useIsMobile();
   const { value, loading } = useAsyncM(
     noArgs(() => Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)]), [vin]),
-    [vin]
+    [vin],
   );
   const data = useMemo<CarUIProps["data"] | undefined>(() => {
     if (!value) return undefined;
@@ -346,7 +360,7 @@ export function Car() {
     const mapPhase: { [k: string]: SbtPhase } = {};
     sbtPhase.forEach((item) => (mapPhase[item.name] = item));
     let totalEmission = 0;
-    sbtEmissions.forEach((emi:any) => {
+    sbtEmissions.forEach((emi: any) => {
       if (mapPhase[emi.phase]) {
         mapPhase[emi.phase].carbon_emission += emi.ghgEmission;
         totalEmission += emi.ghgEmission;

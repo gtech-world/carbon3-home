@@ -31,9 +31,9 @@ export function Select(p: SelectProps) {
         onChange(index);
       }
     },
-    [current]
+    [current],
   );
-  const ref = useAutoAnim<HTMLDivElement>('t-side')
+  const ref = useAutoAnim<HTMLDivElement>("t-side");
   // const ref = useRef<HTMLDivElement>(null)
   useClickAway(ref, () => open && onToggle(false));
   if (items.length === 0) return null;
@@ -42,21 +42,21 @@ export function Select(p: SelectProps) {
       ref={ref}
       className={classNames(
         "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer mo:w-full mo:text-sm",
-        className
+        className,
       )}
-      onClick={() => onToggle()}
-    >
+      onClick={() => onToggle()}>
       <div className="flex justify-between items-center">
         <span className="truncate">{cText}</span>
         {open ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
       </div>
       {open && (
-        <div className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
-             style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
-        >
-          <div
-            className=""
-          >
+        <div
+          className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
+          style={{
+            boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
+            top: "calc(100% + 8px)",
+          }}>
+          <div className="">
             {items.map((item, index) => (
               <div
                 key={`select_item_${index}`}
@@ -69,8 +69,7 @@ export function Select(p: SelectProps) {
                 className={classNames("w-full break-all px-5 py-2 text-sm", {
                   "text-green-2": index === current,
                 })}
-                onClick={() => onClickItem(index)}
-              >
+                onClick={() => onClickItem(index)}>
                 {item.text}
               </div>
             ))}

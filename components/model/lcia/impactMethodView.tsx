@@ -7,7 +7,6 @@ export function ImpactMethodView(p: { data: any; json: any }) {
     <TypeLayout
       map={{
         "General infomation": MethodInfoPage,
-        
       }}
       data={data}
     />

@@ -17,18 +17,17 @@ export function PcActivity(p: { data: Phase }) {
   return (
     <div
       className="w-full h-[6.875rem] pr-[.625rem] relative cursor-pointer "
-      onClick={() => update({ activity: data, sourcing: 0 })}
-    >
+      onClick={() => update({ activity: data, sourcing: 0 })}>
       <div
-        style={{ border: selected ? "1px solid #29953A" : "1px solid transparent" }}
-        className={classNames("bg-white w-full h-full px-5 rounded-lg flex items-center justify-center")}
-      >
+        style={{
+          border: selected ? "1px solid #29953A" : "1px solid transparent",
+        }}
+        className={classNames("bg-white w-full h-full px-5 rounded-lg flex items-center justify-center")}>
         <div
           className={classNames(
             "font-bold grow-0 text-xl w-full whitespace-normal text-center break-words overflow-hidden",
-            { "text-green-2": selected }
-          )}
-        >
+            { "text-green-2": selected },
+          )}>
           {t(data.name)}
         </div>
       </div>
@@ -51,8 +50,7 @@ export function MobileActivity(p: { data: Phase }) {
   return (
     <div
       className="bg-white grow-0 w-full h-[6.875rem] cursor-pointer px-5 rounded-lg flex items-center justify-center"
-      onClick={() => toggle(true)}
-    >
+      onClick={() => toggle(true)}>
       <div className={classNames("font-bold grow-0 text-xl whitespace-normal text-center break-words overflow-hidden")}>
         {t(data.name)}
       </div>

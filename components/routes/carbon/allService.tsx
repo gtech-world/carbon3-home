@@ -50,16 +50,14 @@ function Card(p: ICard) {
             <Button
               key={`btn${i}`}
               onClick={() => v.onClick && v.onClick()}
-              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0"
-            >
+              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0">
               {v.text}
             </Button>
           ) : (
             <Button
               key={`btn${i}`}
               onClick={() => v.onClick && v.onClick()}
-              className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]"
-            >
+              className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]">
               {v.text}
             </Button>
           );
@@ -84,8 +82,14 @@ export function AllService() {
             label: "培训内容介绍",
             text: "AT01培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等",
           },
-          { label: "培训形式与时长", text: "在线Webinar、现场培训。时长4小时。" },
-          { label: "完成培训要求", text: "由用户厂商Carbon Champion人员参与培训，并通过考试。" },
+          {
+            label: "培训形式与时长",
+            text: "在线Webinar、现场培训。时长4小时。",
+          },
+          {
+            label: "完成培训要求",
+            text: "由用户厂商Carbon Champion人员参与培训，并通过考试。",
+          },
         ],
         btn: [
           { text: "了解详情", onClick: () => {} },
@@ -100,8 +104,14 @@ export function AllService() {
             label: "培训内容介绍",
             text: "AT04培训项目为针对数字化低碳主题基础知识的入门培训。培训内容包括双碳数字化现状、数字化工具、可追溯性要求、应对双碳数字化规划等。",
           },
-          { label: "培训形式与时长", text: "在线Webinar、现场培训。时长5小时。" },
-          { label: "完成培训要求", text: "由用户厂商Carbon Champion与Digital Champion人员参与培训，并通过考试。" },
+          {
+            label: "培训形式与时长",
+            text: "在线Webinar、现场培训。时长5小时。",
+          },
+          {
+            label: "完成培训要求",
+            text: "由用户厂商Carbon Champion与Digital Champion人员参与培训，并通过考试。",
+          },
         ],
         btn: [
           { text: "了解详情", onClick: () => {} },
@@ -133,7 +143,7 @@ export function AllService() {
         btn: [{ text: "了解详情", onClick: () => {} }],
       },
     ],
-    []
+    [],
   );
   const implement = useMemo(
     () => [
@@ -141,7 +151,10 @@ export function AllService() {
         title: "[AI01]公司碳核查",
         icon: <SvgCTag className="w-[3.45rem]" />,
         infos: [
-          { label: "实施内容", text: "包含范围一、范围二、范围三的公司组织层级碳排放核查。" },
+          {
+            label: "实施内容",
+            text: "包含范围一、范围二、范围三的公司组织层级碳排放核查。",
+          },
           { label: "依据标准", text: "ISO 14064-1:2018" },
           { label: "服务产出", text: "温室气体核查报告、温室气体核查声明。" },
           { label: "AICP标签", text: "基于数字认证产出完成核查标签。" },
@@ -155,7 +168,10 @@ export function AllService() {
         title: "[AI02]产品碳足迹",
         icon: <SvgFootprint className="w-[3.45rem]" />,
         infos: [
-          { label: "实施内容", text: "车企碳足迹清单、产品碳足迹模型(依据PCR规则定义固化模型)、产品碳足迹测算等。" },
+          {
+            label: "实施内容",
+            text: "车企碳足迹清单、产品碳足迹模型(依据PCR规则定义固化模型)、产品碳足迹测算等。",
+          },
           { label: "依据标准", text: "ISO 14067:2018" },
           { label: "服务产出", text: "碳足迹盘查报告、产品碳足迹证书" },
           { label: "AICP标签", text: "基于数字认证产出产品碳足迹标签。" },
@@ -169,7 +185,10 @@ export function AllService() {
         title: "[AI03]碳减排量测算与评估",
         icon: <SvgCEstimate className="w-[3.45rem]" />,
         infos: [
-          { label: "实施内容", text: "实施产品层级、项目层级、技术层级等碳减排的减排量测算。" },
+          {
+            label: "实施内容",
+            text: "实施产品层级、项目层级、技术层级等碳减排的减排量测算。",
+          },
           { label: "依据标准", text: "ISO 14064-1:2018, ISO 14064-2:2019等" },
           { label: "服务产出", text: "温室气体减排评估报告、减碳证书等" },
           { label: "AICP标签", text: "基于数字认证产出减碳标签。" },
@@ -180,15 +199,21 @@ export function AllService() {
         title: "[AI04]碳中和",
         icon: <SvgCNeutralization className="w-[3.45rem]" />,
         infos: [
-          { label: "实施内容", text: "碳中和测算工具、碳中和路径与目标评估等。" },
+          {
+            label: "实施内容",
+            text: "碳中和测算工具、碳中和路径与目标评估等。",
+          },
           { label: "依据标准", text: "PAS 2060, ISO 14068" },
           { label: "服务产出", text: "碳中和评估报告、碳中和证书。" },
-          { label: "AICP标签", text: "基于数字认证产出碳中和标签或阶段成就标签。" },
+          {
+            label: "AICP标签",
+            text: "基于数字认证产出碳中和标签或阶段成就标签。",
+          },
         ],
         btn: [{ text: "了解详情", onClick: () => {} }],
       },
     ],
-    []
+    [],
   );
   const market = useMemo(
     () => [
@@ -200,7 +225,10 @@ export function AllService() {
             label: "服务内容",
             text: "AICP整合全方位的绿色能源转型方案，包括绿色电力接入、工业园区支持、能源管理系统方案等。",
           },
-          { label: "服务形式", text: "咨询服务、绿色能源转型方案以及资源对接。" },
+          {
+            label: "服务形式",
+            text: "咨询服务、绿色能源转型方案以及资源对接。",
+          },
         ],
         btn: [{ text: "了解详情", onClick: () => {} }],
       },
@@ -229,7 +257,7 @@ export function AllService() {
         btn: [{ text: "了解详情", onClick: () => {} }],
       },
     ],
-    []
+    [],
   );
   return (
     <CarbonLayout className="bg-gray-16">

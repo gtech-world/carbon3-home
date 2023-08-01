@@ -29,8 +29,7 @@ function MLink(p: { to: string; text: string }) {
   return (
     <a
       href={p.to}
-      className="inline-block underline whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]"
-    >
+      className="inline-block underline whitespace-nowrap mr-5 leading-normal text-sm text-blue-0 mt-[.375rem] mo:mt-[.875rem]">
       {p.text}
     </a>
   );
@@ -89,7 +88,7 @@ export function UserDashboard() {
           <span className="text-2xl font-bold mo:text-lg">{t("TARGET INVENTORIES")}</span>
           {products && (
             <div className="mt-5 w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] mo:grid-cols-1">
-              {products.map((product:any, i:number) => {
+              {products.map((product: any, i: number) => {
                 return <TargetInventory data={product} key={`product_item_${i}`} />;
               })}
             </div>

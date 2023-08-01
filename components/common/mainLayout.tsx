@@ -1,7 +1,7 @@
 import { OLD_MAIN_PAGES } from "@components/const";
 import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useT } from "@lib/hooks/useT";
-import SvgFootprint from '@public/footprint.svg';
+import SvgFootprint from "@public/footprint.svg";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { HTMLAttributes, useMemo } from "react";
@@ -29,8 +29,8 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
   return (
     <MainHeaderLayout menus={OLD_MAIN_PAGES} className="flex text-black bg-white">
       <div className="self-start relative w-[16.25rem] p-5 min-h-full mo:hidden">
-        <div style={{ top: `calc(5.5rem + ${h}px)`}} className="w-full sticky top-[5.5rem]">
-          <div className="flex items-center mb-2.5 text-sm cursor-pointer" onClick={()=>push('/carbon/service')}>
+        <div style={{ top: `calc(5.5rem + ${h}px)` }} className="w-full sticky top-[5.5rem]">
+          <div className="flex items-center mb-2.5 text-sm cursor-pointer" onClick={() => push("/carbon/service")}>
             <FiChevronLeft className="text-lg" />
             返回
           </div>
@@ -52,9 +52,8 @@ export function MainLayout(p: HTMLAttributes<HTMLDivElement>) {
                 "cursor-pointer w-full py-3 pl-4 flex items-center flex-nowrap text-black rounded-lg",
                 {
                   "!text-green-2 bg-green-2/10": item.to === pathname,
-                }
-              )}
-            >
+                },
+              )}>
               <item.icon className="mr-3 text-2xl" />
               <span className="whitespace-nowrap text-lg font-medium">{item.txt}</span>
             </div>

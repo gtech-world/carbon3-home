@@ -18,15 +18,13 @@ export function PsStatus(p: { status: number }) {
         {
           "bg-rose-500": status !== 1,
           "bg-green-600": status === 1,
-        }
-      )}
-    >
+        },
+      )}>
       <div
         className={classNames("text-green-600 text-base font-normal leading-none", {
           "text-rose-500": status !== 1,
           "text-green-600": status === 1,
-        })}
-      >
+        })}>
         {status === 1 ? "当前使用" : "过去版本"}
       </div>
     </div>
@@ -39,8 +37,7 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
     return (
       <a
         href={to}
-        className="w-min whitespace-nowrap h-6 px-2.5 py-1 bg-zinc-100 rounded text-black text-base font-normal leading-none"
-      >
+        className="w-min whitespace-nowrap h-6 px-2.5 py-1 bg-zinc-100 rounded text-black text-base font-normal leading-none">
         {action}
       </a>
     );
@@ -48,8 +45,7 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
   return (
     <div
       className="w-min whitespace-nowrap h-6 px-2.5 py-1 bg-zinc-100 rounded justify-start items-center gap-2.5 inline-flex cursor-pointer"
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <div className="text-black text-base font-normal leading-none">{action}</div>
     </div>
   );
@@ -119,8 +115,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
                 className="px-2.5 py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
                 onClick={() => {
                   toggleOldPs(true);
-                }}
-              >
+                }}>
                 查看历史版本
               </Dropdown>
             </div>
@@ -130,7 +125,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         <PairInfo tit="状态" value={<PsStatus status={1} />} />
         <PairInfo tit="变更人" value="Cherry" />
         <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo name="PC Transport C-Model V1.0" />} />
-        <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)}/>} />
+        <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
         <PairInfo tit="组织名称" value="蔚来江淮" />
         <PairInfo tit="组织编号" value="00007" />
       </div>
@@ -143,7 +138,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         </div>
       </div>
       {realModal && <RealData onClose={() => toggleRealModal(false)} />}
-      {oldPs && <ViewProductSystem onClose={() => toggleOldPs(false)} ps={ps}/>}
+      {oldPs && <ViewProductSystem onClose={() => toggleOldPs(false)} ps={ps} />}
     </Modal>
   );
 }

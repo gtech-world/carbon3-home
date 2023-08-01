@@ -39,7 +39,10 @@ export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
 }
 
 export async function login(name: string, password: string) {
-  const res = await axios.post<UserData>(creatUrl("/api/v1/base/login"), { name, password });
+  const res = await axios.post<UserData>(creatUrl("/api/v1/base/login"), {
+    name,
+    password,
+  });
   return getData(res);
 }
 
@@ -67,7 +70,7 @@ export async function getProductBomList(product_id: number) {
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
   const res = await axios.get<ActivityType[]>(
     creatUrl(`/api/v1/npi/product_bom/${product_bom_id}/activity_types`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
@@ -96,7 +99,7 @@ export async function getProductByVIN(vin: string | number) {
 export async function getPCFInventory(vin: string | number) {
   const res = await axios.get<InventoryProductProcess[]>(
     creatUrl(`/api/v1/inventory/product/${vin}/inventory`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }

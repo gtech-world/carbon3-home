@@ -3,7 +3,7 @@ import { ActionBtn, LcaActionInfo, PairInfo, PsStatus } from "./EditorProductSys
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 
-export function ViewProductSystem(p: ModalProps & {ps: any}) {
+export function ViewProductSystem(p: ModalProps & { ps: any }) {
   const { ps, ...props } = p;
   const [realModal, toggleRealModal] = useToggle(false);
   return (

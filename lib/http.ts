@@ -45,7 +45,10 @@ export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
 }
 
 export async function login(name: string, password: string) {
-  const res = await axios.post<UserData>(creatUrl("/api/base/login"), { name, password });
+  const res = await axios.post<UserData>(creatUrl("/api/base/login"), {
+    name,
+    password,
+  });
   return getData(res);
 }
 
@@ -73,7 +76,7 @@ export async function getProductBomList(product_id: number) {
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
   const res = await axios.get<ActivityType[]>(
     creatUrl(`/api/npi/product_bom/${product_bom_id}/activity_types`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
@@ -102,7 +105,7 @@ export async function getProductByVIN(vin: string | number) {
 export async function getPCFInventory(vin: string | number) {
   const res = await axios.get<InventoryProductProcess[]>(
     creatUrl(`/api/inventory/product/${vin}/inventory`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
@@ -125,7 +128,7 @@ export async function getSbtDetail(tokenId: string | number) {
 export async function getLcaModelList({ pgNum, productId }: any) {
   const res = await axios.get(
     creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10&productId=${productId > -1 ? productId : ""}`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
@@ -170,7 +173,7 @@ export async function insertLcaProduct({
   const res = await axios.post(
     creatUrl(`/api/product/upsert`),
     { name, categoryId, orgId, partNumber: "1", imageUrl: "", description },
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
@@ -204,7 +207,7 @@ export async function getLcaModelNavData(id: string) {
 export async function getLcaModelItem(id: string, type: string, typeId: number | string, fromMethod: boolean = false) {
   const res = await axios.get<string>(
     creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info?fromMethod=${fromMethod}`),
-    authConfig()
+    authConfig(),
   );
   return JSON.parse(getData(res));
 }
@@ -214,7 +217,7 @@ export async function exportLcaResultExcel(id: any) {
 
   const res = await axios.get<string>(
     creatUrl(`/api/product-lca/result/${id}/export`),
-    Object.assign(config, { responseType: "blob" })
+    Object.assign(config, { responseType: "blob" }),
   );
   return res;
 }

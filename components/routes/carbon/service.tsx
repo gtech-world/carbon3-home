@@ -57,16 +57,14 @@ function Card(p: ICard) {
               <Button
                 key={`btn${i}`}
                 onClick={() => v.onClick && v.onClick()}
-                className="ml-5 mo:ml-0 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5"
-              >
+                className="ml-5 mo:ml-0 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5">
                 {v.text}
               </Button>
             ) : (
               <Button
                 key={`btn${i}`}
                 onClick={() => v.onClick && v.onClick()}
-                className="bg-green-2/10 text-lg text-green-2 hover:bg-green-2/20 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]"
-              >
+                className="bg-green-2/10 text-lg text-green-2 hover:bg-green-2/20 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]">
                 {v.text}
               </Button>
             );
@@ -93,7 +91,8 @@ export function Service() {
       {
         title: (
           <span>
-            [AT04]<span className="text-green-2">[2023030491]</span>系列培训-数字化低碳
+            [AT04]<span className="text-green-2">[2023030491]</span>
+            系列培训-数字化低碳
           </span>
         ),
         icon: <SvgTeacher className="w-[3.45rem]" />,
@@ -102,8 +101,14 @@ export function Service() {
             label: "培训内容介绍",
             text: "AT04培训项目为针对双碳主题基础知识的入门培训。培训内容包括全球应对气候问题的现状、碳排放的计量与报告、监管法规与资本市场要求、制造业如何减碳……等等",
           },
-          { label: "培训形式与时长", text: "在线Webinar、现场培训。时长4小时。" },
-          { label: "完成培训要求", text: "由用户厂商Carbon Champion人员参与培训，并通过考试。" },
+          {
+            label: "培训形式与时长",
+            text: "在线Webinar、现场培训。时长4小时。",
+          },
+          {
+            label: "完成培训要求",
+            text: "由用户厂商Carbon Champion人员参与培训，并通过考试。",
+          },
         ],
         btn: [
           { text: "查看详情", onClick: () => {} },
@@ -113,7 +118,8 @@ export function Service() {
       {
         title: (
           <span>
-            [AI08]<span className="text-green-2">[20235017701]</span>产品碳足迹-Sample Model
+            [AI08]<span className="text-green-2">[20235017701]</span>
+            产品碳足迹-Sample Model
           </span>
         ),
         icon: <SvgFootprint className="w-[3.45rem]" />,
@@ -131,13 +137,18 @@ export function Service() {
         ],
         btn: [
           { text: "查看详情", onClick: () => {} },
-          { text: "进入工具页面", type: "primary", onClick: () => push("/tools/tools") },
+          {
+            text: "进入工具页面",
+            type: "primary",
+            onClick: () => push("/tools/tools"),
+          },
         ],
       },
       {
         title: (
           <span>
-            [AC02]<span className="text-green-2">[20234401]</span>咨询服务-设定科学双碳目标
+            [AC02]<span className="text-green-2">[20234401]</span>
+            咨询服务-设定科学双碳目标
           </span>
         ),
         icon: <SvgTalk className="w-[3.45rem]" />,
@@ -153,7 +164,8 @@ export function Service() {
       {
         title: (
           <span>
-            [AM01]<span className="text-green-2">[20230029391]</span>绿色能源转型
+            [AM01]<span className="text-green-2">[20230029391]</span>
+            绿色能源转型
           </span>
         ),
         icon: <SvgEnergy className="w-[3.45rem]" />,
@@ -167,7 +179,7 @@ export function Service() {
         btn: [{ text: "查看详情", onClick: () => {} }],
       },
     ],
-    []
+    [],
   );
   const completed = useMemo(
     () => [
@@ -202,7 +214,7 @@ export function Service() {
         btn: [{ text: "查看详情", onClick: () => {} }],
       },
     ],
-    []
+    [],
   );
   return (
     <CarbonLayout className="bg-gray-16">

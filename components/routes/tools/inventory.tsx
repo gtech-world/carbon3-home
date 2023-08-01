@@ -12,7 +12,7 @@ export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
-  const [openAddInfoModal, setOpenAddInfoModal] =useState<boolean>(false);
+  const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
 
   const columns = [
     {
@@ -21,11 +21,7 @@ export function Inventory() {
       width: "18.75rem",
       render: (text: string) => {
         return (
-          <span
-            className="max-w-[14rem] truncate inline-block"
-            data-tooltip-id="tooltip"
-            data-tooltip-content={text}
-          >
+          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
             {text}
           </span>
         );
@@ -37,11 +33,7 @@ export function Inventory() {
       width: "18.75rem",
       render: (text: string) => {
         return (
-          <span
-            className="max-w-[14rem] truncate inline-block"
-            data-tooltip-id="tooltip"
-            data-tooltip-content={text}
-          >
+          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
             {text}
           </span>
         );
@@ -107,10 +99,7 @@ export function Inventory() {
           <div className="flex justify-between text-green-2">
             <span
               className="cursor-pointer"
-              onClick={() =>
-                window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")
-              }
-            >
+              onClick={() => window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>
               查看结果
             </span>
           </div>
@@ -139,7 +128,7 @@ export function Inventory() {
   ];
   const { value, loading } = useAsyncM(
     noArgs(() => getLcaResultList({ pgNum }), [pgNum]),
-    [pgNum]
+    [pgNum],
   );
   useMemo(() => {
     if (!value?.records) return [];
@@ -158,24 +147,18 @@ export function Inventory() {
     setTableData(arr);
   }, [value]);
 
-
-  const onAddInfo = () =>{
-    setOpenAddInfoModal(true)
-
-  }
+  const onAddInfo = () => {
+    setOpenAddInfoModal(true);
+  };
   return (
-    <ToolsLayout
-      isNew
-      className="flex flex-col justify-between flex-1 text-black "
-    >
+    <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
       <div className="">
         <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
           <span>我的产品碳足迹结果</span>
           {/*@ts-ignore*/}
           <Button
             onClick={() => setOpenResultModal(true)}
-            className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11"
-          >
+            className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
             新建碳足迹结果
           </Button>
         </h3>
@@ -211,27 +194,34 @@ export function Inventory() {
           containerStyle={"mx-5 max-w-[640px] "}
           titleStyle={"text-[20px] leading-5 font-bold"}
           title={"新建碳足迹结果"}
-          onClose={() => setOpenResultModal(false)}
-        >
+          onClose={() => setOpenResultModal(false)}>
           <div className="mx-5 max-w-[640px] ">
             <span className="font-normal leading-6 ">碳足迹批次：</span>
             <input className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg" />
             <span className="font-normal leading-6 ">产品系统：</span>
-            <select id="select" className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg">
+            <select
+              id="select"
+              className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg">
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
             </select>
             <span className="font-normal leading-6 ">实景数据填报：</span>
-            <div onClick={()=>onAddInfo()} className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
+            <div
+              onClick={() => onAddInfo()}
+              className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
               前往填写
-              </div> 
-            <div className="flex flex-row justify-between gap-5 mt-5">
-              <div onClick={()=>setOpenResultModal(false)} className=" cursor-pointer bg-[#29953A1A] w-[310px] text-[18px] border-2 border-[#29953A]   font-normal  text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">取消</div>
-              <div className="  cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">计算碳结果</div>
             </div>
-
-
+            <div className="flex flex-row justify-between gap-5 mt-5">
+              <div
+                onClick={() => setOpenResultModal(false)}
+                className=" cursor-pointer bg-[#29953A1A] w-[310px] text-[18px] border-2 border-[#29953A]   font-normal  text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">
+                取消
+              </div>
+              <div className="  cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">
+                计算碳结果
+              </div>
+            </div>
           </div>
         </Modal>
       ) : null}

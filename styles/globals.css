@@ -12,7 +12,8 @@ body,
   margin: 0;
 }
 
-html,body {
+html,
+body {
   overflow-y: auto;
   height: 100%;
 }
@@ -111,18 +112,18 @@ img[src=""] {
   stroke: currentColor !important;
 }
 
-.svg-purple path{
-  stroke: #9C27B0
+.svg-purple path {
+  stroke: #9c27b0;
 }
-.svg-blue path{
-  stroke: #0084FF
+.svg-blue path {
+  stroke: #0084ff;
 }
 .split .gutter {
   width: 6px;
   cursor: col-resize;
 }
-input{
-  padding-left: 10px; 
+input {
+  padding-left: 10px;
 }
 
 select {
@@ -134,7 +135,5 @@ select {
   background-repeat: no-repeat;
   background-position: 97% 50%;
   padding-right: -50px;
-  padding-left: 10px; 
-
+  padding-left: 10px;
 }
-

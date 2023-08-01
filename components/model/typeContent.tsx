@@ -66,7 +66,7 @@ export function TypeContent(p: { id: string }) {
         id,
         active.modelType,
         (active.data as Descriptor).id,
-        active.data?.fromMethod
+        active.data?.fromMethod,
       ).then((data) => {
         const parsedData = parseRefJson(data);
         parsedData._key = key;

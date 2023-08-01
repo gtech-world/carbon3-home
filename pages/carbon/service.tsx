@@ -1,3 +1,3 @@
-import {Service} from "@components/routes/carbon/service";
+import { Service } from "@components/routes/carbon/service";
 
-export default Service
+export default Service;

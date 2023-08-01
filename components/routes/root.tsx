@@ -10,15 +10,15 @@ import { SignIn } from "./signIn";
 export function Root() {
   return (
     <HashRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/query" element={<OpenQuery />} />
-          <Route path="/sign" element={<SignIn />} />
-          {/*<Route path="/dashboard" element={<UserDashboard />} />*/}
-          {/*<Route path="/product" element={<ProductDefinition />} />*/}
-          {/*<Route path="/activities" element={<CarbonActivities />} />*/}
-          {/*<Route path="/pcf" element={<PCF />} />*/}
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/query" element={<OpenQuery />} />
+        <Route path="/sign" element={<SignIn />} />
+        {/*<Route path="/dashboard" element={<UserDashboard />} />*/}
+        {/*<Route path="/product" element={<ProductDefinition />} />*/}
+        {/*<Route path="/activities" element={<CarbonActivities />} />*/}
+        {/*<Route path="/pcf" element={<PCF />} />*/}
+      </Routes>
     </HashRouter>
   );
 }

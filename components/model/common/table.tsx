@@ -8,8 +8,7 @@ export function ContentTable(p: { head: string[]; className?: string; infos: Rea
   return (
     <div
       style={{ gridTemplateColumns: `repeat(${head.length}, auto)` }}
-      className={classNames("grid text-sm text-black overflow-x-auto", className)}
-    >
+      className={classNames("grid text-sm text-black overflow-x-auto", className)}>
       {head.map((item, i) => (
         <div key={"head_" + i} className="px-3 py-2 font-bold text-sm whitespace-nowrap">
           {item}
@@ -24,8 +23,7 @@ export function ContentTable(p: { head: string[]; className?: string; infos: Rea
                 "bg-gray-16": i % 2 === 0,
                 "rounded-l-[4px]": j === 0,
                 "rounded-r-[4px]": j === items.length - 1,
-              })}
-            >
+              })}>
               {item}
             </div>
           ))}

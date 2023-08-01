@@ -12,8 +12,7 @@ export function ModalHeader(p: { title?: string; titleStyle?: string; containerS
   const { title, onClose, titleStyle, containerStyle } = p;
   return (
     <div
-      className={classNames("flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b", containerStyle)}
-    >
+      className={classNames("flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b", containerStyle)}>
       <span className={titleStyle}>{title}</span>
       <FiX
         onClick={(e) => {
@@ -54,15 +53,14 @@ export function Modal(p: ModalProps) {
       ref={ref}
       className={classNames(
         "fixed left-0  top-0 w-full h-full overflow-auto z-50 bg-black/25 flex justify-center items-center",
-        className
+        className,
       )}
-      onClick={onClickOut}
-    >
+      onClick={onClickOut}>
       <div id="mo" ref={ref} className={classNames("bg-white rounded p-5 min-w-[20rem] min-h-[150] ")}>
         <ModalHeader title={title} containerStyle={containerStyle} titleStyle={titleStyle} onClose={onClose} />
         {children}
       </div>
     </div>,
-    modalRootRef.current
+    modalRootRef.current,
   );
 }
