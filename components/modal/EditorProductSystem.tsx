@@ -7,6 +7,7 @@ import { InputHTMLAttributes, MouseEventHandler, ReactNode, useState } from "rea
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
+import { useStore } from "@components/common/context";
 
 export function PsStatus(p: { status: number }) {
   const { status } = p;
@@ -92,8 +93,19 @@ export function EditorText(p: InputHTMLAttributes<HTMLInputElement>) {
   );
 }
 
+export function OrganizationInfo() {
+  const { userData } = useStore();
+  return (
+    <>
+      <PairInfo tit="组织名称" value={userData?.organization?.displayName || "-"} />
+      <PairInfo tit="组织编号" value={userData?.organization?.id || "-"} />
+    </>
+  );
+}
+
 export function EditorProductSystem(p: ModalProps & { ps: any }) {
   const { ps, ...props } = p;
+  const { userData } = useStore();
   const [inputDesc, setInputDesc] = useState("ES6 2023 120kWh Sports");
   const [busy, setBusy] = useState(false);
   const disableSubmit = false;
@@ -124,11 +136,10 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         />
         <PairInfo tit="描述" value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />} />
         <PairInfo tit="状态" value={<PsStatus status={1} />} />
-        <PairInfo tit="变更人" value="Cherry" />
+        <PairInfo tit="变更人" value={userData?.name || "-"} />
         <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo />} />
         <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
-        <PairInfo tit="组织名称" value="蔚来江淮" />
-        <PairInfo tit="组织编号" value="00007" />
+        <OrganizationInfo />
       </div>
       <div className="flex flex-col gap-2.5 mt-5">
         <Btn busy={busy} disable={disableSubmit} onClick={onSubmit}>
