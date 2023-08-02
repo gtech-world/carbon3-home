@@ -4,7 +4,16 @@ import { Dropdown } from "@components/common/dropdown";
 import { Modal, ModalProps } from "@components/common/modal";
 import { useOn } from "@lib/hooks/useOn";
 import classNames from "classnames";
-import { ChangeEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
@@ -64,23 +73,18 @@ export function LcaActionInfo(p: {
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
+      <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
       {isNew && file?.name}
       {isRead ? (
         <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
       ) : isNew ? (
         <>
-          <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
-          <ActionBtn
-            action="选择模型"
-            onClick={(e) => {
-              inputFileRef.current?.click();
-            }}
-          />
+          <ActionBtn action="选择模型" onClick={(e) => inputFileRef.current?.click()} />
         </>
       ) : (
         <>
           <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
-          <ActionBtn action="更新模型" />
+          <ActionBtn action="更新模型" onClick={(e) => inputFileRef.current?.click()} />
         </>
       )}
     </div>
@@ -118,11 +122,16 @@ export function OrganizationInfo() {
   );
 }
 
-export function EditorProductSystem(p: ModalProps & { ps: any, onSuccess?: () => void }) {
-  const { ps, ...props } = p;
+export function EditorProductSystem(p: ModalProps & { ps: any; onSuccess?: () => void }) {
+  const { ps, onSuccess, ...props } = p;
   const { userData } = useStore();
   const [inputDesc, setInputDesc] = useState("ES6 2023 120kWh Sports");
   const [busy, setBusy] = useState(false);
+  const [file, setFile] = useState<File | undefined | null>(null);
+  const disabledOk = !file;
+  const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files?.item(0));
+  }, []);
   const disableSubmit = false;
   const onSubmit = useOn(() => {});
 
@@ -152,7 +161,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any, onSuccess?: () =>
         <PairInfo tit="描述" value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />} />
         <PairInfo tit="状态" value={<PsStatus status={1} />} />
         <PairInfo tit="变更人" value={userData?.name || "-"} />
-        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo />} />
+        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo file={file as any} onFileChange={onFileChange} />} />
         <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
         <OrganizationInfo />
       </div>

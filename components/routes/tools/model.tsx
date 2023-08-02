@@ -389,9 +389,15 @@ export function Model() {
           <div className="pb-2 text-center">{opResult.loading ? <Loading /> : <span>{opResult.resultText}</span>}</div>
         </Modal>
       )}
-      {createProductView && <NewProductSystem onClose={() => setCreateProductView(false)} onSuccess={() => queryLcaProductList()}/>}
+      {createProductView && (
+        <NewProductSystem onClose={() => setCreateProductView(false)} onSuccess={() => queryLcaProductList()} />
+      )}
       {editorProductSystem && (
-        <EditorProductSystem ps={editorProductSystem} onClose={() => setEditorProductSystem(undefined)} onSuccess={() => queryLcaProductList()}/>
+        <EditorProductSystem
+          ps={editorProductSystem}
+          onClose={() => setEditorProductSystem(undefined)}
+          onSuccess={() => queryLcaProductList()}
+        />
       )}
       {productViewSelectedIndex > -1 && (
         <Modal title="查看产品" onClose={() => setProductViewSelectedIndex(-1)}>
