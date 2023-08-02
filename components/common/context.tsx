@@ -44,10 +44,22 @@ export function useStore() {
   return useContext(StoreContext) as UpStore;
 }
 
+const needLogin = ["/dashboard", "/product", "/activities", "/pcf", "/carbon", "/tools", "/model"];
+const matchPath = (list: string[], target: string) => {
+  if (!target) return false;
+  for (const path of list) {
+    if (target === path || target.startsWith(path + "/")) return true;
+  }
+  return false;
+};
 function Redrect(p: { children?: React.ReactNode }) {
   const { pathname, replace } = useRouter();
   const { userData, inited } = useStore();
-  if (inited && !userData && ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname)) {
+  const needToLogin = useMemo(
+    () => inited && !userData && matchPath(needLogin, pathname),
+    [inited, userData, pathname],
+  );
+  if (needToLogin) {
     replace("/login");
     return null;
   }
@@ -116,9 +128,12 @@ export function useToast() {
 export function useOnError() {
   const { toast } = useToast();
   const { t } = useT();
-  return useOn((err: any) => {
-    toast({ type: "error", msg: t(getErrorMsg(err)) });
-  });
+  return useCallback(
+    (err: any) => {
+      toast({ type: "error", msg: t(getErrorMsg(err)) });
+    },
+    [t, toast],
+  );
 }
 
 export function useUser() {
