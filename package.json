@@ -10,7 +10,9 @@
     "lint": "next lint",
     "plint": "prettier . --check",
     "pfix": "prettier . --write",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "prepare": "husky install",
+    "prettier:check": "prettier --config .prettierrc.js --check \"components/**/*.{js,ts,tsx}\""
   },
   "dependencies": {
     "@formkit/auto-animate": "1.0.0-beta.6",
@@ -54,6 +56,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "@types/react-window": "^1.8.5",
     "autoprefixer": "^10.4.13",
+    "husky": "^8.0.3",
     "only-allow": "^1.1.1",
     "postcss": "^8.4.21",
     "prettier": "3.0.0",
