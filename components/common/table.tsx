@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { VscQuestion } from "react-icons/vsc";
 import { FiChevronRight, FiFilter } from "react-icons/fi";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, Fragment, useEffect, useRef, useState } from "react";
 import { Loading } from "@components/common/loading";
 import { useClickAway } from "react-use";
 import { SIZE } from "@components/const";
@@ -34,8 +34,6 @@ export const Table: FC<Table.ITable> = ({
       }
     }
   });
-
-  console.log("datadata", data);
 
   useEffect(() => {
     setTableData(data);
@@ -195,13 +193,13 @@ export const Table: FC<Table.ITable> = ({
               return (
                 <tr
                   key={`table_data_${itemIndex}`}
-                  className={`column-level-${item.level ? item.level : 0} ${columnsHeight}`}>
+                  className={` column-level-${item.level ? item.level : 0} ${columnsHeight} `}>
                   {columns.map((column, columnIndex) => {
                     return (
                       <td
                         key={`data_column_${columnIndex}`}
                         className={classNames(
-                          `px-3 cursor-pointer  `,
+                          `px-3 cursor-pointer  mt-[-0.15rem]`,
                           {
                             "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey],
                             border: isSetBorder,
@@ -213,7 +211,7 @@ export const Table: FC<Table.ITable> = ({
                         style={{ width: column.width ? column.width : "auto" }}>
                         <div
                           onMouseOver={() => setMouseHoverItem(item)}
-                          className="flex items-center"
+                          className="flex items-center "
                           style={{
                             marginLeft: (item.level && columnIndex === 0 ? item.level : 0) * 1.25 + "rem",
                           }}>
