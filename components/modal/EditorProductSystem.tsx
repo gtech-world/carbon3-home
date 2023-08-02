@@ -97,7 +97,7 @@ export function OrganizationInfo() {
   const { userData } = useStore();
   return (
     <>
-      <PairInfo tit="组织名称" value={userData?.organization?.displayName || "-"} />
+      <PairInfo tit="组织名称" value={userData?.organization?.name || "-"} />
       <PairInfo tit="组织编号" value={userData?.organization?.id || "-"} />
     </>
   );
