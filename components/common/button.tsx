@@ -13,17 +13,16 @@ export function Button(p: HTMLAttributes<HTMLButtonElement>) {
 
 export type BtnProps = {
   busy?: boolean;
-  disable?: boolean;
   defStyle?: "btn-primary" | "btn-primary-1";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Btn(p: BtnProps) {
-  const { busy, disable, className, defStyle = "btn-primary", children, ...props } = p;
+  const { busy, disabled, className, defStyle = "btn-primary", children, ...props } = p;
   return (
     <button
       className={classNames(className, {
-        [defStyle]: !disable,
-        "btn-disable": disable,
+        [defStyle]: !disabled,
+        "btn-disable": disabled,
       })}
       {...props}>
       {busy ? <FaSpinner className="animate-spin" /> : children}

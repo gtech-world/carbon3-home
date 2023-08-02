@@ -144,16 +144,12 @@ export async function updateLcaModelState(id: number, state: number) {
   const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`), null, authConfig());
   return getData(res);
 }
-export async function uploadLcaModel(formData: FormData) {
+export async function uploadLcaModel(formData: FormData, config: AxiosRequestConfig = {}) {
   let headers = authConfig();
   if (headers.headers) {
     headers.headers["Content-Type"] = "multipart/form-data";
   }
-  try {
-    return await axios.post(creatUrl(`/api/product-lca/model/upload`), formData, headers);
-  } catch (e) {
-    // console.log(e);
-  }
+  return await axios.post(creatUrl(`/api/product-lca/model/upload`), formData, { ...headers, ...config });
 }
 export async function getLcaProductTypeList() {
   const res = await axios.get(creatUrl(`/api/product/category/query`), authConfig());

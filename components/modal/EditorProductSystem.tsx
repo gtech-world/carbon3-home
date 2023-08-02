@@ -1,13 +1,13 @@
 import { Btn } from "@components/common/button";
+import { useStore } from "@components/common/context";
 import { Dropdown } from "@components/common/dropdown";
 import { Modal, ModalProps } from "@components/common/modal";
 import { useOn } from "@lib/hooks/useOn";
 import classNames from "classnames";
-import { InputHTMLAttributes, MouseEventHandler, ReactNode, useState } from "react";
+import { ChangeEventHandler, InputHTMLAttributes, MouseEventHandler, ReactNode, useRef, useState } from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
-import { useStore } from "@components/common/context";
 
 export function PsStatus(p: { status: number }) {
   const { status } = p;
@@ -52,16 +52,31 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
   );
 }
 
-export function LcaActionInfo(p: { psId?: string; modelId?: string; isNew?: boolean; isRead?: boolean }) {
-  const { psId, modelId, isNew, isRead } = p;
-
+export function LcaActionInfo(p: {
+  psId?: string;
+  modelId?: string;
+  isNew?: boolean;
+  isRead?: boolean;
+  file?: File;
+  onFileChange?: ChangeEventHandler<HTMLInputElement>;
+}) {
+  const { psId, modelId, isNew, isRead, file, onFileChange } = p;
+  const inputFileRef = useRef<HTMLInputElement>(null);
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
-      {isNew && "FileName"}
+      {isNew && file?.name}
       {isRead ? (
         <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
       ) : isNew ? (
-        <ActionBtn action="上传模型" />
+        <>
+          <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
+          <ActionBtn
+            action="选择模型"
+            onClick={(e) => {
+              inputFileRef.current?.click();
+            }}
+          />
+        </>
       ) : (
         <>
           <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
@@ -103,7 +118,7 @@ export function OrganizationInfo() {
   );
 }
 
-export function EditorProductSystem(p: ModalProps & { ps: any }) {
+export function EditorProductSystem(p: ModalProps & { ps: any, onSuccess?: () => void }) {
   const { ps, ...props } = p;
   const { userData } = useStore();
   const [inputDesc, setInputDesc] = useState("ES6 2023 120kWh Sports");
@@ -142,7 +157,7 @@ export function EditorProductSystem(p: ModalProps & { ps: any }) {
         <OrganizationInfo />
       </div>
       <div className="flex flex-col gap-2.5 mt-5">
-        <Btn busy={busy} disable={disableSubmit} onClick={onSubmit}>
+        <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
           提交更新
         </Btn>
         <div className="text-black text-sm font-normal">

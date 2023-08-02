@@ -50,7 +50,6 @@ export function Modal(p: ModalProps) {
   const ref = useRef<HTMLDivElement>(null);
   const onClickOut = useOn((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    e.preventDefault();
     const isChild = ref.current && ref.current !== e.target && ref.current.contains(e.target as any);
     !isChild && outClose && onClose && onClose();
   });
