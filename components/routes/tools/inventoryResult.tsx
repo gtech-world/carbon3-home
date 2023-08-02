@@ -25,7 +25,7 @@ function Expand(p: { text: string; onChange: Function }) {
     onChange && onChange(open);
   }, [open]);
   return (
-    <div className="font-bold inline-block" onClick={() => setOpen(!open)}>
+    <div className="inline-block font-bold" onClick={() => setOpen(!open)}>
       <div className="flex items-center cursor-pointer">
         <span>{text}</span>
         <BsCaretUpFill height="7px" className={classNames("ml-1", !open && "rotate-180")} />
@@ -46,7 +46,7 @@ function SumInfo(p: { data: any }) {
     { label: "UUID", text: data.uuid },
   ];
   return (
-    <div className="bg-white p-5 rounded-2xl mt-8">
+    <div className="p-5 mt-8 bg-white rounded-2xl">
       {list.map((v: any, i: number) => {
         return (
           <div className="flex" key={`data-${i}`}>
@@ -285,7 +285,7 @@ function IO() {
       render: (text: string) => {
         return (
           <div className="flex items-center">
-            <FiSettings stroke="#0084FF" className="svg-blue text-sm" />
+            <FiSettings stroke="#0084FF" className="text-sm svg-blue" />
             <span className="ml-1">{text}</span>
           </div>
         );
@@ -529,7 +529,7 @@ function SumRequire(p: { data: any }) {
       render: (text: string) => {
         return !!text ? (
           <div className="flex items-center">
-            <FiSettings stroke="#0084FF" className="svg-blue text-sm" />
+            <FiSettings stroke="#0084FF" className="text-sm svg-blue" />
             <span className="ml-1">{text}</span>
           </div>
         ) : (
@@ -759,16 +759,16 @@ export function InventoryResult() {
     document.body.removeChild(eLink);
   };
   return (
-    <ToolsLayout className="text-black text-lg">
+    <ToolsLayout className="text-lg text-black">
       {loading ? (
         <div className="h-[100vh] w-full items-center">
           <Loading />
         </div>
       ) : (
         <div className="mo:break-all">
-          <SumInfo data={baseInfo} />
-          <h3 className="text-2xl font-semibold my-5">碳足迹结果</h3>
-          <div className="bg-white p-5 rounded-2xl">
+          {/* <SumInfo data={baseInfo} /> */}
+          <h3 className="my-5 text-2xl font-semibold">碳足迹结果</h3>
+          <div className="p-5 bg-white rounded-2xl">
             <GeneralInfo data={generalInfo} />
             <Result data={carbonResult} />
             <ContributionTree data={contributeTreeData} referenceUnit={referenceUnit} />
@@ -776,7 +776,7 @@ export function InventoryResult() {
             <List data={listData} />
             <SumRequire data={totalRequire} />
           </div>
-          <div className="w-full flex justify-center mt-5 mb-10">
+          <div className="flex justify-center w-full mt-5 mb-10">
             <Button
               onClick={() => !exportLoading && doExport()}
               className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14 flex items-center justify-center">

@@ -12,7 +12,7 @@
     "pfix": "prettier . --write",
     "export": "next build && next export",
     "prepare": "husky install",
-    "prettier:check": "prettier --config .prettierrc.js --check \"components/**/*.{js,ts,tsx}\""
+    "prettier:check": "prettier --config .prettierrc.js --check \"components/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@formkit/auto-animate": "1.0.0-beta.6",

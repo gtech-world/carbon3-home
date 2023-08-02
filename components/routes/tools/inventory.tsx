@@ -7,12 +7,19 @@ import { getLcaResultList, noArgs } from "@lib/http";
 import { Button } from "@components/common/button";
 import { Modal } from "@components/common/modal";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
+import { RealData } from "@components/modal/RealData";
 
 export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
+  const [selectValue, setSelectValue] = useState<string>("");
+  const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
+
+  const onViewRealDataModal = () => {
+    setOpenViewRealDataModal(true);
+  };
 
   const columns = [
     {
@@ -33,9 +40,9 @@ export function Inventory() {
       width: "18.75rem",
       render: (text: string) => {
         return (
-          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
+          <div onClick={() => onViewRealDataModal()} className="max-w-[14rem] truncate inline-block">
             {text}
-          </span>
+          </div>
         );
       },
     },
@@ -148,6 +155,9 @@ export function Inventory() {
   }, [value]);
 
   const onAddInfo = () => {
+    if (!selectValue) {
+      return;
+    }
     setOpenAddInfoModal(true);
   };
 
@@ -184,12 +194,12 @@ export function Inventory() {
         onChange={(v: any) => {
           setPgNum(v);
         }}
-        total={value?.total ? value.total : 0}
+        total={value?.total || 0}
         pgSize={10}
         pgNum={pgNum}
       />
 
-      {openResultModal ? (
+      {openResultModal && (
         <Modal
           className="rounded-lg"
           containerClassName={"mx-5 max-w-[640px]"}
@@ -202,7 +212,9 @@ export function Inventory() {
             <span className="font-normal leading-6 ">产品系统：</span>
             <select
               id="select"
+              onChange={(e) => setSelectValue(e.target.value)}
               className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg">
+              <option value="" disabled hidden></option>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
@@ -225,9 +237,10 @@ export function Inventory() {
             </div>
           </div>
         </Modal>
-      ) : null}
+      )}
 
-      {openAddInfoModal ? <InventoryAddRealDataModal onOpenModal={() => setOpenAddInfoModal(false)} /> : null}
+      {openAddInfoModal && <InventoryAddRealDataModal onOpenModal={() => setOpenAddInfoModal(false)} />}
+      {openViewRealDataModal && <RealData onClose={() => setOpenViewRealDataModal(false)} />}
     </ToolsLayout>
   );
 }
