@@ -80,7 +80,7 @@ export function Model() {
   // }, [productNameFilter, reload, pgNum]);
   useEffect(() => {
     queryLcaProductList();
-  }, []);
+  }, [pgNum]);
   useEffect(() => {
     queryLcaProductTypeList();
   }, []);
