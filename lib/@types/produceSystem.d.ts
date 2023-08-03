@@ -16,7 +16,7 @@ declare namespace ProduceSystemController {
     createTime:string
     createUserId?:number
     description?:string
-    historyList?:[]
+    historyList?: ListRecords[];
     id:number
     imageUrl?:number
     model?:string
