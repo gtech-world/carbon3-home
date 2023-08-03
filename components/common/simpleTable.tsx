@@ -9,24 +9,36 @@ export interface TableProps {
   tbodyClassName?: string;
   rowClassName?: string;
   cellClassName?: string;
+  headerItemClassName?: string;
+}
+
+export function DefEmpty() {
+  return (
+    <tr className=" text-black text-center text-lg font-normal ">
+      <td colSpan={100} className="h-[100px] py-5 align-top">
+        无数据
+      </td>
+    </tr>
+  );
 }
 
 export const STable = ({
   header,
   data,
-  empty,
-  className = "min-w-full divide-y divide-gray-200",
-  headerClassName = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider",
-  tbodyClassName = "bg-white divide-y divide-gray-200",
-  rowClassName = "",
-  cellClassName = "px-6 py-4 whitespace-nowrap text-sm text-gray-500",
+  empty = <DefEmpty />,
+  className = "min-w-full divide-y divide-neutral-200",
+  headerClassName = "bg-neutral-200 text-left text-black text-lg font-bold leading-[27px]",
+  headerItemClassName = "p-3",
+  tbodyClassName = "bg-white divide-y divide-neutral-200",
+  rowClassName = "text-black text-sm font-normal whitespace-nowrap",
+  cellClassName = "p-3",
 }: TableProps) => {
   return (
     <table className={className}>
       <thead>
-        <tr>
+        <tr className={headerClassName}>
           {header.map((head, i) => (
-            <th key={i} scope="col" className={headerClassName}>
+            <th key={i} scope="col" className={headerItemClassName}>
               {head}
             </th>
           ))}

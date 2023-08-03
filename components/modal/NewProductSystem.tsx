@@ -52,7 +52,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         <div className="flex flex-col gap-5 w-full flex-1 h-max overflow-y-auto">
           <PairInfo tit="产品系统名称" value={<EditorText value={name} onChange={(e) => setName(e.target.value)} />} />
           <PairInfo tit="描述" value={<EditorText value={desc} onChange={(e) => setDesc(e.target.value)} />} />
-          <PairInfo tit="状态" value={<PsStatus status={0} />} />
+          <PairInfo tit="状态" value={<PsStatus />} />
           <PairInfo
             tit="产品系统LCA文件"
             value={<LcaActionInfo isNew={true} file={file as any} onFileChange={onFileChange} />}

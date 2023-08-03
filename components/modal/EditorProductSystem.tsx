@@ -22,10 +22,11 @@ import {
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
+import _ from "lodash";
 
-export function PsStatus(p: { status: number }) {
+export function PsStatus(p: { status?: number }) {
   const { status } = p;
-  if (status === 0) return <div className="text-neutral-400 text-base font-normal leading-none">草稿</div>;
+  if (_.isNil(status)) return <div className="text-neutral-400 text-base font-normal leading-none">草稿</div>;
   return (
     <div
       className={classNames(
@@ -79,7 +80,7 @@ export function LcaActionInfo(p: {
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
       <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
-      {isNew && file?.name}
+      {!isRead && file?.name}
       {isRead ? (
         <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
       ) : isNew ? (
@@ -88,7 +89,7 @@ export function LcaActionInfo(p: {
         </>
       ) : (
         <>
-          <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
+          {!file && <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />}
           <ActionBtn action="更新模型" onClick={(e) => inputFileRef.current?.click()} />
         </>
       )}
@@ -157,9 +158,9 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       form.append("name", file.name);
       task = uploadLcaModel(form, {
         onUploadProgress: (e) => setProgress(Math.min(100, Math.round((e.rate || 0) * 100))),
-      }).then((modelId) => upsertLcaProduct({ id: ps.id, description: inputDesc, modelId }));
+      }).then((modelId) => upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc, modelId }));
     } else {
-      task = upsertLcaProduct({ id: ps.id, description: inputDesc });
+      task = upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc });
     }
     task
       .then(() => {
@@ -207,13 +208,13 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
               tit="描述"
               value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />}
             />
-            <PairInfo tit="状态" value={<PsStatus status={ps.state || 1} />} />
+            <PairInfo tit="状态" value={<PsStatus status={ps.state} />} />
             <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
             <PairInfo
               tit="产品系统LCA文件"
               value={<LcaActionInfo modelId={ps.model?.id} file={file as any} onFileChange={onFileChange} />}
             />
-            <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
+            <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo />
           </div>
           <div className="flex flex-col gap-2.5 mt-5">
@@ -226,8 +227,8 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
           </div>
         </>
       )}
-      {realModal && <RealData onClose={() => toggleRealModal(false)} />}
-      {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={ps} />}
+      {realModal && <RealData data={ps?.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
+      {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={oldPs} />}
     </Modal>
   );
 }

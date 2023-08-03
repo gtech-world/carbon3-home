@@ -221,8 +221,8 @@ export async function exportLcaResultExcel(id: any) {
   return res;
 }
 
-export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0]) {
-  const res = await axios.get<Res<T>>(creatUrl(path), authConfig());
+export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0], params: any = {}) {
+  const res = await axios.get<Res<T>>(creatUrl(path), { ...authConfig(), params });
   return getData(res);
 }
 
