@@ -13,24 +13,24 @@ declare namespace ProduceSystemController {
   }
 
   type ListRecords = {
-    createTime: string;
-    createUserId?: number;
-    description?: string;
-    historyList?: ListRecords[];
-    id: number;
-    imageUrl?: number;
-    model?: ModelInfo;
-    name?: string;
-    org?: string;
-    orgId: number;
-    partNumber?: number;
-    state?: number;
-    updateTime?: string;
-    updateUser: RecordUpdateUserList;
-    updateUserId: number;
-    uuid: number;
-    version: string;
-  };
+    createTime:string
+    createUserId?:number
+    description?:string
+    historyList?:[]
+    id:number
+    imageUrl?:number
+    model?:string
+    name?:string
+    org?:string
+    orgId:number
+    partNumber?:number
+    state?:number
+    updateTime?:string
+    updateUser:RecordUpdateUserList
+    updateUserId:number
+    uuid:number
+    version:string
+  }
 
   type RecordUpdateUserList = {
     address?: string;

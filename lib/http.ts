@@ -132,7 +132,7 @@ export async function getLcaModelList({ pgNum, productId }: any) {
   return getData(res);
 }
 export async function getLcaResultList({ pgNum }: any) {
-  const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`), authConfig());
+  const res = await axios.get(creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
 export async function getLcaResultDetail(id: any) {
@@ -225,3 +225,21 @@ export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0]) {
   const res = await axios.get<Res<T>>(creatUrl(path), authConfig());
   return getData(res);
 }
+
+export async function getProductSystemAllList<T>() {
+  const res:any = await axios.get<string>(creatUrl(`/api/product-system/all`),authConfig(),
+  );
+  return getData(res);
+}
+
+
+export async function getAddRealDataList  (id:number) {
+  const res:any = await axios.get<string>(
+    creatUrl(`/api/product-system/${id}/params`),
+    authConfig(),
+  );
+  return getData(res);
+}
+
+
+

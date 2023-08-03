@@ -92,7 +92,7 @@ export function Model() {
     () => [
       {
         title: "产品系统",
-        dataIndex: "description",
+        dataIndex: "name",
         width: "23.75rem",
         render: (text: string) => {
           return <span className="max-w-[23.75rem] truncate inline-block">{text}</span>;
@@ -114,7 +114,7 @@ export function Model() {
         title: "变更人",
         dataIndex: "name",
         width: "12.5rem",
-        render: (text: string) => text,
+        render: (text: string, record: ProduceSystemController.ListRecords) => record.updateUser.name,
       },
       {
         title: "变更时间",
