@@ -13,7 +13,7 @@ import {
   getLcaModelList,
   getLcaProductList,
   getLcaProductTypeList,
-  insertLcaProduct,
+  upsertLcaProduct,
   updateLcaModelState,
   uploadLcaModel,
 } from "@lib/http";
@@ -198,6 +198,28 @@ export function Model() {
     setStatus(null);
   };
 
+  // const doAddProduct = async () => {
+  //   if (!productSelectedType?.id) return false;
+
+  //   const findResult = _.find(productList, (item: any) => {
+  //     return item.text === productName;
+  //   });
+  //   if (findResult) {
+  //     toast({ type: "error", msg: "产品名称已经存在" });
+  //     return false;
+  //   }
+  //   setCreateProductView(false);
+  //   await insertLcaProduct({
+  //     name: productName,
+  //     categoryId: productSelectedType?.id,
+  //     orgId: user.orgId,
+  //     description: description,
+  //   });
+  //   toast({ type: "info", msg: "新建成功！" });
+  //   const dom = document.getElementById("productList");
+  //   if (dom) dom.scrollTop = dom.scrollHeight;
+  //   setReloadProduct(reloadProduct + 1);
+  // };
   // const doUpload = async () => {
   //   const formData = new FormData();
   //   formData.append("name", modelName);
@@ -336,7 +358,7 @@ export function Model() {
       )}
       {editorProductSystem && (
         <EditorProductSystem
-          ps={editorProductSystem}
+          psId={editorProductSystem.id}
           onClose={() => setEditorProductSystem(undefined)}
           onSuccess={() => queryLcaProductList()}
         />

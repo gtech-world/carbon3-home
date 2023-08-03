@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useMemo, useRef, useState } from "react";
 import { EditorText, LcaActionInfo, OrganizationInfo, PairInfo, PsStatus } from "./EditorProductSystem";
 import { Btn } from "@components/common/button";
 import { useOn } from "@lib/hooks/useOn";
-import { uploadLcaModel } from "@lib/http";
+import { upsertLcaProduct, uploadLcaModel } from "@lib/http";
 import { Progress } from "@components/common/progress";
 
 export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
@@ -23,7 +23,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     _onClose && _onClose();
   }, [_onClose]);
   const onOk = useOn(() => {
-    if (!file) return;
+    if (disabledOk) return;
     setIsProgress(true);
     const form = new FormData();
     form.append("name", file.name);
@@ -35,7 +35,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         setProgress(Math.min(Math.round((e.rate || 0) * 100), 100));
       },
     })
-      .then(() => {})
+      .then((modelId) => upsertLcaProduct({ name, description: desc, modelId }))
       .then(() => {
         onSuccess && onSuccess();
         onClose();

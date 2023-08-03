@@ -1,8 +1,11 @@
 import { Btn } from "@components/common/button";
 import { useStore } from "@components/common/context";
 import { Dropdown } from "@components/common/dropdown";
+import { Loading } from "@components/common/loading";
 import { Modal, ModalProps } from "@components/common/modal";
+import { useProductSystem } from "@lib/hooks/useDatas";
 import { useOn } from "@lib/hooks/useOn";
+import { uploadLcaModel, upsertLcaProduct } from "@lib/http";
 import classNames from "classnames";
 import {
   ChangeEvent,
@@ -11,6 +14,8 @@ import {
   MouseEventHandler,
   ReactNode,
   useCallback,
+  useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -63,7 +68,7 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
 
 export function LcaActionInfo(p: {
   psId?: string;
-  modelId?: string;
+  modelId?: number;
   isNew?: boolean;
   isRead?: boolean;
   file?: File;
@@ -117,64 +122,112 @@ export function OrganizationInfo() {
   return (
     <>
       <PairInfo tit="组织名称" value={userData?.organization?.name || "-"} />
-      <PairInfo tit="组织编号" value={userData?.organization?.id || "-"} />
+      <PairInfo tit="组织编号" value={userData?.organization?.serialNumber || "-"} />
     </>
   );
 }
 
-export function EditorProductSystem(p: ModalProps & { ps: any; onSuccess?: () => void }) {
-  const { ps, onSuccess, ...props } = p;
-  const { userData } = useStore();
-  const [inputDesc, setInputDesc] = useState("ES6 2023 120kWh Sports");
+export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: () => void }) {
+  const { psId, onSuccess, ...props } = p;
+  const { data: ps, isLoading, error } = useProductSystem(psId);
+  const [inputDesc, setInputDesc] = useState("");
+  const firstRef = useRef(true);
+  useEffect(() => {
+    ps && setInputDesc(ps.description || "");
+    firstRef.current = false;
+  }, [ps]);
+  useEffect(() => {
+    error && props.onClose && props.onClose();
+  }, [error]);
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const disabledOk = !file;
+  const [progress, setProgress] = useState(0);
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
-  const disableSubmit = false;
-  const onSubmit = useOn(() => {});
+  const disableSubmit = !ps || (!file && inputDesc === ps?.description);
+  const onSubmit = useOn(() => {
+    if (!ps) return;
+    if (disableSubmit) return;
+    setBusy(true);
+    let task: Promise<any>;
+    if (file) {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("name", file.name);
+      task = uploadLcaModel(form, {
+        onUploadProgress: (e) => setProgress(Math.min(100, Math.round((e.rate || 0) * 100))),
+      }).then((modelId) => upsertLcaProduct({ id: ps.id, description: inputDesc, modelId }));
+    } else {
+      task = upsertLcaProduct({ id: ps.id, description: inputDesc });
+    }
+    task
+      .then(() => {
+        onSuccess && onSuccess();
+        props.onClose && props.onClose();
+      })
+      .catch(console.error)
+      .finally(() => {
+        setProgress(0);
+        setBusy(false);
+      });
+  });
 
   const [realModal, toggleRealModal] = useToggle(false);
-  const [oldPs, toggleOldPs] = useToggle(false);
-
+  const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
+  const versions = useMemo(() => {
+    return (ps?.historyList || []).map((item) => ({ text: `版本${item.version}` }));
+  }, [ps]);
   return (
-    <Modal title={ps.modelName} {...props}>
-      <div className="flex flex-col gap-5  w-full min-w-[40rem] max-h-[70vh] overflow-y-auto">
-        <PairInfo tit="UID" value="PS-1" />
-        <PairInfo
-          tit="版本"
-          value={
-            <div className="flex justify-between items-center gap-2.5 px-5 py-4 bg-stone-50 rounded-lg border border-neutral-200">
-              {"3"}
-              <Dropdown
-                items={[{ text: "版本3" }, { text: "版本2" }, { text: "版本1" }]}
-                className="px-2.5 py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
-                onClick={() => {
-                  toggleOldPs(true);
-                }}>
-                查看历史版本
-              </Dropdown>
+    <Modal title={ps?.name || ""} {...props}>
+      {isLoading && !ps && <Loading className="min-h-[100px]" />}
+      {ps && (
+        <>
+          <div className="flex flex-col gap-5  w-full min-w-[40rem] max-h-[70vh] overflow-y-auto">
+            <PairInfo tit="UID" value={ps.uuid || "-"} />
+            <PairInfo
+              tit="版本"
+              value={
+                <div className="flex justify-between items-center gap-2.5 px-5 py-4 bg-stone-50 rounded-lg border border-neutral-200">
+                  {ps.version || "-"}
+                  <Dropdown
+                    items={versions}
+                    className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
+                    onClick={(i) => {
+                      if (!ps.historyList) return;
+                      const viewPs = ps.historyList[i];
+                      setOldPs(viewPs);
+                    }}>
+                    查看历史版本
+                  </Dropdown>
+                </div>
+              }
+            />
+            <PairInfo
+              tit="描述"
+              value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />}
+            />
+            <PairInfo tit="状态" value={<PsStatus status={ps.state || 1} />} />
+            <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
+            <PairInfo
+              tit="产品系统LCA文件"
+              value={<LcaActionInfo modelId={ps.model?.id} file={file as any} onFileChange={onFileChange} />}
+            />
+            <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
+            <OrganizationInfo />
+          </div>
+          <div className="flex flex-col gap-2.5 mt-5">
+            <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
+              提交更新
+            </Btn>
+            <div className="text-black text-sm font-normal">
+              * 点击提交更新按钮后，当前的产品系统版本将自动更新。原先版本的信息可以在历史版本中查询。
             </div>
-          }
-        />
-        <PairInfo tit="描述" value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />} />
-        <PairInfo tit="状态" value={<PsStatus status={1} />} />
-        <PairInfo tit="变更人" value={userData?.name || "-"} />
-        <PairInfo tit="产品系统LCA文件" value={<LcaActionInfo file={file as any} onFileChange={onFileChange} />} />
-        <PairInfo tit="实景数据" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
-        <OrganizationInfo />
-      </div>
-      <div className="flex flex-col gap-2.5 mt-5">
-        <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
-          提交更新
-        </Btn>
-        <div className="text-black text-sm font-normal">
-          * 点击提交更新按钮后，当前的产品系统版本将自动更新。原先版本的信息可以在历史版本中查询。
-        </div>
-      </div>
+          </div>
+        </>
+      )}
       {realModal && <RealData onClose={() => toggleRealModal(false)} />}
-      {oldPs && <ViewProductSystem onClose={() => toggleOldPs(false)} ps={ps} />}
+      {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={ps} />}
     </Modal>
   );
 }
