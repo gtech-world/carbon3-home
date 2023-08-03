@@ -1,20 +1,17 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { getLcaResultList, noArgs } from "@lib/http";
+import { getLcaResultList, getProductSystemAllList, noArgs } from "@lib/http";
 import { Button } from "@components/common/button";
-import { Modal } from "@components/common/modal";
-import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { RealData } from "@components/modal/RealData";
+import InventoryResultModal from "./inventoryResultModal";
 
 export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
-  const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
-  const [selectValue, setSelectValue] = useState<string>("");
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
 
   const onViewRealDataModal = () => {
@@ -133,33 +130,15 @@ export function Inventory() {
       },
     },
   ];
-  const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultList({ pgNum }), [pgNum]),
-    [pgNum],
-  );
-  useMemo(() => {
-    if (!value?.records) return [];
-    // console.log(JSON.parse(value.records[0].lcaResult))
-    let arr: any = [];
-    value.records.map((v: any) => {
-      arr.push({
-        id: v.id,
-        createTime: v.createTime,
-        loadNumber: v.loadNumber,
-        productName: v.product.name,
-        modelName: v.model.modelName,
-        description: v.model.description,
-      });
-    });
-    setTableData(arr);
-  }, [value]);
 
-  const onAddInfo = () => {
-    if (!selectValue) {
-      return;
-    }
-    setOpenAddInfoModal(true);
+  const getList = async () => {
+    const res = await getLcaResultList(pgNum);
+    console.log("valvalueue", res);
   };
+
+  useEffect(() => {
+    getList();
+  }, [pgNum]);
 
   return (
     <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
@@ -181,7 +160,7 @@ export function Inventory() {
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey="id"
                 data={tableData}
-                loading={loading}
+                // loading={loading}
                 className=""
                 headerClassName={{ background: "#fff" }}
               />
@@ -194,52 +173,12 @@ export function Inventory() {
         onChange={(v: any) => {
           setPgNum(v);
         }}
-        total={value?.total || 0}
+        total={0}
         pgSize={10}
         pgNum={pgNum}
       />
 
-      {openResultModal && (
-        <Modal
-          className="rounded-lg"
-          containerClassName={"mx-5 max-w-[640px]"}
-          titleClassName={"text-[20px] leading-5 font-bold"}
-          title={"新建碳足迹结果"}
-          onClose={() => setOpenResultModal(false)}>
-          <div className="mx-5 max-w-[640px] ">
-            <span className="font-normal leading-6 ">碳足迹批次：</span>
-            <input className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg" />
-            <span className="font-normal leading-6 ">产品系统：</span>
-            <select
-              id="select"
-              onChange={(e) => setSelectValue(e.target.value)}
-              className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg">
-              <option value="" disabled hidden></option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-            </select>
-            <span className="font-normal leading-6 ">实景数据填报：</span>
-            <div
-              onClick={() => onAddInfo()}
-              className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
-              前往填写
-            </div>
-            <div className="flex flex-row justify-between gap-5 mt-5">
-              <div
-                onClick={() => setOpenResultModal(false)}
-                className=" cursor-pointer bg-[#29953A1A] w-[310px] text-[18px] border-2 border-[#29953A]   font-normal  text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">
-                取消
-              </div>
-              <div className="  cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">
-                计算碳结果
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
-
-      {openAddInfoModal && <InventoryAddRealDataModal onOpenModal={() => setOpenAddInfoModal(false)} />}
+      {openResultModal && <InventoryResultModal openResultModal={() => setOpenResultModal(false)} />}
       {openViewRealDataModal && <RealData onClose={() => setOpenViewRealDataModal(false)} />}
     </ToolsLayout>
   );
