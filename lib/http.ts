@@ -136,7 +136,7 @@ export async function getLcaResultList( pgNum : any) {
   return getData(res);
 }
 export async function getLcaResultDetail(id: any) {
-  const res = await axios.get(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
   return getData(res);
 }
 export async function updateLcaModelState(id: number, state: number) {
@@ -155,7 +155,7 @@ export async function uploadLcaModel(formData: FormData, config: AxiosRequestCon
   return getData(res);
 }
 export async function getLcaProductTypeList() {
-  const res = await axios.get(creatUrl(`/api/product/category/query`), authConfig());
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product/category/query`), authConfig());
   return getData(res);
 }
 export async function upsertLcaProduct({
@@ -177,7 +177,7 @@ export async function upsertLcaProduct({
   return getData(res);
 }
 export async function getLcaProductList(pgNum: number) {
-  const res = await axios.get(creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
