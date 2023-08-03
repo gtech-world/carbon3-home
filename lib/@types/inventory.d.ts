@@ -1,16 +1,21 @@
-
 declare namespace InventoryController {
   interface InventoryAddRealDataModalProps {
     onOpenModal: () => void;
     productId: number;
+    realData: (val) => val;
   }
   type InventoryResultModalProps ={
     openResultModal: () => void
+    getList: () => void
   }
 
   type InventoryProductSystemList = {
     id:number | string;
     name:string;
+  }
+
+  type InventoryRealDataAllList = {
+    paramDetail:string
   }
 
   type InventoryRealDataList = {
@@ -28,6 +33,17 @@ declare namespace InventoryController {
     flowType:string;
     name:string;
     processType:string
+  }
+
+  type uploadResult ={
+    loadName:string
+    productId:number,
+    lcaParamList:{
+      dateTime:string
+      paramName:string
+      paramValue:string
+      processId:string
+    }
   }
 
 }

@@ -2,18 +2,22 @@ import React, { FC, useEffect, useState } from "react";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
 import { getAddRealDataList } from "@lib/http";
+import { getCurrentDate } from "utils";
 
 type realDataModal = InventoryController.InventoryRealDataList;
 const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({
   onOpenModal,
   productId,
+  realData,
 }) => {
   const [tableData, setTableData] = useState<realDataModal[]>([]);
 
   const getRealDataList = async () => {
     getAddRealDataList(productId)
       .then((res) => {
-        const newData = JSON.parse(res.paramDetail || []);
+        const newData = JSON.parse(res.paramDetail);
+        console.log();
+
         setTableData(newData[0]?.parameters);
       })
       .catch((e) => {})
@@ -26,27 +30,41 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   const onSubmit = () => {
     const table = document?.getElementById("realDataTable") as HTMLTableElement;
     const rows = table.getElementsByTagName("tr");
-    const values = [];
+    const values: string[][] = [];
 
     for (let i = 0; i < rows.length; i++) {
       const rowValues = [];
       const inputs = rows[i].getElementsByTagName("input");
       for (let j = 0; j < inputs.length; j++) {
-        console.log("dadsa", inputs[j].value);
-
-        const da = ["name", "id", "type", "data", "inputData", "res"];
-        const keys = da[j];
         const inputValue = inputs[j].value;
-        const obj = { [keys]: inputValue };
-        rowValues.push(obj);
+        rowValues.push(inputValue);
       }
       values.push(rowValues);
     }
-    typeof onOpenModal === "function" && onOpenModal();
 
-    console.log("值-----", values.slice(1));
+    let lcaParamList = [];
+    lcaParamList = tableData.map((e, i) => {
+      const newArr = {
+        processId: e.context["@id"],
+        paramValue: values.slice(1)[i][0],
+        paramName: e.name,
+        dateTime: getCurrentDate(),
+      };
+      return newArr;
+    });
+
+    const result = {
+      lcaParamList,
+    };
+    typeof onOpenModal === "function" && onOpenModal();
+    typeof realData === "function" && realData(result);
+
+    console.log("值-----", result, lcaParamList, typeof realData);
   };
 
+  console.log("tadasdsa", tableData);
+
+  type columnsList = InventoryController.InventoryRealDataList;
   const columns = [
     {
       title: "参数名",
@@ -55,35 +73,22 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       render: (text: string) => text,
     },
     {
-      title: "描述",
-      dataIndex: "productName",
-      width: "5.5rem",
-      render: (text: string) => "ss",
-    },
-    {
       title: "过程名称",
       dataIndex: "name",
       width: "7rem",
-      render: (text: string, record: any) => record.name,
-    },
-
-    {
-      title: "类型",
-      width: "5.5rem",
-      dataIndex: "createTime",
-      render: (text: string) => "ss",
+      render: (text: string, record: columnsList) => record.context.name,
     },
     {
       title: "参考值",
       width: "10rem",
-      dataIndex: "createTime",
-      render: (text: string) => "ss",
+      dataIndex: "value",
+      render: (text: string) => text,
     },
     {
       title: "填入值",
       width: "10rem",
       dataIndex: "createTime",
-      render: (text: string) => <input className="w-[10rem] h-[40px] bg-[#F3F3F3]" />,
+      render: (text: string) => <input type="number" className="w-[10rem] h-[40px] bg-[#F3F3F3]" />,
     },
   ];
 

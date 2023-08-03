@@ -232,13 +232,20 @@ export async function getProductSystemAllList() {
   return getData(res);
 }
 
+export async function uploadResult(obj:InventoryController.uploadResult) {
+  console.log('oobjbj',obj);
+  
+  const res = await axios.post<Res<any>>(creatUrl("/api/inventory/item/upload"), obj,authConfig());
+  return getData(res);
+}
 
-export async function getAddRealDataList<T> (id:number) {
-  const res = await axios.get<Res<string>>(
+
+export async function getAddRealDataList (id:number) {
+  const res = await axios.get<Res<InventoryController.InventoryRealDataAllList>>(
     creatUrl(`/api/product-system/${id}/params`),
     authConfig(),
   );
-  return JSON.parse(getData(res) as string);
+  return getData(res);
 
 }
 

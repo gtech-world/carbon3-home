@@ -178,7 +178,9 @@ export function Inventory() {
         pgNum={pgNum}
       />
 
-      {openResultModal && <InventoryResultModal openResultModal={() => setOpenResultModal(false)} />}
+      {openResultModal && (
+        <InventoryResultModal openResultModal={() => setOpenResultModal(false)} getList={() => getList()} />
+      )}
       {openViewRealDataModal && <RealData onClose={() => setOpenViewRealDataModal(false)} />}
     </ToolsLayout>
   );
