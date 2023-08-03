@@ -1,9 +1,27 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
+import { getAddRealDataList } from "@lib/http";
 
-const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({ onOpenModal }) => {
-  const [tableData, setTableData] = useState<Record<string, any>[]>([{}, {}, {}]);
+type realDataModal = InventoryController.InventoryRealDataList;
+const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({
+  onOpenModal,
+  productId,
+}) => {
+  const [tableData, setTableData] = useState<realDataModal[]>([]);
+
+  const getRealDataList = async () => {
+    getAddRealDataList(productId)
+      .then((res) => {
+        const newData = JSON.parse(res.paramDetail || []);
+        setTableData(newData[0]?.parameters);
+      })
+      .catch((e) => {})
+      .finally();
+  };
+  useEffect(() => {
+    getRealDataList();
+  }, [productId]);
 
   const onSubmit = () => {
     const table = document?.getElementById("realDataTable") as HTMLTableElement;
@@ -32,9 +50,9 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   const columns = [
     {
       title: "参数名",
-      dataIndex: "loadNumber",
+      dataIndex: "name",
       width: "9rem",
-      render: (text: string) => "ss",
+      render: (text: string) => text,
     },
     {
       title: "描述",
@@ -44,9 +62,9 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     },
     {
       title: "过程名称",
-      dataIndex: "modelName",
+      dataIndex: "name",
       width: "7rem",
-      render: (text: string) => "ss",
+      render: (text: string, record: any) => record.name,
     },
 
     {

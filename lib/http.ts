@@ -226,8 +226,8 @@ export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0]) {
   return getData(res);
 }
 
-export async function getProductSystemAllList<T>() {
-  const res = await axios.get<Res<string>>(creatUrl(`/api/product-system/all`),authConfig(),
+export async function getProductSystemAllList() {
+  const res = await axios.get<Res<InventoryController.InventoryProductSystemList[]>>(creatUrl(`/api/product-system/all`),authConfig(),
   );
   return getData(res);
 }
@@ -238,7 +238,8 @@ export async function getAddRealDataList<T> (id:number) {
     creatUrl(`/api/product-system/${id}/params`),
     authConfig(),
   );
-  return getData(res);
+  return JSON.parse(getData(res) as string);
+
 }
 
 
