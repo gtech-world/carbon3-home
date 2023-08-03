@@ -50,95 +50,57 @@ export function Model() {
   const [productNameFilter, setProductNameFilter] = useState(-1);
   const [reload, setReload] = useState(0);
   const [reloadProduct, setReloadProduct] = useState(0);
-
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
   const [tableDataLoading, setTableDataLoading] = useState(false);
   const [tableDataTotal, setTableDataTotal] = useState(0);
   const [productType, setProductType] = useState([]);
   const [productList, setProductList] = useState<any>([]);
   const fileRef = useRef(null);
   const { user } = useUser();
-  const { toast } = useToast();
-  const queryLcaModelList = async () => {
-    setTableDataLoading(true);
-    const res = await getLcaModelList({ pgNum, productId: productNameFilter });
-    setTableDataLoading(false);
-    let arr: any = [];
-    res.records.map((v: any) => {
-      arr.push({
-        id: v.id,
-        modelName: v.modelName,
-        modelUuid: v.modelUuid,
-        productName: v.product.name,
-        state: v.state,
-        createTime: v.createTime,
-        paramDetail:
-          JSON.parse(v.paramDetail)[0]?.parameters?.map((item: any) => {
-            return {
-              context: item.name,
-              parameter: item.context.name,
-              amount: item.value,
-              uncertainty: item?.uncertainty?.distributionType || null,
-              description: item.description,
-            };
-          }) || [],
-      });
-    });
-    setTableDataTotal(res.total);
-    setTableData(arr);
-  };
 
   const queryLcaProductTypeList = async () => {
     const res = await getLcaProductTypeList();
     setProductType(res ? formatToTree(res?.records, 0) : []);
   };
-  const queryLcaProductList = async () => {
-    const res = await getLcaProductList();
-    // console.log("resres", res);
 
-    let arr: any = [];
-    res.records.map((v: any) => {
-      arr.push({
-        id: v.id,
-        text: v.name,
-        type: v.category.name,
-        desc: v.description,
-      });
-    });
-    setProductList(arr);
+  const queryLcaProductList = async () => {
+    try {
+      setTableDataLoading(true);
+      const res = await getLcaProductList(pgNum);
+      setTableData(res);
+    } catch (e) {
+      console.log("eee", e);
+    } finally {
+      setTableDataLoading(false);
+    }
   };
-  useEffect(() => {
-    queryLcaModelList();
-  }, [productNameFilter, reload, pgNum]);
+
+  // useEffect(() => {
+  //   queryLcaModelList();
+  // }, [productNameFilter, reload, pgNum]);
   useEffect(() => {
     queryLcaProductList();
-  }, [reloadProduct]);
+  }, []);
   useEffect(() => {
     queryLcaProductTypeList();
   }, []);
   const onFileChange = async (file: any) => {
     setUploadFile(file.target.files[0]);
   };
+
   const columns = useMemo(
     () => [
       {
         title: "产品系统",
-        dataIndex: "modelName",
+        dataIndex: "description",
         width: "23.75rem",
         render: (text: string) => {
-          return (
-            <span
-              className="max-w-[23.75rem] truncate inline-block"
-              data-tooltip-id="tooltip"
-              data-tooltip-content={text}>
-              {text}
-            </span>
-          );
+          return <span className="max-w-[23.75rem] truncate inline-block">{text}</span>;
         },
       },
       {
         title: "产品系统ID",
-        dataIndex: "modelUuid",
+        dataIndex: "uuid",
         width: "12.5rem",
         render: (text: string) => {
           return (
@@ -150,13 +112,13 @@ export function Model() {
       },
       {
         title: "变更人",
-        dataIndex: "createTime",
+        dataIndex: "name",
         width: "12.5rem",
         render: (text: string) => text,
       },
       {
         title: "变更时间",
-        dataIndex: "createTime",
+        dataIndex: "updateTime",
         width: "12.5rem",
         render: (text: string) => {
           return <div className="break-keep whitespace-nowrap">{text}</div>;
@@ -164,10 +126,10 @@ export function Model() {
       },
       {
         title: "版本",
-        dataIndex: "createTime",
+        dataIndex: "version",
         width: "9.375rem",
         render: (text: string) => {
-          return 1;
+          return text;
         },
       },
       {
@@ -235,28 +197,7 @@ export function Model() {
     });
     setStatus(null);
   };
-  const doAddProduct = async () => {
-    if (!productSelectedType?.id) return false;
 
-    const findResult = _.find(productList, (item: any) => {
-      return item.text === productName;
-    });
-    if (findResult) {
-      toast({ type: "error", msg: "产品名称已经存在" });
-      return false;
-    }
-    setCreateProductView(false);
-    await insertLcaProduct({
-      name: productName,
-      categoryId: productSelectedType?.id,
-      orgId: user.orgId,
-      description: description,
-    });
-    toast({ type: "info", msg: "新建成功！" });
-    const dom = document.getElementById("productList");
-    if (dom) dom.scrollTop = dom.scrollHeight;
-    setReloadProduct(reloadProduct + 1);
-  };
   // const doUpload = async () => {
   //   const formData = new FormData();
   //   formData.append("name", modelName);
@@ -303,6 +244,7 @@ export function Model() {
   const onProductChange = useCallback((val: any) => {
     setProductName(val.target.value);
   }, []);
+
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
@@ -323,7 +265,7 @@ export function Model() {
                 columnsHeight={"h-[3.125rem]"}
                 loading={tableDataLoading}
                 mouseHoverKey={"id"}
-                data={tableData}
+                data={tableData?.records || []}
                 className=""
                 headerClassName={{ background: "#fff" }}
               />
@@ -336,7 +278,7 @@ export function Model() {
           setPgNum(v);
         }}
         className="my-8"
-        total={tableDataTotal}
+        total={tableData?.total || 0}
         pgSize={10}
         pgNum={pgNum}
       />

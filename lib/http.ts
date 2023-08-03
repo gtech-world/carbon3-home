@@ -127,6 +127,7 @@ export async function getSbtDetail(tokenId: string | number) {
 
 export async function getLcaModelList({ pgNum, productId }: any) {
   const res = await axios.get(
+    
     creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10&productId=${productId > -1 ? productId : ""}`),
     authConfig(),
   );
@@ -173,8 +174,8 @@ export async function insertLcaProduct({
   );
   return getData(res);
 }
-export async function getLcaProductList() {
-  const res = await axios.get(creatUrl(`/api/product/list?pageSize=500`), authConfig());
+export async function getLcaProductList(pgNum:number) {
+  const res = await axios.get(creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
