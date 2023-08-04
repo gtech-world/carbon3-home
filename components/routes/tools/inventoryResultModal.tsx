@@ -1,19 +1,26 @@
 import { Modal } from "@components/common/modal";
 import { FC, Fragment, useEffect, useState } from "react";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
-import { getProductSystemAllList, uploadResult } from "@lib/http";
+import { getAddRealDataList, getProductSystemAllList, uploadResult } from "@lib/http";
+import { getCurrentDate } from "utils";
 
-type formDataType = Omit<InventoryController.uploadResult, "lcaParamList">;
+type formDataType = { [key: string]: string };
 type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
-
+const filed: formDataType = {
+  loadName: "碳足迹批次",
+  productId: "产品系统",
+};
+const init = {
+  loadName: "",
+  productId: "",
+};
 const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = ({ openResultModal, getList }) => {
   const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
   const [productList, setProduceList] = useState<InventoryController.InventoryProductSystemList[]>([]);
   const [realData, setRealData] = useState<Partial<realDataType>>({ lcaParamList: [] });
-  const [formData, setFormData] = useState<formDataType>({
-    loadName: "",
-    productId: 0,
-  });
+  const [tableData, setTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
+  const [formErrors, setFormErrors] = useState<formDataType>(init);
+  const [formData, setFormData] = useState<formDataType>(init);
 
   const getProductSystemList = () => {
     getProductSystemAllList()
@@ -27,7 +34,28 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
 
   const onCalculate = () => {
     const { loadName, productId } = formData;
-    const result = { ...realData, loadName, productId };
+    const errors: any = {};
+    for (const key in formData) {
+      if (!formData[key].trim()) {
+        errors[key] = `${filed[key]}不能为空`;
+      }
+    }
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    setFormErrors({});
+    const lcaParamList = tableData.map((e) => {
+      return {
+        processId: e.context["@id"],
+        paramValue: e.value.toString(),
+        paramName: e.name,
+        dateTime: getCurrentDate(),
+      };
+    });
+    let data = realData.lcaParamList?.length ? realData : { lcaParamList: lcaParamList };
+    const result = { ...data, loadName, productId };
     uploadResult(result)
       .then((res) => {
         typeof openResultModal === "function" && openResultModal();
@@ -56,6 +84,22 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     }));
   };
 
+  const getRealDataList = async () => {
+    getAddRealDataList(formData.productId)
+      .then((res) => {
+        const newData = JSON.parse(res.paramDetail);
+        setTableData(newData[0]?.parameters);
+      })
+      .catch((e) => {})
+      .finally();
+  };
+
+  useEffect(() => {
+    if (formData.productId) {
+      getRealDataList();
+    }
+  }, [formData.productId]);
+
   return (
     <Fragment>
       <Modal
@@ -73,6 +117,12 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             name="loadName"
             className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
+          {formErrors.loadName && (
+            <div className="mb-2.5 ">
+              <span className=" text-[red]">{formErrors.loadName}</span>{" "}
+            </div>
+          )}
+
           <span className="font-normal leading-6 ">产品系统：</span>
           <select
             id="productId"
@@ -86,12 +136,18 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
               </option>
             ))}
           </select>
+          {formErrors.productId && (
+            <div className="mb-2.5 ">
+              <span className=" text-[red]">{formErrors.productId}</span>{" "}
+            </div>
+          )}
           <span className="font-normal leading-6 ">实景数据填报：</span>
           <div
             onClick={() => onAddInfo()}
             className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
             前往填写
           </div>
+
           <div className="flex flex-row justify-between gap-5 mt-5">
             <div
               onClick={openResultModal}
@@ -108,8 +164,8 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
       </Modal>
       {openAddInfoModal && (
         <InventoryAddRealDataModal
-          productId={Number(formData.productId)}
           realData={setRealData}
+          tableData={tableData}
           onOpenModal={() => setOpenAddInfoModal(false)}
         />
       )}

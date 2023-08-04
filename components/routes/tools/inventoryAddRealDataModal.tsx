@@ -1,32 +1,13 @@
-import React, { FC, useEffect, useState } from "react";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
-import { getAddRealDataList } from "@lib/http";
+import React, { FC } from "react";
 import { getCurrentDate } from "utils";
 
-type realDataModal = InventoryController.InventoryRealDataList;
 const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({
   onOpenModal,
-  productId,
   realData,
+  tableData,
 }) => {
-  const [tableData, setTableData] = useState<realDataModal[]>([]);
-
-  const getRealDataList = async () => {
-    getAddRealDataList(productId)
-      .then((res) => {
-        const newData = JSON.parse(res.paramDetail);
-        console.log();
-
-        setTableData(newData[0]?.parameters);
-      })
-      .catch((e) => {})
-      .finally();
-  };
-  useEffect(() => {
-    getRealDataList();
-  }, [productId]);
-
   const onSubmit = () => {
     const table = document?.getElementById("realDataTable") as HTMLTableElement;
     const rows = table.getElementsByTagName("tr");
@@ -58,11 +39,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     };
     typeof onOpenModal === "function" && onOpenModal();
     typeof realData === "function" && realData(result);
-
-    console.log("值-----", result, lcaParamList, typeof realData);
   };
-
-  console.log("tadasdsa", tableData);
 
   type columnsList = InventoryController.InventoryRealDataList;
   const columns = [

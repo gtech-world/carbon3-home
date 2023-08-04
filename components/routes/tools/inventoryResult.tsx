@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "@components/common/button";
 import { BsCaretUpFill } from "react-icons/bs";
 import classNames from "classnames";
@@ -618,11 +618,27 @@ function SumRequire(p: { data: any }) {
 
 export function InventoryResult() {
   const { query } = useRouter();
+  const { id } = query;
+
   const [exportLoading, setExportLoading] = useState(false);
+  // const [value, setValue] = useState<any>({});
+  // const [loading, setLoading] = useState<boolean>(false);
+
   const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultDetail(query.id), []),
-    [],
+    noArgs(() => getLcaResultDetail(id), [id]),
+    [id],
   );
+
+  // const getDetailList = async () => {
+  //   console.log('queryasa',query);
+
+  //   const res = getLcaResultDetail(query.id);
+  //   setValue(res);
+  // };
+
+  // useEffect(() => {
+  //   getDetailList();
+  // }, [query.id]);
   const calcContribution = (val: number, total: number) => {
     if (val === 0 || total === 0) {
       return 0;
@@ -633,115 +649,114 @@ export function InventoryResult() {
       return val / total;
     }
   };
-  const { baseInfo, generalInfo, carbonResult, contributeTreeData, referenceUnit, listData, totalRequire }: any =
-    useMemo(() => {
-      let contributeTreeData: any = [];
-      let generalInfo: any = [];
-      let totalRequire: any = [];
-      let referenceUnit = "";
-      let baseInfo = {
-        loadNumber: "",
-        productName: "",
-        modelName: "",
-        lastUpdatedTime: "",
-        productCategory: "",
-        desc: "",
-        uuid: "",
+  const { generalInfo, carbonResult, contributeTreeData, referenceUnit, listData, totalRequire }: any = useMemo(() => {
+    let contributeTreeData: any = [];
+    let generalInfo: any = [];
+    let totalRequire: any = [];
+    let referenceUnit = "";
+    let baseInfo = {
+      loadNumber: "",
+      productName: "",
+      modelName: "",
+      lastUpdatedTime: "",
+      productCategory: "",
+      desc: "",
+      uuid: "",
+    };
+    let carbonResult: any = "";
+    let listData: any = {
+      inputData: [],
+      outputData: [],
+    };
+    if (value) {
+      // baseInfo = {
+      //   loadNumber: value.loadNumber,
+      //   productName: value.product.name,
+      //   modelName: value.model.modelName,
+      //   lastUpdatedTime: value.model.updateTime,
+      //   productCategory: value.productCategory.name,
+      //   desc: value.model.description,
+      //   uuid: value.model.productSystemUuid,
+      // };
+      const val = parseRefJson(JSON.parse(value.lcaResult));
+      generalInfo = {
+        productSystemName: val.extra?.productSystemName,
+        methodName: val.extra?.methodName,
+        targetAmount: val.extra?.targetAmount,
       };
-      let carbonResult: any = "";
-      let listData: any = {
-        inputData: [],
-        outputData: [],
-      };
-      if (value) {
-        baseInfo = {
-          loadNumber: value.loadNumber,
-          productName: value.product.name,
-          modelName: value.model.modelName,
-          lastUpdatedTime: value.model.updateTime,
-          productCategory: value.productCategory.name,
-          desc: value.model.description,
-          uuid: value.model.productSystemUuid,
-        };
-        const val = parseRefJson(JSON.parse(value.lcaResult));
-        generalInfo = {
-          productSystemName: val.extra?.productSystemName,
-          methodName: val.extra?.methodName,
-          targetAmount: val.extra?.targetAmount,
-        };
-        referenceUnit = val.totalImpacts[0].impact.referenceUnit || "";
-        const total = val.treeNode?.result;
-        contributeTreeData = [
-          {
-            contribution: (calcContribution(total, total) * 100).toFixed(2) + "%",
-            process: val.treeNode?.provider.name,
-            requiredAmount: val.treeNode?.requiredAmount + " " + val.treeNode?.refUnit,
-            result: val.treeNode?.result,
-            // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
-          },
-        ];
+      referenceUnit = val.totalImpacts[0].impact.referenceUnit || "";
+      const total = val.treeNode?.result;
+      contributeTreeData = [
+        {
+          contribution: (calcContribution(total, total) * 100).toFixed(2) + "%",
+          process: val.treeNode?.provider.name,
+          requiredAmount: val.treeNode?.requiredAmount + " " + val.treeNode?.refUnit,
+          result: val.treeNode?.result,
+          // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
+        },
+      ];
 
-        carbonResult = (
-          <span>
-            {total || 0}
-            {referenceUnit === "m3" ? (
-              <span>
-                m<sup>3</sup>
-              </span>
-            ) : (
-              referenceUnit
-            )}
-          </span>
-        );
-        const handleTree = (items: any) => {
-          items &&
-            items.map((v: any) => {
-              v.contribution = (calcContribution(v.result, total) * 100).toFixed(2) + "%";
-              v.process = v.provider.name;
-              v.requiredAmount = v.requiredAmount + " " + v.refUnit;
-              // v.unit = (referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit)
-              if (v.children && v.children.length > 0) {
-                handleTree(v.children);
-              }
-            });
-        };
-        handleTree(val.treeNode?.children.sort((a: any, b: any) => b.result - a.result));
-        contributeTreeData[0].children = val.treeNode?.children;
-
-        // 处理清单列表的数据
-        val.totalFlows.map((v: any) => {
-          let item = {
-            name: v.flow.name,
-            category: v.flowPropertyPath,
-            amount: v.value,
-            unit: v.refUnit,
-          };
-          if (v.isInput) {
-            listData.inputData.push(item);
-          } else {
-            listData.outputData.push(item);
-          }
-        });
-        val.totalRequirements.map((v: any) => {
-          totalRequire.push({
-            process: v.provider.name,
-            product: v.flow.name,
-            amount: v.value,
-            unit: v.refUnit,
+      carbonResult = (
+        <span>
+          {total || 0}
+          {referenceUnit === "m3" ? (
+            <span>
+              m<sup>3</sup>
+            </span>
+          ) : (
+            referenceUnit
+          )}
+        </span>
+      );
+      const handleTree = (items: any) => {
+        items &&
+          items.map((v: any) => {
+            v.contribution = (calcContribution(v.result, total) * 100).toFixed(2) + "%";
+            v.process = v.provider.name;
+            v.requiredAmount = v.requiredAmount + " " + v.refUnit;
+            // v.unit = (referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit)
+            if (v.children && v.children.length > 0) {
+              handleTree(v.children);
+            }
           });
-        });
-      }
-
-      return {
-        baseInfo,
-        generalInfo,
-        carbonResult,
-        contributeTreeData,
-        referenceUnit,
-        listData,
-        totalRequire,
       };
-    }, [value]);
+      handleTree(val.treeNode?.children.sort((a: any, b: any) => b.result - a.result));
+      contributeTreeData[0].children = val.treeNode?.children;
+
+      // 处理清单列表的数据
+      val.totalFlows.map((v: any) => {
+        let item = {
+          name: v.flow.name,
+          category: v.flowPropertyPath,
+          amount: v.value,
+          unit: v.refUnit,
+        };
+        if (v.isInput) {
+          listData.inputData.push(item);
+        } else {
+          listData.outputData.push(item);
+        }
+      });
+      val.totalRequirements.map((v: any) => {
+        totalRequire.push({
+          process: v.provider.name,
+          product: v.flow.name,
+          amount: v.value,
+          unit: v.refUnit,
+        });
+      });
+    }
+
+    return {
+      baseInfo,
+      generalInfo,
+      carbonResult,
+      contributeTreeData,
+      referenceUnit,
+      listData,
+      totalRequire,
+    };
+  }, [value]);
   const doExport = async () => {
     if (!query.id) return false;
     setExportLoading(true);

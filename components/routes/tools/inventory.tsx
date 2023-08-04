@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
 import { getResultList } from "@lib/http";
@@ -13,130 +13,142 @@ export function Inventory() {
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
   const [listLoading, setListLoading] = useState<boolean>(false);
+  const paramDetailRef = useRef<string>("");
 
-  const onViewRealDataModal = () => {
+  const onViewRealDataModal = (paramDetail: string) => {
+    paramDetailRef.current = paramDetail;
     setOpenViewRealDataModal(true);
   };
 
-  const columns = [
-    {
-      title: "碳足迹批次",
-      dataIndex: "loadNumber",
-      width: "18.75rem",
-      render: (text: string) => {
-        return (
-          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>
-            {text}
-          </span>
-        );
+  const columns = useMemo(
+    () => [
+      {
+        title: "碳足迹批次",
+        dataIndex: "loadName",
+        width: "10rem",
+        render: (text: string) => {
+          return <span className="max-w-[14rem] truncate inline-block">{text}</span>;
+        },
       },
-    },
-    {
-      title: "实景数据",
-      dataIndex: "productName",
-      width: "18.75rem",
-      render: (text: string) => {
-        return (
-          <div onClick={() => onViewRealDataModal()} className="max-w-[14rem] truncate inline-block">
-            {text}
-          </div>
-        );
+      {
+        title: "实景数据",
+        dataIndex: "productName",
+        width: "6rem",
+        render: (text: string, render: any) => {
+          return (
+            <div className="flex  w-[6rem] text-green-2" onClick={() => onViewRealDataModal(render.paramDetail)}>
+              <span className="cursor-pointer ">查看实景数据</span>
+            </div>
+          );
+        },
       },
-    },
-    {
-      title: "批次结果ID",
-      dataIndex: "modelName",
-      width: "7.5rem",
-      render: (text: string) => {
-        return "PCFI-1";
-      },
-    },
-
-    {
-      title: "产品系统名称",
-      width: "18.75rem",
-      dataIndex: "createTime",
-      render: (text: string) => {
-        return "PCFI-1";
-      },
-    },
-    {
-      title: "系统产品ID",
-      width: "8.125rem",
-      dataIndex: "createTime",
-      render: (text: string) => {
-        return "PCFI-1";
-      },
-    },
-    {
-      title: "产品系统版本",
-      width: "9.375rem",
-      dataIndex: "createTime",
-      render: (text: string) => {
-        return "1";
-      },
-    },
-    {
-      title: "描述",
-      dataIndex: "description",
-      width: "18.75rem",
-      emptyText: "-",
-    },
-    {
-      title: "操作人",
-      dataIndex: "description",
-      width: "6.25rem",
-      emptyText: "-",
-    },
-    {
-      title: "生成时间",
-      dataIndex: "description",
-      width: "10.625rem",
-      emptyText: "-",
-    },
-    {
-      title: "碳足迹结果",
-      dataIndex: "description",
-      width: "8.125rem",
-      render: (text: string, record: any) => {
-        return (
-          <div className="flex justify-between text-green-2">
-            <span
-              className="cursor-pointer"
-              onClick={() => window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>
-              查看结果
+      {
+        title: "批次结果ID",
+        dataIndex: "loadNumber",
+        width: "7.5rem",
+        render: (text: string) => {
+          return (
+            <span data-tooltip-content={text} data-tooltip-id="tooltip" className="max-w-[14rem] truncate inline-block">
+              {text}
             </span>
-          </div>
-        );
+          );
+        },
       },
-    },
-    {
-      title: "组织名称",
-      dataIndex: "description",
-      width: "8.125rem",
-      emptyText: "-",
-    },
-    {
-      title: "组织编号",
-      dataIndex: "description",
-      width: "8.125rem",
-      emptyText: "-",
-    },
-    {
-      title: "",
-      width: "7.2rem",
-      render: (text: string, record: any) => {
-        return <div className="flex justify-between text-green-2"></div>;
+
+      {
+        title: "产品系统名称",
+        width: "2em",
+        dataIndex: "productName",
+        render: (text: string) => text,
       },
-    },
-  ];
+      {
+        title: "系统产品ID",
+        width: "8.125rem",
+        dataIndex: "productUuid",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className="max-w-[14rem]  truncate inline-block">
+              {text}
+            </span>
+          );
+        },
+      },
+      {
+        title: "产品系统版本",
+        width: "1rem",
+        dataIndex: "productVersion",
+        render: (text: string) => <span>{text}</span>,
+      },
+      {
+        title: "描述",
+        dataIndex: "productDescription",
+        width: "18.75rem",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className="max-w-[14rem]  truncate inline-block">
+              {text}
+            </span>
+          );
+        },
+      },
+      {
+        title: "操作人",
+        dataIndex: "operator",
+        width: "6.25rem",
+        render: (text: string) => text,
+      },
+      {
+        title: "生成时间",
+        dataIndex: "calculateSuccessTime",
+        width: "18.625rem",
+        render: (text: string) => {
+          return <span className="max-w-[14rem]  truncate inline-block">{text}</span>;
+        },
+      },
+      {
+        title: "碳足迹结果",
+        dataIndex: "description",
+        width: "8.125rem",
+        render: (text: string, record: InventoryController.Records) => {
+          return (
+            <div className="flex justify-between text-green-2">
+              <span
+                className="cursor-pointer"
+                onClick={() => window.open(`/tools/inventoryResult?id=${record.loadNumber}`, "_blank")}>
+                查看结果
+              </span>
+            </div>
+          );
+        },
+      },
+      {
+        title: "组织名称",
+        dataIndex: "orgName",
+        width: "8.125rem",
+        render: (text: string) => text,
+      },
+      {
+        title: "组织编号",
+        dataIndex: "orgSerialNumber",
+        width: "8.125rem",
+        emptyText: "-",
+        render: (text: string) => text,
+      },
+    ],
+    [],
+  );
 
   const getList = async () => {
     try {
       setListLoading(true);
       const res = await getResultList(pgNum);
       setTableData(res);
-      console.log("valvalueue", res);
     } catch (e) {
       console.log("eeee", e);
     } finally {
@@ -153,7 +165,6 @@ export function Inventory() {
       <div className="">
         <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
           <span>我的产品碳足迹结果</span>
-          {/*@ts-ignore*/}
           <Button
             onClick={() => setOpenResultModal(true)}
             className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
@@ -189,7 +200,9 @@ export function Inventory() {
       {openResultModal && (
         <InventoryResultModal openResultModal={() => setOpenResultModal(false)} getList={() => getList()} />
       )}
-      {openViewRealDataModal && <RealData data={"[]"} onClose={() => setOpenViewRealDataModal(false)} />}
+      {openViewRealDataModal && (
+        <RealData data={paramDetailRef.current} onClose={() => setOpenViewRealDataModal(false)} />
+      )}
     </ToolsLayout>
   );
 }

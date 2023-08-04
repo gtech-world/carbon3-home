@@ -135,8 +135,10 @@ export async function getResultList( pgNum:number) {
   const res = await axios.get<Res<InventoryController.InventoryList>>(creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
-export async function getLcaResultDetail(id: any) {
-  const res = await axios.get<Res<any>>(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
+export async function getLcaResultDetail(loadNumber:any) {
+  if(!loadNumber) return 
+  
+  const res = await axios.get<Res<InventoryController.InventoryDetail>>(creatUrl(`/api/inventory/item/${loadNumber}/detail`), authConfig());
   return getData(res);
 }
 export async function updateLcaModelState(id: number, state: number) {
@@ -211,11 +213,10 @@ export async function getLcaModelItem(id: string, type: string, typeId: number |
   return JSON.parse(getData(res) as string);
 }
 
-export async function exportLcaResultExcel(id: any) {
+export async function exportLcaResultExcel(loadNumber:any) {
   let config = authConfig();
-
   const res = await axios.get<string>(
-    creatUrl(`/api/product-lca/result/${id}/export`),
+    creatUrl(`/api/inventory/item/${loadNumber}/export`),
     Object.assign(config, { responseType: "blob" }),
   );
   return res;
@@ -238,7 +239,7 @@ export async function uploadResult(obj:InventoryController.uploadResult) {
 }
 
 
-export async function getAddRealDataList (id:number) {
+export async function getAddRealDataList<T> (id:T) {
   const res = await axios.get<Res<InventoryController.InventoryRealDataAllList>>(
     creatUrl(`/api/product-system/${id}/params`),
     authConfig(),

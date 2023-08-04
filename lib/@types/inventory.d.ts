@@ -1,8 +1,8 @@
 declare namespace InventoryController {
   interface InventoryAddRealDataModalProps {
     onOpenModal: () => void;
-    productId: number;
     realData: (val) => val;
+    tableData: InventoryController.InventoryRealDataList[]
   }
   type InventoryResultModalProps ={
     openResultModal: () => void
@@ -37,7 +37,7 @@ declare namespace InventoryController {
 
   type uploadResult ={
     loadName:string;
-    productId:number;
+    productId:string;
     lcaParamList?: LcaParamList[];
   }
   type LcaParamList = {
@@ -49,7 +49,10 @@ declare namespace InventoryController {
 
 
   type InventoryList = Page &{
-   records:{
+  records:Records[]
+  }
+
+  type Records = {
     calculateSuccessTime:string
     loadName:string
     loadNumber:string
@@ -62,9 +65,19 @@ declare namespace InventoryController {
     productName:string
     productUuid:string
     productVersion:string
-   }[]
   }
 
-  
-
+  type InventoryDetail = {
+    calculateSuccessTime:string
+    createTime?:string
+    id:number
+    lcaMethodId:number
+    lcaResult:string
+    loadNumber:string
+    modelId:number
+    orgId:number
+    siteId?:number
+    state:number
+    updateTime:string
+  }
 }
