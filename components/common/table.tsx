@@ -199,7 +199,7 @@ export const Table: FC<Table.ITable> = ({
                       <td
                         key={`data_column_${columnIndex}`}
                         className={classNames(
-                          `px-3 cursor-pointer  mt-[-0.15rem]`,
+                          `px-3 cursor-pointer  `,
                           {
                             "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey],
                             border: isSetBorder,

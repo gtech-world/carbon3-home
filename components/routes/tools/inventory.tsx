@@ -1,18 +1,18 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { getLcaResultList, getProductSystemAllList, noArgs } from "@lib/http";
+import { getResultList } from "@lib/http";
 import { Button } from "@components/common/button";
 import { RealData } from "@components/modal/RealData";
 import InventoryResultModal from "./inventoryResultModal";
 
 export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
+  const [listLoading, setListLoading] = useState<boolean>(false);
 
   const onViewRealDataModal = () => {
     setOpenViewRealDataModal(true);
@@ -132,8 +132,16 @@ export function Inventory() {
   ];
 
   const getList = async () => {
-    const res = await getLcaResultList(pgNum);
-    console.log("valvalueue", res);
+    try {
+      setListLoading(true);
+      const res = await getResultList(pgNum);
+      setTableData(res);
+      console.log("valvalueue", res);
+    } catch (e) {
+      console.log("eeee", e);
+    } finally {
+      setListLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -158,9 +166,9 @@ export function Inventory() {
               <Table
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
-                mouseHoverKey="id"
-                data={tableData}
-                // loading={loading}
+                mouseHoverKey="loadNumber"
+                data={tableData?.records || []}
+                loading={listLoading}
                 className=""
                 headerClassName={{ background: "#fff" }}
               />
@@ -173,7 +181,7 @@ export function Inventory() {
         onChange={(v: any) => {
           setPgNum(v);
         }}
-        total={0}
+        total={tableData.total || 0}
         pgSize={10}
         pgNum={pgNum}
       />

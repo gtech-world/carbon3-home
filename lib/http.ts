@@ -131,8 +131,8 @@ export async function getLcaModelList({ pgNum, productId }: any) {
   );
   return getData(res);
 }
-export async function getLcaResultList( pgNum : any) {
-  const res = await axios.get(creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
+export async function getResultList( pgNum:number) {
+  const res = await axios.get<Res<InventoryController.InventoryList>>(creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
   return getData(res);
 }
 export async function getLcaResultDetail(id: any) {
@@ -233,8 +233,6 @@ export async function getProductSystemAllList() {
 }
 
 export async function uploadResult(obj:InventoryController.uploadResult) {
-  console.log('oobjbj',obj);
-  
   const res = await axios.post<Res<any>>(creatUrl("/api/inventory/item/upload"), obj,authConfig());
   return getData(res);
 }

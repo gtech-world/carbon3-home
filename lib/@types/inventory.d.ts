@@ -36,14 +36,35 @@ declare namespace InventoryController {
   }
 
   type uploadResult ={
-    loadName:string
-    productId:number,
-    lcaParamList:{
-      dateTime:string
-      paramName:string
-      paramValue:string
-      processId:string
-    }
+    loadName:string;
+    productId:number;
+    lcaParamList?: LcaParamList[];
   }
+  type LcaParamList = {
+    dateTime:string;
+    paramName:string;
+    paramValue:string;
+    processId:string;
+  }
+
+
+  type InventoryList = Page &{
+   records:{
+    calculateSuccessTime:string
+    loadName:string
+    loadNumber:string
+    operator:string
+    orgName:string
+    orgSerialNumber:string
+    param:string
+    paramDetail:string
+    productDescription:string
+    productName:string
+    productUuid:string
+    productVersion:string
+   }[]
+  }
+
+  
 
 }

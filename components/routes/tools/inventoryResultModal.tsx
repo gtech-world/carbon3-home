@@ -1,19 +1,19 @@
 import { Modal } from "@components/common/modal";
-import { FC, Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { getProductSystemAllList, uploadResult } from "@lib/http";
+
+type formDataType = Omit<InventoryController.uploadResult, "lcaParamList">;
+type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
 
 const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = ({ openResultModal, getList }) => {
   const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
   const [productList, setProduceList] = useState<InventoryController.InventoryProductSystemList[]>([]);
-  const [realData, setRealData] = useState<InventoryController.uploadResult>({});
-
-  const [formData, setFormData] = useState({
+  const [realData, setRealData] = useState<Partial<realDataType>>({ lcaParamList: [] });
+  const [formData, setFormData] = useState<formDataType>({
     loadName: "",
     productId: 0,
   });
-
-  console.log("realData", realData);
 
   const getProductSystemList = () => {
     getProductSystemAllList()
@@ -27,7 +27,8 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
 
   const onCalculate = () => {
     const { loadName, productId } = formData;
-    uploadResult({ ...realData, loadName, productId })
+    const result = { ...realData, loadName, productId };
+    uploadResult(result)
       .then((res) => {
         typeof openResultModal === "function" && openResultModal();
         typeof getList === "function" && getList();
@@ -35,8 +36,6 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
       .catch((e) => {})
       .finally(() => {});
   };
-
-  console.log("productList", productList);
 
   useEffect(() => {
     getProductSystemList();

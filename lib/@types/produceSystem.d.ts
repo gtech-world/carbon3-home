@@ -1,15 +1,6 @@
 declare namespace ProduceSystemController {
-  interface ProduceSystemList {
-    countId?: number;
-    current?: number;
-    maxLimit?: number;
-    optimizeCountSql?: boolean;
-    orders?: [];
-    pages?: number;
+  type ProduceSystemList = Page &{
     records: ListRecords[];
-    searchCount?: boolean;
-    size: number;
-    total: number;
   }
 
   type ListRecords = {
