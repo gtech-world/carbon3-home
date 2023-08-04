@@ -167,7 +167,7 @@ export function ftmMilliTime(time: number | string = new Date().getTime()) {
 
 export function tryParse<T>(data: any) {
   try {
-    JSON.parse(data) as T;
+    return JSON.parse(data) as T;
   } catch (error) {
     return undefined;
   }

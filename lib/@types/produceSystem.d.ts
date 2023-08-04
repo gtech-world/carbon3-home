@@ -49,6 +49,7 @@ declare namespace ProduceSystemController {
     createUserId?: number;
     description?: string;
     id: number;
+    state: number;
     lastUpdateUserId?: number;
     modelDbPath?: string;
     modelName: string;

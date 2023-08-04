@@ -4,14 +4,20 @@ import { tryParse } from "@lib/utils";
 import _ from "lodash";
 import { useMemo } from "react";
 
-export function RealData(p: ModalProps & { data: any }) {
-  const { data, ...props } = p;
+export function RealData(p: ModalProps & { data: any; inputData?: InventoryController.LcaParamList[] | string }) {
+  const { data, inputData, ...props } = p;
   const tableData = useMemo(() => {
     if (!data) return [];
-    const params = tryParse<any[]>(data);
-    const bases = _.get<any[]>(params, "0.parameters", []);
-    return bases.map((item) => [item.name, item.context.name, item.value, ""]);
-  }, [data]);
+    const inputMap = inputData
+      ? _.mapKeys(
+          typeof inputData === "string" ? tryParse<InventoryController.LcaParamList[]>(inputData) || [] : inputData,
+          (item) => item.paramName,
+        )
+      : ({} as _.Dictionary<InventoryController.LcaParamList>);
+    const params = tryParse<any[]>(data) || [];
+    const bases = (params[0]?.parameters || []) as any[];
+    return bases.map((item) => [item.name, item.context.name, item.value, inputMap[item.name]?.paramValue || ""]);
+  }, [data, inputData]);
 
   return (
     <Modal title="实景参数列表" {...props}>
