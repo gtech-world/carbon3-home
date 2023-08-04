@@ -6,6 +6,7 @@ import { getResultList } from "@lib/http";
 import { Button } from "@components/common/button";
 import { RealData } from "@components/modal/RealData";
 import InventoryResultModal from "./inventoryResultModal";
+import classNames from "classnames";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -119,7 +120,12 @@ export function Inventory() {
         width: "8.125rem",
         render: (text: string, record: InventoryController.Records) => {
           return (
-            <div className="flex justify-between text-green-2">
+            <div
+              className={classNames("flex justify-between", {
+                "text-[#FF9800] ": record.state === 0,
+                "text-green-2 ": record.state === 1,
+                "text-[red] ": record.state === -1,
+              })}>
               <span
                 className="cursor-pointer"
                 onClick={() =>
