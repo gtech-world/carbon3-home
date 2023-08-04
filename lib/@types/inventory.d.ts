@@ -3,6 +3,7 @@ declare namespace InventoryController {
     onOpenModal: () => void;
     realData: (val) => val;
     tableData: InventoryController.InventoryRealDataList[]
+    realArr?:LcaParamList[]
   }
   type InventoryResultModalProps ={
     openResultModal: () => void
@@ -23,6 +24,7 @@ declare namespace InventoryController {
     isProtected:boolean;
     name:string;
     value:number;
+    inputValue?:any
   }
 
   type InventoryRealDataListContext = {
@@ -80,5 +82,10 @@ declare namespace InventoryController {
     siteId?:number
     state:number
     updateTime:string
+  }
+
+  type ParamDetailType =  { 
+  inputData: string;
+  data: string 
   }
 }

@@ -166,6 +166,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
         <InventoryAddRealDataModal
           realData={setRealData}
           tableData={tableData}
+          realArr={realData.lcaParamList}
           onOpenModal={() => setOpenAddInfoModal(false)}
         />
       )}

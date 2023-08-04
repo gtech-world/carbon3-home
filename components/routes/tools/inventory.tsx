@@ -14,8 +14,7 @@ export function Inventory() {
   const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
-  const [listLoading, setListLoading] = useState<boolean>(false);
-  const paramDetailRef = useRef<{ inputData: string; data: string }>({ inputData: "", data: "" });
+  const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
 
   const onViewRealDataModal = (data: RealDataType) => {
     const { param, paramDetail } = data;
@@ -156,18 +155,22 @@ export function Inventory() {
 
   const getList = async () => {
     try {
-      setListLoading(true);
       const res = await getResultList(pgNum);
       setTableData(res);
     } catch (e) {
       console.log("eeee", e);
-    } finally {
-      setListLoading(false);
     }
   };
 
   useEffect(() => {
     getList();
+    const intervalId = setInterval(() => {
+      getList();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [pgNum]);
 
   return (
@@ -189,7 +192,6 @@ export function Inventory() {
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey="loadNumber"
                 data={tableData?.records || []}
-                loading={listLoading}
                 className=""
                 headerClassName={{ background: "#fff" }}
               />
