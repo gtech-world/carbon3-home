@@ -72,25 +72,30 @@ export function LcaActionInfo(p: {
   modelId?: number;
   isNew?: boolean;
   isRead?: boolean;
+  modelStatus?: number;
   file?: File;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
-  const { psId, modelId, isNew, isRead, file, onFileChange } = p;
+  const { psId, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const renderLook = () => {
+    if (modelStatus !== 1) return <div className="text-amber-500 text-base font-normal leading-none">等待解析</div>;
+    return <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />;
+  };
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
       <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
       {!isRead && file?.name}
       {isRead ? (
-        <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />
+        renderLook()
       ) : isNew ? (
         <>
           <ActionBtn action="选择模型" onClick={(e) => inputFileRef.current?.click()} />
         </>
       ) : (
         <>
-          {!file && <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />}
-          <ActionBtn action="更新模型" onClick={(e) => inputFileRef.current?.click()} />
+          {!file && renderLook()}
+          {modelStatus === 1 && <ActionBtn action="更新模型" onClick={(e) => inputFileRef.current?.click()} />}
         </>
       )}
     </div>
