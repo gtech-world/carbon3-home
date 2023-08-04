@@ -9,9 +9,10 @@ import { Loading } from "@components/common/loading";
 export function InventoryNotCalc() {
   const router = useRouter();
   const { query } = router;
+  const { id } = query;
   const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultDetail(query?.id || "all"), [query]),
-    [query],
+    noArgs(() => getLcaResultDetail(query?.id), [id]),
+    [id],
   );
   const val = useMemo(() => {
     let baseInfo = {
@@ -24,15 +25,15 @@ export function InventoryNotCalc() {
       uuid: "",
     };
     if (value) {
-      baseInfo = {
-        loadNumber: value.loadNumber,
-        productName: value.product.name,
-        modelName: value.model.modelName,
-        lastUpdatedTime: value.model.updateTime,
-        desc: value.model.description,
-        productCategory: value.productCategory.name,
-        uuid: value.model.productSystemUuid,
-      };
+      // baseInfo = {
+      //   loadNumber: value.loadNumber,
+      //   productName: value.product.name,
+      //   modelName: value.model.modelName,
+      //   lastUpdatedTime: value.model.updateTime,
+      //   desc: value.model.description,
+      //   productCategory: value.productCategory.name,
+      //   uuid: value.model.productSystemUuid,
+      // };
     }
     return baseInfo;
   }, [value]);
@@ -63,7 +64,7 @@ export function InventoryNotCalc() {
               );
             })}
           </div>
-          <div className="w-full flex justify-center">
+          <div className="flex justify-center w-full">
             <Button
               onClick={() => router.push(`/tools/inventoryResult?id=${query.id}`)}
               className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14">

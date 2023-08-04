@@ -619,26 +619,12 @@ function SumRequire(p: { data: any }) {
 export function InventoryResult() {
   const { query } = useRouter();
   const { id } = query;
-
   const [exportLoading, setExportLoading] = useState(false);
-  // const [value, setValue] = useState<any>({});
-  // const [loading, setLoading] = useState<boolean>(false);
-
   const { value, loading } = useAsyncM(
     noArgs(() => getLcaResultDetail(id), [id]),
     [id],
   );
 
-  // const getDetailList = async () => {
-  //   console.log('queryasa',query);
-
-  //   const res = getLcaResultDetail(query.id);
-  //   setValue(res);
-  // };
-
-  // useEffect(() => {
-  //   getDetailList();
-  // }, [query.id]);
   const calcContribution = (val: number, total: number) => {
     if (val === 0 || total === 0) {
       return 0;
