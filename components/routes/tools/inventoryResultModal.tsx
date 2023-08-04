@@ -21,6 +21,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   const [tableData, setTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
   const [formErrors, setFormErrors] = useState<formDataType>(init);
   const [formData, setFormData] = useState<formDataType>(init);
+  const [isClickSubmit, setIsClickSubmit] = useState<boolean>(false);
 
   const getProductSystemList = () => {
     getProductSystemAllList()
@@ -32,20 +33,27 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
       .finally();
   };
 
-  const onCalculate = () => {
-    const { loadName, productId } = formData;
-    const errors: any = {};
-    for (const key in formData) {
-      if (!formData[key].trim()) {
-        errors[key] = `${filed[key]}不能为空`;
+  useEffect(() => {
+    if (isClickSubmit) {
+      const errors: any = {};
+      for (const key in formData) {
+        if (!formData[key].trim()) {
+          errors[key] = `${filed[key]}不能为空`;
+        }
       }
+      if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        return;
+      }
+      setFormErrors({});
     }
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
+  }, [isClickSubmit, formData]);
 
-    setFormErrors({});
+  const onCalculate = () => {
+    setIsClickSubmit(true);
+    const { loadName, productId } = formData;
+    if (!loadName || !productId) return;
+
     const lcaParamList = tableData.map((e) => {
       return {
         processId: e.context["@id"],

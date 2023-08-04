@@ -9,7 +9,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   tableData,
   realArr,
 }) => {
-  const [allTableData, setAllTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
+  const [allTableData, setAllTableData] = useState<InventoryController.InventoryRealDataList[]>(tableData);
   const onSubmit = () => {
     const table = document?.getElementById("realDataTable") as HTMLTableElement;
     const rows = table.getElementsByTagName("tr");
@@ -50,7 +50,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
         : { ...item };
     });
     setAllTableData(newTableData);
-  }, [realArr]);
+  }, [realArr, tableData]);
 
   type columnsList = InventoryController.InventoryRealDataList;
   const columns = [
