@@ -7,16 +7,18 @@ import { Button } from "@components/common/button";
 import { RealData } from "@components/modal/RealData";
 import InventoryResultModal from "./inventoryResultModal";
 
+type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
   const [listLoading, setListLoading] = useState<boolean>(false);
-  const paramDetailRef = useRef<string>("");
+  const paramDetailRef = useRef<{ inputData: string; data: string }>({ inputData: "", data: "" });
 
-  const onViewRealDataModal = (paramDetail: string) => {
-    paramDetailRef.current = paramDetail;
+  const onViewRealDataModal = (data: RealDataType) => {
+    const { param, paramDetail } = data;
+    paramDetailRef.current = { inputData: param, data: paramDetail };
     setOpenViewRealDataModal(true);
   };
 
@@ -36,7 +38,7 @@ export function Inventory() {
         width: "6rem",
         render: (text: string, render: any) => {
           return (
-            <div className="flex  w-[6rem] text-green-2" onClick={() => onViewRealDataModal(render.paramDetail)}>
+            <div className="flex  w-[6rem] text-green-2" onClick={() => onViewRealDataModal(render)}>
               <span className="cursor-pointer ">查看实景数据</span>
             </div>
           );
@@ -203,7 +205,7 @@ export function Inventory() {
         <InventoryResultModal openResultModal={() => setOpenResultModal(false)} getList={() => getList()} />
       )}
       {openViewRealDataModal && (
-        <RealData data={paramDetailRef.current} onClose={() => setOpenViewRealDataModal(false)} />
+        <RealData {...paramDetailRef.current} onClose={() => setOpenViewRealDataModal(false)} />
       )}
     </ToolsLayout>
   );
