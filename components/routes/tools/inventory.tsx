@@ -120,8 +120,10 @@ export function Inventory() {
             <div className="flex justify-between text-green-2">
               <span
                 className="cursor-pointer"
-                onClick={() => window.open(`/tools/inventoryResult?id=${record.loadNumber}`, "_blank")}>
-                查看结果
+                onClick={() =>
+                  record.state === 1 && window.open(`/tools/inventoryResult?id=${record.loadNumber}`, "_blank")
+                }>
+                {record.state === 0 ? "等待计算" : record.state === 1 ? "查看结果" : "计算失败"}
               </span>
             </div>
           );

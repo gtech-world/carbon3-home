@@ -65,6 +65,7 @@ declare namespace InventoryController {
     productName:string
     productUuid:string
     productVersion:string
+    state:number
   }
 
   type InventoryDetail = {
