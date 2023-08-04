@@ -164,3 +164,11 @@ export function ftmMilliTime(time: number | string = new Date().getTime()) {
   const mTime = typeof time === "string" ? toInteger(time) : time;
   return new Date(mTime).toLocaleString().replaceAll("/", "-");
 }
+
+export function tryParse<T>(data: any) {
+  try {
+    JSON.parse(data) as T;
+  } catch (error) {
+    return undefined;
+  }
+}

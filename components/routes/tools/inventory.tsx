@@ -181,7 +181,7 @@ export function Inventory() {
       {openResultModal && (
         <InventoryResultModal openResultModal={() => setOpenResultModal(false)} getList={() => getList()} />
       )}
-      {openViewRealDataModal && <RealData onClose={() => setOpenViewRealDataModal(false)} />}
+      {openViewRealDataModal && <RealData data={"[]"} onClose={() => setOpenViewRealDataModal(false)} />}
     </ToolsLayout>
   );
 }
