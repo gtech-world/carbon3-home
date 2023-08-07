@@ -96,7 +96,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     getAddRealDataList(formData.productId)
       .then((res) => {
         const newData = JSON.parse(res.paramDetail);
-        setTableData(newData[0]?.parameters);
+        setTableData(JSON.stringify(newData) === "{}" ? [] : newData[0]?.parameters);
       })
       .catch((e) => {})
       .finally();

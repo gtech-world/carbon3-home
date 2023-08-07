@@ -44,7 +44,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   };
 
   useEffect(() => {
-    const newTableData = tableData.map((item, index) => {
+    const newTableData = tableData?.map((item, index) => {
       return realArr?.length && realArr[index].paramName === item.name
         ? { ...item, inputValue: realArr[index].paramValue }
         : { ...item };
@@ -94,7 +94,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
           tableId="realDataTable"
           columnsHeight={"h-[3.125rem]"}
           mouseHoverKey="id"
-          data={allTableData}
+          data={allTableData || []}
           isSetBorder={true}
           className=""
           headerClassName={{
