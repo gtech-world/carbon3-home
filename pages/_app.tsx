@@ -16,6 +16,7 @@ import "../styles/globals.css";
 import { I18nextProvider } from "react-i18next";
 import { SWRConfig } from "swr/_internal";
 import axios from "axios";
+import { authGetResData } from "@lib/http";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -41,6 +42,7 @@ function InitProvider(p: { children: React.ReactNode }) {
         value={{
           revalidateOnFocus: false,
           errorRetryCount: 3,
+          fetcher: authGetResData,
         }}>
         <StoreProvider init={_store}>{p.children}</StoreProvider>
       </SWRConfig>
