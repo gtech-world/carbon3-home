@@ -135,12 +135,14 @@ export function OrganizationInfo() {
 
 export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: () => void }) {
   const { psId, onSuccess, ...props } = p;
-  const { data: ps, isLoading, error } = useProductSystem(psId);
+  const { data: ps, isLoading, error } = useProductSystem(psId, 60000);
   const [inputDesc, setInputDesc] = useState("");
   const firstRef = useRef(true);
   useEffect(() => {
-    ps && setInputDesc(ps.description || "");
-    firstRef.current = false;
+    if (ps && firstRef.current) {
+      setInputDesc(ps.description || "");
+      firstRef.current = false;
+    }
   }, [ps]);
   useEffect(() => {
     error && props.onClose && props.onClose();
