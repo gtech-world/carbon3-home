@@ -96,14 +96,19 @@ export function Model() {
         width: "23.75rem",
         render: (text: string) => {
           return (
-            <span className="max-w-[23.75rem] font-normal  text-lg leading-[27px] truncate inline-block">{text}</span>
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-content={text}
+              className="max-w-[23.75rem] font-normal  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
           );
         },
       },
       {
         title: "产品系统ID",
         dataIndex: "uuid",
-        width: "12.5rem",
+        width: "20rem",
         render: (text: string) => {
           return (
             <span data-tooltip-id="tooltip" data-tooltip-content={text} className="text-lg  font-normal leading-[27px]">

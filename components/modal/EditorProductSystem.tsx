@@ -26,7 +26,7 @@ import _ from "lodash";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
-  if (_.isNil(status)) return <div className="text-neutral-400 text-base font-normal leading-none">草稿</div>;
+  if (_.isNil(status)) return <div className="text-base font-normal leading-none text-neutral-400">草稿</div>;
   return (
     <div
       className={classNames(
@@ -62,7 +62,7 @@ export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLD
     <div
       className="w-min whitespace-nowrap h-6 px-2.5 py-1 bg-zinc-100 rounded justify-start items-center gap-2.5 inline-flex cursor-pointer"
       onClick={onClick}>
-      <div className="text-black text-base font-normal leading-none">{action}</div>
+      <div className="text-base font-normal leading-none text-black">{action}</div>
     </div>
   );
 }
@@ -79,7 +79,7 @@ export function LcaActionInfo(p: {
   const { psId, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
-    if (modelStatus !== 1) return <div className="text-amber-500 text-base font-normal leading-none">等待解析</div>;
+    if (modelStatus !== 1) return <div className="text-base font-normal leading-none text-amber-500">等待解析</div>;
     return <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />;
   };
   return (
@@ -106,8 +106,8 @@ export function PairInfo(p: { tit: string; value: ReactNode }) {
   const isStr = typeof p.value === "string" || typeof p.value === "number";
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="text-black text-base font-normal leading-normal">{p.tit}: </div>
-      {isStr ? <div className="text-neutral-400 text-base font-normal leading-none">{p.value}</div> : p.value}
+      <div className="text-base font-normal leading-normal text-black">{p.tit}: </div>
+      {isStr ? <div className="text-base font-normal leading-none text-neutral-400">{p.value}</div> : p.value}
     </div>
   );
 }
@@ -233,7 +233,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
               提交更新
             </Btn>
-            <div className="text-black text-sm font-normal">
+            <div className="text-sm font-normal text-black">
               * 点击提交更新按钮后，当前的产品系统版本将自动更新。原先版本的信息可以在历史版本中查询。
             </div>
           </div>

@@ -7,6 +7,8 @@ import { Button } from "@components/common/button";
 import { RealData } from "@components/modal/RealData";
 import InventoryResultModal from "./inventoryResultModal";
 import classNames from "classnames";
+import { useRouter } from "next/router";
+import AButton from "@components/common/aButton";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -49,13 +51,13 @@ export function Inventory() {
       {
         title: "批次结果ID",
         dataIndex: "loadNumber",
-        width: "7.5rem",
+        width: "8rem",
         render: (text: string) => {
           return (
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className=" text-lg leading-[27px] max-w-[14rem] truncate inline-block">
+              className=" text-lg leading-[27px] max-w-[8rem] truncate inline-block">
               {text}
             </span>
           );
@@ -64,7 +66,7 @@ export function Inventory() {
 
       {
         title: "产品系统名称",
-        width: "2em",
+        width: "2rem",
         dataIndex: "productName",
         render: (text: string) => {
           return <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>;
@@ -72,14 +74,14 @@ export function Inventory() {
       },
       {
         title: "系统产品ID",
-        width: "8.125rem",
+        width: "7rem",
         dataIndex: "productUuid",
         render: (text: string) => {
           return (
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className="max-w-[14rem] text-lg leading-[27px]  truncate inline-block">
+              className="max-w-[7rem] text-lg leading-[27px]  truncate inline-block">
               {text}
             </span>
           );
@@ -89,7 +91,7 @@ export function Inventory() {
         title: "产品系统版本",
         width: "1rem",
         dataIndex: "productVersion",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[1rem] ">{text}</span>,
       },
       {
         title: "描述",
@@ -100,7 +102,7 @@ export function Inventory() {
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className="max-w-[14rem]  text-lg leading-[27px] truncate inline-block">
+              className="max-w-[12rem]  text-lg leading-[27px] truncate inline-block">
               {text}
             </span>
           );
@@ -117,7 +119,7 @@ export function Inventory() {
         dataIndex: "calculateSuccessTime",
         width: "18.625rem",
         render: (text: string) => {
-          return <span className="max-w-[14rem] text-lg leading-[27px]  truncate inline-block">{text}</span>;
+          return <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">{text}</span>;
         },
       },
       {
@@ -132,13 +134,11 @@ export function Inventory() {
                 "text-green-2 ": record.state === 1,
                 "text-[red] ": record.state === -1,
               })}>
-              <span
+              <AButton
                 className="cursor-pointer text-lg leading-[27px]"
-                onClick={() =>
-                  record.state === 1 && window.open(`/tools/inventoryResult?id=${record.loadNumber}`, "_blank")
-                }>
+                href={record.state === 1 && `/tools/inventoryResult?id=${record.loadNumber}`}>
                 {record.state === 0 ? "等待计算" : record.state === 1 ? "查看结果" : "计算失败"}
-              </span>
+              </AButton>
             </div>
           );
         },
@@ -217,7 +217,12 @@ export function Inventory() {
       />
 
       {openResultModal && (
-        <InventoryResultModal openResultModal={() => setOpenResultModal(false)} getList={() => getList()} />
+        <InventoryResultModal
+          openResultModal={() => setOpenResultModal(false)}
+          getList={() => {
+            setPgNum(1);
+          }}
+        />
       )}
       {openViewRealDataModal && (
         <RealData {...paramDetailRef.current} onClose={() => setOpenViewRealDataModal(false)} />

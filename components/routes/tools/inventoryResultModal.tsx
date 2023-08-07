@@ -3,6 +3,7 @@ import { FC, Fragment, useEffect, useState } from "react";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { getAddRealDataList, getProductSystemAllList, uploadResult } from "@lib/http";
 import { getCurrentDate } from "utils";
+import classNames from "classnames";
 
 type formDataType = { [key: string]: string };
 type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
@@ -123,6 +124,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             onChange={handleChange}
             id="loadName"
             name="loadName"
+            maxLength={30}
             className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
           {formErrors.loadName && (
@@ -163,8 +165,12 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
               取消
             </div>
             <button
+              id="myButton"
               onClick={() => onCalculate()}
-              className="  cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">
+              disabled={!formData.productId || !formData.loadName}
+              className={classNames(
+                "cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center",
+              )}>
               计算碳结果
             </button>
           </div>

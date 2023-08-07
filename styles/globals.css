@@ -137,3 +137,7 @@ select {
   padding-right: -50px;
   padding-left: 10px;
 }
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
