@@ -138,6 +138,10 @@ select {
   padding-left: 10px;
 }
 button[disabled] {
-  opacity: 0.5;
+  opacity: 1;
   cursor: not-allowed;
+}
+
+#view:nth-child(odd) {
+  background-color: #F3F3F3;
 }

@@ -82,7 +82,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
         <input
           defaultValue={record.inputValue}
           type="number"
-          className="font-normal leading-[21px] text-[14px] w-[10rem] h-[40px] bg-[#F3F3F3]"
+          className="font-normal leading-[21px] text-[14px] w-[10rem] h-[40px] "
         />
       ),
     },
@@ -99,7 +99,6 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
           columns={columns}
           tableId="realDataTable"
           columnsHeight={"h-[3.125rem]"}
-          mouseHoverKey="id"
           data={allTableData || []}
           isSetBorder={true}
           className=""

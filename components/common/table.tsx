@@ -201,7 +201,7 @@ export const Table: FC<Table.ITable> = ({
                         className={classNames(
                           `px-3 cursor-pointer  `,
                           {
-                            "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey],
+                            "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey] && mouseHoverKey,
                             border: isSetBorder,
                           },
                           (SIZE as any)[size] || "py-2",

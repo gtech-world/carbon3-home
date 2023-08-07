@@ -169,7 +169,8 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
               onClick={() => onCalculate()}
               disabled={!formData.productId || !formData.loadName}
               className={classNames(
-                "cursor-pointer bg-[#29953A] w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center",
+                " cursor-pointer  w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center",
+                `  ${!formData.productId || !formData.loadName ? "btn-disable" : "btn-primary"}`,
               )}>
               计算碳结果
             </button>

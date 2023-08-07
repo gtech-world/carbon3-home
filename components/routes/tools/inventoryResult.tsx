@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { Button } from "@components/common/button";
 import { BsCaretUpFill } from "react-icons/bs";
 import classNames from "classnames";
@@ -618,12 +618,20 @@ function SumRequire(p: { data: any }) {
 
 export function InventoryResult() {
   const { query } = useRouter();
-  const { id } = query;
   const [exportLoading, setExportLoading] = useState(false);
-  const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultDetail(id), [id]),
-    [id],
-  );
+  const [value, setValue] = useState<any>({});
+  const [loading, setLoading] = useState<any>(true);
+
+  const getList = async () => {
+    const res = await getLcaResultDetail(query.id);
+    if (!res) return;
+    setValue(res && res);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getList();
+  }, [query.id]);
 
   const calcContribution = (val: number, total: number) => {
     if (val === 0 || total === 0) {
@@ -640,30 +648,13 @@ export function InventoryResult() {
     let generalInfo: any = [];
     let totalRequire: any = [];
     let referenceUnit = "";
-    let baseInfo = {
-      loadNumber: "",
-      productName: "",
-      modelName: "",
-      lastUpdatedTime: "",
-      productCategory: "",
-      desc: "",
-      uuid: "",
-    };
+
     let carbonResult: any = "";
     let listData: any = {
       inputData: [],
       outputData: [],
     };
-    if (value) {
-      // baseInfo = {
-      //   loadNumber: value.loadNumber,
-      //   productName: value.product.name,
-      //   modelName: value.model.modelName,
-      //   lastUpdatedTime: value.model.updateTime,
-      //   productCategory: value.productCategory.name,
-      //   desc: value.model.description,
-      //   uuid: value.model.productSystemUuid,
-      // };
+    if (value && value.lcaResult) {
       const val = parseRefJson(JSON.parse(value.lcaResult));
       generalInfo = {
         productSystemName: val.extra?.productSystemName,
@@ -734,7 +725,6 @@ export function InventoryResult() {
     }
 
     return {
-      baseInfo,
       generalInfo,
       carbonResult,
       contributeTreeData,

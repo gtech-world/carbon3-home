@@ -7,8 +7,8 @@ import { Button } from "@components/common/button";
 import { RealData } from "@components/modal/RealData";
 import InventoryResultModal from "./inventoryResultModal";
 import classNames from "classnames";
-import { useRouter } from "next/router";
 import AButton from "@components/common/aButton";
+import { shortStr } from "@lib/utils";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -31,7 +31,14 @@ export function Inventory() {
         dataIndex: "loadName",
         width: "10rem",
         render: (text: string) => {
-          return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
+          );
         },
       },
       {
@@ -58,7 +65,7 @@ export function Inventory() {
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
               className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
-              {text}
+              {shortStr(text, 8, 8)}
             </span>
           );
         },
@@ -69,7 +76,14 @@ export function Inventory() {
         width: "2rem",
         dataIndex: "productName",
         render: (text: string) => {
-          return <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>;
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className=" text-lg  truncate inline-block leading-[27px] max-w-[14rem] ">
+              {text}
+            </span>
+          );
         },
       },
       {
@@ -82,7 +96,7 @@ export function Inventory() {
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
               className="w-[13rem] text-lg leading-[27px]  truncate inline-block">
-              {text}
+              {shortStr(text, 8, 8)}
             </span>
           );
         },
@@ -112,7 +126,14 @@ export function Inventory() {
         title: "操作人",
         dataIndex: "operator",
         width: "6.25rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => (
+          <span
+            data-tooltip-content={text}
+            data-tooltip-id="tooltip"
+            className=" truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
       },
       {
         title: "生成时间",
@@ -147,14 +168,28 @@ export function Inventory() {
         title: "组织名称",
         dataIndex: "orgName",
         width: "8.125rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => (
+          <span
+            data-tooltip-content={text}
+            data-tooltip-id="tooltip"
+            className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
       },
       {
         title: "组织编号",
         dataIndex: "orgSerialNumber",
         width: "8.125rem",
         emptyText: "-",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => (
+          <span
+            data-tooltip-content={text}
+            data-tooltip-id="tooltip"
+            className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
       },
     ],
     [],
