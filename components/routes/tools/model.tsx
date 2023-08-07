@@ -93,13 +93,13 @@ export function Model() {
       {
         title: "产品系统",
         dataIndex: "name",
-        width: "23.75rem",
+        width: "20rem",
         render: (text: string) => {
           return (
             <span
               data-tooltip-id="tooltip"
               data-tooltip-content={text}
-              className="max-w-[23.75rem] font-normal  text-lg leading-[27px] truncate inline-block">
+              className="w-[20rem] font-normal  text-lg leading-[27px] truncate inline-block">
               {text}
             </span>
           );
@@ -111,7 +111,10 @@ export function Model() {
         width: "20rem",
         render: (text: string) => {
           return (
-            <span data-tooltip-id="tooltip" data-tooltip-content={text} className="text-lg  font-normal leading-[27px]">
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-content={text}
+              className="text-lg w-[10rem] font-normal leading-[27px]">
               {shortStr(text, 8, 8)}
             </span>
           );
@@ -130,7 +133,9 @@ export function Model() {
         dataIndex: "updateTime",
         width: "12.5rem",
         render: (text: string) => {
-          return <div className="text-lg  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>;
+          return (
+            <div className="text-lg  w-[13rem]  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>
+          );
         },
       },
       {
@@ -146,7 +151,7 @@ export function Model() {
         width: "20rem",
         render: (text: string, record: any) => {
           return (
-            <div className="flex justify-between flex-1 text-green-2 break-keep">
+            <div className="flex justify-between flex-1 ml-10 text-green-2 break-keep">
               <div
                 className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
                 onClick={() => setEditorProductSystem(record)}>
