@@ -95,7 +95,9 @@ export function Model() {
         dataIndex: "name",
         width: "23.75rem",
         render: (text: string) => {
-          return <span className="max-w-[23.75rem] truncate inline-block">{text}</span>;
+          return (
+            <span className="max-w-[23.75rem] font-normal  text-lg leading-[27px] truncate inline-block">{text}</span>
+          );
         },
       },
       {
@@ -104,7 +106,7 @@ export function Model() {
         width: "12.5rem",
         render: (text: string) => {
           return (
-            <span data-tooltip-id="tooltip" data-tooltip-content={text}>
+            <span data-tooltip-id="tooltip" data-tooltip-content={text} className="text-lg  font-normal leading-[27px]">
               {shortStr(text, 8, 8)}
             </span>
           );
@@ -114,14 +116,16 @@ export function Model() {
         title: "变更人",
         dataIndex: "name",
         width: "12.5rem",
-        render: (text: string, record: ProduceSystemController.ListRecords) => record.updateUser.name,
+        render: (text: string, record: ProduceSystemController.ListRecords) => {
+          return <span className="text-lg   font-normal leading-[27px]">{record.updateUser.name}</span>;
+        },
       },
       {
         title: "变更时间",
         dataIndex: "updateTime",
         width: "12.5rem",
         render: (text: string) => {
-          return <div className="break-keep whitespace-nowrap">{text}</div>;
+          return <div className="text-lg  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>;
         },
       },
       {
@@ -129,7 +133,7 @@ export function Model() {
         dataIndex: "version",
         width: "9.375rem",
         render: (text: string) => {
-          return text;
+          return <span className="text-lg  font-normal leading-[27px]">{text}</span>;
         },
       },
       {
@@ -139,7 +143,7 @@ export function Model() {
           return (
             <div className="flex justify-between flex-1 text-green-2 break-keep">
               <div
-                className="flex items-center justify-center cursor-pointer"
+                className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
                 onClick={() => setEditorProductSystem(record)}>
                 编辑
               </div>
@@ -289,7 +293,7 @@ export function Model() {
                 mouseHoverKey={"id"}
                 data={tableData?.records || []}
                 className=""
-                headerClassName={{ background: "#fff" }}
+                headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
               />
             </div>
           </div>
