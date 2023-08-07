@@ -31,7 +31,7 @@ export function Inventory() {
         dataIndex: "loadName",
         width: "10rem",
         render: (text: string) => {
-          return <span className="max-w-[14rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
+          return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
         },
       },
       {
@@ -57,7 +57,7 @@ export function Inventory() {
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className=" text-lg leading-[27px] max-w-[8rem] truncate inline-block">
+              className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
               {text}
             </span>
           );
@@ -81,7 +81,7 @@ export function Inventory() {
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className="max-w-[7rem] text-lg leading-[27px]  truncate inline-block">
+              className="w-[13rem] text-lg leading-[27px]  truncate inline-block">
               {text}
             </span>
           );
@@ -102,7 +102,7 @@ export function Inventory() {
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
-              className="max-w-[12rem]  text-lg leading-[27px] truncate inline-block">
+              className="w-[13rem]  text-lg leading-[27px] truncate inline-block">
               {text}
             </span>
           );
