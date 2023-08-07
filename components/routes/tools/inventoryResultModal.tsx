@@ -152,7 +152,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
           <span className="font-normal leading-6 ">实景数据填报：</span>
           <div
             onClick={() => onAddInfo()}
-            className=" cursor-pointer rounded-[4px] mt-[10px] bg-[#F1F1F1] max-w-[84px] max-h-[24px]  text-center">
+            className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] mt-[10px] bg-[#F1F1F1] max-w-[84px] h-[24px]  text-center items-center justify-center ">
             前往填写
           </div>
 

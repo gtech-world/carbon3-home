@@ -58,26 +58,32 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       title: "参数名",
       dataIndex: "name",
       width: "9rem",
-      render: (text: string) => text,
+      render: (text: string) => <span className=" font-normal leading-[21px] text-[14px] ">{text}</span>,
     },
     {
       title: "过程名称",
       dataIndex: "name",
       width: "7rem",
-      render: (text: string, record: columnsList) => record.context.name,
+      render: (text: string, record: columnsList) => (
+        <span className=" font-normal leading-[21px] text-[14px] ">{record.context.name}</span>
+      ),
     },
     {
       title: "参考值",
       width: "10rem",
       dataIndex: "value",
-      render: (text: string) => text,
+      render: (text: string) => <span className=" font-normal leading-[21px] text-[14px] ">{text}</span>,
     },
     {
       title: "填入值",
       width: "10rem",
       dataIndex: "createTime",
       render: (text: string, record: columnsList) => (
-        <input defaultValue={record.inputValue} type="number" className="w-[10rem] h-[40px] bg-[#F3F3F3]" />
+        <input
+          defaultValue={record.inputValue}
+          type="number"
+          className="font-normal leading-[21px] text-[14px] w-[10rem] h-[40px] bg-[#F3F3F3]"
+        />
       ),
     },
   ];
@@ -101,7 +107,9 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
             background: "#DDDDDD",
             position: "sticky",
             top: "0",
-            fontWeight: "bold",
+            fontWeight: "700",
+            fontSize: "18px",
+            lineHeight: "27px",
           }}
         />
       </div>
