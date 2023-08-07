@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         OpenSans: "var(--open-sans)",
       },
+      maxHeight: {
+        mc: "calc(100vh - 260px)",
+      },
       colors: {
         gray: {
           3: "#333333",

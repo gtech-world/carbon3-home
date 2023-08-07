@@ -21,7 +21,7 @@ export function RealData(p: ModalProps & { data: any; inputData?: InventoryContr
 
   return (
     <Modal title="实景参数列表" {...props}>
-      <STable className="w-[40rem]" data={tableData} header={["参数名", "过程名称", "参考值", "输入值"]} />
+      <STable className="w-[40rem] max-h-mc" data={tableData} header={["参数名", "过程名称", "参考值", "输入值"]} />
     </Modal>
   );
 }
