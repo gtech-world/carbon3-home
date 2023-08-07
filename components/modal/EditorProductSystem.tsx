@@ -135,12 +135,14 @@ export function OrganizationInfo() {
 
 export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: () => void }) {
   const { psId, onSuccess, ...props } = p;
-  const { data: ps, isLoading, error } = useProductSystem(psId);
+  const { data: ps, isLoading, error } = useProductSystem(psId, 60000);
   const [inputDesc, setInputDesc] = useState("");
   const firstRef = useRef(true);
   useEffect(() => {
-    ps && setInputDesc(ps.description || "");
-    firstRef.current = false;
+    if (ps && firstRef.current) {
+      setInputDesc(ps.description || "");
+      firstRef.current = false;
+    }
   }, [ps]);
   useEffect(() => {
     error && props.onClose && props.onClose();
@@ -189,7 +191,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
       {ps && (
         <>
-          <div className="flex flex-col gap-5  w-full min-w-[40rem] max-h-[70vh] overflow-y-auto">
+          <div className="flex flex-col gap-5  w-full min-w-[40rem] max-h-mc overflow-y-auto">
             <PairInfo tit="UID" value={ps.uuid || "-"} />
             <PairInfo
               tit="版本"
