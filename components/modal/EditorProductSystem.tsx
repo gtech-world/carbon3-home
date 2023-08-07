@@ -217,7 +217,14 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
             <PairInfo
               tit="产品系统LCA文件"
-              value={<LcaActionInfo modelId={ps.model?.id} file={file as any} onFileChange={onFileChange} />}
+              value={
+                <LcaActionInfo
+                  modelId={ps.model?.id}
+                  modelStatus={ps.model?.state}
+                  file={file as any}
+                  onFileChange={onFileChange}
+                />
+              }
             />
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo />
