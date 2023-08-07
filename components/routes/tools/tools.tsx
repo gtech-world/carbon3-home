@@ -31,6 +31,18 @@ function ToolsContent() {
       list: ["管理实景数据输入项", "基于模型和输入项计算碳足迹结果", "可信隐私计算过程的自动化验证"],
       link: "/tools/inventory",
     },
+    {
+      icon: "verified_icon.svg",
+      as: "",
+      title: "验证管理",
+      text: "验证管理模块用于帮助用户建立和维护碳足迹结果的第三方验证记录，确保相关行为留痕可查。",
+      list: [
+        "用户可发起建立验证项，指定需要提交第三方验证的碳足迹结果",
+        "用户可添加碳足迹结果相关的所有报告、材料、文档等",
+        "经授权的第三方验证人可在完成相关核查、验证工作后提交验证信息",
+      ],
+      link: "/tools/verificationManagement",
+    },
   ];
   return (
     <ul className="flex justify-between pb-10 mt-5 text-lg mo:flex-col mo:items-center">
@@ -38,18 +50,18 @@ function ToolsContent() {
         return (
           <li
             key={`data-${i}`}
-            className="bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 max-w-[25.375rem] w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
+            className="bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
             <div>
               <div className="flex items-center">
                 <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
                 <div className="text-2xl font-semibold">
-                  <div>“{v.as}”</div>
+                  <div> {i !== 3 && `“${v.as}”`}</div>
                   <h4>{v.title}</h4>
                 </div>
               </div>
               <p className="mt-6 text-gray-3 leading-[1.725rem]">{v.text}</p>
               <div className="mt-5 leading-[1.725rem]">
-                <h5 className="font-semibold">“{v.as}“工具通常有以下功能</h5>
+                <h5 className="font-semibold"> {i === 3 ? "通过验证管理模块：" : `“${v.as}“工具通常有以下功能`} </h5>
                 {v.list.map((child, childIndex) => {
                   return (
                     <p key={`list${childIndex}`} className="text-gray-3">
@@ -73,7 +85,7 @@ function ToolsContent() {
 
 export function Tools() {
   return (
-    <ToolsLayout canBack={true} className="text-black">
+    <ToolsLayout canBack={true} className="text-black" isNew>
       <h3 className="text-2xl font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
       <ToolsContent />
     </ToolsLayout>
