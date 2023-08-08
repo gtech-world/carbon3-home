@@ -114,7 +114,7 @@ export function Model() {
             <span
               data-tooltip-id="tooltip"
               data-tooltip-content={text}
-              className="text-lg w-[10rem] font-normal leading-[27px]">
+              className="text-lg w-[13rem] font-normal leading-[27px]">
               {shortStr(text, 8, 8)}
             </span>
           );

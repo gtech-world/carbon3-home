@@ -4,6 +4,7 @@ import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { getAddRealDataList, getProductSystemAllList, uploadResult } from "@lib/http";
 import { getCurrentDate } from "utils";
 import classNames from "classnames";
+import { Btn } from "@components/common/button";
 
 type formDataType = { [key: string]: string };
 type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
@@ -117,7 +118,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
         titleClassName={"text-[20px] leading-5 font-bold"}
         title={"新建碳足迹结果"}
         onClose={openResultModal}>
-        <div className="mx-5 max-w-[640px] ">
+        <div className="mx-5 w-[640px] ">
           <span className="font-normal leading-6 ">碳足迹批次：</span>
           <input
             value={formData.loadName}
@@ -127,12 +128,6 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             maxLength={30}
             className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
-          {formErrors.loadName && (
-            <div className="mb-2.5 ">
-              <span className=" text-[red]">{formErrors.loadName}</span>{" "}
-            </div>
-          )}
-
           <span className="font-normal leading-6 ">产品系统：</span>
           <select
             id="productId"
@@ -146,11 +141,6 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
               </option>
             ))}
           </select>
-          {formErrors.productId && (
-            <div className="mb-2.5 ">
-              <span className=" text-[red]">{formErrors.productId}</span>{" "}
-            </div>
-          )}
           <span className="font-normal leading-6 ">实景数据填报：</span>
           <div
             onClick={() => onAddInfo()}
@@ -159,21 +149,18 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
           </div>
 
           <div className="flex flex-row justify-between gap-5 mt-5">
-            <div
+            <Btn
               onClick={openResultModal}
-              className=" cursor-pointer bg-[#29953A1A] w-[310px] text-[18px] border-2 border-[#29953A]   font-normal  text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">
+              defStyle="btn-primary-1"
+              className="flex-1  font-normal  h-[50px] border-2 text-[18px]">
               取消
-            </div>
-            <button
-              id="myButton"
-              onClick={() => onCalculate()}
-              disabled={!formData.productId || !formData.loadName}
-              className={classNames(
-                " cursor-pointer  w-[310px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center",
-                `  ${!formData.productId || !formData.loadName ? "btn-disable" : "btn-primary"}`,
-              )}>
-              计算碳结果
-            </button>
+            </Btn>
+            <Btn
+              className="flex-1 h-[50px]  font-normal  text-[18px]"
+              onClick={onCalculate}
+              disabled={!formData.productId || !formData.loadName}>
+              确定
+            </Btn>
           </div>
         </div>
       </Modal>

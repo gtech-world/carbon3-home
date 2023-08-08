@@ -17,6 +17,7 @@ export function Inventory() {
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
   const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onViewRealDataModal = (data: RealDataType) => {
     const { param, paramDetail } = data;
@@ -196,9 +197,11 @@ export function Inventory() {
   );
 
   const getList = async () => {
+    setLoading(true);
     try {
       const res = await getResultList(pgNum);
       setTableData(res);
+      setLoading(false);
     } catch (e) {
       console.log("eeee", e);
     }
@@ -230,12 +233,19 @@ export function Inventory() {
           <div className="pb-6 mt-5 overflow-x-auto">
             <div className="text-base leading-[1.625rem] min-w-[62.25rem]">
               <Table
+                loading={loading}
                 columns={columns}
                 columnsHeight={"h-[3.125rem] "}
                 mouseHoverKey="loadNumber"
                 data={tableData?.records || []}
                 className=""
-                headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
+                headerClassName={{
+                  background: "#fff",
+                  fontWeight: "700",
+                  fontSize: "18px",
+                  lineHeight: "27px",
+                  height: "3.125rem",
+                }}
               />
             </div>
           </div>

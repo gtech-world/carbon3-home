@@ -9,9 +9,13 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
 }) => {
   const FileRef = useRef<HTMLInputElement>(null);
 
-  const onFileChange = () => {
-    console.log("FileRefFileRef", FileRef.current);
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    console.log("FileRefFileRef", FileRef.current?.files, event.target.files?.item(0));
   };
+
+  const otherAtt = { directory: "", webkitdirectory: "" };
   return (
     <Fragment>
       <Modal
@@ -54,7 +58,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
           <div className="flex flex-row">
             <img src="/vector_icon.svg" />
             <div className=" ml-2 mr-[10px] font-normal  leading-6 text-[16px] text-[#666666]">验证文件</div>
-            <input ref={FileRef} type="file" hidden accept="." onChange={onFileChange} />
+            <input {...otherAtt} ref={FileRef} type="file" hidden onChange={onFileChange} />
             <div
               onClick={(e) => FileRef.current?.click()}
               className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">

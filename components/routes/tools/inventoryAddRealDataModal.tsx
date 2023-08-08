@@ -58,21 +58,25 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       title: "参数名",
       dataIndex: "name",
       width: "9rem",
-      render: (text: string) => <span className=" font-normal leading-[21px] text-[14px] ">{text}</span>,
+      render: (text: string) => (
+        <div className=" flex items-center h-[33px] font-normal leading-[21px] text-[14px] ">{text}</div>
+      ),
     },
     {
       title: "过程名称",
       dataIndex: "name",
       width: "7rem",
       render: (text: string, record: columnsList) => (
-        <span className=" font-normal leading-[21px] text-[14px] ">{record.context.name}</span>
+        <div className="flex items-center  h-[33px] font-normal leading-[21px] text-[14px] ">{record.context.name}</div>
       ),
     },
     {
       title: "参考值",
       width: "10rem",
       dataIndex: "value",
-      render: (text: string) => <span className=" font-normal leading-[21px] text-[14px] ">{text}</span>,
+      render: (text: string) => (
+        <div className="flex items-center h-[33px] font-normal leading-[21px] text-[14px] ">{text}</div>
+      ),
     },
     {
       title: "填入值",
@@ -82,7 +86,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
         <input
           defaultValue={record.inputValue}
           type="number"
-          className="font-normal leading-[21px] text-[14px] w-[10rem] h-[40px] "
+          className="font-normal  leading-[21px] text-[14px] w-[10rem] h-[33px] "
         />
       ),
     },
@@ -94,21 +98,19 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       containerClassName={"mx-5 max-w-[1000px] "}
       titleClassName={"text-[20px] leading-5 font-bold"}
       onClose={(typeof onOpenModal === "function" && onOpenModal) || undefined}>
-      <div className="mx-5 max-w-[1000px] max-h-96 overflow-y-auto ">
+      <div className="mx-5  max-w-[1000px] max-h-[400px] overflow-y-auto ">
         <Table
           columns={columns}
           tableId="realDataTable"
-          columnsHeight={"h-[3.125rem]"}
           data={allTableData || []}
           isSetBorder={true}
-          className=""
           headerClassName={{
             background: "#DDDDDD",
             position: "sticky",
             top: "0",
             fontWeight: "700",
             fontSize: "18px",
-            lineHeight: "27px",
+            lineHeight: "30px",
             height: "50px",
           }}
         />
