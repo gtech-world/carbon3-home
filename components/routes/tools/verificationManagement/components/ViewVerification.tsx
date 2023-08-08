@@ -17,7 +17,7 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
       <Modal onClose={closeModal} title="查看文件夹">
         {data.map((e, i) => {
           return (
-            <div id="view" className="w-[640px] h-[34px] flex items-center ">
+            <div key={`file_${i}`} id="view" className="w-[640px] h-[34px] flex items-center ">
               <span className="ml-[10px] leading-5 text-[16px] font-normal">{e.name}</span>
             </div>
           );
