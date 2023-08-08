@@ -159,7 +159,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
               className="flex-1 h-[50px]  font-normal  text-[18px]"
               onClick={onCalculate}
               disabled={!formData.productId || !formData.loadName}>
-              确定
+              计算碳结果
             </Btn>
           </div>
         </div>
