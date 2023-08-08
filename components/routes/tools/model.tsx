@@ -125,7 +125,11 @@ export function Model() {
         dataIndex: "name",
         width: "12.5rem",
         render: (text: string, record: ProduceSystemController.ListRecords) => {
-          return <span className="text-lg   font-normal leading-[27px]">{record.updateUser.name}</span>;
+          return (
+            <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
+              {record.updateUser.name}
+            </span>
+          );
         },
       },
       {

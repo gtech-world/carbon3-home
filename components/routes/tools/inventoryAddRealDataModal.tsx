@@ -109,6 +109,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
             fontWeight: "700",
             fontSize: "18px",
             lineHeight: "27px",
+            height: "50px",
           }}
         />
       </div>
