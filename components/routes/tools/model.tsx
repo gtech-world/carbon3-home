@@ -51,7 +51,6 @@ export function Model() {
   const [reload, setReload] = useState(0);
   const [reloadProduct, setReloadProduct] = useState(0);
   const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
-  const [tableDataLoading, setTableDataLoading] = useState(false);
   const [tableDataTotal, setTableDataTotal] = useState(0);
   const [productType, setProductType] = useState([]);
   const [productList, setProductList] = useState<any>([]);
@@ -65,13 +64,10 @@ export function Model() {
 
   const queryLcaProductList = async () => {
     try {
-      setTableDataLoading(true);
       const res = await getLcaProductList(pgNum);
       setTableData(res);
     } catch (e) {
       console.log("eee", e);
-    } finally {
-      setTableDataLoading(false);
     }
   };
 
@@ -303,7 +299,6 @@ export function Model() {
               <Table
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
-                loading={tableDataLoading}
                 mouseHoverKey={"id"}
                 data={tableData?.records || []}
                 className=""
