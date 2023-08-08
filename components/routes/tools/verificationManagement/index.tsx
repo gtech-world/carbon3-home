@@ -4,13 +4,11 @@ import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
 import { getResultList } from "@lib/http";
 import { Button } from "@components/common/button";
-import classNames from "classnames";
-import AButton from "@components/common/aButton";
 import AddVerification from "./components/AddOrEditVerification";
 import ViewVerification from "./components/ViewVerification";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
-export function verificationManagementList() {
+export function VerificationManagementList() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
@@ -239,4 +237,4 @@ export function verificationManagementList() {
   );
 }
 
-export default verificationManagementList;
+export default VerificationManagementList;
