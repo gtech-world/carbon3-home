@@ -1,3 +1,4 @@
+import { Btn } from "@components/common/button";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
 import React, { FC, useEffect, useState } from "react";
@@ -95,10 +96,10 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   return (
     <Modal
       title="实景数据填报"
-      containerClassName={"mx-5 max-w-[1000px] "}
+      containerClassName={"mx-5 max-w-[640px]"}
       titleClassName={"text-[20px] leading-5 font-bold"}
       onClose={(typeof onOpenModal === "function" && onOpenModal) || undefined}>
-      <div className="mx-5  max-w-[1000px] max-h-[400px] overflow-y-auto ">
+      <div className=" mx-5 w-[640px] max-h-[400px] overflow-y-auto ">
         <Table
           columns={columns}
           tableId="realDataTable"
@@ -117,16 +118,15 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       </div>
       <div className="mx-5 ">
         <div className="flex flex-row justify-between gap-5 mt-5">
-          <div
+          <Btn
             onClick={(typeof onOpenModal === "function" && onOpenModal) || undefined}
-            className=" cursor-pointer bg-[#29953A1A] w-[450px] text-[18px] border-2 border-[#29953A] font-normal text-[#29953A] flex h-[50px] rounded-lg justify-center items-center">
+            defStyle="btn-primary-1"
+            className="flex-1  font-normal  h-[50px] border-2 text-[18px]">
             取消
-          </div>
-          <div
-            onClick={() => onSubmit()}
-            className="  cursor-pointer bg-[#29953A] w-[450px] text-[18px] font-normal  text-[#FFFFFF] flex h-[50px] rounded-lg justify-center items-center">
+          </Btn>
+          <Btn className="flex-1 h-[50px]  font-normal  text-[18px]" onClick={onSubmit}>
             确定
-          </div>
+          </Btn>
         </div>
       </div>
     </Modal>
