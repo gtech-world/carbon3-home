@@ -9,20 +9,20 @@ import { getVerificationManagementList } from "@lib/services/verificationManagem
 import { useStore } from "@components/common/context";
 import _ from "lodash";
 
-type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function VerificationManagementList() {
   const { userData } = useStore();
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState<Partial<VerificationManagementController.ListPage>>({});
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
   const [openViewFileModal, setOpenViewFileModal] = useState<boolean>(false);
-  const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
+  const viewFileRef = useRef<VerificationManagementController.AttachmentFileList[]>([]);
   const editInfoDataRef = useRef<{
     type: VerificationManagementController.VerificationManagementModal["type"];
     recordId?: number;
   }>();
 
-  const onViewFile = (data?: RealDataType) => {
+  const onViewFile = (data: any) => {
+    viewFileRef.current = data?.attachmentFileList;
     setOpenViewFileModal(true);
   };
 
@@ -94,9 +94,11 @@ export function VerificationManagementList() {
         title: "附件",
         dataIndex: "productDescription",
         width: "18.75rem",
-        render: (text: string) => {
+        render: (text: string, record: any) => {
           return (
-            <div onClick={() => onViewFile()} className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
+            <div
+              onClick={() => onViewFile(record)}
+              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">验证文件</div>
             </div>
@@ -111,23 +113,29 @@ export function VerificationManagementList() {
       },
       {
         title: "验证人",
-        dataIndex: "calculateSuccessTime",
+        dataIndex: "name",
         width: "18.625rem",
-        render: (text: string) => {
-          return <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">{text}</span>;
+        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+          return (
+            <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">
+              {record.verifyUser.name}
+            </span>
+          );
         },
       },
       {
         title: "验证文档",
-        dataIndex: "description",
+        dataIndex: "verifyFileList",
         width: "8.125rem",
-        render: (text: string) => {
-          return (
-            <div className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
+        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+          return record.verifyFileList.length ? (
+            <div
+              onClick={() => onViewFile(record)}
+              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">验证文件</div>
             </div>
-          );
+          ) : null;
         },
       },
       {
@@ -140,9 +148,8 @@ export function VerificationManagementList() {
       },
       {
         title: "验证时间",
-        dataIndex: "orgSerialNumber",
+        dataIndex: "proofTime",
         width: "8.125rem",
-        emptyText: "-",
         render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
       },
       {
@@ -204,7 +211,7 @@ export function VerificationManagementList() {
               <Table
                 columns={columns}
                 columnsHeight={"h-[3.125rem] "}
-                mouseHoverKey="loadNumber"
+                mouseHoverKey="id"
                 data={tableData?.records || []}
                 className=""
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
@@ -235,6 +242,7 @@ export function VerificationManagementList() {
       )}
       {openViewFileModal && (
         <ViewVerification
+          fileList={viewFileRef.current}
           closeModal={() => {
             setOpenViewFileModal(false);
           }}

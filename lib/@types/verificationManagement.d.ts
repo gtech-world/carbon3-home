@@ -8,6 +8,7 @@ declare namespace VerificationManagementController {
 
   type ViewVerificationManagementModal = {
     closeModal: () => void;
+    fileList:AttachmentFileList[]
   }
 
 
@@ -21,12 +22,13 @@ declare namespace VerificationManagementController {
     size:number
     total:number
   }
+  type AttachmentFileList = {
+    downloadUrl:string
+    fileName:string
+  }
 
   type VerificationRecord  ={
-    attachmentFileList:{
-      downloadUrl:string
-      fileName:string
-    }[],
+    attachmentFileList:AttachmentFileList[]
     createTime?:string,
     createUser:{
       admin:boolean
@@ -50,7 +52,10 @@ declare namespace VerificationManagementController {
     state:number
     updateTime:string 
     uuid:string
-    verifyFileList?:[]
+    verifyFileList:{
+      fileName: string,
+      downloadUrl: string
+    }[]
     verifyUser:{
       admin:boolean
       id:number
