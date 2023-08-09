@@ -18,7 +18,7 @@ export function ModalHeader(p: {
   return (
     <div
       className={classNames(
-        "flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b",
+        "flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b mt-2.5 mx-5",
         containerClassName,
       )}>
       <span className={titleClassName}>{title}</span>

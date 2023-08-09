@@ -146,7 +146,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         titleClassName={"text-[20px] leading-5 font-bold"}
         title={type === "new" ? "新建验证记录" : "编辑验证记录"}
         onClose={closeModal}>
-        <div className="flex flex-col py-2 gap-5 mx-5 w-[640px] min-h-[6.25rem] max-h-mc overflow-y-auto">
+        <div className="flex flex-col py-[1px] gap-5 px-5 w-[640px] min-h-[6.25rem] max-h-mc overflow-y-auto">
           {isLoading && <Loading />}
           {!isLoading && (
             <>
@@ -255,28 +255,30 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
             </>
           )}
         </div>
-        <div className={`flex flex-row justify-between gap-5 mt-5 w-full px-5`}>
-          {type === "new" && (
-            <>
-              <Btn defStyle="btn-primary-1" className="flex-1" onClick={() => closeModal(false)}>
-                取消
+        {!isLoading && (
+          <div className={`flex flex-row justify-between gap-5 mt-5 w-full px-5`}>
+            {type === "new" && (
+              <>
+                <Btn defStyle="btn-primary-1" className="flex-1" onClick={() => closeModal(false)}>
+                  取消
+                </Btn>
+                <Btn busy={busy} disabled={disableCreate} defStyle="btn-primary" className="flex-1" onClick={onCreate}>
+                  确定
+                </Btn>
+              </>
+            )}
+            {type === "editor" && (
+              <Btn busy={busy} className="flex-1" onClick={doUpdate}>
+                提交更新
               </Btn>
-              <Btn busy={busy} disabled={disableCreate} defStyle="btn-primary" className="flex-1" onClick={onCreate}>
-                确定
+            )}
+            {type === "verify" && (
+              <Btn busy={busy} className="flex-1" onClick={doVerify}>
+                提交验证
               </Btn>
-            </>
-          )}
-          {type === "editor" && (
-            <Btn busy={busy} className="flex-1" onClick={doUpdate}>
-              提交更新
-            </Btn>
-          )}
-          {type === "verify" && (
-            <Btn busy={busy} className="flex-1" onClick={doVerify}>
-              提交验证
-            </Btn>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </Modal>
     </Fragment>
   );

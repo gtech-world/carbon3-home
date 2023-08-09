@@ -48,8 +48,8 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   });
   return (
     <Modal {...props} title={"新建产品系统"} outClose={false} onClose={onClose}>
-      <div className="flex flex-col gap-5 w-full min-w-[40rem] max-h-mc">
-        <div className="flex flex-col gap-5 w-full flex-1 h-max overflow-y-auto">
+      <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
+        <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
           <PairInfo
             tit="产品系统名称"
             value={<EditorText maxLength={30} value={name} onChange={(e) => setName(e.target.value)} />}
@@ -64,7 +64,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           />
           <OrganizationInfo />
         </div>
-        <div className="flex gap-5 w-full">
+        <div className="flex flex-shrink-0 gap-5 px-5 w-full">
           {isProgress ? (
             <Progress value={progress} className="rounded-lg my-3 overflow-hidden" />
           ) : (

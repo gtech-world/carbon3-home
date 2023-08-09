@@ -196,7 +196,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
       {ps && (
         <>
-          <div className="flex flex-col gap-5  w-full min-w-[40rem] max-h-mc overflow-y-auto">
+          <div className="flex flex-col gap-5  w-full min-w-[40rem] px-5 py-[1px] max-h-mc overflow-y-auto">
             <PairInfo tit="UID" value={ps.uuid || "-"} />
             <PairInfo
               tit="版本"
@@ -236,7 +236,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo />
           </div>
-          <div className="flex flex-col gap-2.5 mt-5">
+          <div className="flex flex-col gap-2.5 mt-5 px-5">
             <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
               提交更新
             </Btn>
