@@ -70,7 +70,10 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     verifiersSS.current < 0 ||
     !state.files ||
     state.files.length > 20 ||
-    _.findIndex(state.files as unknown as File[], (item) => (item as File).size >= 1024 * 1024 * 1024 * 2) >= 0;
+    _.findIndex(
+      state.files as unknown as File[],
+      (item) => item.size >= 1024 * 1024 * 1024 * 2 || item.name.length >= 128,
+    ) >= 0;
   const [busy, setBusy] = useState(false);
   const onCreate = () => {
     if (disableCreate) return;
