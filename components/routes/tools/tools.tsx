@@ -1,10 +1,22 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
 import { Button } from "@components/common/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 function ToolsContent() {
   const { push } = useRouter();
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const data = [
     {
@@ -50,7 +62,9 @@ function ToolsContent() {
         return (
           <li
             key={`data-${i}`}
-            className="bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 w-full h-[32.75rem] rounded-xl p-5 flex flex-col justify-between">
+            className={`bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 w-full mo:h-[33rem] 
+             ${windowWidth > 1640 ? "h-[35rem] " : " h-[48rem] "}
+             rounded-xl p-5 flex flex-col justify-between`}>
             <div>
               <div className="flex items-center">
                 <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
