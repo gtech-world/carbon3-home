@@ -266,6 +266,7 @@ export function Inventory() {
           openResultModal={() => setOpenResultModal(false)}
           getList={() => {
             setPgNum(1);
+            getList();
           }}
         />
       )}
