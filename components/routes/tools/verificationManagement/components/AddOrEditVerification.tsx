@@ -66,6 +66,8 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     !verifiers ||
     !state.name ||
     !state.desc ||
+    invertorySS.current < 0 ||
+    verifiersSS.current < 0 ||
     !state.files ||
     state.files.length > 20 ||
     _.findIndex(state.files as unknown as File[], (item) => (item as File).size >= 1024 * 1024 * 1024 * 2) >= 0;
@@ -122,7 +124,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     if (!verifyRecord || !state.files) return;
     setBusy(true);
     upFiles(state.files)
-      .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, state.verifyState))
+      .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, true))
       .then(() => closeModal(true))
       .catch(console.error)
       .finally(() => {
@@ -193,13 +195,13 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                       </div>
                     </div>
                   </ItemDiv>
-                  <ItemDiv title="验证状态">
+                  {/* <ItemDiv title="验证状态">
                     <Select2
                       current={state.verifyState ? 0 : 1}
                       items={[{ text: "已验证" }, { text: "未验证" }]}
                       onChange={(i) => setState({ verifyState: i === 0 })}
                     />
-                  </ItemDiv>
+                  </ItemDiv> */}
                 </>
               ) : (
                 <>
