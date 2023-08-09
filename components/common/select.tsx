@@ -22,7 +22,12 @@ export function useSelectState<T extends SelectItem>(items: T[], initIndex: numb
 }
 
 export function Select(p: SelectProps) {
-  const { items, current, onChange, className } = p;
+  const {
+    items,
+    current,
+    onChange,
+    className = "bg-white text-black px-5 py-3 text-lg rounded-lg w-[31.25rem] mo:w-full mo:text-sm",
+  } = p;
   const cText = items[current] ? items[current].text : "";
   const [open, onToggle] = useToggle(false);
   const onClickItem = useCallback(
@@ -38,13 +43,7 @@ export function Select(p: SelectProps) {
   useClickAway(ref, () => open && onToggle(false));
   if (items.length === 0) return null;
   return (
-    <div
-      ref={ref}
-      className={classNames(
-        "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer mo:w-full mo:text-sm",
-        className,
-      )}
-      onClick={() => onToggle()}>
+    <div ref={ref} className={classNames("relative cursor-pointer", className)} onClick={() => onToggle()}>
       <div className="flex justify-between items-center">
         <span className="truncate">{cText}</span>
         {open ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
