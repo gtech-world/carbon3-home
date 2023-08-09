@@ -131,10 +131,6 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         setBusy(false);
       });
   };
-  const onUpdate = () => {
-    if (type === "editor") doUpdate();
-    else if (type === "verify") doVerify();
-  };
   const otherAtt = { directory: "", webkitdirectory: "" };
   const inputClassName = "w-full shrink-0 px-5 border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg";
   const isVerify = type === "verify";
@@ -267,9 +263,14 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
               </Btn>
             </>
           )}
-          {(type === "editor" || type === "verify") && (
-            <Btn busy={busy} className="flex-1" onClick={onUpdate}>
+          {type === "editor" && (
+            <Btn busy={busy} className="flex-1" onClick={doUpdate}>
               提交更新
+            </Btn>
+          )}
+          {type === "verify" && (
+            <Btn busy={busy} className="flex-1" onClick={doVerify}>
+              提交验证
             </Btn>
           )}
         </div>
