@@ -17,7 +17,7 @@ export function Inventory() {
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
   const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
-  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const [tableLoading, setTableLoading] = useState<boolean>(true);
 
   const onViewRealDataModal = (data: RealDataType) => {
     const { param, paramDetail } = data;
@@ -252,8 +252,9 @@ export function Inventory() {
       </div>
       <Pagination
         className="my-8"
-        onChange={(v: any) => {
+        onChange={(v: any, count?: number) => {
           setPgNum(v);
+          if (v === 1 || !count) return;
           setTableLoading(true);
         }}
         total={tableData.total || 0}

@@ -284,6 +284,12 @@ export function Model() {
     setProductName(val.target.value);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+    });
+  };
+
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
@@ -315,6 +321,7 @@ export function Model() {
       <Pagination
         onChange={(v: any) => {
           setPgNum(v);
+          scrollToTop();
         }}
         className="my-8"
         total={tableData?.total || 0}
@@ -371,7 +378,12 @@ export function Model() {
         </Modal>
       )}
       {createProductView && (
-        <NewProductSystem onClose={() => setCreateProductView(false)} onSuccess={() => queryLcaProductList()} />
+        <NewProductSystem
+          onClose={() => setCreateProductView(false)}
+          onSuccess={() => {
+            queryLcaProductList(), setPgNum(1);
+          }}
+        />
       )}
       {editorProductSystem && (
         <EditorProductSystem

@@ -5,7 +5,7 @@ export interface Props {
   total: number;
   pgSize: number;
   pgNum: number;
-  onChange?: (p: number) => void;
+  onChange?: (p: number, count?: number) => void;
 }
 
 interface Item {
@@ -49,18 +49,19 @@ export function Pagination(p: Props & HTMLAttributes<HTMLDivElement>) {
     ];
   }, [count, pgNum]);
   const doNext = () => {
-    onChange && pgNum < count && onChange(pgNum + 1);
+    onChange && pgNum < count && onChange(pgNum + 1, count);
   };
   const doFirst = () => {
-    onChange && onChange(1);
+    onChange && onChange(1, count);
   };
   const doPrev = () => {
-    onChange && pgNum > 1 && onChange(pgNum - 1);
+    onChange && pgNum > 1 && onChange(pgNum - 1, count);
   };
   const doLast = () => {
     onChange && onChange(count);
   };
   if (total <= pgSize) return null;
+
   return (
     <div className={classnames("flex justify-center text-[0.8125rem] text-center leading-8 font-semibold", className)}>
       <div className="flex">
@@ -90,7 +91,7 @@ export function Pagination(p: Props & HTMLAttributes<HTMLDivElement>) {
               page.name != omit && "border cursor-pointer",
             )}
             onClick={() => {
-              onChange && page.name !== omit && onChange(+page.name);
+              onChange && page.name !== omit && onChange(+page.name, count);
             }}>
             {page.name}
           </div>

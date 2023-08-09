@@ -1,10 +1,7 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import { Button } from "@components/common/button";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 function ToolsContent() {
-  const { push } = useRouter();
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
