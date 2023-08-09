@@ -227,6 +227,7 @@ export function VerificationManagementList() {
           type={editInfoDataRef.current.type}
           recordId={editInfoDataRef.current.recordId}
           closeModal={() => {
+            getList();
             setOpenAddOrEditVerificationModal(false);
             editInfoDataRef.current = undefined;
           }}
