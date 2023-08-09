@@ -1,10 +1,11 @@
 import { Modal } from "@components/common/modal";
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useMemo, useState } from "react";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { getAddRealDataList, getProductSystemAllList, uploadResult } from "@lib/http";
 import { getCurrentDate } from "utils";
 import classNames from "classnames";
 import { Btn } from "@components/common/button";
+import { Select2, useSelectState } from "@components/common/select";
 
 type formDataType = { [key: string]: string };
 type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
@@ -24,7 +25,9 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   const [formErrors, setFormErrors] = useState<formDataType>(init);
   const [formData, setFormData] = useState<formDataType>(init);
   const [isClickSubmit, setIsClickSubmit] = useState<boolean>(false);
-
+  const productList_ = useMemo(() => productList.map((item) => ({ ...item, text: item.name })), [productList]);
+  const productListSelectState = useSelectState(productList_);
+  const productId = (productListSelectState.items[productListSelectState.current] as any)?.id;
   const getProductSystemList = () => {
     getProductSystemAllList()
       .then((res) => {
@@ -53,7 +56,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
 
   const onCalculate = () => {
     setIsClickSubmit(true);
-    const { loadName, productId } = formData;
+    const { loadName } = formData;
     if (!loadName || !productId) return;
 
     const lcaParamList = tableData.map((e) => {
@@ -80,7 +83,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   }, []);
 
   const onAddInfo = () => {
-    if (!formData.productId) {
+    if (!productId) {
       return;
     }
     setOpenAddInfoModal(true);
@@ -95,7 +98,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   };
 
   const getRealDataList = async () => {
-    getAddRealDataList(formData.productId)
+    getAddRealDataList(productId)
       .then((res) => {
         const newData = JSON.parse(res.paramDetail);
         setTableData(JSON.stringify(newData) === "{}" ? [] : newData[0]?.parameters);
@@ -105,10 +108,10 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   };
 
   useEffect(() => {
-    if (formData.productId) {
+    if (productId) {
       getRealDataList();
     }
-  }, [formData.productId]);
+  }, [productId]);
 
   return (
     <Fragment>
@@ -126,22 +129,11 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             id="loadName"
             name="loadName"
             maxLength={30}
-            className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
+            className="w-full mb-[20px] mt-[10px] px-5 border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
           <span className="font-normal leading-6 ">产品系统：</span>
-          <select
-            id="productId"
-            name="productId"
-            value={formData.productId}
-            onChange={handleChange}
-            className="w-full mb-[20px] mt-[10px] border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg">
-            {productList.map((e, i) => (
-              <option key={`list_${i}`} selected={!!e.id} hidden={!e.id} value={e.id}>
-                {e.name}
-              </option>
-            ))}
-          </select>
-          <span className="font-normal leading-6 ">实景数据填报：</span>
+          <Select2 {...productListSelectState} />
+          <div className="font-normal leading-6 mt-5">实景数据填报：</div>
           <div
             onClick={() => onAddInfo()}
             className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] mt-[10px] bg-[#F1F1F1] max-w-[84px] h-[24px]  text-center items-center justify-center ">
@@ -158,7 +150,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             <Btn
               className="flex-1 h-[50px]  font-normal  text-[18px]"
               onClick={onCalculate}
-              disabled={!formData.productId || !formData.loadName}>
+              disabled={!productId || !formData.loadName}>
               计算碳结果
             </Btn>
           </div>

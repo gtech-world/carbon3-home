@@ -8,7 +8,7 @@ export function ViewProductSystem(p: ModalProps & { ps: ProduceSystemController.
   const [realModal, toggleRealModal] = useToggle(false);
   return (
     <Modal title={ps.name} {...props}>
-      <div className="flex flex-col gap-5 w-full min-w-[40rem] max-h-mc">
+      <div className="flex flex-col gap-5 w-full min-w-[40rem] max-h-mc overflow-y-auto">
         <PairInfo tit="UID" value={ps.uuid || "-"} />
         <PairInfo tit="版本" value={ps.version || "-"} />
         <PairInfo tit="描述" value={ps.description || "-"} />

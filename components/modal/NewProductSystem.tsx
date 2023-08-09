@@ -13,7 +13,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [isProgress, setIsProgress] = useState(false);
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const disabledOk = !file || !name || !desc;
+  const disabledOk = !file || file.name.length >= 128 || !name;
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
@@ -50,9 +50,14 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     <Modal {...props} title={"新建产品系统"} outClose={false} onClose={onClose}>
       <div className="flex flex-col gap-5 w-full min-w-[40rem] max-h-mc">
         <div className="flex flex-col gap-5 w-full flex-1 h-max overflow-y-auto">
-          <PairInfo tit="产品系统名称" value={<EditorText value={name} onChange={(e) => setName(e.target.value)} />} />
-          <PairInfo tit="描述" value={<EditorText value={desc} onChange={(e) => setDesc(e.target.value)} />} />
-          <PairInfo tit="状态" value={<PsStatus />} />
+          <PairInfo
+            tit="产品系统名称"
+            value={<EditorText maxLength={30} value={name} onChange={(e) => setName(e.target.value)} />}
+          />
+          <PairInfo
+            tit="描述"
+            value={<EditorText maxLength={100} value={desc} onChange={(e) => setDesc(e.target.value)} />}
+          />
           <PairInfo
             tit="产品系统LCA文件"
             value={<LcaActionInfo isNew={true} file={file as any} onFileChange={onFileChange} />}

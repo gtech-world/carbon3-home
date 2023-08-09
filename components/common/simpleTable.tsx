@@ -26,10 +26,10 @@ export const STable = ({
   header,
   data,
   empty = <DefEmpty />,
-  className = "min-w-full divide-y divide-neutral-200",
-  headerClassName = "bg-neutral-200 text-left text-black text-lg font-bold leading-[27px]",
+  className = "min-w-full relative",
+  headerClassName = "bg-neutral-200 sticky top-0 text-left text-black text-lg font-bold leading-[27px]",
   headerItemClassName = "p-3",
-  tbodyClassName = "bg-white divide-y divide-neutral-200",
+  tbodyClassName = "bg-white ",
   rowClassName = "text-black text-sm font-normal whitespace-nowrap",
   cellClassName = "p-3",
 }: TableProps) => {

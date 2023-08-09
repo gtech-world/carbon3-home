@@ -23,6 +23,7 @@ import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
 import _ from "lodash";
+import { shortStr } from "@lib/utils";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -85,12 +86,12 @@ export function LcaActionInfo(p: {
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
       <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
-      {!isRead && file?.name}
+      {!isRead && shortStr(file?.name)}
       {isRead ? (
         renderLook()
       ) : isNew ? (
         <>
-          <ActionBtn action="选择模型" onClick={(e) => inputFileRef.current?.click()} />
+          <ActionBtn action="上传模型" onClick={(e) => inputFileRef.current?.click()} />
         </>
       ) : (
         <>
@@ -213,7 +214,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             />
             <PairInfo
               tit="描述"
-              value={<EditorText value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />}
+              value={<EditorText maxLength={100} value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />}
             />
             <PairInfo tit="状态" value={<PsStatus status={ps.state} />} />
             <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
