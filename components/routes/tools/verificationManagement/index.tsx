@@ -8,7 +8,7 @@ import AddVerification from "./components/AddOrEditVerification";
 import ViewVerification from "./components/ViewVerification";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
-export function VerificationManagementList() {
+function VerificationManagementList() {
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
