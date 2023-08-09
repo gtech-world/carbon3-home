@@ -6,15 +6,21 @@ import { Button } from "@components/common/button";
 import AddVerification from "./components/AddOrEditVerification";
 import ViewVerification from "./components/ViewVerification";
 import { getVerificationManagementList } from "@lib/services/verificationManagement";
+import { useStore } from "@components/common/context";
+import _ from "lodash";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
-function VerificationManagementList() {
+export function VerificationManagementList() {
+  const { userData } = useStore();
   const [pgNum, setPgNum] = useState(1);
   const [tableData, setTableData] = useState<Partial<VerificationManagementController.ListPage>>({});
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
   const [openViewFileModal, setOpenViewFileModal] = useState<boolean>(false);
   const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
-  const editInfoDataRef = useRef({});
+  const editInfoDataRef = useRef<{
+    type: VerificationManagementController.VerificationManagementModal["type"];
+    recordId?: number;
+  }>();
 
   const onViewFile = (data?: RealDataType) => {
     setOpenViewFileModal(true);
@@ -173,7 +179,10 @@ function VerificationManagementList() {
 
   const onOpenModal = (record?: any) => {
     setOpenAddOrEditVerificationModal(true);
-    editInfoDataRef.current = record;
+    editInfoDataRef.current = {
+      type: _.isEmpty(record) ? "new" : userData?.role === "verify" ? "verify" : "editor",
+      recordId: record.id,
+    };
   };
 
   return (
@@ -181,11 +190,13 @@ function VerificationManagementList() {
       <div className="">
         <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
           <span>验证管理列表</span>
-          <Button
-            onClick={() => onOpenModal({})}
-            className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
-            新建验证记录
-          </Button>
+          {userData?.role === "admin" && (
+            <Button
+              onClick={() => onOpenModal({})}
+              className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
+              新建验证记录
+            </Button>
+          )}
         </h3>
         <div className="w-full p-5 mt-5 bg-white rounded-2xl">
           <div className="pb-6 mt-5 overflow-x-auto">
@@ -211,15 +222,13 @@ function VerificationManagementList() {
         pgSize={10}
         pgNum={pgNum}
       />
-      {openAddOrEditVerificationModal && (
+      {openAddOrEditVerificationModal && editInfoDataRef.current && (
         <AddVerification
-          title={JSON.stringify(editInfoDataRef.current) === "{}" ? "新建验证记录" : "编辑验证记录"}
-          isSingle={JSON.stringify(editInfoDataRef.current) !== "{}"}
-          singleBtnTitle={""}
-          editInfoData={editInfoDataRef.current}
+          type={editInfoDataRef.current.type}
+          recordId={editInfoDataRef.current.recordId}
           closeModal={() => {
             setOpenAddOrEditVerificationModal(false);
-            editInfoDataRef.current = {};
+            editInfoDataRef.current = undefined;
           }}
         />
       )}

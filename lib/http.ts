@@ -131,14 +131,20 @@ export async function getLcaModelList({ pgNum, productId }: any) {
   );
   return getData(res);
 }
-export async function getResultList( pgNum:number) {
-  const res = await axios.get<Res<InventoryController.InventoryList>>(creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
+export async function getResultList(pgNum: number) {
+  const res = await axios.get<Res<InventoryController.InventoryList>>(
+    creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`),
+    authConfig(),
+  );
   return getData(res);
 }
-export async function getLcaResultDetail(loadNumber:any) {
-  if(!loadNumber) return 
-  
-  const res = await axios.get<Res<InventoryController.InventoryDetail>>(creatUrl(`/api/inventory/item/${loadNumber}/detail`), authConfig());
+export async function getLcaResultDetail(loadNumber: any) {
+  if (!loadNumber) return;
+
+  const res = await axios.get<Res<InventoryController.InventoryDetail>>(
+    creatUrl(`/api/inventory/item/${loadNumber}/detail`),
+    authConfig(),
+  );
   return getData(res);
 }
 export async function updateLcaModelState(id: number, state: number) {
@@ -179,7 +185,10 @@ export async function upsertLcaProduct({
   return getData(res);
 }
 export async function getLcaProductList(pgNum: number) {
-  const res = await axios.get<Res<any>>(creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`), authConfig());
+  const res = await axios.get<Res<any>>(
+    creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`),
+    authConfig(),
+  );
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
@@ -213,7 +222,7 @@ export async function getLcaModelItem(id: string, type: string, typeId: number |
   return JSON.parse(getData(res) as string);
 }
 
-export async function exportLcaResultExcel(loadNumber:any) {
+export async function exportLcaResultExcel(loadNumber: any) {
   let config = authConfig();
   const res = await axios.get<string>(
     creatUrl(`/api/inventory/item/${loadNumber}/export`),
@@ -228,25 +237,52 @@ export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0], pa
 }
 
 export async function getProductSystemAllList() {
-  const res = await axios.get<Res<InventoryController.InventoryProductSystemList[]>>(creatUrl(`/api/product-system/all`),authConfig(),
+  const res = await axios.get<Res<InventoryController.InventoryProductSystemList[]>>(
+    creatUrl(`/api/product-system/all`),
+    authConfig(),
   );
   return getData(res);
 }
 
-export async function uploadResult(obj:InventoryController.uploadResult) {
-  const res = await axios.post<Res<any>>(creatUrl("/api/inventory/item/upload"), obj,authConfig());
+export async function uploadResult(obj: InventoryController.uploadResult) {
+  const res = await axios.post<Res<any>>(creatUrl("/api/inventory/item/upload"), obj, authConfig());
   return getData(res);
 }
 
-
-export async function getAddRealDataList<T> (id:T) {
+export async function getAddRealDataList<T>(id: T) {
   const res = await axios.get<Res<InventoryController.InventoryRealDataAllList>>(
     creatUrl(`/api/product-system/${id}/params`),
     authConfig(),
   );
   return getData(res);
-
 }
 
+export async function upFile(file: File, config: AxiosRequestConfig = {}) {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("name", file.name);
+  const res = await axios.post<Res<number>>(creatUrl("/api/common/file/upload"), form, { ...authConfig(), ...config });
+  return getData(res);
+}
 
+export type CreateVerifyRecordConfig = {
+  name: string;
+  loadNumber: string;
+  description: string;
+  fileList: number[];
+  verifyUserId: number;
+};
+export async function createVerifyRecord(config: CreateVerifyRecordConfig) {
+  const res = await axios.post<Res<any>>(creatUrl("/api/verifyRecord/create"), config, authConfig());
+  return getData(res);
+}
 
+export async function updateVerifyRecord(id: number, config: Partial<CreateVerifyRecordConfig>) {
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/update`), config, authConfig());
+  return getData(res);
+}
+
+export async function verifyVerifyRecord(id: number, fileList: number[], state: boolean = false) {
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/update`), { fileList, state }, authConfig());
+  return getData(res);
+}
