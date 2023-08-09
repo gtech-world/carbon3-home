@@ -17,6 +17,7 @@ export function Inventory() {
   const [openResultModal, setOpenResultModal] = useState<boolean>(false);
   const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
   const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
 
   const onViewRealDataModal = (data: RealDataType) => {
     const { param, paramDetail } = data;
@@ -199,6 +200,7 @@ export function Inventory() {
     try {
       const res = await getResultList(pgNum);
       setTableData(res);
+      setTableLoading(false);
     } catch (e) {
       console.log("eeee", e);
     }
@@ -230,6 +232,7 @@ export function Inventory() {
           <div className="pb-6 mt-5 overflow-x-auto">
             <div className="text-base leading-[1.625rem] min-w-[62.25rem]">
               <Table
+                loading={tableLoading}
                 columns={columns}
                 columnsHeight={"h-[3.125rem] "}
                 mouseHoverKey="loadNumber"
@@ -251,6 +254,7 @@ export function Inventory() {
         className="my-8"
         onChange={(v: any) => {
           setPgNum(v);
+          setTableLoading(true);
         }}
         total={tableData.total || 0}
         pgSize={10}

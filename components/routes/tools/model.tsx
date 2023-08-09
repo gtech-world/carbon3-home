@@ -56,6 +56,7 @@ export function Model() {
   const [productList, setProductList] = useState<any>([]);
   const fileRef = useRef(null);
   const { user } = useUser();
+  const [tableLoading, setTableLoading] = useState<boolean>(false);
 
   const queryLcaProductTypeList = async () => {
     const res = await getLcaProductTypeList();
@@ -64,8 +65,10 @@ export function Model() {
 
   const queryLcaProductList = async () => {
     try {
+      setTableLoading(true);
       const res = await getLcaProductList(pgNum);
       setTableData(res);
+      setTableLoading(false);
     } catch (e) {
       console.log("eee", e);
     }
@@ -297,6 +300,7 @@ export function Model() {
           <div className="pb-6 mt-5 overflow-x-auto">
             <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
               <Table
+                loading={tableLoading}
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey={"id"}
