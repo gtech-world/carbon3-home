@@ -2,7 +2,7 @@ import { Btn } from "@components/common/button";
 import { useStore } from "@components/common/context";
 import { Loading } from "@components/common/loading";
 import { Modal } from "@components/common/modal";
-import { Select, useSelectState } from "@components/common/select";
+import { Select2, useSelectState } from "@components/common/select";
 import { useInventoryLiteAll, useVerifiers, useVerifyRecord } from "@lib/hooks/useDatas";
 import { useUpFiles } from "@lib/hooks/useUpFiles";
 import { createVerifyRecord, updateVerifyRecord, verifyVerifyRecord } from "@lib/http";
@@ -36,8 +36,22 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
   );
   const { isLoading: loadingVerifiers, data: verifiers } = useVerifiers(type === "new" || type === "editor");
   const isLoading = loadingVerifyRecode || loadingInvetoryLiteAll || loadingVerifiers;
-  const invertorySS = useSelectState((inventoryLiteAll || []).map((item) => ({ ...item, text: item.loadName })));
-  const verifiersSS = useSelectState((verifiers || []).map((item) => ({ ...item, text: item.name })));
+  const invertoryArgs = useMemo<[any[], number]>(
+    () => [
+      (inventoryLiteAll || []).map((item) => ({ ...item, text: item.loadName })),
+      _.findIndex(inventoryLiteAll, (item) => item.loadNumber === verifyRecord?.inventory?.loadNumber),
+    ],
+    [inventoryLiteAll, verifyRecord],
+  );
+  const invertorySS = useSelectState(...invertoryArgs);
+  const verifiersArgs = useMemo<[any[], number]>(
+    () => [
+      (verifiers || []).map((item) => ({ ...item, text: item.name })),
+      _.findIndex(verifiers, (item) => item.id === verifyRecord?.verifyUser?.id),
+    ],
+    [verifiers, verifyRecord],
+  );
+  const verifiersSS = useSelectState(...verifiersArgs);
   const [state, setState] = useSetState<{
     name?: string;
     desc?: string;
@@ -97,15 +111,19 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         verifyUserId: verifiers[verifiersSS.current].id,
       });
     }
-    task.catch(console.error).finally(() => {
-      setBusy(false);
-    });
+    task
+      .then(() => closeModal(true))
+      .catch(console.error)
+      .finally(() => {
+        setBusy(false);
+      });
   };
   const doVerify = () => {
     if (!verifyRecord || !state.files) return;
     setBusy(true);
     upFiles(state.files)
       .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, state.verifyState))
+      .then(() => closeModal(true))
       .catch(console.error)
       .finally(() => {
         setBusy(false);
@@ -176,8 +194,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                     </div>
                   </ItemDiv>
                   <ItemDiv title="验证状态">
-                    <Select
-                      className="h-[50px] px-5 py-3 items-center bg-stone-50 rounded-lg border border-neutral-200"
+                    <Select2
                       current={state.verifyState ? 0 : 1}
                       items={[{ text: "已验证" }, { text: "未验证" }]}
                       onChange={(i) => setState({ verifyState: i === 0 })}
@@ -195,10 +212,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                     />
                   </ItemDiv>
                   <ItemDiv title="产品系统">
-                    <Select
-                      className="h-[50px] shrink-0 px-5 py-3 items-center bg-stone-50 rounded-lg border border-neutral-200"
-                      {...invertorySS}
-                    />
+                    <Select2 {...invertorySS} />
                   </ItemDiv>
                   <ItemDiv title="描述">
                     <input
@@ -233,10 +247,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                     </div>
                   </ItemDiv>
                   <ItemDiv title="选择验证人">
-                    <Select
-                      className="h-[50px] px-5 py-3 items-center bg-stone-50 rounded-lg border border-neutral-200"
-                      {...verifiersSS}
-                    />
+                    <Select2 {...verifiersSS} />
                   </ItemDiv>
                 </>
               )}
