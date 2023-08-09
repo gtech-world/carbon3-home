@@ -124,6 +124,7 @@ img[src=""] {
 }
 input {
   padding-left: 10px;
+  outline: none;
 }
 
 select {
