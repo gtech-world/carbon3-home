@@ -2,15 +2,15 @@ import { ToolsLayout } from "@components/common/toolsLayout";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
-import { getResultList } from "@lib/http";
 import { Button } from "@components/common/button";
 import AddVerification from "./components/AddOrEditVerification";
 import ViewVerification from "./components/ViewVerification";
+import { getVerificationManagementList } from "@lib/services/verificationManagement";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 function VerificationManagementList() {
   const [pgNum, setPgNum] = useState(1);
-  const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
+  const [tableData, setTableData] = useState<Partial<VerificationManagementController.ListPage>>({});
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
   const [openViewFileModal, setOpenViewFileModal] = useState<boolean>(false);
   const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
@@ -24,7 +24,7 @@ function VerificationManagementList() {
     () => [
       {
         title: "验证记录",
-        dataIndex: "loadName",
+        dataIndex: "name",
         width: "10rem",
         render: (text: string) => {
           return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
@@ -32,12 +32,12 @@ function VerificationManagementList() {
       },
       {
         title: "验证记录ID",
-        dataIndex: "productName",
+        dataIndex: "id",
         width: "6rem",
         render: (text: string, render: any) => {
           return (
-            <div className="flex justify-center text-lg leading-[27px]  w-[8rem] bg-[#F1F1F1] rounded">
-              <span className="cursor-pointer ">查看实景数据</span>
+            <div className="flex  text-lg leading-[27px]  w-[8rem]">
+              <span className="cursor-pointer ">{text}</span>
             </div>
           );
         },
@@ -46,13 +46,13 @@ function VerificationManagementList() {
         title: "发起人",
         dataIndex: "loadNumber",
         width: "8rem",
-        render: (text: string) => {
+        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
           return (
             <span
               data-tooltip-content={text}
               data-tooltip-id="tooltip"
               className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
-              {text}
+              {record.createUser.name}
             </span>
           );
         },
@@ -62,21 +62,23 @@ function VerificationManagementList() {
         title: "组织机构",
         width: "2rem",
         dataIndex: "productName",
-        render: (text: string) => {
-          return <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>;
+        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+          return <span className=" text-lg leading-[27px] max-w-[14rem] ">{record.organization.name}</span>;
         },
       },
       {
         title: "碳足迹批次",
         dataIndex: "loadName",
         width: "10rem",
-        render: (text: string) => {
-          return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
+        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+          return (
+            <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{record.inventory.loadName}</span>
+          );
         },
       },
       {
         title: "碳足迹批次ID",
-        dataIndex: "loadName",
+        dataIndex: "loadNumber",
         width: "10rem",
         render: (text: string) => {
           return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
@@ -97,9 +99,9 @@ function VerificationManagementList() {
       },
       {
         title: "最后编辑",
-        dataIndex: "operator",
-        width: "6.25rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        dataIndex: "updateTime",
+        width: "14rem",
+        render: (text: string) => <span className=" text-lg leading-[27px] w-[14rem] ">{text}</span>,
       },
       {
         title: "验证人",
@@ -124,9 +126,11 @@ function VerificationManagementList() {
       },
       {
         title: "验证状态",
-        dataIndex: "orgName",
+        dataIndex: "state",
         width: "8.125rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => (
+          <span className=" text-lg leading-[27px] max-w-[14rem] ">{text ? "已验证" : ""}</span>
+        ),
       },
       {
         title: "验证时间",
@@ -156,7 +160,7 @@ function VerificationManagementList() {
 
   const getList = async () => {
     try {
-      const res = await getResultList(pgNum);
+      const res = await getVerificationManagementList(pgNum);
       setTableData(res);
     } catch (e) {
       console.log("eeee", e);
@@ -165,13 +169,6 @@ function VerificationManagementList() {
 
   useEffect(() => {
     getList();
-    const intervalId = setInterval(() => {
-      getList();
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [pgNum]);
 
   const onOpenModal = (record?: any) => {
