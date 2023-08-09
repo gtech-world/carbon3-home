@@ -63,7 +63,7 @@ function ToolsContent() {
           <li
             key={`data-${i}`}
             className={`bg-white ml-5 mo:ml-0 mo:mt-5 first:ml-0 w-full mo:h-[33rem] 
-             ${windowWidth > 1640 ? "h-[35rem] " : " h-[48rem] "}
+             ${windowWidth > 1300 ? "h-[37rem] " : " h-[46rem] "}
              rounded-xl p-5 flex flex-col justify-between`}>
             <div>
               <div className="flex items-center">
@@ -74,7 +74,7 @@ function ToolsContent() {
                 </div>
               </div>
               <p className="mt-6 text-gray-3 leading-[1.725rem]">{v.text}</p>
-              <div className="mt-5 leading-[1.725rem]">
+              <div className="mt-5 leading-[1.725rem] text-[14px]">
                 <h5 className="font-semibold"> {i === 3 ? "通过验证管理模块：" : `“${v.as}“工具通常有以下功能`} </h5>
                 {v.list.map((child, childIndex) => {
                   return (
