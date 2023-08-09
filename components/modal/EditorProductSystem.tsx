@@ -185,7 +185,11 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   const [realModal, toggleRealModal] = useToggle(false);
   const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
   const versions = useMemo(() => {
-    return (ps?.historyList || []).map((item) => ({ text: `版本${item.version}` }));
+    return _.orderBy(
+      (ps?.historyList || []).map((item) => ({ ...item, text: `版本${item.version}` })),
+      (item) => _.toNumber(item.version),
+      "desc",
+    );
   }, [ps]);
   return (
     <Modal title={ps?.name || ""} {...props}>
@@ -203,8 +207,8 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
                     items={versions}
                     className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
                     onClick={(i) => {
-                      if (!ps.historyList) return;
-                      const viewPs = ps.historyList[i];
+                      if (!versions) return;
+                      const viewPs = versions[i];
                       setOldPs(viewPs);
                     }}>
                     查看历史版本
