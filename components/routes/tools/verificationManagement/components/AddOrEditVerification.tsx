@@ -39,7 +39,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
   const invertoryArgs = useMemo<[any[], number]>(
     () => [
       (inventoryLiteAll || []).map((item) => ({ ...item, text: item.loadName })),
-      _.findIndex(inventoryLiteAll, (item) => item.loadNumber === verifyRecord?.inventory?.loadNumber),
+      _.findIndex(inventoryLiteAll, (item) => item.loadNumber === verifyRecord?.loadNumber),
     ],
     [inventoryLiteAll, verifyRecord],
   );
@@ -203,7 +203,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                 <>
                   <ItemDiv title="验证记录">
                     <input
-                      value={state.name}
+                      value={state.name || verifyRecord?.name}
                       onChange={(e) => setState({ name: e.target.value })}
                       maxLength={30}
                       className={inputClassName}
@@ -214,7 +214,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                   </ItemDiv>
                   <ItemDiv title="描述">
                     <input
-                      value={state.desc}
+                      value={state.desc || verifyRecord?.description}
                       onChange={(e) => setState({ desc: e.target.value })}
                       maxLength={30}
                       className={inputClassName}
