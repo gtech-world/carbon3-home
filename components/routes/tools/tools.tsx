@@ -6,7 +6,7 @@ function ToolsContent() {
     {
       icon: "alca_icon.svg",
       as: "A-LCA",
-      secondText: "工具通常以下功能 :",
+      secondText: "工具提供以下功能 :",
       title: "产品生命周期评价工具",
       text: "产品生命周期评价工具“A-LCA”是专门为汽车行业定制的产品生命周期分析与建模工具，帮助用户评估汽车供应链的产品与服务在其生命周期内对环境的影响，为计算产品碳足迹和其他环境声明提供基础。",
       list: ["LCA参考流程数据库、LCIA方法数据库", "建立产品生命周期评价模型", "进行环境影响的分析和评估"],
@@ -53,15 +53,15 @@ function ToolsContent() {
             className={`bg-white ml-5 mo:ml-0 mo:mt-5 w-[30%] first:ml-0 h-[32rem] md:h-[45rem] sm:w-full mo:h-[32rem]
              ${i === 3 && "md:w-[30%] md:mt-10 md:ml-0  "}
              rounded-xl p-5 flex flex-col justify-between`}>
-            <div>
-              <div className="flex items-center">
+            <div className="">
+              <div className="flex items-center h-20 md:mt-10">
                 <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
-                <div className="text-2xl font-semibold text-[18px]">
+                <div className="  text-2xl font-semibold text-[18px]">
                   <div> {i !== 3 && `“${v.as}”`}</div>
                   <h4>{v.title}</h4>
                 </div>
               </div>
-              <p className="mt-6 text-[#333333] leading-[21px] font-normal text-[14px]">{v.text}</p>
+              <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[14px]">{v.text}</p>
               <div className="mt-5 leading-[21px]  text-[14px] ">
                 <h5 className="font-semibold">
                   {v.as && `“${v.as}“`} {v.secondText}
@@ -90,7 +90,7 @@ function ToolsContent() {
 export function Tools() {
   return (
     <ToolsLayout canBack={true} className="text-black" isNew>
-      <h3 className="text-2xl font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
+      <h3 className=" text-[20px] leading-6 font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
       <ToolsContent />
     </ToolsLayout>
   );
