@@ -93,17 +93,25 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         }),
     );
   };
-
+  const disableUpdate =
+    !verifyRecord ||
+    !inventoryLiteAll ||
+    !verifiers ||
+    ((state.name || verifyRecord.name) === verifyRecord.name &&
+      (state.desc || verifyRecord.description) === verifyRecord.description &&
+      inventoryLiteAll[invertorySS.current].loadNumber === verifyRecord.loadNumber &&
+      verifiers[verifiersSS.current].id === verifyRecord.verifierUserId &&
+      (!state.files || state.files.length === 0));
   const doUpdate = () => {
-    if (!verifyRecord || !inventoryLiteAll || !verifiers) return;
+    if (disableUpdate) return;
     let task: Promise<any>;
     setBusy(true);
     if (state.files) {
       task = upFiles(state.files).then((ids) =>
         updateVerifyRecord(verifyRecord.id, {
-          name: state.name,
+          name: state.name || verifyRecord.name,
           loadNumber: inventoryLiteAll[invertorySS.current].loadNumber,
-          description: state.desc,
+          description: state.desc || verifyRecord.description,
           fileList: ids,
           verifyUserId: verifiers[verifiersSS.current].id,
         }),
@@ -123,8 +131,9 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         setBusy(false);
       });
   };
+  const disableVerify = !verifyRecord || !state.files || state.files.length === 0;
   const doVerify = () => {
-    if (!verifyRecord || !state.files) return;
+    if (disableVerify || !state.files) return;
     setBusy(true);
     upFiles(state.files)
       .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, true))
@@ -268,12 +277,12 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
               </>
             )}
             {type === "editor" && (
-              <Btn busy={busy} className="flex-1" onClick={doUpdate}>
+              <Btn busy={busy} disabled={disableUpdate} className="flex-1" onClick={doUpdate}>
                 提交更新
               </Btn>
             )}
             {type === "verify" && (
-              <Btn busy={busy} className="flex-1" onClick={doVerify}>
+              <Btn busy={busy} disabled={disableVerify} className="flex-1" onClick={doVerify}>
                 提交验证
               </Btn>
             )}
