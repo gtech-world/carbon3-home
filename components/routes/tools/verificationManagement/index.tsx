@@ -8,6 +8,8 @@ import ViewVerification from "./components/ViewVerification";
 import { getVerificationManagementList } from "@lib/services/verificationManagement";
 import { useStore } from "@components/common/context";
 import _ from "lodash";
+import { handleContentRender } from "utils";
+import { shortStr } from "@lib/utils";
 
 type ListType = VerificationManagementController.VerificationRecord;
 export function VerificationManagementList() {
@@ -17,6 +19,7 @@ export function VerificationManagementList() {
   const [openAddOrEditVerificationModal, setOpenAddOrEditVerificationModal] = useState<boolean>(false);
   const [openViewFileModal, setOpenViewFileModal] = useState<boolean>(false);
   const viewFileRef = useRef<VerificationManagementController.AttachmentFileList[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const editInfoDataRef = useRef<{
     type: VerificationManagementController.VerificationManagementModal["type"];
     recordId?: number;
@@ -43,7 +46,14 @@ export function VerificationManagementList() {
         dataIndex: "name",
         width: "10rem",
         render: (text: string) => {
-          return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
+          return (
+            <span
+              data-tooltip-content={handleContentRender(text, 20)}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
+          );
         },
       },
       {
@@ -65,7 +75,7 @@ export function VerificationManagementList() {
         render: (text: string, record: ListType) => {
           return (
             <span
-              data-tooltip-content={text}
+              data-tooltip-content={handleContentRender(record.createUser.name, 20)}
               data-tooltip-id="tooltip"
               className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
               {record.createUser.name}
@@ -79,7 +89,9 @@ export function VerificationManagementList() {
         width: "2rem",
         dataIndex: "productName",
         render: (text: string, record: ListType) => {
-          return <span className=" text-lg leading-[27px] max-w-[14rem] ">{record.organization.name}</span>;
+          return (
+            <span className=" text-lg leading-[27px] w-[14rem] truncate inline-block ">{record.organization.name}</span>
+          );
         },
       },
       {
@@ -88,7 +100,12 @@ export function VerificationManagementList() {
         width: "10rem",
         render: (text: string, record: ListType) => {
           return (
-            <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{record.inventory.loadName}</span>
+            <span
+              data-tooltip-content={handleContentRender(record.inventory.loadName, 11)}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg leading-[27px] truncate inline-block">
+              {record.inventory.loadName}
+            </span>
           );
         },
       },
@@ -97,7 +114,15 @@ export function VerificationManagementList() {
         dataIndex: "loadNumber",
         width: "10rem",
         render: (text: string) => {
-          return <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{text}</span>;
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg leading-[27px] truncate inline-block">
+              {}
+              {shortStr(text, 8, 8)}
+            </span>
+          );
         },
       },
       {
@@ -185,8 +210,10 @@ export function VerificationManagementList() {
 
   const getList = async () => {
     try {
+      setLoading(true);
       const res = await getVerificationManagementList(pgNum);
       setTableData(res);
+      setLoading(false);
     } catch (e) {
       console.log("eeee", e);
     }
@@ -214,6 +241,7 @@ export function VerificationManagementList() {
             <div className="text-base leading-[1.625rem] min-w-[62.25rem]">
               <Table
                 columns={columns}
+                loading={loading}
                 columnsHeight={"h-[3.125rem] "}
                 mouseHoverKey="id"
                 data={tableData?.records || []}
