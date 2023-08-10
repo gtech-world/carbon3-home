@@ -260,7 +260,7 @@ export async function getAddRealDataList<T>(id: T) {
 export async function upFile(file: File, config: AxiosRequestConfig = {}) {
   const form = new FormData();
   form.append("file", file);
-  form.append("name", file.name);
+  form.append("name", file.webkitRelativePath);
   const res = await axios.post<Res<number>>(creatUrl("/api/common/file/upload"), form, { ...authConfig(), ...config });
   return getData(res);
 }
