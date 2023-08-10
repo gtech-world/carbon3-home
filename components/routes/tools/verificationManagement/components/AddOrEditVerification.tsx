@@ -99,8 +99,8 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     !verifiers ||
     ((state.name || verifyRecord.name) === verifyRecord.name &&
       (state.desc || verifyRecord.description) === verifyRecord.description &&
-      inventoryLiteAll[invertorySS.current].loadNumber === verifyRecord.loadNumber &&
-      verifiers[verifiersSS.current].id === verifyRecord.verifierUserId &&
+      inventoryLiteAll[invertorySS.current]?.loadNumber === verifyRecord.loadNumber &&
+      verifiers[verifiersSS.current]?.id === verifyRecord.verifyUserId &&
       (!state.files || state.files.length === 0));
   const doUpdate = () => {
     if (disableUpdate) return;
