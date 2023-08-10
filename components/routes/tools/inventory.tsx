@@ -34,12 +34,12 @@ export function Inventory() {
         width: "10rem",
         render: (text: string) => {
           return (
-            <div className="w-[13rem] ">
+            <div className="w-[10rem] ">
               <span
                 data-tooltip-content={text}
                 data-tooltip-id="tooltip"
                 data-tooltip-place="top"
-                className="text-lg leading-[27px] truncate inline-block">
+                className=" w-[10rem] text-lg leading-[27px] truncate inline-block">
                 {text}
               </span>
             </div>

@@ -93,16 +93,18 @@ export function Model() {
       {
         title: "产品系统",
         dataIndex: "name",
-        width: "20rem",
+        width: "13rem",
         render: (text: string) => {
           return (
-            <span
-              data-tooltip-id="tooltip"
-              data-tooltip-place="top-start"
-              data-tooltip-content={text}
-              className="w-[20rem] font-normal  text-lg leading-[27px] truncate inline-block">
-              {text}
-            </span>
+            <div className="w-[13rem] ">
+              <span
+                data-tooltip-id="tooltip"
+                data-tooltip-place="top-start"
+                data-tooltip-content={text}
+                className="w-[13rem] font-normal  text-lg leading-[27px] truncate inline-block">
+                {text}
+              </span>
+            </div>
           );
         },
       },
