@@ -9,6 +9,7 @@ import { getVerificationManagementList } from "@lib/services/verificationManagem
 import { useStore } from "@components/common/context";
 import _ from "lodash";
 
+type ListType = VerificationManagementController.VerificationRecord;
 export function VerificationManagementList() {
   const { userData } = useStore();
   const [pgNum, setPgNum] = useState(1);
@@ -61,7 +62,7 @@ export function VerificationManagementList() {
         title: "发起人",
         dataIndex: "loadNumber",
         width: "8rem",
-        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+        render: (text: string, record: ListType) => {
           return (
             <span
               data-tooltip-content={text}
@@ -77,7 +78,7 @@ export function VerificationManagementList() {
         title: "组织机构",
         width: "2rem",
         dataIndex: "productName",
-        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+        render: (text: string, record: ListType) => {
           return <span className=" text-lg leading-[27px] max-w-[14rem] ">{record.organization.name}</span>;
         },
       },
@@ -85,7 +86,7 @@ export function VerificationManagementList() {
         title: "碳足迹批次",
         dataIndex: "loadName",
         width: "10rem",
-        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+        render: (text: string, record: ListType) => {
           return (
             <span className="w-[13rem] text-lg leading-[27px] truncate inline-block">{record.inventory.loadName}</span>
           );
@@ -124,7 +125,7 @@ export function VerificationManagementList() {
         title: "验证人",
         dataIndex: "name",
         width: "18.625rem",
-        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+        render: (text: string, record: ListType) => {
           return (
             <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">
               {record.verifyUser.name}
@@ -136,7 +137,7 @@ export function VerificationManagementList() {
         title: "验证文档",
         dataIndex: "verifyFileList",
         width: "8.125rem",
-        render: (text: string, record: VerificationManagementController.VerificationRecord) => {
+        render: (text: string, record: ListType) => {
           return record.verifyFileList.length ? (
             <div
               onClick={() => onViewFile(record)}
@@ -159,20 +160,22 @@ export function VerificationManagementList() {
         title: "验证时间",
         dataIndex: "proofTime",
         width: "8.125rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[14rem] ">{text}</span>,
+        render: (text: string) => <span className="text-lg leading-[27px] w-[13rem] ">{text}</span>,
       },
       {
         title: "",
         width: "20rem",
-        render: (text: string, record: any) => {
+        render: (text: string, record: ListType) => {
           return (
-            <div className="flex justify-between flex-1 text-green-2 break-keep">
-              <div
-                className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
-                onClick={() => onOpenModal(record)}>
-                编辑
+            !record.state && (
+              <div className="flex justify-between flex-1 text-green-2 break-keep">
+                <div
+                  className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
+                  onClick={() => onOpenModal(record)}>
+                  编辑
+                </div>
               </div>
-            </div>
+            )
           );
         },
       },
