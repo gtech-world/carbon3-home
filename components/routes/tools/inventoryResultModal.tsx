@@ -19,7 +19,9 @@ const init = {
 };
 const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = ({ openResultModal, getList }) => {
   const [openAddInfoModal, setOpenAddInfoModal] = useState<boolean>(false);
-  const [productList, setProduceList] = useState<InventoryController.InventoryProductSystemList[]>([]);
+  const [productList, setProduceList] = useState<InventoryController.InventoryProductSystemList[]>([
+    { name: "", id: "" },
+  ]);
   const [realData, setRealData] = useState<Partial<realDataType>>({ lcaParamList: [] });
   const [tableData, setTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
   const [formErrors, setFormErrors] = useState<formDataType>(init);
@@ -31,8 +33,8 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   const getProductSystemList = () => {
     getProductSystemAllList()
       .then((res) => {
-        (res || []).unshift({ name: "", id: "" });
-        setProduceList(res || []);
+        // (res || []).unshift({ name: "", id: "" });
+        setProduceList(res || [{ name: "", id: "" }]);
       })
       .catch((e) => {})
       .finally();
@@ -132,7 +134,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             className="w-full mb-[20px] mt-[10px] px-5 border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
           <span className="font-normal leading-6 ">产品系统：</span>
-          <Select2 {...productListSelectState} />
+          <Select2 {...productListSelectState} openClassName="max-h-[9rem] bg-white  rounded-lg py-3 " />
           <div className="font-normal leading-6 mt-5">实景数据填报：</div>
           <div
             onClick={() => onAddInfo()}

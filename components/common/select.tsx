@@ -13,6 +13,7 @@ export interface SelectProps {
   onChange: (index: number) => void;
   className?: string;
   currentClassName?: string;
+  openClassName?: string;
 }
 export function useSelectState<T extends SelectItem>(items: T[], initIndex: number = 0): SelectProps {
   const [currentIndex, setCurrentIndex] = useState(initIndex);
@@ -29,6 +30,7 @@ export function Select(p: SelectProps) {
     onChange,
     className = "bg-white text-black px-5 py-3 text-lg rounded-lg w-[31.25rem] mo:w-full mo:text-sm",
     currentClassName = "flex justify-between items-center",
+    openClassName = "max-h-[18rem] bg-white  rounded-lg py-3 ",
   } = p;
   const cText = items[current] ? items[current].text : "";
   const [open, onToggle] = useToggle(false);
@@ -52,7 +54,7 @@ export function Select(p: SelectProps) {
       </div>
       {open && (
         <div
-          className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
+          className={classNames("absolute left-0 w-full overflow-x-hidden overflow-y-auto", openClassName)}
           style={{
             boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
             top: "calc(100% + 8px)",
