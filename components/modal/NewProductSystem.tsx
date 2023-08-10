@@ -13,7 +13,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [isProgress, setIsProgress] = useState(false);
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const disabledOk = !file || file.name.length >= 128 || !name;
+  const disabledOk = !file || !name;
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
@@ -26,7 +26,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     if (disabledOk) return;
     setIsProgress(true);
     const form = new FormData();
-    form.append("name", file.name);
     form.append("file", file);
     acRef.current = new AbortController();
     uploadLcaModel(form, {
