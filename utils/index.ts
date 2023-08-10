@@ -11,3 +11,11 @@ export const scrollToTop = () => {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 };
+
+export const handleContentRender = (text: string, width: number) => {
+  if (text.length > width) {
+    return text;
+  } else {
+    return null; 
+  }
+};

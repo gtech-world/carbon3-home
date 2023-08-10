@@ -9,7 +9,7 @@ import InventoryResultModal from "./inventoryResultModal";
 import classNames from "classnames";
 import AButton from "@components/common/aButton";
 import { shortStr } from "@lib/utils";
-import { scrollToTop } from "utils";
+import { handleContentRender, scrollToTop } from "utils";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -31,18 +31,16 @@ export function Inventory() {
       {
         title: "碳足迹批次",
         dataIndex: "loadName",
-        width: "10rem",
+        width: "180px",
         render: (text: string) => {
           return (
-            <div className="w-[10rem] ">
-              <span
-                data-tooltip-content={text}
-                data-tooltip-id="tooltip"
-                data-tooltip-place="top"
-                className=" w-[10rem] text-lg leading-[27px] truncate inline-block">
-                {text}
-              </span>
-            </div>
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-place="top-start"
+              data-tooltip-content={handleContentRender(text, 12)}
+              className="w-[180px] font-normal  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
           );
         },
       },

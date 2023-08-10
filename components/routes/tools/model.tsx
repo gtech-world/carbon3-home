@@ -21,7 +21,7 @@ import { shortStr } from "@lib/utils";
 import _ from "lodash";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
-import { scrollToTop } from "utils";
+import { handleContentRender, isTextOverflowing, scrollToTop } from "utils";
 
 function formatToTree(ary: any, pid?: number) {
   return ary
@@ -93,18 +93,16 @@ export function Model() {
       {
         title: "产品系统",
         dataIndex: "name",
-        width: "13rem",
+        width: "200px",
         render: (text: string) => {
           return (
-            <div className="w-[13rem] ">
-              <span
-                data-tooltip-id="tooltip"
-                data-tooltip-place="top-start"
-                data-tooltip-content={text}
-                className="w-[13rem] font-normal  text-lg leading-[27px] truncate inline-block">
-                {text}
-              </span>
-            </div>
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-place="top-start"
+              data-tooltip-content={handleContentRender(text, 20)}
+              className="w-[200px] font-normal  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
           );
         },
       },

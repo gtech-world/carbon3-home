@@ -22,14 +22,13 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   const [tableData, setTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
   const [formData, setFormData] = useState<formDataType>(init);
   const productList_ = useMemo(() => productList.map((item) => ({ ...item, text: item.name })), [productList]);
-  const productListSelectState = useSelectState(productList_);
+  const productListSelectState = useSelectState(productList_, -1);
   const productId = (productListSelectState.items[productListSelectState.current] as any)?.id;
   const [loading, setLoading] = useState<boolean>(true);
   const getProductSystemList = () => {
     getProductSystemAllList()
       .then((res) => {
-        (res || []).unshift({ name: "", id: "" });
-        setProduceList(res || []);
+        setProduceList(res || { name: "", id: "" });
         setLoading(false);
       })
       .catch((e) => {})
