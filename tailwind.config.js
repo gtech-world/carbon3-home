@@ -7,9 +7,8 @@ module.exports = {
         lg: { min: "90rem" },
         ssm: { max: "460px" },
         mo: { max: "900px" },
-        md: [{ min: "0", max: "1280px" }],
-        bet: [{ min: "900px", max: "1280px" }],
-        max: { max: "1920px" },
+        md: [{ min: "900px", max: "1280px" }],
+        sm: [{ min: "0px", max: "900px" }], // 小型屏幕
       },
       fontFamily: {
         OpenSans: "var(--open-sans)",
