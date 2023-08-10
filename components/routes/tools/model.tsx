@@ -21,7 +21,7 @@ import { shortStr } from "@lib/utils";
 import _ from "lodash";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
-import { handleContentRender, isTextOverflowing, scrollToTop } from "utils";
+import { handleContentRender, scrollToTop } from "utils";
 
 function formatToTree(ary: any, pid?: number) {
   return ary
