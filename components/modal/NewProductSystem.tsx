@@ -65,7 +65,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         </div>
         <div className="flex flex-shrink-0 gap-5 px-5 w-full">
           {isProgress ? (
-            <Progress value={progress} className="rounded-lg my-3 overflow-hidden" />
+            <Progress value={progress} className="rounded-lg my-5 overflow-hidden" />
           ) : (
             <>
               <Btn defStyle="btn-primary-1" className="flex-1" onClick={onClose as any}>
