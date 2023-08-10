@@ -8,7 +8,7 @@ import { useUpFiles } from "@lib/hooks/useUpFiles";
 import { createVerifyRecord, updateVerifyRecord, verifyVerifyRecord } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import _ from "lodash";
-import { FC, Fragment, ReactNode, useMemo, useRef, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useSetState } from "react-use";
 
 const ItemDiv = (p: { children: ReactNode; title: string }) => {
@@ -61,7 +61,8 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     files?: FileList;
     verifyState: boolean;
   }>({ verifyState: true });
-  const upFiles = useUpFiles();
+  const [upFiles, upAbort] = useUpFiles();
+  useEffect(() => upAbort, []);
   const disableFiles =
     !state.files ||
     state.files.length === 0 ||
@@ -79,7 +80,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     disableFiles;
   const [busy, setBusy] = useState(false);
   const onCreate = () => {
-    if (disableCreate) return;
+    if (disableCreate || busy) return;
     setBusy(true);
     upFiles(state.files as any).then((ids) =>
       createVerifyRecord({
@@ -106,7 +107,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
       verifiers[verifiersSS.current]?.id === verifyRecord.verifyUserId &&
       disableFiles);
   const doUpdate = () => {
-    if (disableUpdate) return;
+    if (disableUpdate || busy) return;
     let task: Promise<any>;
     setBusy(true);
     if (state.files) {
@@ -136,7 +137,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
   };
   const disableVerify = !verifyRecord || disableFiles;
   const doVerify = () => {
-    if (disableVerify || !state.files) return;
+    if (disableVerify || !state.files || busy) return;
     setBusy(true);
     upFiles(state.files)
       .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, true))
@@ -204,7 +205,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                       <img src="/vector_icon.svg" />
                       <TextDiv value={folderName} />
                       <div
-                        onClick={(e) => FileRef.current?.click()}
+                        onClick={(e) => !busy && FileRef.current?.click()}
                         className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
                         选择文件夹
                       </div>
@@ -260,7 +261,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                       <img src="/vector_icon.svg" />
                       <TextDiv value={folderName} />
                       <div
-                        onClick={(e) => FileRef.current?.click()}
+                        onClick={(e) => !busy && FileRef.current?.click()}
                         className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
                         选择文件夹
                       </div>
