@@ -46,7 +46,7 @@ export type ModalProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 export function Modal(p: ModalProps) {
-  const { className, title, onClose, outClose = true, titleClassName, containerClassName, children, ...other } = p;
+  const { className, title, onClose, outClose = false, titleClassName, containerClassName, children, ...other } = p;
   const ref = useRef<HTMLDivElement>(null);
   const onClickOut = useOn((e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

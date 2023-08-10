@@ -46,7 +46,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
       });
   });
   return (
-    <Modal {...props} title={"新建产品系统"} outClose={false} onClose={onClose}>
+    <Modal {...props} title={"新建产品系统"} onClose={onClose}>
       <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
         <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
           <PairInfo

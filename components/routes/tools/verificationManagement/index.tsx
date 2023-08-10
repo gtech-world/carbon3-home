@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Table } from "@components/common/table";
 import { Pagination } from "@components/common/pagination";
 import { Button } from "@components/common/button";
@@ -25,7 +25,16 @@ export function VerificationManagementList() {
     viewFileRef.current = data?.attachmentFileList;
     setOpenViewFileModal(true);
   };
-
+  const onOpenModal = useCallback(
+    (record?: any) => {
+      setOpenAddOrEditVerificationModal(true);
+      editInfoDataRef.current = {
+        type: _.isEmpty(record) ? "new" : userData?.role === "verify" ? "verify" : "editor",
+        recordId: record.id,
+      };
+    },
+    [userData],
+  );
   const columns = useMemo(
     () => [
       {
@@ -168,7 +177,7 @@ export function VerificationManagementList() {
         },
       },
     ],
-    [],
+    [onOpenModal],
   );
 
   const getList = async () => {
@@ -183,14 +192,6 @@ export function VerificationManagementList() {
   useEffect(() => {
     getList();
   }, [pgNum]);
-
-  const onOpenModal = (record?: any) => {
-    setOpenAddOrEditVerificationModal(true);
-    editInfoDataRef.current = {
-      type: _.isEmpty(record) ? "new" : userData?.role === "verify" ? "verify" : "editor",
-      recordId: record.id,
-    };
-  };
 
   return (
     <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">

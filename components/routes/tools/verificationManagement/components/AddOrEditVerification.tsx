@@ -61,6 +61,14 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     verifyState: boolean;
   }>({ verifyState: true });
   const upFiles = useUpFiles();
+  const disableFiles =
+    !state.files ||
+    state.files.length === 0 ||
+    state.files.length > 20 ||
+    _.findIndex(
+      state.files as unknown as File[],
+      (item) => item.size >= 1024 * 1024 * 1024 * 2 || item.name.length >= 128,
+    ) >= 0;
   const disableCreate =
     !inventoryLiteAll ||
     !verifiers ||
@@ -68,12 +76,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     !state.desc ||
     invertorySS.current < 0 ||
     verifiersSS.current < 0 ||
-    !state.files ||
-    state.files.length > 20 ||
-    _.findIndex(
-      state.files as unknown as File[],
-      (item) => item.size >= 1024 * 1024 * 1024 * 2 || item.name.length >= 128,
-    ) >= 0;
+    disableFiles;
   const [busy, setBusy] = useState(false);
   const onCreate = () => {
     if (disableCreate) return;
@@ -101,7 +104,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
       (state.desc || verifyRecord.description) === verifyRecord.description &&
       inventoryLiteAll[invertorySS.current]?.loadNumber === verifyRecord.loadNumber &&
       verifiers[verifiersSS.current]?.id === verifyRecord.verifyUserId &&
-      (!state.files || state.files.length === 0));
+      disableFiles);
   const doUpdate = () => {
     if (disableUpdate) return;
     let task: Promise<any>;
@@ -131,7 +134,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         setBusy(false);
       });
   };
-  const disableVerify = !verifyRecord || !state.files || state.files.length === 0;
+  const disableVerify = !verifyRecord || disableFiles;
   const doVerify = () => {
     if (disableVerify || !state.files) return;
     setBusy(true);
