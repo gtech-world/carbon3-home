@@ -62,7 +62,7 @@ export function VerificationManagementList() {
         width: "6rem",
         render: (text: string, render: any) => {
           return (
-            <div className="flex  text-lg leading-[27px]  w-[8rem]">
+            <div className="flex  text-lg leading-[27px]  w-[6rem]">
               <span className="cursor-pointer ">{text}</span>
             </div>
           );
@@ -77,7 +77,7 @@ export function VerificationManagementList() {
             <span
               data-tooltip-content={handleContentRender(record.createUser.name, 20)}
               data-tooltip-id="tooltip"
-              className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
+              className="text-lg leading-[27px] max-w-[13rem]  truncate inline-block">
               {record.createUser.name}
             </span>
           );
@@ -90,7 +90,9 @@ export function VerificationManagementList() {
         dataIndex: "productName",
         render: (text: string, record: ListType) => {
           return (
-            <span className=" text-lg leading-[27px] w-[14rem] truncate inline-block ">{record.organization.name}</span>
+            <span className=" text-lg leading-[27px] max-w-[14rem] truncate inline-block ">
+              {record.organization.name}
+            </span>
           );
         },
       },
@@ -144,7 +146,7 @@ export function VerificationManagementList() {
         title: "最后编辑",
         dataIndex: "updateTime",
         width: "14rem",
-        render: (text: string) => <span className=" text-lg leading-[27px] w-[14rem] ">{text}</span>,
+        render: (text: string) => <span className=" text-lg leading-[27px] w-[12rem] ">{text}</span>,
       },
       {
         title: "验证人",
