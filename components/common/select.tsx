@@ -54,7 +54,7 @@ export function Select(p: SelectProps) {
       </div>
       {open && (
         <div
-          className={classNames("absolute left-0 w-full overflow-x-hidden overflow-y-auto", openClassName)}
+          className={classNames("absolute z-[100] left-0 w-full overflow-x-hidden overflow-y-auto", openClassName)}
           style={{
             boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
             top: "calc(100% + 8px)",

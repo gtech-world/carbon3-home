@@ -6,6 +6,7 @@ import { Select2, useSelectState } from "@components/common/select";
 import { useInventoryLiteAll, useVerifiers, useVerifyRecord } from "@lib/hooks/useDatas";
 import { useUpFiles } from "@lib/hooks/useUpFiles";
 import { createVerifyRecord, updateVerifyRecord, verifyVerifyRecord } from "@lib/http";
+import { shortStr } from "@lib/utils";
 import _ from "lodash";
 import { FC, Fragment, ReactNode, useMemo, useRef, useState } from "react";
 import { useSetState } from "react-use";
@@ -20,7 +21,7 @@ const ItemDiv = (p: { children: ReactNode; title: string }) => {
 };
 
 const TextDiv = (p: { value?: string }) => {
-  return <div className="font-normal leading-[21.79px] text-[16px] text-gray-6">{p.value}</div>;
+  return <div className="font-normal leading-[21.79px] text-[16px] text-gray-9">{p.value}</div>;
 };
 
 const AddOrEditVerification: FC<VerificationManagementController.VerificationManagementModal> = ({
@@ -73,7 +74,6 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     !inventoryLiteAll ||
     !verifiers ||
     !state.name ||
-    !state.desc ||
     invertorySS.current < 0 ||
     verifiersSS.current < 0 ||
     disableFiles;
@@ -85,7 +85,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
       createVerifyRecord({
         name: state.name as string,
         loadNumber: inventoryLiteAll[invertorySS.current].loadNumber,
-        description: state.desc as string,
+        description: state.desc || "",
         fileList: ids,
         verifyUserId: verifiers[verifiersSS.current].id,
       })
@@ -149,7 +149,11 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
   const otherAtt = { directory: "", webkitdirectory: "" };
   const inputClassName = "w-full shrink-0 px-5 border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg";
   const isVerify = type === "verify";
-
+  const folderName = useMemo(() => {
+    if (disableFiles || !state.files) return "验证文件";
+    const name = state.files.item(0)?.webkitRelativePath.split("/")[0] || "验证文件";
+    return shortStr(name, 10, 10);
+  }, [state.files, disableFiles]);
   return (
     <Fragment>
       <Modal
@@ -183,7 +187,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                     <TextDiv value={verifyRecord?.inventory?.loadName} />
                   </ItemDiv>
                   <ItemDiv title="碳足迹批次ID">
-                    <TextDiv value={verifyRecord?.inventory?.loadNumber} />
+                    <TextDiv value={verifyRecord?.loadNumber} />
                   </ItemDiv>
                   <ItemDiv title="验证人">
                     <TextDiv value={verifyRecord?.verifyUser?.name} />
@@ -198,7 +202,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                         onChange={(e) => setState({ files: e.target.files as any })}
                       />
                       <img src="/vector_icon.svg" />
-                      <TextDiv value="验证文件" />
+                      <TextDiv value={folderName} />
                       <div
                         onClick={(e) => FileRef.current?.click()}
                         className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
@@ -224,16 +228,19 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                       className={inputClassName}
                     />
                   </ItemDiv>
-                  <ItemDiv title="产品系统">
+                  <ItemDiv title="碳足迹批次">
                     <Select2 {...invertorySS} />
                   </ItemDiv>
                   <ItemDiv title="描述">
                     <input
                       value={state.desc || verifyRecord?.description}
                       onChange={(e) => setState({ desc: e.target.value })}
-                      maxLength={30}
+                      maxLength={100}
                       className={inputClassName}
                     />
+                  </ItemDiv>
+                  <ItemDiv title="选择验证人">
+                    <Select2 {...verifiersSS} />
                   </ItemDiv>
                   <ItemDiv title="发起人">
                     <TextDiv value={userData?.name} />
@@ -251,16 +258,13 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                         onChange={(e) => setState({ files: e.target.files as any })}
                       />
                       <img src="/vector_icon.svg" />
-                      <TextDiv value="验证文件" />
+                      <TextDiv value={folderName} />
                       <div
                         onClick={(e) => FileRef.current?.click()}
                         className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
                         选择文件夹
                       </div>
                     </div>
-                  </ItemDiv>
-                  <ItemDiv title="选择验证人">
-                    <Select2 {...verifiersSS} />
                   </ItemDiv>
                 </>
               )}
