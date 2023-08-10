@@ -67,7 +67,7 @@ export function Select(p: SelectProps) {
                     // backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
                   }
                 }
-                className={classNames("w-full break-all px-5 py-2 text-sm", {
+                className={classNames("w-full break-all px-5 py-2 text-sm hover:bg-gray-16", {
                   "text-green-2": index === current,
                 })}
                 onClick={() => onClickItem(index)}>
