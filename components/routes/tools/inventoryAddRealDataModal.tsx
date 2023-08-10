@@ -27,7 +27,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     }
 
     let lcaParamList = [];
-    lcaParamList = tableData.map((e, i) => {
+    lcaParamList = tableData?.map((e, i) => {
       const newArr = {
         processId: e.context["@id"],
         paramValue: values.slice(1)[i][0] || e.value.toString(),

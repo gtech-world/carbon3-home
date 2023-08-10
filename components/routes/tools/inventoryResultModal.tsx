@@ -40,7 +40,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     const { loadName } = formData;
     if (!loadName || !productId) return;
 
-    const lcaParamList = tableData.map((e) => {
+    let lcaParamList = tableData.map((e) => {
       return {
         processId: e.context["@id"],
         paramValue: e.value.toString(),
@@ -48,7 +48,10 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
         dateTime: getCurrentDate(),
       };
     });
-    let data = realData.lcaParamList?.length ? realData : { lcaParamList: lcaParamList };
+
+    let data = realData.lcaParamList?.length
+      ? realData
+      : { lcaParamList: lcaParamList.length ? lcaParamList : undefined };
     const result = { ...data, loadName, productId };
     uploadResult(result)
       .then((res) => {
