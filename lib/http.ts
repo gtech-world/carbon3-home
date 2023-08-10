@@ -283,6 +283,6 @@ export async function updateVerifyRecord(id: number, config: Partial<CreateVerif
 }
 
 export async function verifyVerifyRecord(id: number, fileList: number[], state: boolean = false) {
-  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/update`), { fileList, state }, authConfig());
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/verify`), { fileList, state }, authConfig());
   return getData(res);
 }
