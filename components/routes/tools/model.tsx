@@ -98,6 +98,7 @@ export function Model() {
           return (
             <span
               data-tooltip-id="tooltip"
+              data-tooltip-place="top-start"
               data-tooltip-content={text}
               className="w-[20rem] font-normal  text-lg leading-[27px] truncate inline-block">
               {text}

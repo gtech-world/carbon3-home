@@ -3,16 +3,12 @@ import { FC, Fragment, useEffect, useMemo, useState } from "react";
 import InventoryAddRealDataModal from "./inventoryAddRealDataModal";
 import { getAddRealDataList, getProductSystemAllList, uploadResult } from "@lib/http";
 import { getCurrentDate } from "utils";
-import classNames from "classnames";
 import { Btn } from "@components/common/button";
 import { Select2, useSelectState } from "@components/common/select";
 
 type formDataType = { [key: string]: string };
 type realDataType = Pick<InventoryController.uploadResult, "lcaParamList">;
-const filed: formDataType = {
-  loadName: "碳足迹批次",
-  productId: "产品系统",
-};
+
 const init = {
   loadName: "",
   productId: "",
@@ -24,40 +20,23 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   ]);
   const [realData, setRealData] = useState<Partial<realDataType>>({ lcaParamList: [] });
   const [tableData, setTableData] = useState<InventoryController.InventoryRealDataList[]>([]);
-  const [formErrors, setFormErrors] = useState<formDataType>(init);
   const [formData, setFormData] = useState<formDataType>(init);
-  const [isClickSubmit, setIsClickSubmit] = useState<boolean>(false);
   const productList_ = useMemo(() => productList.map((item) => ({ ...item, text: item.name })), [productList]);
   const productListSelectState = useSelectState(productList_);
   const productId = (productListSelectState.items[productListSelectState.current] as any)?.id;
+  const [loading, setLoading] = useState<boolean>(true);
   const getProductSystemList = () => {
     getProductSystemAllList()
       .then((res) => {
-        // (res || []).unshift({ name: "", id: "" });
-        setProduceList(res || [{ name: "", id: "" }]);
+        (res || []).unshift({ name: "", id: "" });
+        setProduceList(res || []);
+        setLoading(false);
       })
       .catch((e) => {})
       .finally();
   };
 
-  useEffect(() => {
-    if (isClickSubmit) {
-      const errors: any = {};
-      for (const key in formData) {
-        if (!formData[key].trim()) {
-          errors[key] = `${filed[key]}不能为空`;
-        }
-      }
-      if (Object.keys(errors).length > 0) {
-        setFormErrors(errors);
-        return;
-      }
-      setFormErrors({});
-    }
-  }, [isClickSubmit, formData]);
-
   const onCalculate = () => {
-    setIsClickSubmit(true);
     const { loadName } = formData;
     if (!loadName || !productId) return;
 
@@ -115,11 +94,11 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     }
   }, [productId]);
 
-  return (
+  return !loading ? (
     <Fragment>
       <Modal
         className="rounded-lg"
-        containerClassName={"mx-5 max-w-[640px]"}
+        containerClassName={"mx-5 w-[640px]"}
         titleClassName={"text-[20px] leading-5 font-bold"}
         title={"新建碳足迹结果"}
         onClose={openResultModal}>
@@ -133,12 +112,12 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
             maxLength={30}
             className="w-full mb-[20px] mt-[10px] px-5 border border-[#DDDDDD]  h-[50px]  bg-[#F8F8F8] rounded-lg"
           />
-          <span className="font-normal leading-6 ">产品系统：</span>
+          <div className="font-normal leading-6  mb-[10px]">产品系统：</div>
           <Select2 {...productListSelectState} openClassName="max-h-[9rem] bg-white  rounded-lg py-3 " />
-          <div className="font-normal leading-6 mt-5">实景数据填报：</div>
+          <div className="mt-5 font-normal leading-6">实景数据填报：</div>
           <div
             onClick={() => onAddInfo()}
-            className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] mt-[10px] bg-[#F1F1F1] max-w-[84px] h-[24px]  text-center items-center justify-center ">
+            className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] mt-[10px] bg-[#F1F1F1] w-[84px] h-[24px]  text-center items-center justify-center ">
             前往填写
           </div>
 
@@ -167,7 +146,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
         />
       )}
     </Fragment>
-  );
+  ) : null;
 };
 
 export default InventoryResultModal;
