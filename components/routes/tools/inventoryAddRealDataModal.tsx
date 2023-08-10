@@ -105,10 +105,11 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
           tableId="realDataTable"
           data={allTableData || []}
           isSetBorder={true}
+          maxHeight="calc(100vh - 260px)"
           headerClassName={{
             background: "#DDDDDD",
             position: "sticky",
-            top: "0",
+            top: "-1px",
             fontWeight: "700",
             fontSize: "18px",
             lineHeight: "30px",
