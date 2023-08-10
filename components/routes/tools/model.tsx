@@ -21,6 +21,7 @@ import { shortStr } from "@lib/utils";
 import _ from "lodash";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
+import { scrollToTop } from "utils";
 
 function formatToTree(ary: any, pid?: number) {
   return ary
@@ -113,7 +114,7 @@ export function Model() {
             <span
               data-tooltip-id="tooltip"
               data-tooltip-content={text}
-              className="text-lg w-[13rem] font-normal leading-[27px]">
+              className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
               {shortStr(text, 8, 8)}
             </span>
           );
@@ -284,12 +285,6 @@ export function Model() {
     setProductName(val.target.value);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-    });
-  };
-
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
@@ -381,7 +376,8 @@ export function Model() {
         <NewProductSystem
           onClose={() => setCreateProductView(false)}
           onSuccess={() => {
-            queryLcaProductList(), setPgNum(1);
+            queryLcaProductList();
+            setPgNum(1);
           }}
         />
       )}

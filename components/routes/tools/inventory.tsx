@@ -9,6 +9,7 @@ import InventoryResultModal from "./inventoryResultModal";
 import classNames from "classnames";
 import AButton from "@components/common/aButton";
 import { shortStr } from "@lib/utils";
+import { scrollToTop } from "utils";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -256,6 +257,7 @@ export function Inventory() {
           setPgNum(v);
           if (v === 1 || !count) return;
           setTableLoading(true);
+          scrollToTop();
         }}
         total={tableData.total || 0}
         pgSize={10}
