@@ -7,6 +7,7 @@ import { useInventoryLiteAll, useVerifiers, useVerifyRecord } from "@lib/hooks/u
 import { useUpFiles } from "@lib/hooks/useUpFiles";
 import { createVerifyRecord, updateVerifyRecord, verifyVerifyRecord } from "@lib/http";
 import { shortStr } from "@lib/utils";
+import classNames from "classnames";
 import _ from "lodash";
 import { FC, Fragment, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useSetState } from "react-use";
@@ -155,6 +156,32 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     const name = state.files.item(0)?.webkitRelativePath.split("/")[0] || "验证文件";
     return shortStr(name, 10, 10);
   }, [state.files, disableFiles]);
+
+  const renderInputVerifyFiles = () => {
+    return (
+      <ItemDiv title={isVerify ? "验证文档" : "附件"}>
+        <div className="flex flex-row items-center gap-2">
+          <input
+            {...otherAtt}
+            ref={FileRef}
+            type="file"
+            hidden
+            onChange={(e) => setState({ files: e.target.files as any })}
+          />
+          <img src="/vector_icon.svg" />
+          <TextDiv value={folderName} />
+          <div
+            onClick={(e) => !busy && FileRef.current?.click()}
+            className={classNames(
+              "flex  rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ",
+              busy ? "cursor-not-allowed" : "cursor-pointer",
+            )}>
+            选择文件夹
+          </div>
+        </div>
+      </ItemDiv>
+    );
+  };
   return (
     <Fragment>
       <Modal
@@ -193,24 +220,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                   <ItemDiv title="验证人">
                     <TextDiv value={verifyRecord?.verifyUser?.name} />
                   </ItemDiv>
-                  <ItemDiv title={"验证文档"}>
-                    <div className="flex flex-row items-center gap-2">
-                      <input
-                        {...otherAtt}
-                        ref={FileRef}
-                        type="file"
-                        hidden
-                        onChange={(e) => setState({ files: e.target.files as any })}
-                      />
-                      <img src="/vector_icon.svg" />
-                      <TextDiv value={folderName} />
-                      <div
-                        onClick={(e) => !busy && FileRef.current?.click()}
-                        className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
-                        选择文件夹
-                      </div>
-                    </div>
-                  </ItemDiv>
+                  {renderInputVerifyFiles()}
                   {/* <ItemDiv title="验证状态">
                     <Select2
                       current={state.verifyState ? 0 : 1}
@@ -249,24 +259,7 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                   <ItemDiv title="组织机构">
                     <TextDiv value={userData?.organization?.name} />
                   </ItemDiv>
-                  <ItemDiv title={"附件"}>
-                    <div className="flex flex-row items-center gap-2">
-                      <input
-                        {...otherAtt}
-                        ref={FileRef}
-                        type="file"
-                        hidden
-                        onChange={(e) => setState({ files: e.target.files as any })}
-                      />
-                      <img src="/vector_icon.svg" />
-                      <TextDiv value={folderName} />
-                      <div
-                        onClick={(e) => !busy && FileRef.current?.click()}
-                        className=" flex cursor-pointer rounded-[4px] leading-4 text-[16px] bg-[#F1F1F1] w-[100px] h-[24px]  text-center items-center justify-center ">
-                        选择文件夹
-                      </div>
-                    </div>
-                  </ItemDiv>
+                  {renderInputVerifyFiles()}
                 </>
               )}
             </>
