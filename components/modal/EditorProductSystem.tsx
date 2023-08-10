@@ -86,7 +86,7 @@ export function LcaActionInfo(p: {
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
       <input ref={inputFileRef} type="file" hidden accept=".zip" onChange={onFileChange} />
-      {!isRead && shortStr(file?.name)}
+      {!isRead && shortStr(file?.name, 10, 10)}
       {isRead ? (
         renderLook()
       ) : isNew ? (
