@@ -137,7 +137,7 @@ export function VerificationManagementList() {
               onClick={() => onViewFile(record)}
               className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
-              <div className="ml-2 ">验证文件</div>
+              <div className="ml-2 ">文件夹</div>
             </div>
           );
         },
@@ -170,7 +170,7 @@ export function VerificationManagementList() {
               onClick={() => onViewFile(record)}
               className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
-              <div className="ml-2 ">验证文件</div>
+              <div className="ml-2 ">文件夹</div>
             </div>
           ) : null;
         },
@@ -215,9 +215,10 @@ export function VerificationManagementList() {
       setLoading(true);
       const res = await getVerificationManagementList(pgNum);
       setTableData(res);
-      setLoading(false);
     } catch (e) {
       console.log("eeee", e);
+    } finally {
+      setLoading(false);
     }
   };
 
