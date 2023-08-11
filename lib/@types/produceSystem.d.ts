@@ -1,3 +1,5 @@
+import { Organization } from "./type";
+
 declare namespace ProduceSystemController {
   type ProduceSystemList = Page &{
     records: ListRecords[];
@@ -13,6 +15,7 @@ declare namespace ProduceSystemController {
     model?: ModelInfo;
     name?: string;
     org?: string;
+    organization?: Organization
     orgId: number;
     partNumber?: number;
     state?: number;

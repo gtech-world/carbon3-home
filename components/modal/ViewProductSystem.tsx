@@ -1,4 +1,5 @@
 import { Modal, ModalProps } from "@components/common/modal";
+import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { useToggle } from "react-use";
 import { ActionBtn, LcaActionInfo, OrganizationInfo, PairInfo, PsStatus } from "./EditorProductSystem";
 import { RealData } from "./RealData";
@@ -19,7 +20,7 @@ export function ViewProductSystem(p: ModalProps & { ps: ProduceSystemController.
           value={<LcaActionInfo modelId={ps.model?.id} modelStatus={ps.model?.state} isRead={true} />}
         />
         <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
-        <OrganizationInfo />
+        <OrganizationInfo organization={ps.organization} />
       </div>
       {realModal && <RealData data={ps.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
     </Modal>

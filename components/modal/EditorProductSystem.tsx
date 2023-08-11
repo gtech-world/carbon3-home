@@ -26,6 +26,7 @@ import { ViewProductSystem } from "./ViewProductSystem";
 import _ from "lodash";
 import { shortStr } from "@lib/utils";
 import { useIsVerifier } from "@lib/hooks/useUser";
+import { Organization } from "@lib/@types/type";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -131,12 +132,13 @@ export function EditorText(p: InputHTMLAttributes<HTMLInputElement>) {
   );
 }
 
-export function OrganizationInfo() {
+export function OrganizationInfo(p: { organization?: Organization }) {
   const { userData } = useStore();
+  const org = p.organization || userData?.organization;
   return (
     <>
-      <PairInfo tit="组织名称" value={userData?.organization?.name || "-"} />
-      <PairInfo tit="组织编号" value={userData?.organization?.serialNumber || "-"} />
+      <PairInfo tit="组织名称" value={org?.name || "-"} />
+      <PairInfo tit="组织编号" value={org?.serialNumber || "-"} />
     </>
   );
 }
