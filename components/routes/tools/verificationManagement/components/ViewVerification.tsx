@@ -37,7 +37,7 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
   return (
     <Fragment>
       <Modal onClose={closeModal} title="查看文件夹">
-        <div className="px-5 overflow-y-auto  h-[150px]">
+        <div className="px-5 overflow-y-auto  max-h-[260px]">
           {fileList.map((e, i) => {
             const parts = e.fileName.split("/");
             return (
