@@ -9,6 +9,7 @@ import { useUser } from "@components/common/context";
 import { Loading } from "@components/common/loading";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
+import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { useUnVerifier } from "@lib/hooks/useUser";
 import { getLcaProductList, getLcaProductTypeList, updateLcaModelState } from "@lib/http";
 import { shortStr } from "@lib/utils";
