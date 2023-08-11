@@ -3,8 +3,12 @@ import React from "react";
 
 export function Lca() {
   return (
-    <ToolsLayout className="text-black">
-      <h3 className="mt-8 text-2xl font-semibold">“A-LCA”产品生命周期评价工具</h3>
+    <ToolsLayout
+      canBack
+      isNew
+      className="text-black"
+      link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "产品生命周期评价工具" }}>
+      <h3 className="text-2xl font-semibold">“A-LCA”产品生命周期评价工具</h3>
       <div className="bg-white p-5 rounded-2xl text-base mt-5 leading-[1.625rem]">
         <h4 className="mb-4 text-xl font-semibold">关于生命周期评价</h4>
         <p>

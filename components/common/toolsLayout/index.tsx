@@ -1,14 +1,21 @@
 import { useRouter } from "next/router";
-import { HTMLAttributes, useMemo } from "react";
+import { Fragment, HTMLAttributes, useMemo } from "react";
 import { useHeaderTipHeight } from "../headerTip";
 import { FiChevronLeft } from "react-icons/fi";
 import { ToolsHeader } from "@components/common/toolsLayout/header";
 import classNames from "classnames";
 
-export function ToolsLayout(p: { canBack?: boolean; isNew?: boolean } & HTMLAttributes<HTMLDivElement>) {
-  const { className, canBack, children, isNew, ...props } = p;
-  const { push, pathname } = useRouter();
+export function ToolsLayout(
+  p: {
+    canBack?: boolean;
+    isNew?: boolean;
+    link?: { pathName: string; homeTitle: string; currentTitle: string };
+  } & HTMLAttributes<HTMLDivElement>,
+) {
+  const { className, canBack, children, link, isNew, ...props } = p;
+  const { push } = useRouter();
   const h = useHeaderTipHeight();
+
   return (
     <div className="relative flex flex-col flex-1 w-full h-full min-h-fit bg-gray-16">
       <ToolsHeader
@@ -22,9 +29,23 @@ export function ToolsLayout(p: { canBack?: boolean; isNew?: boolean } & HTMLAttr
           " max-w-[90rem]": !isNew,
         })}>
         {canBack && (
-          <div className="flex items-center my-5 text-sm cursor-pointer" onClick={() => push("/carbon/service")}>
-            <FiChevronLeft className="text-lg" />
-            返回
+          <div
+            className={`flex items-center my-5 text-sm ${!link?.pathName ? "cursor-pointer" : "cursor-default"}`}
+            onClick={() => (link?.pathName ? undefined : push("/carbon/service"))}>
+            {!link && <FiChevronLeft className="text-lg" />}
+            {link && JSON.stringify(link) !== "{}" ? (
+              <div className="flex flex-row">
+                <span
+                  className="text-[#000000] cursor-pointer font-bold  text-[14px]"
+                  onClick={() => push(link?.pathName)}>
+                  {link.homeTitle}
+                </span>
+                <div className="mx-1 "> / </div>
+                <span className="cu text-[#999999] font-normal text-[14px]"> {link.currentTitle}</span>
+              </div>
+            ) : (
+              "返回"
+            )}
           </div>
         )}
         <div className={classNames("flex flex-col ", className)}>{children}</div>

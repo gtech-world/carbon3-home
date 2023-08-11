@@ -227,9 +227,13 @@ export function VerificationManagementList() {
   }, [pgNum]);
 
   return (
-    <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
+    <ToolsLayout
+      isNew
+      className="flex flex-col justify-between flex-1 text-black "
+      canBack
+      link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "验证管理" }}>
       <div className="">
-        <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
+        <h3 className="flex items-center justify-between text-2xl font-semibold">
           <span>验证管理列表</span>
           {userData?.role === "admin" && (
             <Button
@@ -270,7 +274,10 @@ export function VerificationManagementList() {
           type={editInfoDataRef.current.type}
           recordId={editInfoDataRef.current.recordId}
           closeModal={() => {
-            getList();
+            setPgNum(1);
+            if (pgNum === 1) {
+              getList();
+            }
             setOpenAddOrEditVerificationModal(false);
             editInfoDataRef.current = undefined;
           }}
