@@ -20,6 +20,7 @@ export const Table: FC<Table.ITable> = ({
   columnsHeight = "",
   isSetBorder = false,
   tableId = undefined,
+  columnsClassName,
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -199,7 +200,8 @@ export const Table: FC<Table.ITable> = ({
                       <td
                         key={`data_column_${columnIndex}`}
                         className={classNames(
-                          `px-3 cursor-pointer  `,
+                          columnsClassName,
+                          `px-3  `,
                           {
                             "bg-[#F3F3F3]": mouseHoverItem[mouseHoverKey] === item[mouseHoverKey] && mouseHoverKey,
                             border: isSetBorder,

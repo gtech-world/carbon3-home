@@ -37,7 +37,7 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
   return (
     <Fragment>
       <Modal onClose={closeModal} title="查看文件夹">
-        <div className="px-5">
+        <div className="px-5 overflow-y-auto  h-[150px]">
           {fileList.map((e, i) => {
             const parts = e.fileName.split("/");
             return (
@@ -46,13 +46,13 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
               </div>
             );
           })}
-          <button
-            disabled={loading}
-            className="bg-[#29953A] w-full h-[50px] rounded-lg text-[#FFFFFF] mt-5"
-            onClick={handleDownloadClick}>
-            {loading ? <Loading /> : "下载"}
-          </button>
         </div>
+        <button
+          disabled={loading}
+          className="bg-[#29953A] w-full h-[50px] rounded-lg text-[#FFFFFF] mt-5"
+          onClick={handleDownloadClick}>
+          {loading ? <Loading /> : "下载"}
+        </button>
       </Modal>
     </Fragment>
   );

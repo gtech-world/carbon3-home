@@ -8,7 +8,7 @@ import { useUnVerifier } from "@lib/hooks/useUser";
 import { getResultList } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { handleContentRender, scrollToTop } from "utils";
 import InventoryResultModal from "./inventoryResultModal";
 
@@ -199,7 +199,7 @@ export function Inventory() {
     [],
   );
 
-  const getList = async () => {
+  const getList = useCallback(async () => {
     try {
       const res = await getResultList(pgNum);
       setTableData(res);
@@ -207,7 +207,7 @@ export function Inventory() {
     } catch (e) {
       console.log("eeee", e);
     }
-  };
+  }, [pgNum]);
 
   useEffect(() => {
     getList();
@@ -218,8 +218,9 @@ export function Inventory() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [pgNum]);
+  }, [getList]);
   const unVerifier = useUnVerifier();
+
   return (
     <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
       <div className="">
@@ -241,6 +242,7 @@ export function Inventory() {
                 columns={columns}
                 columnsHeight={"h-[3.125rem] "}
                 mouseHoverKey="loadNumber"
+                columnsClassName=" cursor-default "
                 data={tableData?.records || []}
                 className=""
                 headerClassName={{
@@ -273,7 +275,6 @@ export function Inventory() {
           openResultModal={() => setOpenResultModal(false)}
           getList={() => {
             setPgNum(1);
-            getList();
           }}
         />
       )}

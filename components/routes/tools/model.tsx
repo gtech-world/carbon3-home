@@ -57,7 +57,7 @@ export function Model() {
     setProductType(res ? formatToTree(res?.records, 0) : []);
   };
 
-  const queryLcaProductList = async () => {
+  const queryLcaProductList = useCallback(async () => {
     try {
       setTableLoading(true);
       const res = await getLcaProductList(pgNum);
@@ -66,20 +66,15 @@ export function Model() {
     } catch (e) {
       console.log("eee", e);
     }
-  };
+  }, [pgNum]);
 
-  // useEffect(() => {
-  //   queryLcaModelList();
-  // }, [productNameFilter, reload, pgNum]);
   useEffect(() => {
     queryLcaProductList();
-  }, [pgNum]);
+  }, [queryLcaProductList]);
+
   useEffect(() => {
     queryLcaProductTypeList();
   }, []);
-  const onFileChange = async (file: any) => {
-    setUploadFile(file.target.files[0]);
-  };
 
   const columns = useMemo(
     () => [
@@ -279,6 +274,11 @@ export function Model() {
     setProductName(val.target.value);
   }, []);
   const unVerifier = useUnVerifier();
+
+  const onSuccess = () => {
+    setPgNum(1);
+  };
+
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
@@ -302,7 +302,7 @@ export function Model() {
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey={"id"}
                 data={tableData?.records || []}
-                className=""
+                columnsClassName=" cursor-pointer "
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
               />
             </div>
@@ -369,20 +369,14 @@ export function Model() {
         </Modal>
       )}
       {createProductView && (
-        <NewProductSystem
-          onClose={() => setCreateProductView(false)}
-          onSuccess={() => {
-            queryLcaProductList();
-            setPgNum(1);
-          }}
-        />
+        <NewProductSystem onClose={() => setCreateProductView(false)} onSuccess={() => onSuccess()} />
       )}
       {editorProductSystem && (
         <EditorProductSystem
           psId={editorProductSystem.id}
           title={editorProductSystem.name}
           onClose={() => setEditorProductSystem(undefined)}
-          onSuccess={() => queryLcaProductList()}
+          onSuccess={() => onSuccess()}
         />
       )}
       {productViewSelectedIndex > -1 && (

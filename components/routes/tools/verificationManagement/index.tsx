@@ -63,7 +63,7 @@ export function VerificationManagementList() {
         render: (text: string, render: any) => {
           return (
             <div className="flex  text-lg leading-[27px]  w-[6rem]">
-              <span className="cursor-pointer ">{text}</span>
+              <span className="">{text}</span>
             </div>
           );
         },
@@ -135,7 +135,7 @@ export function VerificationManagementList() {
           return (
             <div
               onClick={() => onViewFile(record.attachmentFileList)}
-              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
+              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded cursor-pointer">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">文件夹</div>
             </div>
@@ -168,7 +168,7 @@ export function VerificationManagementList() {
           return record.verifyFileList.length ? (
             <div
               onClick={() => onViewFile(record.verifyFileList)}
-              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
+              className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded cursor-pointer">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">文件夹</div>
             </div>
@@ -249,6 +249,7 @@ export function VerificationManagementList() {
                 mouseHoverKey="id"
                 data={tableData?.records || []}
                 className=""
+                columnsClassName=" cursor-default "
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
               />
             </div>

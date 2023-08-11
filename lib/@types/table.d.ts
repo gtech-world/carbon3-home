@@ -13,5 +13,6 @@ declare namespace Table {
     columnsHeight?: string;
     isSetBorder?: boolean;
     tableId?: string;
+    columnsClassName?:string;
   }
 }
