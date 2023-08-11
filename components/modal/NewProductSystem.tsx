@@ -13,7 +13,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [isProgress, setIsProgress] = useState(false);
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const disabledOk = !file || !name;
+  const disabledOk = !file || !name || isProgress;
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
@@ -59,7 +59,14 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           />
           <PairInfo
             tit="产品系统LCA文件"
-            value={<LcaActionInfo isNew={true} file={file as any} onFileChange={onFileChange} />}
+            value={
+              <LcaActionInfo
+                isNew={true}
+                disableSelectFile={isProgress}
+                file={file as any}
+                onFileChange={onFileChange}
+              />
+            }
           />
           <OrganizationInfo />
         </div>

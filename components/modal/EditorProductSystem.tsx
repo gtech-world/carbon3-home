@@ -18,6 +18,7 @@ import {
   useMemo,
   useRef,
   useState,
+  MouseEvent,
 } from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
@@ -74,14 +75,18 @@ export function LcaActionInfo(p: {
   isNew?: boolean;
   isRead?: boolean;
   modelStatus?: number;
+  disableSelectFile?: boolean;
   file?: File;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
-  const { psId, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
+  const { psId, disableSelectFile = false, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
     if (modelStatus !== 1) return <div className="text-base font-normal leading-none text-amber-500">等待解析</div>;
     return <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />;
+  };
+  const onClickUp = (e: MouseEvent<HTMLDivElement>) => {
+    !disableSelectFile && inputFileRef.current?.click();
   };
   return (
     <div className="text-neutral-400 text-base font-normal leading-none flex items-center gap-2.5">
@@ -91,12 +96,12 @@ export function LcaActionInfo(p: {
         renderLook()
       ) : isNew ? (
         <>
-          <ActionBtn action="上传模型" onClick={(e) => inputFileRef.current?.click()} />
+          <ActionBtn action="上传模型" onClick={onClickUp} />
         </>
       ) : (
         <>
           {!file && renderLook()}
-          {modelStatus === 1 && <ActionBtn action="更新模型" onClick={(e) => inputFileRef.current?.click()} />}
+          {modelStatus === 1 && <ActionBtn action="更新模型" onClick={onClickUp} />}
         </>
       )}
     </div>
@@ -227,6 +232,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
               value={
                 <LcaActionInfo
                   modelId={ps.model?.id}
+                  disableSelectFile={busy}
                   modelStatus={ps.model?.state}
                   file={file as any}
                   onFileChange={onFileChange}
