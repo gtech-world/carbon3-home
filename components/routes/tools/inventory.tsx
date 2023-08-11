@@ -1,15 +1,16 @@
-import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Table } from "@components/common/table";
-import { Pagination } from "@components/common/pagination";
-import { getResultList } from "@lib/http";
-import { Button } from "@components/common/button";
-import { RealData } from "@components/modal/RealData";
-import InventoryResultModal from "./inventoryResultModal";
-import classNames from "classnames";
 import AButton from "@components/common/aButton";
+import { Button } from "@components/common/button";
+import { Pagination } from "@components/common/pagination";
+import { Table } from "@components/common/table";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { RealData } from "@components/modal/RealData";
+import { useUnVerifier } from "@lib/hooks/useUser";
+import { getResultList } from "@lib/http";
 import { shortStr } from "@lib/utils";
+import classNames from "classnames";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { handleContentRender, scrollToTop } from "utils";
+import InventoryResultModal from "./inventoryResultModal";
 
 type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
@@ -218,17 +219,19 @@ export function Inventory() {
       clearInterval(intervalId);
     };
   }, [pgNum]);
-
+  const unVerifier = useUnVerifier();
   return (
     <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
       <div className="">
         <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
           <span>我的产品碳足迹结果</span>
-          <Button
-            onClick={() => setOpenResultModal(true)}
-            className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
-            新建碳足迹结果
-          </Button>
+          {unVerifier && (
+            <Button
+              onClick={() => setOpenResultModal(true)}
+              className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
+              新建碳足迹结果
+            </Button>
+          )}
         </h3>
         <div className="w-full p-5 mt-5 bg-white rounded-2xl">
           <div className="pb-6 mt-5 overflow-x-auto">

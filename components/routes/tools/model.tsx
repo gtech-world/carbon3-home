@@ -5,22 +5,14 @@ import { Table } from "@components/common/table";
 import { ToolsLayout } from "@components/common/toolsLayout";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { useToast, useUser } from "@components/common/context";
+import { useUser } from "@components/common/context";
 import { Loading } from "@components/common/loading";
-import { Select } from "@components/common/select";
-import { SelectTree } from "@components/common/selectTree";
-import {
-  getLcaModelList,
-  getLcaProductList,
-  getLcaProductTypeList,
-  upsertLcaProduct,
-  updateLcaModelState,
-  uploadLcaModel,
-} from "@lib/http";
-import { shortStr } from "@lib/utils";
-import _ from "lodash";
-import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
+import { NewProductSystem } from "@components/modal/NewProductSystem";
+import { useUnVerifier } from "@lib/hooks/useUser";
+import { getLcaProductList, getLcaProductTypeList, updateLcaModelState } from "@lib/http";
+import { shortStr } from "@lib/utils";
+import classNames from "classnames";
 import { handleContentRender, scrollToTop } from "utils";
 
 function formatToTree(ary: any, pid?: number) {
@@ -285,18 +277,20 @@ export function Model() {
   const onProductChange = useCallback((val: any) => {
     setProductName(val.target.value);
   }, []);
-
+  const unVerifier = useUnVerifier();
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
         <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
           <span>我的产品系统</span>
           {/*@ts-ignore*/}
-          <Button
-            onClick={() => setCreateProductView(true)}
-            className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
-            新建产品系统
-          </Button>
+          {unVerifier && (
+            <Button
+              onClick={() => setCreateProductView(true)}
+              className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
+              新建产品系统
+            </Button>
+          )}
         </h3>
         <div className="w-full p-5 mt-5 bg-white rounded-2xl">
           <div className="pb-6 mt-5 overflow-x-auto">

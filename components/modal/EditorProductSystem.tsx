@@ -25,6 +25,7 @@ import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
 import _ from "lodash";
 import { shortStr } from "@lib/utils";
+import { useIsVerifier } from "@lib/hooks/useUser";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -76,10 +77,11 @@ export function LcaActionInfo(p: {
   isRead?: boolean;
   modelStatus?: number;
   disableSelectFile?: boolean;
+  hiddenUpdate?: boolean;
   file?: File;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
-  const { psId, disableSelectFile = false, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
+  const { psId, disableSelectFile = false, hiddenUpdate, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
     if (modelStatus !== 1) return <div className="text-base font-normal leading-none text-amber-500">等待解析</div>;
@@ -101,7 +103,7 @@ export function LcaActionInfo(p: {
       ) : (
         <>
           {!file && renderLook()}
-          {modelStatus === 1 && <ActionBtn action="更新模型" onClick={onClickUp} />}
+          {modelStatus === 1 && !hiddenUpdate && <ActionBtn action="更新模型" onClick={onClickUp} />}
         </>
       )}
     </div>
@@ -196,6 +198,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       "desc",
     );
   }, [ps]);
+  const isVerifier = useIsVerifier();
   return (
     <Modal title={ps?.name || ""} {...props}>
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
@@ -223,7 +226,14 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             />
             <PairInfo
               tit="描述"
-              value={<EditorText maxLength={100} value={inputDesc} onChange={(e) => setInputDesc(e.target.value)} />}
+              value={
+                <EditorText
+                  disabled={isVerifier}
+                  maxLength={100}
+                  value={inputDesc}
+                  onChange={(e) => setInputDesc(e.target.value)}
+                />
+              }
             />
             <PairInfo tit="状态" value={<PsStatus status={ps.state} />} />
             <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
@@ -234,6 +244,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
                   modelId={ps.model?.id}
                   disableSelectFile={busy}
                   modelStatus={ps.model?.state}
+                  hiddenUpdate={isVerifier}
                   file={file as any}
                   onFileChange={onFileChange}
                 />
@@ -242,7 +253,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo />
           </div>
-          <div className="flex flex-col gap-2.5 mt-5 px-5">
+          <div className={classNames("flex flex-col gap-2.5 mt-5 px-5", { hidden: isVerifier })}>
             <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
               提交更新
             </Btn>
