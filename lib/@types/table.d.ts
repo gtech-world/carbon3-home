@@ -14,5 +14,6 @@ declare namespace Table {
     isSetBorder?: boolean;
     tableId?: string;
     columnsClassName?:string;
+    onChangeColumn?: (item) => item;
   }
 }

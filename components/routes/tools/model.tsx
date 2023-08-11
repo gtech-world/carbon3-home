@@ -279,6 +279,9 @@ export function Model() {
     setPgNum(1);
   };
 
+  const onChangeColumn = (item: ProduceSystemController.ListRecords) => {
+    setEditorProductSystem(item);
+  };
   return (
     <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
@@ -301,6 +304,7 @@ export function Model() {
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey={"id"}
+                onChangeColumn={(item) => onChangeColumn(item)}
                 data={tableData?.records || []}
                 columnsClassName=" cursor-pointer "
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}

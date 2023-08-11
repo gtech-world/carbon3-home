@@ -21,6 +21,7 @@ export const Table: FC<Table.ITable> = ({
   isSetBorder = false,
   tableId = undefined,
   columnsClassName,
+  onChangeColumn = (item: any) => item,
 }) => {
   const [tableData, setTableData] = useState(data || []);
   const [filters, setFilters] = useState<any>({});
@@ -213,6 +214,7 @@ export const Table: FC<Table.ITable> = ({
                         style={{ width: column.width ? column.width : "auto" }}>
                         <div
                           onMouseOver={() => setMouseHoverItem(item)}
+                          onClick={() => (typeof onChangeColumn === "function" ? onChangeColumn(item) : undefined)}
                           className="flex items-center "
                           style={{
                             marginLeft: (item.level && columnIndex === 0 ? item.level : 0) * 1.25 + "rem",

@@ -38,7 +38,7 @@ export function Inventory() {
             <span
               data-tooltip-id="tooltip"
               data-tooltip-place="top-start"
-              data-tooltip-content={handleContentRender(text, 12)}
+              data-tooltip-content={handleContentRender(text, 9)}
               className="w-[180px] font-normal  text-lg leading-[27px] truncate inline-block">
               {text}
             </span>
@@ -174,7 +174,7 @@ export function Inventory() {
         width: "8.125rem",
         render: (text: string) => (
           <span
-            data-tooltip-content={text}
+            data-tooltip-content={handleContentRender(text, 11)}
             data-tooltip-id="tooltip"
             className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
             {text}
