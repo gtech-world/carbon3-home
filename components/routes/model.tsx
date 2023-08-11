@@ -167,7 +167,7 @@ export function Model() {
                     <span className="text-black">Navigation</span>
                   </div>
                 </div>
-                <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
+                <div className="flex-1">{!!node && <Nav node={node} />}</div>
               </div>
               <div className="flex flex-col">
                 <Tabs />

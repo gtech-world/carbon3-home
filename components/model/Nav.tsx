@@ -97,7 +97,18 @@ export function Nav(p: { node: NavNode }) {
   return (
     <AutoSizer>
       {({ height, width }: any) => (
-        <MTree useIsScrolling={true} width={width} height={height} itemSize={18} treeWalker={treeworker as any}>
+        <MTree
+          style={{ padding: 10 }}
+          useIsScrolling={false}
+          innerRef={(inner) => {
+            if (inner) {
+              (inner as HTMLDivElement).style.position = "relative";
+            }
+          }}
+          width={width}
+          height={height}
+          itemSize={18}
+          treeWalker={treeworker as any}>
           {NavItem}
         </MTree>
       )}

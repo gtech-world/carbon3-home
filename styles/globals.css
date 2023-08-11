@@ -144,6 +144,9 @@ button[disabled] {
 }
 
 #view:nth-child(odd) {
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
 }
 
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}

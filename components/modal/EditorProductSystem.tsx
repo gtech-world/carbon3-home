@@ -118,7 +118,7 @@ export function EditorText(p: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       type="text"
-      className="w-full px-5 py-4 bg-stone-50 rounded-lg border border-neutral-200 justify-start items-start gap-2.5 inline-flex text-black text-base font-normal leading-none"
+      className="w-full px-5 py-[15px] bg-gray-28 rounded-lg border border-neutral-200 justify-start items-start gap-2.5 inline-flex text-black text-base font-normal leading-none"
       {...props}
     />
   );
@@ -201,11 +201,11 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo
               tit="版本"
               value={
-                <div className="flex justify-between items-center gap-2.5 px-5 py-4 bg-stone-50 rounded-lg border border-neutral-200">
+                <div className="flex justify-between items-center gap-2.5 px-5 h-[50px] bg-gray-28 rounded-lg border border-neutral-200">
                   {ps.version || "-"}
                   <Dropdown
                     items={versions}
-                    className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-stone-500 text-base font-normal leading-none"
+                    className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-black text-base font-normal leading-none"
                     onClick={(i) => {
                       if (!versions) return;
                       const viewPs = versions[i];
