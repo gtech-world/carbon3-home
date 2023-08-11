@@ -29,10 +29,9 @@ export interface Res<T> {
 //   throw { _type: "ResError", ...res.data };
 // }
 
-function getData<T>(res: AxiosResponse<T>) {
+function getData<T>(res: AxiosResponse<Res<T>>) {
   const mRes = res.data as { code: number; message: string; data: T };
-  if (!mRes) return undefined;
-  if (mRes.code && mRes.code !== 100000) throw mRes.message;
+  if (!mRes || mRes.code !== 100000) throw mRes.message;
   // @ts-ignore
   return res.data?.data;
 }
@@ -45,7 +44,10 @@ export function noArgs<T>(fn: () => Promise<T>, deeps: any[]) {
 }
 
 export async function login(name: string, password: string) {
-  const res = await axios.post<UserData>(creatUrl("/api/base/login"), { name, password });
+  const res = await axios.post<Res<UserData>>(creatUrl("/api/base/login"), {
+    name,
+    password,
+  });
   return getData(res);
 }
 
@@ -56,30 +58,30 @@ function authConfig(): AxiosRequestConfig {
 }
 
 export async function getProductList() {
-  const res = await axios.get<Product[]>(creatUrl("/api/npi/product/list"), authConfig());
+  const res = await axios.get<Res<Product[]>>(creatUrl("/api/npi/product/list"), authConfig());
   return getData(res);
 }
 
 export async function getProductPcfAccountable(product_id: number) {
-  const res = await axios.get<boolean>(creatUrl(`/api/npi/product/${product_id}/pcf_accountable`), authConfig());
+  const res = await axios.get<Res<boolean>>(creatUrl(`/api/npi/product/${product_id}/pcf_accountable`), authConfig());
   return getData(res);
 }
 
 export async function getProductBomList(product_id: number) {
-  const res = await axios.get<ProductBom[]>(creatUrl(`/api/npi/product/${product_id}/bom/list`), authConfig());
+  const res = await axios.get<Res<ProductBom[]>>(creatUrl(`/api/npi/product/${product_id}/bom/list`), authConfig());
   return getData(res);
 }
 
 export async function getProductBomActivityTypes(product_bom_id: number | string) {
-  const res = await axios.get<ActivityType[]>(
+  const res = await axios.get<Res<ActivityType[]>>(
     creatUrl(`/api/npi/product_bom/${product_bom_id}/activity_types`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
 
 export async function getProductActivityDefination(product_id: number) {
-  const res = await axios.get<ProductProcess[]>(creatUrl(`/api/npi/product_process/query`), {
+  const res = await axios.get<Res<ProductProcess[]>>(creatUrl(`/api/npi/product_process/query`), {
     ...authConfig(),
     params: {
       product_id,
@@ -95,87 +97,98 @@ export async function getVINCodes() {
 }
 
 export async function getProductByVIN(vin: string | number) {
-  const res = await axios.get<Product>(creatUrl(`/api/npi/product/serial_number/${vin}/info`), authConfig());
+  const res = await axios.get<Res<Product>>(creatUrl(`/api/npi/product/serial_number/${vin}/info`), authConfig());
   return getData(res);
 }
 
 export async function getPCFInventory(vin: string | number) {
-  const res = await axios.get<InventoryProductProcess[]>(
+  const res = await axios.get<Res<InventoryProductProcess[]>>(
     creatUrl(`/api/inventory/product/${vin}/inventory`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
 
 //
 export async function getSbtInfo(vin: string | number) {
-  const res = await axios.get<SbtInfo>(creatUrl(`/api/sbt/${vin}/info`));
+  const res = await axios.get<Res<SbtInfo>>(creatUrl(`/api/sbt/${vin}/info`));
   return getData(res);
 }
 
 export async function getSbgEmissionInventory(vin: string | number) {
-  const res = await axios.get<SbtEmissionInventory[]>(creatUrl(`/api/sbt/${vin}/emission/inventory`));
+  const res = await axios.get<Res<SbtEmissionInventory[]>>(creatUrl(`/api/sbt/${vin}/emission/inventory`));
   return getData(res);
 }
 export async function getSbtDetail(tokenId: string | number) {
-  const res = await axios.get<SbtDetail>(creatUrl(`/api/sbt/token/${tokenId}/detail`));
+  const res = await axios.get<Res<SbtDetail>>(creatUrl(`/api/sbt/token/${tokenId}/detail`));
   return getData(res);
 }
 
 export async function getLcaModelList({ pgNum, productId }: any) {
   const res = await axios.get(
     creatUrl(`/api/product-lca/model/query?pageNum=${pgNum}&pageSize=10&productId=${productId > -1 ? productId : ""}`),
-    authConfig()
+    authConfig(),
   );
   return getData(res);
 }
-export async function getLcaResultList({ pgNum }: any) {
-  const res = await axios.get(creatUrl(`/api/product-lca/result/query?pageNum=${pgNum}&pageSize=10`), authConfig());
+export async function getResultList(pgNum: number) {
+  const res = await axios.get<Res<InventoryController.InventoryList>>(
+    creatUrl(`/api/inventory/list/?pageNum=${pgNum}&pageSize=10`),
+    authConfig(),
+  );
   return getData(res);
 }
-export async function getLcaResultDetail(id: any) {
-  const res = await axios.get(creatUrl(`/api/product-lca/result/detail/${id}`), authConfig());
+export async function getLcaResultDetail(loadNumber: any) {
+  if (!loadNumber) return;
+
+  const res = await axios.get<Res<InventoryController.InventoryDetail>>(
+    creatUrl(`/api/inventory/item/${loadNumber}/detail`),
+    authConfig(),
+  );
   return getData(res);
 }
 export async function updateLcaModelState(id: number, state: number) {
   const res = await axios.post(creatUrl(`/api/product-lca/model/state/${id}/update/${state}`), null, authConfig());
   return getData(res);
 }
-export async function uploadLcaModel(formData: FormData) {
+export async function uploadLcaModel(formData: FormData, config: AxiosRequestConfig = {}) {
   let headers = authConfig();
   if (headers.headers) {
     headers.headers["Content-Type"] = "multipart/form-data";
   }
-  try {
-    return await axios.post(creatUrl(`/api/product-lca/model/upload`), formData, headers);
-  } catch (e) {
-    console.log(e);
-  }
-}
-export async function getLcaProductTypeList() {
-  const res = await axios.get(creatUrl(`/api/product/category/query`), authConfig());
+  const res = await axios.post<Res<number>>(creatUrl(`/api/product-lca/model/upload`), formData, {
+    ...headers,
+    ...config,
+  });
   return getData(res);
 }
-export async function insertLcaProduct({
+export async function getLcaProductTypeList() {
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product/category/query`), authConfig());
+  return getData(res);
+}
+export async function upsertLcaProduct({
+  id,
   name,
-  categoryId,
-  orgId,
   description,
+  modelId,
 }: {
-  name: string;
-  categoryId: number;
-  orgId: number;
-  description: string;
+  id?: number;
+  name?: string;
+  description?: string;
+  modelId?: number;
 }) {
   const res = await axios.post(
-    creatUrl(`/api/product/upsert`),
-    { name, categoryId, orgId, partNumber: "1", imageUrl: "", description },
-    authConfig()
+    creatUrl(`/api/product-system/upsert`),
+    { id, name, description, modelId },
+    authConfig(),
   );
   return getData(res);
 }
-export async function getLcaProductList() {
-  const res = await axios.get(creatUrl(`/api/product/list?pageSize=500`), authConfig());
+export async function getLcaProductList(pgNum: number) {
+  const res = await axios.get<Res<any>>(
+    creatUrl(`/api/product-system/list/?pageNum=${pgNum}&pageSize=10`),
+    authConfig(),
+  );
   return getData(res);
 }
 // export async function getSbtDetail(product_bom_id: number | string) {
@@ -187,13 +200,13 @@ export async function getLcaProductList() {
 // }
 
 export async function getLcaModelDescirptors(id: string) {
-  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/descriptors`), authConfig());
+  const res = await axios.get<Res<string>>(creatUrl(`/api/product-lca/model/${id}/descriptors`), authConfig());
   return JSON.parse(getData(res) as string);
 }
 
 export async function getLcaModelCategories(id: string) {
-  const res = await axios.get<string>(creatUrl(`/api/product-lca/model/${id}/categories`), authConfig());
-  return JSON.parse(getData(res));
+  const res = await axios.get<Res<string>>(creatUrl(`/api/product-lca/model/${id}/categories`), authConfig());
+  return JSON.parse(getData(res) as string);
 }
 
 export async function getLcaModelNavData(id: string) {
@@ -202,19 +215,74 @@ export async function getLcaModelNavData(id: string) {
   return [categories, descriptors];
 }
 export async function getLcaModelItem(id: string, type: string, typeId: number | string, fromMethod: boolean = false) {
-  const res = await axios.get<string>(
+  const res = await axios.get<Res<string>>(
     creatUrl(`/api/product-lca/model/${id}/item/${type}/${typeId}/info?fromMethod=${fromMethod}`),
-    authConfig()
+    authConfig(),
   );
-  return JSON.parse(getData(res));
+  return JSON.parse(getData(res) as string);
 }
 
-export async function exportLcaResultExcel(id: any) {
+export async function exportLcaResultExcel(loadNumber: any) {
   let config = authConfig();
-
   const res = await axios.get<string>(
-    creatUrl(`/api/product-lca/result/${id}/export`),
-    Object.assign(config, { responseType: "blob" })
+    creatUrl(`/api/inventory/item/${loadNumber}/export`),
+    Object.assign(config, { responseType: "blob" }),
   );
   return res;
+}
+
+export async function authGetResData<T>(path: Parameters<typeof creatUrl>[0], params: any = {}) {
+  const res = await axios.get<Res<T>>(creatUrl(path), { ...authConfig(), params });
+  return getData(res);
+}
+
+export async function getProductSystemAllList() {
+  const res = await axios.get<Res<InventoryController.InventoryProductSystemList[]>>(
+    creatUrl(`/api/product-system/all`),
+    authConfig(),
+  );
+  return getData(res);
+}
+
+export async function uploadResult(obj: InventoryController.uploadResult) {
+  const res = await axios.post<Res<any>>(creatUrl("/api/inventory/item/upload"), obj, authConfig());
+  return getData(res);
+}
+
+export async function getAddRealDataList<T>(id: T) {
+  const res = await axios.get<Res<InventoryController.InventoryRealDataAllList>>(
+    creatUrl(`/api/product-system/${id}/params`),
+    authConfig(),
+  );
+  return getData(res);
+}
+
+export async function upFile(file: File, config: AxiosRequestConfig = {}) {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("name", file.webkitRelativePath);
+  const res = await axios.post<Res<number>>(creatUrl("/api/common/file/upload"), form, { ...authConfig(), ...config });
+  return getData(res);
+}
+
+export type CreateVerifyRecordConfig = {
+  name: string;
+  loadNumber: string;
+  description: string;
+  fileList: number[];
+  verifyUserId: number;
+};
+export async function createVerifyRecord(config: CreateVerifyRecordConfig) {
+  const res = await axios.post<Res<any>>(creatUrl("/api/verifyRecord/create"), config, authConfig());
+  return getData(res);
+}
+
+export async function updateVerifyRecord(id: number, config: Partial<CreateVerifyRecordConfig>) {
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/update`), config, authConfig());
+  return getData(res);
+}
+
+export async function verifyVerifyRecord(id: number, fileList: number[], state: boolean = false) {
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/verify`), { fileList, state }, authConfig());
+  return getData(res);
 }

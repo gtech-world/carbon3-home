@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { HTMLAttributes } from "react";
-import { useTranslation } from "react-i18next";
 import { useIsMobile } from "./context";
 import { Header, MobileHeader } from "./header";
 import { useHeaderTipHeight } from "./headerTip";
@@ -15,7 +14,9 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
           <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute ssm:top-[calc(21.5rem_-_75vw)]"
-            style={{ background: "linear-gradient(180deg, #29953A 48.84%, rgba(34, 122, 48, 0) 96.76%)" }}
+            style={{
+              background: "linear-gradient(180deg, #29953A 48.84%, rgba(34, 122, 48, 0) 96.76%)",
+            }}
           />
         </div>
       ) : (
@@ -39,20 +40,21 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
       )}
       <Header className="h-[6.75rem] mo:h-[4.25rem] mo:sticky mo:bg-white mo:text-green-2 mo:p-4" />
       <div
-        className={classNames(
-          "z-[2] flex-1 relative w-full mx-auto mo:mx-0 mo:flex mo:flex-col",
-          className
-        )}
-        {...props}
-      >
+        className={classNames("z-[2] flex-1 relative w-full mx-auto mo:mx-0 mo:flex mo:flex-col", className)}
+        {...props}>
         {children}
       </div>
     </div>
   );
 }
 
-export function HeaderLayout(p: HTMLAttributes<HTMLDivElement> & { tits?: string | null, isManager?: boolean }) {
-  const { className,tits, isManager, children, ...props } = p;
+export function HeaderLayout(
+  p: HTMLAttributes<HTMLDivElement> & {
+    tits?: string | null;
+    isManager?: boolean;
+  },
+) {
+  const { className, tits, isManager, children, ...props } = p;
   const isMobile = useIsMobile();
   const h = useHeaderTipHeight();
   return (
@@ -60,21 +62,24 @@ export function HeaderLayout(p: HTMLAttributes<HTMLDivElement> & { tits?: string
       {isMobile ? (
         <MobileHeader />
       ) : (
-        <Header tits={tits} isManager={isManager} style={{ top: `${h}px` }} className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2" />
+        <Header
+          tits={tits}
+          isManager={isManager}
+          style={{ top: `${h}px` }}
+          className="!sticky px-[3.125rem] py-4 !max-w-none bg-green-2"
+        />
       )}
       <div
         className={classNames("z-[2] flex-1 relative w-full py-6 px-[3.125rem] mx-auto mo:px-5", className)}
-        {...props}
-      >
+        {...props}>
         {children}
       </div>
     </div>
   );
 }
 
-export function MainHeaderLayout(p:{showQuery?:boolean,menus?:any[]} & HTMLAttributes<HTMLDivElement>) {
-  const { className, children,showQuery=true,menus=[], ...props } = p;
-  // const { t } = useTranslation();
+export function MainHeaderLayout(p: { showQuery?: boolean; menus?: any[] } & HTMLAttributes<HTMLDivElement>) {
+  const { className, children, showQuery = true, menus = [], ...props } = p;
   const h = useHeaderTipHeight();
   return (
     <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">

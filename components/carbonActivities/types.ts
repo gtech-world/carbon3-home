@@ -1,6 +1,5 @@
-import { Phase } from '../../lib/@types/type';
+import { Phase } from "../../lib/@types/type";
 
-export interface ActivityUIProps{
-    data: Phase[]
+export interface ActivityUIProps {
+  data: Phase[];
 }
-

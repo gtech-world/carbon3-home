@@ -10,8 +10,8 @@ import { useIsMobile, useLastInputVin, useOnError, useUser } from "./context";
 import { MenuItem, PoperMenu } from "./poper";
 
 import { CARBON_PAGES } from "@components/const";
+import { useT } from "@lib/hooks/useT";
 import { handleCarbonStr, sleep, textTo2 } from "@lib/utils";
-import { useTranslation } from "react-i18next";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
 
@@ -19,12 +19,16 @@ export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useT();
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
-    menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
+    menus.push({
+      icon: <FiSearch />,
+      text: t("AICP Open Query"),
+      to: "/openquery",
+    });
     if (user && !data.find((item) => item.to === pathname)) {
       menus.push({
         icon: <VscAccount />,
@@ -100,10 +104,15 @@ export function useHeaderHeight() {
 }
 
 export function Header(
-  p: HTMLAttributes<HTMLDivElement> & { tits?: string | null; showQuery?: boolean; isManager?: boolean; menus?: any }
+  p: HTMLAttributes<HTMLDivElement> & {
+    tits?: string | null;
+    showQuery?: boolean;
+    isManager?: boolean;
+    menus?: any;
+  },
 ) {
   const { children, className, tits, showQuery, isManager, menus, ...other } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
   const { push } = useRouter();
@@ -125,10 +134,9 @@ export function Header(
         id="app_header"
         className={classNames(
           "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
-          className
+          className,
         )}
-        {...other}
-      >
+        {...other}>
         {isManager ? (
           <div className="flex items-center cursor-pointer ml-[-1rem] mo:ml-0" onClick={() => push("/")}>
             <SvgAICP className="h-[2.275rem] mo:h-[2rem]" />
@@ -142,8 +150,7 @@ export function Header(
                 <span
                   className="whitespace-nowrap"
                   key={`tit_${i}`}
-                  dangerouslySetInnerHTML={{ __html: handleCarbonStr(tit) }}
-                ></span>
+                  dangerouslySetInnerHTML={{ __html: handleCarbonStr(tit) }}></span>
               ))}
             </div>
           </div>
@@ -181,8 +188,7 @@ export function MobileHeader(p: HTMLAttributes<HTMLDivElement> & { tits?: [strin
     <div
       id="app_header"
       className={classNames("sticky top-0 z-[3] w-full text-white flex items-center p-4 bg-green-2", className)}
-      {...other}
-    >
+      {...other}>
       <button className="text-[2rem]" onClick={goBack}>
         <IoIosArrowBack />
       </button>

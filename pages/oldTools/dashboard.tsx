@@ -1,3 +1,3 @@
 import UserDashboard from "@components/routes/oldTools/dashboard";
 
-export default UserDashboard
+export default UserDashboard;

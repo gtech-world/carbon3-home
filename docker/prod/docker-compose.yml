@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   aicp-home-prod:
@@ -7,4 +7,4 @@ services:
       dockerfile: docker/prod/Dockerfile
     image: aicp-home-prod
     ports:
-      - '3002:3000'
+      - "3002:3000"

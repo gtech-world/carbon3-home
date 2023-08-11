@@ -1,21 +1,28 @@
 import { UserData } from "@lib/@types/type";
 import { useOn } from "@lib/hooks/useOn";
+import { useT } from "@lib/hooks/useT";
 import { getErrorMsg } from "@lib/utils";
 import { useRouter } from "next/router";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 export interface Toast {
   type: "info" | "error";
   msg: string;
 }
 export interface Store {
+  inited: boolean;
   userData?: UserData;
   toast?: Toast;
   last_input_vin: string;
   isMobile: boolean;
   show_header_tip: boolean;
 }
+export const defStore: Store = {
+  inited: false,
+  last_input_vin: "",
+  isMobile: false,
+  show_header_tip: false,
+};
 
 export function getUserData() {
   const ud = localStorage.getItem("user-data");
@@ -37,10 +44,22 @@ export function useStore() {
   return useContext(StoreContext) as UpStore;
 }
 
+const needLogin = ["/dashboard", "/product", "/activities", "/pcf", "/carbon", "/tools", "/model"];
+const matchPath = (list: string[], target: string) => {
+  if (!target) return false;
+  for (const path of list) {
+    if (target === path || target.startsWith(path + "/")) return true;
+  }
+  return false;
+};
 function Redrect(p: { children?: React.ReactNode }) {
   const { pathname, replace } = useRouter();
-  const { userData } = useStore();
-  if (!userData && ["/dashboard", "/product", "/activities", "/pcf"].includes(pathname)) {
+  const { userData, inited } = useStore();
+  const needToLogin = useMemo(
+    () => inited && !userData && matchPath(needLogin, pathname),
+    [inited, userData, pathname],
+  );
+  if (needToLogin) {
     replace("/login");
     return null;
   }
@@ -49,6 +68,13 @@ function Redrect(p: { children?: React.ReactNode }) {
 
 export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
   const [state, setState] = useState(p.init || {});
+  const unfirst = useRef(false);
+  useEffect(() => {
+    if (unfirst.current) {
+      setState((old) => ({ ...old, ...p.init }));
+    }
+    unfirst.current = true;
+  }, [p.init]);
   const update = useCallback((data: Partial<Store>) => {
     setState((old: any) => ({ ...old, ...data }));
   }, []);
@@ -70,13 +96,16 @@ export function StoreProvider(p: { children?: React.ReactNode; init: Store }) {
 }
 
 export async function initStore() {
+  const start = new Date().getTime();
   const store: Store = {
+    inited: true,
     isMobile: window.innerWidth <= 900,
     last_input_vin: sessionStorage.getItem("last_input_vin") || "",
     show_header_tip: !localStorage.getItem("hidden_header_tip"),
   };
   const ud = getUserData();
   if (ud && new Date().getTime() - ud.loginTime < 1000 * 60 * 60 * 24) store.userData = ud;
+  console.info("initStore:", new Date().getTime() - start);
   return store;
 }
 
@@ -91,21 +120,24 @@ export function useToast() {
     (t?: Toast) => {
       update({ toast: t });
     },
-    [update]
+    [update],
   );
   return { current, toast };
 }
 
 export function useOnError() {
   const { toast } = useToast();
-  const { t } = useTranslation();
-  return useOn((err: any) => {
-    toast({ type: "error", msg: t(getErrorMsg(err)) });
-  });
+  const { t } = useT();
+  return useCallback(
+    (err: any) => {
+      toast({ type: "error", msg: t(getErrorMsg(err)) });
+    },
+    [t, toast],
+  );
 }
 
 export function useUser() {
-  const { userData, update }:any = useStore();
+  const { userData, update }: any = useStore();
   const setUser = useCallback((user?: UserData, login?: boolean) => {
     if (user && login) user.loginTime = new Date().getTime();
     update({ userData: user });
@@ -119,9 +151,9 @@ export function useLastInputVin() {
   const setLastInputVin = useCallback(
     (vin: string) => {
       update({ last_input_vin: vin });
-      vin === '1500101202311001' && sessionStorage.setItem("last_input_vin", vin);
+      vin === "1500101202311001" && sessionStorage.setItem("last_input_vin", vin);
     },
-    [update]
+    [update],
   );
   return { last_input_vin, setLastInputVin };
 }
@@ -133,7 +165,7 @@ export function useShowHeadTip() {
       update({ show_header_tip: show });
       localStorage.setItem("hidden_header_tip", show ? "" : "1");
     },
-    [update]
+    [update],
   );
   return { show_header_tip, setShowHeaderTip };
 }

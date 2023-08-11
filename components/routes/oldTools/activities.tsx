@@ -1,20 +1,19 @@
 import { MobileActivites } from "@components/carbonActivities/mobileActivities";
 import { PcActivities } from "@components/carbonActivities/pcActivities";
 import { useIsMobile } from "@components/common/context";
-import { MainLayout } from "@components/common/mainLayout";
+import { Loading } from "@components/common/loading";
 import { Select } from "@components/common/select";
+import { ToolsLayout } from "@components/common/toolsLayout";
 import { genPhase } from "@components/const";
+import { Phase } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { useProductsState } from "@lib/hooks/useProductsState";
+import { useT } from "@lib/hooks/useT";
 import { getProductActivityDefination } from "@lib/http";
-import { Phase } from "@lib/@types/type";
 import { useMemo } from "react";
-import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
-import {ToolsLayout} from "@components/common/toolsLayout";
 
 export function CarbonActivities() {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { current, items, onChange, current_product, loading: load0 } = useProductsState();
   const isMobile = useIsMobile();
   const { value: list, loading: load1 } = useAsyncM(() => {
@@ -29,7 +28,7 @@ export function CarbonActivities() {
     const phaseList = genPhase();
     const phaseMap: { [k: string]: Phase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
-    list.forEach((p:any) => phaseMap[p.phase]?.processList?.push(p));
+    list.forEach((p: any) => phaseMap[p.phase]?.processList?.push(p));
     return phaseList;
   }, [list]);
   const loading = load0 || load1 || list == undefined;
@@ -41,7 +40,7 @@ export function CarbonActivities() {
         <>
           <div className="text-lg font-medium text-gray-6 mb-5 mo:leading-5 mo:text-[.9375rem]">
             {t(
-              "Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the PCF Inventory."
+              "Carbon Activities are subordinate to Products. Select a Product to view its Carbon Activites accountable for the PCF Inventory.",
             )}
           </div>
           <Select current={current} onChange={onChange} items={items} />

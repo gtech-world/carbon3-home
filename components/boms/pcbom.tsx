@@ -1,16 +1,16 @@
 import { Attrs } from "@components/items/attrs";
+import { ProductBom } from "@lib/@types/type";
 import { useAsyncM } from "@lib/hooks/useAsyncM";
 import { getProductBomActivityTypes } from "@lib/http";
-import { ProductBom } from "@lib/@types/type";
 import classNames from "classnames";
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import { BsDashCircle, BsPlusCircle } from "react-icons/bs";
 //@ts-ignore
+import { Loading } from "@components/common/loading";
+import { useT } from "@lib/hooks/useT";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeTree as MTree } from "react-vtree";
 import { BomUIProps } from "./types";
-import { Loading } from "@components/common/loading";
-import { useTranslation } from "react-i18next";
 
 type SelectState = [ProductBom, (v: ProductBom) => void];
 const CurrentBomSelectContext = createContext<SelectState | undefined>(undefined);
@@ -46,8 +46,7 @@ function PcBomItem(p: any) {
       }}
       className={classNames("flex items-center px-5 py-3 rounded-lg", {
         "text-green-2": node === selectNode,
-      })}
-    >
+      })}>
       {!isLeaf && (
         <button onClick={() => setOpen(!isOpen)} className="text-2xl mr-3">
           {isOpen ? <BsDashCircle /> : <BsPlusCircle />}
@@ -57,8 +56,7 @@ function PcBomItem(p: any) {
         className={classNames("whitespace-nowrap cursor-pointer", {
           "font-bold": nestingLevel === 0,
         })}
-        onClick={() => nestingLevel !== 0 && setSelectNode(node)}
-      >
+        onClick={() => nestingLevel !== 0 && setSelectNode(node)}>
         {name}
       </span>
     </div>
@@ -75,7 +73,7 @@ export function PartInfo(p: { label: string; text: string }) {
 
 export function PartInfos(p: BomUIProps) {
   const { node } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <>
       <PartInfo label={t("Part Name")} text={node.partDisplayName} />
@@ -91,7 +89,7 @@ export function PartInfos(p: BomUIProps) {
 
 export function PcBom(p: BomUIProps) {
   const { node } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   const [selectNode, setSelectNode] = useState(node.children[0]);
   const treeworker = useCallback(
     function* () {
@@ -109,12 +107,12 @@ export function PcBom(p: BomUIProps) {
         }
       }
     },
-    [node]
+    [node],
   );
   const { value: actTypes, loading } = useAsyncM(() => getProductBomActivityTypes(selectNode.id), [selectNode]);
   const currentAttrs = useMemo(() => {
     if (!actTypes) return [];
-    return actTypes.map((item:any) => ({
+    return actTypes.map((item: any) => ({
       title: item.displayName,
       sub: item.name,
     }));
@@ -144,7 +142,7 @@ export function PcBom(p: BomUIProps) {
             <Loading />
           ) : (
             <div className="flex-1 w-full overflow-y-auto">
-              {currentAttrs.map((attr:any, i:number) => (
+              {currentAttrs.map((attr: any, i: number) => (
                 <Attrs key={`attrs_${i}`} {...attr} />
               ))}
             </div>

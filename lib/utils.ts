@@ -81,9 +81,11 @@ export function sleep(t: number = 0) {
     setTimeout(() => resolve(undefined), t);
   });
 }
-export function shortStr(str: string, startLen: number = 6, endLen: number = 6) {
-  const start = str?.substring(0, startLen) || '';
-  const end = str?.substring(str.length - endLen) || '';
+export function shortStr(str?: string, startLen: number = 6, endLen: number = 6) {
+  if (!str) return "";
+  if (str.length <= startLen + endLen) return str;
+  const start = str?.substring(0, startLen) || "";
+  const end = str?.substring(str.length - endLen) || "";
   return `${start}...${end}`;
 }
 
@@ -163,4 +165,12 @@ export const parseRefJson = (_obj: any) => {
 export function ftmMilliTime(time: number | string = new Date().getTime()) {
   const mTime = typeof time === "string" ? toInteger(time) : time;
   return new Date(mTime).toLocaleString().replaceAll("/", "-");
+}
+
+export function tryParse<T>(data: any) {
+  try {
+    return JSON.parse(data) as T;
+  } catch (error) {
+    return undefined;
+  }
 }

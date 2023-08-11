@@ -11,14 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node v16
-        uses: actions/setup-node@v1
-        with:
-          node-version: v16.16.0
-
       - uses: pnpm/action-setup@v2
         with:
           version: 7
+
+      - name: Setup Node v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: v16.16.0
+          cache: 'pnpm'
           
       - name: Run install
         run: pnpm install --frozen-lockfile
@@ -32,7 +33,7 @@ jobs:
           sudo pip install tccli
 
       - name: Config coscmd
-        env: 
+        env:
           SECRET_ID: ${{ secrets.CDN_SECRET_ID }}
           SECRET_KEY: ${{ secrets.CDN_SECRET_KEY }}
           BUCKET: ${{ secrets.CDN_BUCKET }}
@@ -47,4 +48,3 @@ jobs:
         run: |
           coscmd upload -rs --delete -f ./out/ /
           tccli cdn PurgePathCache --cli-unfold-argument --Paths https://aicp.gtech-cn.co/ --FlushType flush
-

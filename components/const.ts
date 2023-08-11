@@ -1,7 +1,7 @@
 import SvgCO2 from "@public/co2.svg";
 import { Phase, SbtPhase } from "@lib/@types/type";
 import { AiOutlineUser } from "react-icons/ai";
-import { FiLayers,FiFileText,FiSettings } from "react-icons/fi";
+import { FiLayers, FiFileText, FiSettings } from "react-icons/fi";
 import { IoCarSportOutline } from "react-icons/io5";
 import { RiPieChartLine } from "react-icons/ri";
 import { InventoryPhase } from "../lib/@types/type";
@@ -36,7 +36,7 @@ export function genSbtPhase(): SbtPhase[] {
 export const CAR_SRC = "/car.png";
 export const ORG_SRC = "/org.png";
 
-export const SupportLngs = ["en-US", "zh-CN"];
+export const SupportLngs = ["zh-CN"];
 export const LngsText: { [k: string]: string } = {
   "en-US": "English",
   "zh-CN": "简体中文",
@@ -73,3 +73,8 @@ export const CARBON_PAGES: CarbonPage[] = [
   { icon: RiPieChartLine, txt: "我的碳资产", to: "" },
   { icon: FiSettings, txt: "用户管理与设定", to: "" },
 ];
+
+export const SIZE = {
+  small: "py-1",
+  big: "py-3",
+};

@@ -12,6 +12,8 @@ export interface SelectProps {
   current: number;
   onChange: (index: number) => void;
   className?: string;
+  currentClassName?: string;
+  openClassName?: string;
 }
 export function useSelectState<T extends SelectItem>(items: T[], initIndex: number = 0): SelectProps {
   const [currentIndex, setCurrentIndex] = useState(initIndex);
@@ -22,7 +24,14 @@ export function useSelectState<T extends SelectItem>(items: T[], initIndex: numb
 }
 
 export function Select(p: SelectProps) {
-  const { items, current, onChange, className } = p;
+  const {
+    items,
+    current,
+    onChange,
+    className = "bg-white text-black px-5 py-3 text-lg rounded-lg w-[31.25rem] mo:w-full mo:text-sm",
+    currentClassName = "flex justify-between items-center",
+    openClassName = "max-h-[18rem] bg-white  rounded-lg py-3 ",
+  } = p;
   const cText = items[current] ? items[current].text : "";
   const [open, onToggle] = useToggle(false);
   const onClickItem = useCallback(
@@ -31,32 +40,26 @@ export function Select(p: SelectProps) {
         onChange(index);
       }
     },
-    [current]
+    [current],
   );
-  const ref = useAutoAnim<HTMLDivElement>('t-side')
+  const ref = useAutoAnim<HTMLDivElement>("t-side");
   // const ref = useRef<HTMLDivElement>(null)
   useClickAway(ref, () => open && onToggle(false));
   if (items.length === 0) return null;
   return (
-    <div
-      ref={ref}
-      className={classNames(
-        "bg-white text-black px-5 py-3 text-lg rounded-lg relative w-[31.25rem] cursor-pointer mo:w-full mo:text-sm",
-        className
-      )}
-      onClick={() => onToggle()}
-    >
-      <div className="flex justify-between items-center">
+    <div ref={ref} className={classNames("relative cursor-pointer", className)} onClick={() => onToggle()}>
+      <div className={currentClassName}>
         <span className="truncate">{cText}</span>
         {open ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
       </div>
       {open && (
-        <div className="max-h-[18rem] absolute left-0 w-full bg-white  rounded-lg py-3 overflow-x-hidden overflow-y-auto"
-             style={{ boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)", top: "calc(100% + 8px)" }}
-        >
-          <div
-            className=""
-          >
+        <div
+          className={classNames("absolute z-[100] left-0 w-full overflow-x-hidden overflow-y-auto", openClassName)}
+          style={{
+            boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.15)",
+            top: "calc(100% + 8px)",
+          }}>
+          <div className="">
             {items.map((item, index) => (
               <div
                 key={`select_item_${index}`}
@@ -66,11 +69,10 @@ export function Select(p: SelectProps) {
                     // backgroundColor: index === current ? "rgba(0,0,0,0.1)" : "transparent",
                   }
                 }
-                className={classNames("w-full break-all px-5 py-2 text-sm", {
+                className={classNames("w-full break-all px-5 py-2 text-sm hover:bg-gray-16", {
                   "text-green-2": index === current,
                 })}
-                onClick={() => onClickItem(index)}
-              >
+                onClick={() => onClickItem(index)}>
                 {item.text}
               </div>
             ))}
@@ -80,3 +82,13 @@ export function Select(p: SelectProps) {
     </div>
   );
 }
+
+export const Select2 = (p: SelectProps) => {
+  return (
+    <Select
+      className="h-[50px] px-5 items-center bg-stone-50 rounded-lg border border-neutral-200"
+      currentClassName="h-full flex justify-between items-center"
+      {...p}
+    />
+  );
+};

@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   aicp-home-beta:
@@ -7,4 +7,4 @@ services:
       dockerfile: docker/beta/Dockerfile
     image: aicp-home-beta
     ports:
-      - '3001:3000'
+      - "3001:3000"

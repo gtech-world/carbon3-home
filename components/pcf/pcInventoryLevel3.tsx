@@ -1,11 +1,11 @@
 import { AttrsFull } from "@components/items/attrs";
 import { InventoryProductProcess } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
-import { useTranslation } from "react-i18next";
 
 export function PcInventoryLevel3(p: { data?: InventoryProductProcess }) {
   const { data } = p;
-  const { t } = useTranslation();
+  const { t } = useT();
   return (
     <div className="bg-white p-5 rounded-lg w-0 flex-1 ml-5">
       <div className="text-base font-semibold leading-normal whitespace-normal">{data?.name}</div>

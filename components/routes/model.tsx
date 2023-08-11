@@ -156,8 +156,10 @@ export function Model() {
               minSize={260}
               snapOffset={1}
               gutterSize={6}
-              gutterStyle={() => ({ backgroundColor: "#f3f3f3", cursor: "col-resize" })}
-            >
+              gutterStyle={() => ({
+                backgroundColor: "#f3f3f3",
+                cursor: "col-resize",
+              })}>
               <div className="flex flex-col overflow-hidden">
                 <div className="border-b border-solid border-b-gray-16">
                   <div className="flex gap-[6px] text-sm w-min leading-[14px] p-[.625rem] bg-gray-bg border border-solid border-gray-14">
@@ -165,7 +167,7 @@ export function Model() {
                     <span className="text-black">Navigation</span>
                   </div>
                 </div>
-                <div className="flex-1 p-3">{!!node && <Nav node={node} />}</div>
+                <div className="flex-1">{!!node && <Nav node={node} />}</div>
               </div>
               <div className="flex flex-col">
                 <Tabs />

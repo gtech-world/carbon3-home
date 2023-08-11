@@ -7,7 +7,7 @@ import { ModelValidPage } from "./modelValidPage";
 import { ParametersPage } from "./parametersPage";
 import { AllocationPage } from "./allocationPage";
 
-export function ProcessView(p: { data: Process, json: any }) {
+export function ProcessView(p: { data: Process; json: any }) {
   const { data, json } = p;
   return (
     <TypeLayout
@@ -16,8 +16,8 @@ export function ProcessView(p: { data: Process, json: any }) {
         "Inputs/Outputs": InputsOutputs,
         "Administrative information": AdminInfoPage,
         "Modeling and validation": ModelValidPage,
-        "Parameters": ParametersPage,
-        "Allocation": AllocationPage,
+        Parameters: ParametersPage,
+        Allocation: AllocationPage,
       }}
       data={data}
     />

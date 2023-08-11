@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 html,
 body,
 .App {
@@ -13,7 +12,8 @@ body,
   margin: 0;
 }
 
-html,body {
+html,
+body {
   overflow-y: auto;
   height: 100%;
 }
@@ -78,6 +78,18 @@ html,body {
 /*  }*/
 /*}*/
 
+@layer components {
+  .btn-primary {
+    @apply h-[50px] whitespace-nowrap text-white text-center px-5 py-2.5 bg-[#29953A] rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer hover:bg-green-700;
+  }
+  .btn-primary-1 {
+    @apply h-[50px] whitespace-nowrap text-green-600 text-center px-5 py-2.5 bg-green-600 bg-opacity-10 rounded-lg border border-green-600 justify-center items-center gap-2.5 inline-flex cursor-pointer hover:bg-opacity-20;
+  }
+  .btn-disable {
+    @apply h-[50px] whitespace-nowrap text-center text-white px-5 py-2.5 bg-stone-300 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-not-allowed;
+  }
+}
+
 img:not([src]),
 img[src=""] {
   opacity: 0;
@@ -100,13 +112,41 @@ img[src=""] {
   stroke: currentColor !important;
 }
 
-.svg-purple path{
-  stroke: #9C27B0
+.svg-purple path {
+  stroke: #9c27b0;
 }
-.svg-blue path{
-  stroke: #0084FF
+.svg-blue path {
+  stroke: #0084ff;
 }
 .split .gutter {
   width: 6px;
   cursor: col-resize;
+}
+input {
+  padding-left: 10px;
+  outline: none;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  background-image: url("../public/select.svg");
+  background-repeat: no-repeat;
+  background-position: 97% 50%;
+  padding-right: -50px;
+  padding-left: 10px;
+}
+button[disabled] {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+#view:nth-child(odd) {
+  background-color: #f3f3f3;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
 }

@@ -1,102 +1,286 @@
-import {ToolsLayout} from "@components/common/toolsLayout";
-import React, {useMemo, useState} from "react";
-import {Table} from "@components/common/table";
-import {Pagination} from "@components/common/pagination";
-import {useAsyncM} from "@lib/hooks/useAsyncM";
-import {getLcaResultList, noArgs} from "@lib/http";
+import AButton from "@components/common/aButton";
+import { Button } from "@components/common/button";
+import { Pagination } from "@components/common/pagination";
+import { Table } from "@components/common/table";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { RealData } from "@components/modal/RealData";
+import { useUnVerifier } from "@lib/hooks/useUser";
+import { getResultList } from "@lib/http";
+import { shortStr } from "@lib/utils";
+import classNames from "classnames";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { handleContentRender, scrollToTop } from "utils";
+import InventoryResultModal from "./inventoryResultModal";
 
+type RealDataType = Pick<InventoryController.Records, "param" | "paramDetail">;
 export function Inventory() {
-  const [pgNum,setPgNum] = useState(1)
-  const [tableData,setTableData] = useState([])
-  const columns = [
-    {
-      title: "产品批次号",
-      dataIndex: 'loadNumber',
-      width: '14rem',
-      render:(text:string)=>{
-        return(
-          <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
-        )
-      }
-    },
-    {
-      title: "产品名称",
-      dataIndex: 'productName',
-      width: '14rem',
-      render: (text:string)=>{
-        return <span className="max-w-[14rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
-      }
-    },
-    {
-      title: "模型名称",
-      dataIndex: 'modelName',
-      width: '12.5rem',
-      render:(text:string)=>{
-        return <span className="max-w-[12.5rem] truncate inline-block" data-tooltip-id="tooltip" data-tooltip-content={text}>{text}</span>
-      }
-    },
-    // {
-    //   title: "描述",
-    //   dataIndex: 'description',
-    //   emptyText:'-'
-    // },
-    {
-      title: "报告时间",
-      width: '12rem',
-      dataIndex: 'createTime',
-    },
-    {
-      title: "",
-      width: '7.2rem',
-      render: (text:string,record:any)=>{
-        return(
-          <div className="flex justify-between text-green-2">
-              <span className="cursor-pointer" onClick={()=>window.open(`/tools/inventoryResult?id=${record.id}`, "_blank")}>碳足迹结果</span>
-          </div>
-        )
-      }
-    },
-  ]
-  const { value, loading } = useAsyncM(
-    noArgs(() => getLcaResultList({pgNum}), [pgNum]),
-    [pgNum]
+  const [pgNum, setPgNum] = useState(1);
+  const [tableData, setTableData] = useState<Partial<InventoryController.InventoryList>>({});
+  const [openResultModal, setOpenResultModal] = useState<boolean>(false);
+  const [openViewRealDataModal, setOpenViewRealDataModal] = useState<boolean>(false);
+  const paramDetailRef = useRef<InventoryController.ParamDetailType>({ inputData: "", data: "" });
+  const [tableLoading, setTableLoading] = useState<boolean>(true);
+
+  const onViewRealDataModal = (data: RealDataType) => {
+    const { param, paramDetail } = data;
+    paramDetailRef.current = { inputData: param, data: paramDetail };
+    setOpenViewRealDataModal(true);
+  };
+
+  const columns = useMemo(
+    () => [
+      {
+        title: "碳足迹批次",
+        dataIndex: "loadName",
+        width: "180px",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-place="top-start"
+              data-tooltip-content={handleContentRender(text, 9)}
+              className="w-[180px] font-normal  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
+          );
+        },
+      },
+      {
+        title: "实景数据",
+        dataIndex: "productName",
+        width: "6rem",
+        render: (text: string, render: any) => {
+          return (
+            <div
+              className="flex justify-center text-lg leading-[27px]  w-[8rem] bg-[#F1F1F1] rounded"
+              onClick={() => onViewRealDataModal(render)}>
+              <span className="cursor-pointer ">查看实景数据</span>
+            </div>
+          );
+        },
+      },
+      {
+        title: "批次结果ID",
+        dataIndex: "loadNumber",
+        width: "8rem",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className=" text-lg leading-[27px] w-[13rem]  truncate inline-block">
+              {shortStr(text, 8, 8)}
+            </span>
+          );
+        },
+      },
+
+      {
+        title: "产品系统名称",
+        width: "2rem",
+        dataIndex: "productName",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={handleContentRender(text, 15)}
+              data-tooltip-id="tooltip"
+              className=" text-lg  truncate inline-block leading-[27px] max-w-[14rem] ">
+              {text}
+            </span>
+          );
+        },
+      },
+      {
+        title: "系统产品ID",
+        width: "7rem",
+        dataIndex: "productUuid",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={text}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg leading-[27px]  truncate inline-block">
+              {shortStr(text, 8, 8)}
+            </span>
+          );
+        },
+      },
+      {
+        title: "产品系统版本",
+        width: "1rem",
+        dataIndex: "productVersion",
+        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[1rem] ">{text}</span>,
+      },
+      {
+        title: "描述",
+        dataIndex: "productDescription",
+        width: "18.75rem",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-content={handleContentRender(text, 11)}
+              data-tooltip-id="tooltip"
+              className="w-[13rem]  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
+          );
+        },
+      },
+      {
+        title: "操作人",
+        dataIndex: "operator",
+        width: "6.25rem",
+        render: (text: string) => (
+          <span
+            data-tooltip-content={handleContentRender(text, 19)}
+            data-tooltip-id="tooltip"
+            className=" truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
+      },
+      {
+        title: "生成时间",
+        dataIndex: "calculateSuccessTime",
+        width: "18.625rem",
+        render: (text: string) => {
+          return <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">{text}</span>;
+        },
+      },
+      {
+        title: "碳足迹结果",
+        dataIndex: "description",
+        width: "8.125rem",
+        render: (text: string, record: InventoryController.Records) => {
+          return (
+            <div
+              className={classNames("flex justify-between", {
+                "text-[#FF9800] ": record.state === 0,
+                "text-green-2 ": record.state === 1,
+                "text-[red] ": record.state === -1,
+              })}>
+              <AButton
+                className="cursor-pointer text-lg leading-[27px]"
+                href={record.state === 1 && `/tools/inventoryResult?id=${record.loadNumber}`}>
+                {record.state === 0 ? "等待计算" : record.state === 1 ? "查看结果" : "计算失败"}
+              </AButton>
+            </div>
+          );
+        },
+      },
+      {
+        title: "组织名称",
+        dataIndex: "orgName",
+        width: "8.125rem",
+        render: (text: string) => (
+          <span
+            data-tooltip-content={handleContentRender(text, 11)}
+            data-tooltip-id="tooltip"
+            className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
+      },
+      {
+        title: "组织编号",
+        dataIndex: "orgSerialNumber",
+        width: "8.125rem",
+        emptyText: "-",
+        render: (text: string) => (
+          <span
+            data-tooltip-id="tooltip"
+            data-tooltip-content={handleContentRender(text, 11)}
+            className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
+            {text}
+          </span>
+        ),
+      },
+    ],
+    [],
   );
-  useMemo(()=>{
-    if(!value?.records) return []
-    console.log(JSON.parse(value.records[0].lcaResult))
-    let arr:any = []
-    value.records.map((v:any)=>{
-      arr.push({
-        id: v.id,
-        createTime: v.createTime,
-        loadNumber: v.loadNumber,
-        productName: v.product.name,
-        modelName: v.model.modelName,
-        description: v.model.description
-      })
-    })
-    setTableData(arr)
-  },[value])
+
+  const getList = useCallback(async () => {
+    try {
+      const res = await getResultList(pgNum);
+      setTableData(res);
+      setTableLoading(false);
+    } catch (e) {
+      console.log("eeee", e);
+    }
+  }, [pgNum]);
+
+  useEffect(() => {
+    getList();
+    const intervalId = setInterval(() => {
+      getList();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [getList]);
+  const unVerifier = useUnVerifier();
+
   return (
-    <ToolsLayout className="text-black flex flex-col justify-between flex-1">
-      <div>
-        <h3 className="text-2xl font-semibold mt-8">产品碳足迹实景清单管理</h3>
-        <div className="w-full  bg-white p-5 mt-5 rounded-2xl">
-          <div className="mt-5 pb-6 overflow-x-auto">
+    <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
+      <div className="">
+        <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
+          <span>我的产品碳足迹结果</span>
+          {unVerifier && (
+            <Button
+              onClick={() => setOpenResultModal(true)}
+              className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
+              新建碳足迹结果
+            </Button>
+          )}
+        </h3>
+        <div className="w-full p-5 mt-5 bg-white rounded-2xl">
+          <div className="pb-6 mt-5 overflow-x-auto">
             <div className="text-base leading-[1.625rem] min-w-[62.25rem]">
-              <Table columns={columns}
-                     cellClassName={(item:any,cellIndex:number,rowIndex:number)=>(rowIndex % 2=== 0 ? `bg-gray-16 ${cellIndex === 0 && 'rounded-l-lg'} ${cellIndex === (columns.length-1) && 'rounded-r-lg'}`:'')}
-                     data={tableData}
-                     loading={loading}
-                     className=""
-                     headerStyle={{background:'#fff'}}
+              <Table
+                loading={tableLoading}
+                columns={columns}
+                columnsHeight={"h-[3.125rem] "}
+                mouseHoverKey="loadNumber"
+                columnsClassName=" cursor-default "
+                data={tableData?.records || []}
+                className=""
+                headerClassName={{
+                  background: "#fff",
+                  fontWeight: "700",
+                  fontSize: "18px",
+                  lineHeight: "27px",
+                  height: "3.125rem",
+                }}
               />
             </div>
           </div>
         </div>
-
       </div>
-      <Pagination className="my-8" onChange={(v:any)=>{setPgNum(v)}} total={value?.total?value.total:0} pgSize={10} pgNum={pgNum} />
+      <Pagination
+        className="my-8"
+        onChange={(v: any, count?: number) => {
+          setPgNum(v);
+          if (v === 1 || !count) return;
+          setTableLoading(true);
+          scrollToTop();
+        }}
+        total={tableData.total || 0}
+        pgSize={10}
+        pgNum={pgNum}
+      />
+
+      {openResultModal && (
+        <InventoryResultModal
+          openResultModal={() => setOpenResultModal(false)}
+          getList={() => {
+            setPgNum(1);
+          }}
+        />
+      )}
+      {openViewRealDataModal && (
+        <RealData {...paramDetailRef.current} onClose={() => setOpenViewRealDataModal(false)} />
+      )}
     </ToolsLayout>
   );
 }

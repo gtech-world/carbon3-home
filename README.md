@@ -8,3 +8,17 @@ First, run the development server:
 pnpm install
 pnpm dev
 ```
+
+
+### Custom className use *ClassName and config extension 
+
+VSCode Tailwind CSS IntelliSense:
+ 
+```json
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    ".*ClassName"
+  ]
+```   

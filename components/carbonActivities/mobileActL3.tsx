@@ -1,16 +1,16 @@
 import { Modal } from "@components/common/modal";
 import { AttrsFull } from "@components/items/attrs";
 import { InventoryProductProcess, ProductProcess } from "@lib/@types/type";
+import { useT } from "@lib/hooks/useT";
 import { ftmCarbonEmission } from "@lib/utils";
 import { MouseEventHandler } from "react";
-import { useTranslation } from "react-i18next";
 import { IoChevronBackOutline } from "react-icons/io5";
 
 export function MobileActL3(p: {
   data: ProductProcess | InventoryProductProcess;
   onBack: MouseEventHandler<HTMLButtonElement>;
 }) {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { data, onBack } = p;
   const iData = data as InventoryProductProcess;
   return (
@@ -30,7 +30,7 @@ export function MobileActL3(p: {
         </div>
         {iData.carbon_emission !== undefined && (
           <div className="text-sm mt-[.625rem] text-gray-6">{`${t("Total")}: ${ftmCarbonEmission(
-            iData.carbon_emission
+            iData.carbon_emission,
           )} / ${iData.activityTypes.length} ${t("items")}`}</div>
         )}
         <div className="w-full mt-5">

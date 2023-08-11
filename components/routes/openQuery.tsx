@@ -2,13 +2,13 @@ import { Button } from "@components/common/button";
 import { useIsMobile, useOnError } from "@components/common/context";
 import { HeaderLayout } from "@components/common/headerLayout";
 import { useGoBack } from "@lib/hooks/useGoBack";
+import { useT } from "@lib/hooks/useT";
 import SvgQuery from "@public/query.svg";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 export function OpenQuery() {
-  const {t} = useTranslation()
+  const { t } = useT();
   const onBack = useGoBack();
   const [vin, setVin] = useState("");
   const onVinChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -20,11 +20,11 @@ export function OpenQuery() {
     if (!vin) return onError("Please input VIN Code");
     push(`car?vin=${vin}`);
   };
-  const onVinFocus = ()=>{
-    if(!vin){
-      setVin('1500101202311001')
+  const onVinFocus = () => {
+    if (!vin) {
+      setVin("1500101202311001");
     }
-  }
+  };
   const isMobile = useIsMobile();
   return (
     <HeaderLayout className="flex flex-col items-center text-black ">
@@ -67,8 +67,7 @@ export function OpenQuery() {
           />
           <Button
             onClick={onQuery}
-            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2"
-          >
+            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2">
             {t("Query")}
           </Button>
         </div>

@@ -1,23 +1,22 @@
-import { initStore, Store, StoreProvider } from "@components/common/context";
+import { defStore, initStore, Store, StoreProvider } from "@components/common/context";
 import { HeaderTip } from "@components/common/headerTip";
-import { LoadingFull } from "@components/common/loading";
 import { modalRootRef } from "@components/common/modal";
 import { Toast } from "@components/common/toast";
-import { SupportLngs } from "@components/const";
 import "@lib/env";
+import { i18n } from "@lib/i18n";
 import { Open_Sans } from "@next/font/google";
 import classNames from "classnames";
-import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
+import moment from "moment";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import React, { useEffect, useRef, useState } from "react";
-import { I18nextProvider, I18nextProviderProps, initReactI18next } from "react-i18next";
+import React, { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
-import 'react-tooltip/dist/react-tooltip.css';
+import "react-tooltip/dist/react-tooltip.css";
 import "../styles/globals.css";
-
+import { I18nextProvider } from "react-i18next";
+import { SWRConfig } from "swr/_internal";
+import axios from "axios";
+import { authGetResData } from "@lib/http";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -28,75 +27,45 @@ const open_sans = Open_Sans({
 
 const font_classes = [open_sans].map((f) => f.variable).join(" ");
 
-async function initI18n() {
-  return await new Promise<I18nextProviderProps["i18n"]>((resolve) => {
-    const ns = ["frontend", "backend"];
-    i18n
-      .use(Backend)
-      .use(LanguageDetector)
-      .use(initReactI18next)
-      .init({
-        initImmediate: false,
-        load: "currentOnly",
-        preload: SupportLngs,
-        supportedLngs: SupportLngs,
-        ns: ns,
-        fallbackLng: SupportLngs[0],
-        defaultNS: ns[0],
-        lng:'zh-CN',
-        backend: {
-          loadPath: "https://static-i18n.gtech-cn.co/I18N/{{lng}}/{{ns}}.json",
-          crossDomain: true,
-        },
-      });
-    i18n.on("loaded", (data) => {
-      let loaded = 0;
-      SupportLngs.forEach((lng) => {
-        ns.forEach((ns) => {
-          if (data[lng] && data[lng][ns]) loaded++;
-        });
-      });
-      if (loaded === SupportLngs.length * ns.length) {
-        resolve(i18n);
-        const data = i18n.store.data["zh-CN"].frontend as any;
-        if (data) data["{{value}} with authenticated account*"] = "使用经认证的专业账户*</br>{{value}}";
-      }
-    });
-  });
-}
-
 function InitProvider(p: { children: React.ReactNode }) {
-  const [data, setData] = useState<[I18nextProviderProps["i18n"], Store]>();
+  const [_store, setStore] = useState<Store>(defStore);
   useEffect(() => {
     modalRootRef.current = document.body as any;
-    Promise.all([initI18n(), initStore()]).then(setData);
+    initStore().then(setStore);
   }, []);
-  if (!data) return <LoadingFull />;
-  const [i18n, store] = data;
-  setTimeout(() => {
-    // @ts-ignore
-    i18n.language === 'zh-CN' && import('moment/locale/zh-cn').then(() => {})
-  }, 200);
+  useEffect(() => {
+    i18n.language === "zh-CN" && moment.locale("zh-CN");
+  }, [i18n]);
   return (
     <I18nextProvider i18n={i18n}>
-      <StoreProvider init={store}>{p.children}</StoreProvider>
+      <SWRConfig
+        value={{
+          revalidateOnFocus: false,
+          errorRetryCount: 3,
+          fetcher: authGetResData,
+        }}>
+        <StoreProvider init={_store}>{p.children}</StoreProvider>
+      </SWRConfig>
     </I18nextProvider>
   );
 }
 
-function InitToolTip(){
-  const [isMounted,setIsMounted] = useState(false);
+function InitToolTip() {
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
-  },[]);
-  return(
-    isMounted ?
-      <Tooltip
-        className="z-[999999] break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
-        style={{ backgroundColor: "rgb(255, 255, 255,1)",opacity:1, color: "#222" }}
-        id="tooltip"
-      />:null
-  )
+  }, []);
+  return isMounted ? (
+    <Tooltip
+      className="z-[999999]  break-all shadow-[0_10px_10px_0_rgba(0,0,0,0.3)] border border-[#eee] max-w-[22.5rem]"
+      style={{ backgroundColor: "rgb(255, 255, 255,1)", color: "#222" }}
+      id="tooltip"
+      opacity={1}
+      closeOnScroll={true}
+      closeOnResize={true}
+      delayHide={100}
+    />
+  ) : null;
 }
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -108,7 +77,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <InitProvider>
-        <HeaderTip/>
+        <HeaderTip />
         <Component {...pageProps} />
         <Toast />
       </InitProvider>

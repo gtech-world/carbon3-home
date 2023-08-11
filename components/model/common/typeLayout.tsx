@@ -23,9 +23,8 @@ export function TypeLayout(p: { map: { [k: string]: FC<{ data: any }> | { json: 
               {
                 "text-green-2 border-transparent": item === tab,
                 "text-black": item !== tab,
-              }
-            )}
-          >
+              },
+            )}>
             {item}
           </div>
         ))}

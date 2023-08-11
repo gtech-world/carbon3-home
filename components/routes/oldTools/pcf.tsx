@@ -2,12 +2,13 @@ import { PartInfo } from "@components/boms/pcbom";
 import { useIsMobile, useOnError } from "@components/common/context";
 import { Empty } from "@components/common/empty";
 import { Loading } from "@components/common/loading";
-import { MainLayout } from "@components/common/mainLayout";
+import { ToolsLayout } from "@components/common/toolsLayout";
 import { CAR_SRC, genInventoryPhase } from "@components/const";
 import { MobileInventoryBreakdown } from "@components/pcf/mobileInventoryBreakdown";
 import { PcInventoryBreakdown } from "@components/pcf/pcInventoryBreakdown";
 import { InventoryPhase } from "@lib/@types/type";
 import { useOn } from "@lib/hooks/useOn";
+import { useT } from "@lib/hooks/useT";
 import { getPCFInventory, getProductByVIN } from "@lib/http";
 import { ftmCarbonEmission } from "@lib/utils";
 import SvgCO2e from "@public/co2e.svg";
@@ -15,10 +16,8 @@ import SvgLoop from "@public/loop.svg";
 import SvgQuality from "@public/quality.svg";
 import { useRouter } from "next/router";
 import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { FiSearch } from "react-icons/fi";
 import { useAsyncFn, useToggle } from "react-use";
-import {ToolsLayout} from "@components/common/toolsLayout";
 
 function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   const { icon, tit, txt } = p;
@@ -34,7 +33,7 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
 }
 
 export function PCF() {
-  const { t } = useTranslation();
+  const { t } = useT();
   const { query } = useRouter();
   const qVin = query["vin"] as string;
   const [loaded, setLoaded] = useToggle(false);
@@ -43,7 +42,7 @@ export function PCF() {
   const onError = useOnError();
   const [{ value: [pcfData, productInfo] = [undefined, undefined], loading }, doGet] = useAsyncFn(
     (vin: string) => Promise.all([getPCFInventory(vin), getProductByVIN(vin)]),
-    []
+    [],
   );
   const onVinChange = useCallback<ChangeEventHandler<HTMLInputElement>>((e) => {
     setVin(e.target.value || "");
@@ -55,9 +54,9 @@ export function PCF() {
     doGet(mVin)
       .then((value) => {
         if (value[0]) {
-          setVinResult(mVin)
+          setVinResult(mVin);
           sessionStorage.setItem("last_vin", mVin);
-        }else {
+        } else {
           sessionStorage.removeItem("last_vin");
         }
       })
@@ -66,14 +65,14 @@ export function PCF() {
         setLoaded(true);
       });
   });
-  const onVinFocus = ()=>{
-    if(vin) return false
+  const onVinFocus = () => {
+    if (vin) return false;
     const lastVin = sessionStorage.getItem("last_vin") || "1500101202311001";
     const mVin = lastVin;
-      if (mVin) {
-        setVin(mVin);
-      }
-  }
+    if (mVin) {
+      setVin(mVin);
+    }
+  };
   useEffect(() => {
     const lastVin = sessionStorage.getItem("last_vin") || "";
     const mVin = qVin || lastVin;
@@ -89,11 +88,11 @@ export function PCF() {
     const phaseMap: { [k: string]: InventoryPhase } = {};
     phaseList.forEach((item) => (phaseMap[item.name] = item));
     let total = 0;
-    pcfData.forEach((p:any) => {
+    pcfData.forEach((p: any) => {
       p.carbon_emission = 0;
-      p.activityTypes.forEach((act:any) => {
+      p.activityTypes.forEach((act: any) => {
         act.carbon_emission = 0;
-        act.inventoryActivityList.forEach((iAct:any) => {
+        act.inventoryActivityList.forEach((iAct: any) => {
           act.carbon_emission += iAct.ghgEmission;
           total += iAct.ghgEmission;
         });

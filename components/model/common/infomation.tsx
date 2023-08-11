@@ -15,7 +15,12 @@ export function Infomation(p: { infos: ([string, ReactNode] | ReactNode)[]; titl
         <div className="mt-3 grid grid-cols-[auto_1fr] gap-x-5 gap-y-[10px] text-sm text-black">
           {infos.map((item, i) => {
             const isSingle = !(item as [string, ReactNode]).length;
-            if (isSingle) return <div key={`infomation_${i}`} className="col-span-2">{item}</div>;
+            if (isSingle)
+              return (
+                <div key={`infomation_${i}`} className="col-span-2">
+                  {item}
+                </div>
+              );
             const [tit, content] = item as [string, ReactNode];
             return (
               <Fragment key={`infomation_${i}`}>

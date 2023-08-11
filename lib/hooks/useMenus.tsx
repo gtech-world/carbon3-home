@@ -1,33 +1,43 @@
-import {useRouter} from "next/router";
-import {useTranslation} from "react-i18next";
-import {useMemo} from "react";
-import {FiHome, FiLogIn, FiLogOut, FiSearch} from "react-icons/fi";
-import {VscAccount} from "react-icons/vsc";
-import {handleCarbonStr} from "@lib/utils";
-import {CARBON_PAGES} from "@components/const";
-import {useIsMobile, useUser} from "@components/common/context";
-import {MenuItem} from "@components/common/poper";
+import { useIsMobile, useUser } from "@components/common/context";
+import { MenuItem } from "@components/common/poper";
+import { CARBON_PAGES } from "@components/const";
+import { handleCarbonStr } from "@lib/utils";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
+import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
+import { VscAccount } from "react-icons/vsc";
+import { useT } from "./useT";
 
-export function useMenus(data:any[] = []) {
+export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
   const { user, setUser } = useUser();
   const { push, pathname } = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useT();
   const lng = i18n.language;
   return useMemo(() => {
     const menus: MenuItem[] = [];
     menus.push({ icon: <FiHome />, text: t("AICP Home"), to: "/" });
-    menus.push({ icon: <FiSearch />, text: t("AICP Open Query"), to: "/openquery" });
+    menus.push({
+      icon: <FiSearch />,
+      text: t("AICP Open Query"),
+      to: "/openquery",
+    });
     if (user && !data.find((item) => item.to === pathname)) {
-      menus.push({ icon: <VscAccount />, text: handleCarbonStr(t("AICP Digital3 Carbon System")), to: CARBON_PAGES[0].to });
+      menus.push({
+        icon: <VscAccount />,
+        text: handleCarbonStr(t("AICP Digital3 Carbon System")),
+        to: CARBON_PAGES[0].to,
+      });
     }
     if (isMobile && user) {
-      data.map<MenuItem>((item) => ({
-        icon: <item.icon />,
-        text: t(item.txt),
-        to: item.to,
-        selected: pathname === item.to,
-      })).forEach((item) => menus.push(item));
+      data
+        .map<MenuItem>((item) => ({
+          icon: <item.icon />,
+          text: t(item.txt),
+          to: item.to,
+          selected: pathname === item.to,
+        }))
+        .forEach((item) => menus.push(item));
     }
     // menus.push({
     //   topSplit: true,

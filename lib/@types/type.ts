@@ -12,6 +12,7 @@ export interface Organization {
   sitList: Site[];
   createTime: string;
   updateTime: string;
+  serialNumber: string;
 }
 
 export interface UserData {
@@ -156,7 +157,7 @@ export interface SbtEmissionInventory {
 }
 
 export interface SbtDetail {
-  sbtTokenId: string
+  sbtTokenId: string;
 }
 
 export interface SbtPhase {

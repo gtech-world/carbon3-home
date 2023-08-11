@@ -10,6 +10,6 @@ export function useOn<T extends (...args: any[]) => any>(fn: T) {
     ((...args: any[]) => {
       return ref.current && ref.current(...args);
     }) as T,
-    []
+    [],
   );
 }
