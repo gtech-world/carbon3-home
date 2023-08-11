@@ -4,7 +4,7 @@ import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useT } from "@lib/hooks/useT";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useHeaderTipHeight } from "../headerTip";
 
 interface IMenu {
@@ -17,11 +17,18 @@ function useCarbonMenus() {
   return useMemo<IMenu[]>(() => CARBON_PAGES.map((item) => ({ ...item, txt: t(item.txt) })), [t]);
 }
 export const CarbonLayout: FC<{ className: any; children: any }> = ({ className, children, ...props }) => {
-  const { push, pathname } = useRouter();
+  const { push, pathname, prefetch } = useRouter();
   const menus = useCarbonMenus();
   const ref = useAutoAnim<HTMLDivElement>();
   const h = useHeaderTipHeight();
-
+  useEffect(() => {
+    menus.forEach((item) => {
+      item.to &&
+        prefetch(item.to)
+          .then(() => console.info(item.to, ":prefetch:success"))
+          .catch(console.error);
+    });
+  }, []);
   return (
     <div className="relative flex flex-col flex-1 w-full bg-gray-16">
       <CarbonHeader
