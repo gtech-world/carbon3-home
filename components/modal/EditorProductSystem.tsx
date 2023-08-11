@@ -3,14 +3,20 @@ import { useStore } from "@components/common/context";
 import { Dropdown } from "@components/common/dropdown";
 import { Loading } from "@components/common/loading";
 import { Modal, ModalProps } from "@components/common/modal";
+import { ProduceSystemController } from "@lib/@types/produceSystem";
+import { Organization } from "@lib/@types/type";
 import { useProductSystem } from "@lib/hooks/useDatas";
 import { useOn } from "@lib/hooks/useOn";
+import { useIsVerifier } from "@lib/hooks/useUser";
 import { uploadLcaModel, upsertLcaProduct } from "@lib/http";
+import { shortStr } from "@lib/utils";
 import classNames from "classnames";
+import _ from "lodash";
 import {
   ChangeEvent,
   ChangeEventHandler,
   InputHTMLAttributes,
+  MouseEvent,
   MouseEventHandler,
   ReactNode,
   useCallback,
@@ -18,15 +24,10 @@ import {
   useMemo,
   useRef,
   useState,
-  MouseEvent,
 } from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
-import _ from "lodash";
-import { shortStr } from "@lib/utils";
-import { useIsVerifier } from "@lib/hooks/useUser";
-import { Organization } from "@lib/@types/type";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -202,7 +203,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   }, [ps]);
   const isVerifier = useIsVerifier();
   return (
-    <Modal title={ps?.name || ""} {...props}>
+    <Modal {...props}>
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
       {ps && (
         <>

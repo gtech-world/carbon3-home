@@ -21,7 +21,9 @@ export function ModalHeader(p: {
         "flex items-center justify-between pb-6 mb-6 text-xl font-bold border-b mt-2.5 mx-5",
         containerClassName,
       )}>
-      <span className={titleClassName}>{title}</span>
+      <span className={classNames("max-w-[70%] overflow-hidden text-ellipsis whitespace-nowrap", titleClassName)}>
+        {title}
+      </span>
       <FiX
         onClick={(e) => {
           e.stopPropagation();

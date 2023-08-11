@@ -379,6 +379,7 @@ export function Model() {
       {editorProductSystem && (
         <EditorProductSystem
           psId={editorProductSystem.id}
+          title={editorProductSystem.name}
           onClose={() => setEditorProductSystem(undefined)}
           onSuccess={() => queryLcaProductList()}
         />
