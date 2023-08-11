@@ -20,7 +20,7 @@ export function ViewProductSystem(p: ModalProps & { ps: ProduceSystemController.
           value={<LcaActionInfo modelId={ps.model?.id} modelStatus={ps.model?.state} isRead={true} />}
         />
         <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
-        <OrganizationInfo organization={ps.organization} />
+        <OrganizationInfo organization={ps.org} />
       </div>
       {realModal && <RealData data={ps.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
     </Modal>

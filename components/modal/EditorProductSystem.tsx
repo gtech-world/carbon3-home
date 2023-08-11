@@ -254,7 +254,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
               }
             />
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
-            <OrganizationInfo />
+            <OrganizationInfo organization={ps?.org} />
           </div>
           <div className={classNames("flex flex-col gap-2.5 mt-5 px-5", { hidden: isVerifier })}>
             <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>

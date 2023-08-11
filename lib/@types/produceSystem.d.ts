@@ -14,8 +14,7 @@ declare namespace ProduceSystemController {
     imageUrl?: number;
     model?: ModelInfo;
     name?: string;
-    org?: string;
-    organization?: Organization
+    org?: Organization;
     orgId: number;
     partNumber?: number;
     state?: number;
