@@ -188,8 +188,8 @@ export function Inventory() {
         emptyText: "-",
         render: (text: string) => (
           <span
-            data-tooltip-content={text}
             data-tooltip-id="tooltip"
+            data-tooltip-content={handleContentRender(text, 11)}
             className="truncate inline-block text-lg leading-[27px] max-w-[14rem] ">
             {text}
           </span>
