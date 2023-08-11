@@ -277,15 +277,22 @@ export function Model() {
 
   const onSuccess = () => {
     setPgNum(1);
+    if (pgNum === 1) {
+      queryLcaProductList();
+    }
   };
 
   const onChangeColumn = (item: ProduceSystemController.ListRecords) => {
     setEditorProductSystem(item);
   };
   return (
-    <ToolsLayout isNew={true} className="flex flex-col justify-between flex-1 pb-12 text-black ">
+    <ToolsLayout
+      isNew
+      canBack
+      link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "产品碳足迹模型管理工具" }}
+      className="flex flex-col justify-between flex-1 pb-12 text-black ">
       <div className="">
-        <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
+        <h3 className="flex items-center justify-between text-2xl font-semibold">
           <span>我的产品系统</span>
           {/*@ts-ignore*/}
           {unVerifier && (

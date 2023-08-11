@@ -222,9 +222,13 @@ export function Inventory() {
   const unVerifier = useUnVerifier();
 
   return (
-    <ToolsLayout isNew className="flex flex-col justify-between flex-1 text-black ">
+    <ToolsLayout
+      isNew
+      className="flex flex-col justify-between flex-1 text-black "
+      canBack
+      link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "产品碳足迹实景清单工具" }}>
       <div className="">
-        <h3 className="flex items-center justify-between mt-8 text-2xl font-semibold">
+        <h3 className="flex items-center justify-between text-2xl font-semibold">
           <span>我的产品碳足迹结果</span>
           {unVerifier && (
             <Button
@@ -275,6 +279,9 @@ export function Inventory() {
           openResultModal={() => setOpenResultModal(false)}
           getList={() => {
             setPgNum(1);
+            if (pgNum === 1) {
+              getList();
+            }
           }}
         />
       )}
