@@ -26,7 +26,7 @@ export function VerificationManagementList() {
   }>();
 
   const onViewFile = (data: any) => {
-    viewFileRef.current = data?.attachmentFileList;
+    viewFileRef.current = data;
     setOpenViewFileModal(true);
   };
   const onOpenModal = useCallback(
@@ -134,7 +134,7 @@ export function VerificationManagementList() {
         render: (text: string, record: any) => {
           return (
             <div
-              onClick={() => onViewFile(record)}
+              onClick={() => onViewFile(record.attachmentFileList)}
               className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">文件夹</div>
@@ -167,7 +167,7 @@ export function VerificationManagementList() {
         render: (text: string, record: ListType) => {
           return record.verifyFileList.length ? (
             <div
-              onClick={() => onViewFile(record)}
+              onClick={() => onViewFile(record.verifyFileList)}
               className="w-[112px] flex flex-row bg-[#F1F1F1] justify-center rounded">
               <img src="/vector_icon.svg" />
               <div className="ml-2 ">文件夹</div>
