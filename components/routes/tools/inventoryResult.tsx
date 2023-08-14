@@ -623,8 +623,6 @@ export function InventoryResult() {
     const res = await getLcaResultDetail(query.id);
     if (!res) return;
     setValue(res && res);
-    console.log("vafadas", value);
-
     setLoading(false);
   };
 
