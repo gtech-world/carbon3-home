@@ -1,22 +1,19 @@
-import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { Button } from "@components/common/button";
-import { BsCaretUpFill } from "react-icons/bs";
-import classNames from "classnames";
 import Chart from "@components/common/Chart";
-import { Table } from "@components/common/table";
-import { GrDocumentConfig } from "react-icons/gr";
-import { FiSettings } from "react-icons/fi";
-import { RiLeafLine } from "react-icons/ri";
-import { FaFolder } from "react-icons/fa";
-import { CgRuler } from "react-icons/cg";
-import { useAsyncM } from "@lib/hooks/useAsyncM";
-import { exportLcaResultExcel, getLcaResultDetail, noArgs } from "@lib/http";
-import { parseRefJson } from "@lib/utils";
-import { result } from "lodash";
-import { useRouter } from "next/router";
+import { Button } from "@components/common/button";
 import { Loading } from "@components/common/loading";
-import { useIsMobile } from "@components/common/context";
+import { Table } from "@components/common/table";
+import { ToolsLayout } from "@components/common/toolsLayout";
+import { exportLcaResultExcel, getLcaResultDetail } from "@lib/http";
+import { parseRefJson } from "@lib/utils";
+import classNames from "classnames";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
+import { BsCaretUpFill } from "react-icons/bs";
+import { CgRuler } from "react-icons/cg";
+import { FaFolder } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
+import { GrDocumentConfig } from "react-icons/gr";
+import { RiLeafLine } from "react-icons/ri";
 
 function Expand(p: { text: string; onChange: Function }) {
   const [open, setOpen] = useState(true);
@@ -626,6 +623,8 @@ export function InventoryResult() {
     const res = await getLcaResultDetail(query.id);
     if (!res) return;
     setValue(res && res);
+    console.log("vafadas", value);
+
     setLoading(false);
   };
 
@@ -736,18 +735,25 @@ export function InventoryResult() {
   const doExport = async () => {
     if (!query.id) return false;
     setExportLoading(true);
-    const res = await exportLcaResultExcel(query.id);
-    setExportLoading(false);
-    const blob = new Blob([res.data]); //处理文档流
-    const fileName = `${generalInfo.productSystemName}.xlsx`;
-    const eLink = document.createElement("a");
-    eLink.download = fileName;
-    eLink.style.display = "none";
-    eLink.href = URL.createObjectURL(blob);
-    document.body.appendChild(eLink);
-    eLink.click();
-    URL.revokeObjectURL(eLink.href); // 释放URL 对象
-    document.body.removeChild(eLink);
+    const res: any = await exportLcaResultExcel(query.id);
+    if (res.headers) {
+      const contentDisposition = res.headers.get("content-disposition");
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename=(.+)/);
+        if (filenameMatch) {
+          setExportLoading(false);
+          const blob = new Blob([res.data]); //处理文档流
+          const eLink = document.createElement("a");
+          eLink.download = filenameMatch[1];
+          eLink.style.display = "none";
+          eLink.href = URL.createObjectURL(blob);
+          document.body.appendChild(eLink);
+          eLink.click();
+          URL.revokeObjectURL(eLink.href); // 释放URL 对象
+          document.body.removeChild(eLink);
+        }
+      }
+    }
   };
   return (
     <ToolsLayout className="text-lg text-black">
