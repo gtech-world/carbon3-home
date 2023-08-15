@@ -39,7 +39,7 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     const { loadName } = formData;
     if (!loadName || !productId) return;
 
-    let lcaParamList = tableData.map((e) => {
+    let lcaParamList = tableData?.map((e) => {
       return {
         processId: e.context["@id"],
         paramValue: e.value.toString(),
@@ -54,11 +54,12 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
     const result = { ...data, loadName, productId };
     uploadResult(result)
       .then((res) => {
-        typeof openResultModal === "function" && openResultModal();
         typeof getList === "function" && getList();
       })
       .catch((e) => {})
-      .finally(() => {});
+      .finally(() => {
+        typeof openResultModal === "function" && openResultModal();
+      });
   };
 
   useEffect(() => {
@@ -83,8 +84,8 @@ const InventoryResultModal: FC<InventoryController.InventoryResultModalProps> = 
   const getRealDataList = async () => {
     getAddRealDataList(productId)
       .then((res) => {
-        const newData = JSON.parse(res.paramDetail);
-        setTableData(JSON.stringify(newData) === "{}" ? [] : newData[0]?.parameters);
+        const newData = JSON.parse(res.paramDetail)[0] || [];
+        setTableData(JSON.stringify(newData) === "{}" || !newData?.parameters ? [] : newData?.parameters);
       })
       .catch((e) => {})
       .finally();
