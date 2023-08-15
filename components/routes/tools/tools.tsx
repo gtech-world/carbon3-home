@@ -51,6 +51,7 @@ function ToolsContent() {
           <li
             key={`data-${i}`}
             className={`bg-white ml-5 mo:ml-0 mo:mt-5 w-[30%] first:ml-0 h-[32rem] md:h-[45rem] sm:w-full mo:h-[32rem]
+            2xl:h-[32rem]
              ${i === 3 && "md:w-[30%] md:mt-10 md:ml-0  "}
              rounded-xl p-5 flex flex-col justify-between`}>
             <div className="">

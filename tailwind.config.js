@@ -9,6 +9,7 @@ module.exports = {
         mo: { max: "900px" },
         md: [{ min: "900px", max: "1280px" }],
         sm: [{ min: "0px", max: "900px" }], // 小型屏幕
+        "2xl": "1920px", // 添加一个更高的断点
       },
       fontFamily: {
         OpenSans: "var(--open-sans)",
