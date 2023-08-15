@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 function ToolsContent() {
   const data = [
@@ -45,27 +45,25 @@ function ToolsContent() {
   ];
 
   return (
-    <ul className="flex justify-between pb-10 mt-5 text-lg md:flex-wrap mo:flex-col mo:items-center">
+    <ul className={`grid grid-cols-[repeat(auto-fill,_minmax(25rem,_1fr))] gap-5`}>
       {data.map((v, i) => {
         return (
           <li
             key={`data-${i}`}
-            className={`bg-white ml-5 mo:ml-0 mo:mt-5 w-[30%] first:ml-0 h-[32rem] md:h-[45rem] sm:w-full mo:h-[32rem]
-            2xl:h-[32rem]
-             ${i === 3 && "md:w-[30%] md:mt-10 md:ml-0  "}
-             rounded-xl p-5 flex flex-col justify-between`}>
+            className={`bg-white 
+            rounded-xl p-5 flex flex-col justify-between mt-5`}>
             <div className="">
               <div className="flex items-center h-20 md:mt-10">
                 <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
-                <div className="  text-2xl font-semibold text-[18px]">
-                  <div> {i !== 3 && `“${v.as}”`}</div>
+                <div className=" font-semibold text-[20px]">
+                  <div className=""> {i !== 3 && `\u201C${v.as}\u201D`}</div>
                   <h4>{v.title}</h4>
                 </div>
               </div>
-              <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[14px]">{v.text}</p>
-              <div className="mt-5 leading-[21px]  text-[14px] ">
+              <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[16px]">{v.text}</p>
+              <div className="mt-5 leading-[21px]  text-[16px] ">
                 <h5 className="font-semibold">
-                  {v.as && `“${v.as}“`} {v.secondText}
+                  {v.as && `\u201C${v.as}\u201D`} {v.secondText}
                 </h5>
                 {v.list.map((child, childIndex) => {
                   return (
@@ -78,7 +76,7 @@ function ToolsContent() {
             </div>
             <a
               href={v.link}
-              className="flex items-center justify-center flex-1 w-full mt-5 ml-auto text-lg text-white rounded-lg bg-green-2 max-h-14">
+              className="flex items-center justify-center w-full p-4 mt-5 ml-auto text-lg text-white rounded-lg shrink-0 bg-green-2 ">
               进入
             </a>
           </li>
