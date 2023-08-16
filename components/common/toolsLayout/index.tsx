@@ -9,10 +9,11 @@ export function ToolsLayout(
   p: {
     canBack?: boolean;
     isNew?: boolean;
+    containerClassName?: string;
     link?: { pathName: string; homeTitle: string; currentTitle: string };
   } & HTMLAttributes<HTMLDivElement>,
 ) {
-  const { className, canBack, children, link, isNew, ...props } = p;
+  const { className, canBack, children, link, isNew, containerClassName, ...props } = p;
   const { push } = useRouter();
   const h = useHeaderTipHeight();
 
@@ -25,7 +26,7 @@ export function ToolsLayout(
       />
 
       <div
-        className={classNames("w-full h-full mx-auto px-[60px] flex flex-col flex-1", {
+        className={classNames("w-full h-full mx-auto px-[60px] flex flex-col flex-1", containerClassName, {
           " max-w-[90rem]": !isNew,
         })}>
         {canBack && (

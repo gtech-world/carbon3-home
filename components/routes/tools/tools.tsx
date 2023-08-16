@@ -45,7 +45,7 @@ function ToolsContent() {
   ];
 
   return (
-    <ul className={`grid grid-cols-[repeat(auto-fill,_minmax(25rem,_1fr))] gap-5`}>
+    <ul className={`grid grid-cols-[repeat(auto-fill,_minmax(calc(25rem-20px),_1fr))] gap-5 max-w-full mx-auto`}>
       {data.map((v, i) => {
         return (
           <li
@@ -88,7 +88,7 @@ function ToolsContent() {
 
 export function Tools() {
   return (
-    <ToolsLayout canBack={true} className="text-black" isNew>
+    <ToolsLayout containerClassName={" max-w-[106.25rem]"} canBack={true} className="text-black" isNew>
       <h3 className=" text-[20px] leading-6 font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
       <ToolsContent />
     </ToolsLayout>
