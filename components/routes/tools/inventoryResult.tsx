@@ -660,7 +660,7 @@ export function InventoryResult() {
         targetAmount: val.extra?.targetAmount,
       };
       referenceUnit = (val.totalImpacts && val.totalImpacts[0]?.impact.referenceUnit) || "";
-      const total = val.totalResult || val.treeNode?.result || "-";
+      const total = val.totalResult || val.treeNode?.result || 0;
       if (val.treeNode) {
         contributeTreeData = [
           {
