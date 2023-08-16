@@ -1,7 +1,6 @@
 import { Modal } from "@components/common/modal";
 import { FC, Fragment, useState } from "react";
 import JSZip from "jszip";
-import { Loading } from "@components/common/loading";
 import { useOnError } from "@components/common/context";
 
 const ViewVerification: FC<VerificationManagementController.ViewVerificationManagementModal> = ({
@@ -51,7 +50,7 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
           disabled={loading}
           className="bg-[#29953A] w-full h-[50px] rounded-lg text-[#FFFFFF] mt-5"
           onClick={handleDownloadClick}>
-          {loading ? <Loading /> : "下载"}
+          下载
         </button>
       </Modal>
     </Fragment>

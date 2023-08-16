@@ -154,7 +154,10 @@ export function VerificationManagementList() {
         width: "18.625rem",
         render: (text: string, record: ListType) => {
           return (
-            <span className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">
+            <span
+              data-tooltip-content={handleContentRender(record.verifyUser.name, 11)}
+              data-tooltip-id="tooltip"
+              className="max-w-[11rem] text-lg leading-[27px]  truncate inline-block">
               {record.verifyUser.name}
             </span>
           );

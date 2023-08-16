@@ -121,7 +121,7 @@ export function Inventory() {
               data-tooltip-content={handleContentRender(text, 11)}
               data-tooltip-id="tooltip"
               className="w-[13rem]  text-lg leading-[27px] truncate inline-block">
-              {text}
+              {text || "-"}
             </span>
           );
         },
