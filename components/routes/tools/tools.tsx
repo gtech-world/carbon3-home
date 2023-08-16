@@ -61,7 +61,7 @@ function ToolsContent() {
                 </div>
               </div>
               <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[16px]">{v.text}</p>
-              <div className="mt-5 leading-[21px]  text-[16px] ">
+              <div className="mt-10 leading-[21px]  text-[16px] ">
                 <h5 className="font-semibold">
                   {v.as && `\u201C${v.as}\u201D`} {v.secondText}
                 </h5>
