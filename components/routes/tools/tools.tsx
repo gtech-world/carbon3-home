@@ -1,7 +1,43 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React from "react";
+import React, { useMemo } from "react";
+import classNames from "classnames";
 
-function ToolsContent() {
+function ToolsContent(item: any) {
+  const { data: v, i } = item;
+  return (
+    <li className={classNames("bg-white  rounded-xl w-full p-5 mr-5 flex flex-col justify-between mt-5 ", {})}>
+      <div className="">
+        <div className="flex items-center h-20 md:m-5">
+          <img width="80" height="90" className="mr-5" src={`/${v.icon}`} alt="" />
+          <div className=" font-semibold text-[20px]">
+            <div className=""> {i !== 3 && `\u201C${v.as}\u201D`}</div>
+            <h4>{v.title}</h4>
+          </div>
+        </div>
+        <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[18px]">{v.text}</p>
+        <div className="mt-10 leading-[21px]  text-[18px] ">
+          <h5 className="font-semibold">
+            {v.as && `\u201C${v.as}\u201D`} {v.secondText}
+          </h5>
+          {v.list?.map((child: any, childIndex: any) => {
+            return (
+              <p key={`list${childIndex}`} className="font-normal text-gray-3">
+                {childIndex + 1}、{child}
+              </p>
+            );
+          })}
+        </div>
+      </div>
+      <a
+        href={v.link}
+        className="flex items-center justify-center w-full h-[50px] p-4 mt-5 ml-auto text-lg text-white rounded-lg shrink-0 bg-green-2 ">
+        进入
+      </a>
+    </li>
+  );
+}
+
+export function Tools() {
   const data = [
     {
       icon: "alca_icon.svg",
@@ -45,52 +81,13 @@ function ToolsContent() {
   ];
 
   return (
-    <ul className={`grid grid-cols-[repeat(auto-fill,_minmax(calc(25rem-20px),_1fr))] gap-5 max-w-full mx-auto`}>
-      {data.map((v, i) => {
-        return (
-          <li
-            key={`data-${i}`}
-            className={`bg-white 
-            rounded-xl p-5 flex flex-col justify-between mt-5`}>
-            <div className="">
-              <div className="flex items-center h-20 md:mt-10">
-                <img width="80" height="80" className="mr-5" src={`/${v.icon}`} alt="" />
-                <div className=" font-semibold text-[20px]">
-                  <div className=""> {i !== 3 && `\u201C${v.as}\u201D`}</div>
-                  <h4>{v.title}</h4>
-                </div>
-              </div>
-              <p className="mt-[40px] text-[#333333] leading-[21px] font-normal text-[16px]">{v.text}</p>
-              <div className="mt-10 leading-[21px]  text-[16px] ">
-                <h5 className="font-semibold">
-                  {v.as && `\u201C${v.as}\u201D`} {v.secondText}
-                </h5>
-                {v.list.map((child, childIndex) => {
-                  return (
-                    <p key={`list${childIndex}`} className="font-normal text-gray-3">
-                      {childIndex + 1}、{child}
-                    </p>
-                  );
-                })}
-              </div>
-            </div>
-            <a
-              href={v.link}
-              className="flex items-center justify-center w-full p-4 mt-5 ml-auto text-lg text-white rounded-lg shrink-0 bg-green-2 ">
-              进入
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-export function Tools() {
-  return (
-    <ToolsLayout containerClassName={" max-w-[106.25rem]"} canBack={true} className="text-black" isNew>
+    <ToolsLayout canBack={true} className="text-black" isNew>
       <h3 className=" text-[20px] leading-6 font-semibold mo:text-center">AICP产品碳足迹工具集</h3>
-      <ToolsContent />
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {data.map((v, i) => {
+          return <ToolsContent key={`inProgress${i}`} data={v} i={i} />;
+        })}
+      </ul>
     </ToolsLayout>
   );
 }
