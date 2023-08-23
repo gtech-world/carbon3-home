@@ -70,12 +70,12 @@ export function Model() {
       render: (text: string) => {
         return (
           <Tooltip
-            title={text}
             theme="light"
-            disabled={text.length < 20}
+            html={<div className=" flex flex-1 flex-wrap w-[13rem]">{text}</div>}
+            disabled={text.length < 11}
             arrow={true}
             followCursor={true}
-            className="max-w-[200px] font-normal  text-lg leading-[27px] truncate inline-block">
+            className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
             <span>{text}</span>
           </Tooltip>
         );

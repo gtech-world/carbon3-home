@@ -501,7 +501,7 @@ export const Table = <T extends Record<string, any>, U extends Record<string, an
       )}
 
       <Pagination
-        className="fixed bottom-0 left-0 w-full p-4 my-4 mo:static "
+        className="py-8"
         onChange={(v: any, count?: number) => {
           setPgNum(v);
           if (v === 1 || !count) return;
