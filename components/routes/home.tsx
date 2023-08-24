@@ -110,7 +110,7 @@ const Card: FC<{ windowWidth: number }> = ({ windowWidth }) => {
           <div className="flex justify-between w-full pt-4 mt-16 text-sm border-t border-black mo:flex-col mo:mt-3">
             <div>
               <a rel="noreferrer" href="https://beian.miit.gov.cn/" target="_blank">
-                沪ICP备2022024704号-2
+                沪ICP备2023021387号-1
               </a>
             </div>
             <span
