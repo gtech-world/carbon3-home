@@ -116,7 +116,7 @@ const Card: FC<{ windowWidth: number }> = ({ windowWidth }) => {
             <span
               onClick={() =>
                 window.open(
-                  i18n.language === "zh-CN" ? "https://gtech-cn.co/zhstatement" : "https://gtech-cn.co/enstatement",
+                  i18n.language === "zh-CN" ? "https://gtech.world/zhstatement" : "https://gtech.world/enstatement",
                   "_blank",
                 )
               }

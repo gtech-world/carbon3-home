@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: v16.16.0
-          cache: 'pnpm'
-          
+          cache: "pnpm"
+
       - name: Run install
         run: pnpm install --frozen-lockfile
 
@@ -47,4 +47,4 @@ jobs:
       - name: Uplaod to CDN
         run: |
           coscmd upload -rs --delete -f ./out/ /
-          tccli cdn PurgePathCache --cli-unfold-argument --Paths https://aicp.gtech-cn.co/ --FlushType flush
+          tccli cdn PurgePathCache --cli-unfold-argument --Paths https://aicp.gtech.world/ --FlushType flush
