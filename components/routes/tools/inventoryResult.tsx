@@ -6,8 +6,9 @@ import { ToolsLayout } from "@components/common/toolsLayout";
 import { exportLcaResultExcel, getLcaResultDetail } from "@lib/http";
 import { parseRefJson } from "@lib/utils";
 import classNames from "classnames";
+import { isEqual } from "lodash";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { BsCaretUpFill } from "react-icons/bs";
 import { CgRuler } from "react-icons/cg";
 import { FaFolder } from "react-icons/fa";
@@ -653,22 +654,25 @@ export function InventoryResult() {
     };
     if (value && value.lcaResult) {
       const val = parseRefJson(JSON.parse(value.lcaResult));
+      console.info("val::", val);
       generalInfo = {
         productSystemName: val.extra?.productSystemName,
         methodName: val.extra?.methodName,
         targetAmount: val.extra?.targetAmount,
       };
-      referenceUnit = val.totalImpacts[0].impact.referenceUnit || "";
-      const total = val.treeNode?.result;
-      contributeTreeData = [
-        {
-          contribution: (calcContribution(total, total) * 100).toFixed(2) + "%",
-          process: val.treeNode?.provider.name,
-          requiredAmount: val.treeNode?.requiredAmount + " " + val.treeNode?.refUnit,
-          result: val.treeNode?.result,
-          // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
-        },
-      ];
+      referenceUnit = (val.totalImpacts && val.totalImpacts[0]?.impact.referenceUnit) || "";
+      const total = val.totalResult || val.treeNode?.result || 0;
+      if (val.treeNode) {
+        contributeTreeData = [
+          {
+            contribution: (calcContribution(total, total) * 100).toFixed(2) + "%",
+            process: val.treeNode?.provider.name,
+            requiredAmount: val.treeNode?.requiredAmount + " " + val.treeNode?.refUnit,
+            result: val.treeNode?.result,
+            // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
+          },
+        ];
+      }
 
       carbonResult = (
         <span>
@@ -694,11 +698,13 @@ export function InventoryResult() {
             }
           });
       };
-      handleTree(val.treeNode?.children.sort((a: any, b: any) => b.result - a.result));
-      contributeTreeData[0].children = val.treeNode?.children;
+      if (val.treeNode) {
+        handleTree(val.treeNode?.children.sort((a: any, b: any) => b.result - a.result));
+        contributeTreeData[0].children = val.treeNode?.children;
+      }
 
       // 处理清单列表的数据
-      val.totalFlows.map((v: any) => {
+      val.totalFlows?.map((v: any) => {
         let item = {
           name: v.flow.name,
           category: v.flowPropertyPath,
@@ -711,7 +717,7 @@ export function InventoryResult() {
           listData.outputData.push(item);
         }
       });
-      val.totalRequirements.map((v: any) => {
+      val.totalRequirements?.map((v: any) => {
         totalRequire.push({
           process: v.provider.name,
           product: v.flow.name,
@@ -766,10 +772,12 @@ export function InventoryResult() {
           <div className="p-5 bg-white rounded-2xl">
             <GeneralInfo data={generalInfo} />
             <Result data={carbonResult} />
-            <ContributionTree data={contributeTreeData} referenceUnit={referenceUnit} />
+            {contributeTreeData && contributeTreeData.length > 0 && (
+              <ContributionTree data={contributeTreeData} referenceUnit={referenceUnit} />
+            )}
             {/*<IO />*/}
-            <List data={listData} />
-            <SumRequire data={totalRequire} />
+            {listData.inputData.length > 0 && listData.outputData.length > 0 && <List data={listData} />}
+            {totalRequire.length > 0 && <SumRequire data={totalRequire} />}
           </div>
           <div className="flex justify-center w-full mt-5 mb-10">
             <Button

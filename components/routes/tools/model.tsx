@@ -4,7 +4,6 @@ import { Pagination } from "@components/common/pagination";
 import { Table } from "@components/common/table";
 import { ToolsLayout } from "@components/common/toolsLayout";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
 import { useUser } from "@components/common/context";
 import { Loading } from "@components/common/loading";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
@@ -14,7 +13,15 @@ import { useUnVerifier } from "@lib/hooks/useUser";
 import { getLcaProductList, getLcaProductTypeList, updateLcaModelState } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
-import { handleContentRender, scrollToTop } from "utils";
+import { TableAction, TableSchema } from "@lib/@types/table";
+import { Tooltip } from "react-tippy";
+import "react-tippy";
+
+declare module "react-tippy" {
+  export interface TooltipProps {
+    children?: React.ReactNode;
+  }
+}
 
 function formatToTree(ary: any, pid?: number) {
   return ary
@@ -33,7 +40,6 @@ export function Model() {
   const [editorProductSystem, setEditorProductSystem] = useState<any>();
   const [opResult, setOpResult] = useState<any>(null);
   const [createProductView, setCreateProductView] = useState<boolean>(false);
-  const [pgNum, setPgNum] = useState(1);
   const [productName, setProductName] = useState<any>("");
   const [productSelectedType, setProductSelectedType] = useState<any>(null);
   const [description, setDescription] = useState<any>("");
@@ -43,121 +49,102 @@ export function Model() {
   const [productViewSelectedIndex, setProductViewSelectedIndex] = useState<number>(-1);
   const [productNameFilter, setProductNameFilter] = useState(-1);
   const [reload, setReload] = useState(0);
-  const [reloadProduct, setReloadProduct] = useState(0);
-  const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
-  const [tableDataTotal, setTableDataTotal] = useState(0);
   const [productType, setProductType] = useState([]);
   const [productList, setProductList] = useState<any>([]);
-  const fileRef = useRef(null);
-  const { user } = useUser();
-  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const tableRef = useRef<TableAction>();
 
-  const queryLcaProductTypeList = async () => {
-    const res = await getLcaProductTypeList();
-    setProductType(res ? formatToTree(res?.records, 0) : []);
-  };
+  // const queryLcaProductTypeList = async () => {
+  //   const res = await getLcaProductTypeList();
+  //   setProductType(res ? formatToTree(res?.records, 0) : []);
+  // };
 
-  const queryLcaProductList = useCallback(async () => {
-    try {
-      setTableLoading(true);
-      const res = await getLcaProductList(pgNum);
-      setTableData(res);
-      setTableLoading(false);
-    } catch (e) {
-      console.log("eee", e);
-    }
-  }, [pgNum]);
+  // useEffect(() => {
+  //   queryLcaProductTypeList();
+  // }, []);
 
-  useEffect(() => {
-    queryLcaProductList();
-  }, [queryLcaProductList]);
-
-  useEffect(() => {
-    queryLcaProductTypeList();
-  }, []);
-
-  const columns = useMemo(
-    () => [
-      {
-        title: "产品系统",
-        dataIndex: "name",
-        width: "200px",
-        render: (text: string) => {
-          return (
-            <span
-              data-tooltip-id="tooltip"
-              data-tooltip-place="top-start"
-              data-tooltip-content={handleContentRender(text, 20)}
-              className="w-[200px] font-normal  text-lg leading-[27px] truncate inline-block">
-              {text}
-            </span>
-          );
-        },
+  const columns: TableSchema<ProduceSystemController.ListRecords>[] = [
+    {
+      title: "产品系统",
+      dataIndex: "name",
+      width: "200px",
+      render: (text: string) => {
+        return (
+          <Tooltip
+            theme="light"
+            html={<div className=" flex flex-1 flex-wrap w-[13rem]">{text}</div>}
+            disabled={text.length < 11}
+            arrow={true}
+            followCursor={true}
+            className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
+            <span>{text}</span>
+          </Tooltip>
+        );
       },
-      {
-        title: "产品系统ID",
-        dataIndex: "uuid",
-        width: "20rem",
-        render: (text: string) => {
-          return (
-            <span
-              data-tooltip-id="tooltip"
-              data-tooltip-content={text}
-              className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
-              {shortStr(text, 8, 8)}
-            </span>
-          );
-        },
+    },
+    {
+      title: "产品系统ID",
+      dataIndex: "uuid",
+      width: "20rem",
+      render: (text: string) => {
+        return (
+          <Tooltip
+            title={text}
+            theme="light"
+            arrow={true}
+            followCursor={true}
+            className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
+            <span>{shortStr(text, 8, 8)}</span>
+          </Tooltip>
+        );
       },
-      {
-        title: "变更人",
-        dataIndex: "name",
-        width: "12.5rem",
-        render: (text: string, record: ProduceSystemController.ListRecords) => {
-          return (
-            <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
-              {record.updateUser.name}
-            </span>
-          );
-        },
+    },
+    {
+      title: "变更人",
+      dataIndex: "name",
+      width: "12.5rem",
+      render: (_text: string, record) => {
+        return (
+          <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
+            {record.updateUser.name}
+          </span>
+        );
       },
-      {
-        title: "变更时间",
-        dataIndex: "updateTime",
-        width: "12.5rem",
-        render: (text: string) => {
-          return (
-            <div className="text-lg  w-[13rem]  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>
-          );
-        },
+    },
+    {
+      title: "变更时间",
+      dataIndex: "updateTime",
+      width: "12.5rem",
+      render: (text: string) => {
+        return (
+          <div className="text-lg  w-[13rem]  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>
+        );
       },
-      {
-        title: "版本",
-        dataIndex: "version",
-        width: "9.375rem",
-        render: (text: string) => {
-          return <span className="text-lg  font-normal leading-[27px]">{text}</span>;
-        },
+    },
+    {
+      title: "版本",
+      dataIndex: "version",
+      width: "9.375rem",
+      render: (text: string) => {
+        return <span className="text-lg  font-normal leading-[27px]">{text}</span>;
       },
-      {
-        title: "",
-        width: "20rem",
-        render: (text: string, record: any) => {
-          return (
-            <div className="flex justify-between flex-1 ml-10 text-green-2 break-keep">
-              <div
-                className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
-                onClick={() => setEditorProductSystem(record)}>
-                编辑
-              </div>
+    },
+    {
+      title: "",
+      width: "20rem",
+      dataIndex: "",
+      render: (_text: string, record) => {
+        return (
+          <div className="flex justify-between flex-1 ml-10 text-green-2 break-keep">
+            <div
+              className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
+              onClick={() => setEditorProductSystem(record)}>
+              编辑
             </div>
-          );
-        },
+          </div>
+        );
       },
-    ],
-    [],
-  );
-
+    },
+  ];
   const realColumns = useMemo(
     () => [
       {
@@ -276,10 +263,7 @@ export function Model() {
   const unVerifier = useUnVerifier();
 
   const onSuccess = () => {
-    setPgNum(1);
-    if (pgNum === 1) {
-      queryLcaProductList();
-    }
+    tableRef.current?.reload(1);
   };
 
   const onChangeColumn = (item: ProduceSystemController.ListRecords) => {
@@ -290,46 +274,29 @@ export function Model() {
       isNew
       canBack
       link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "产品碳足迹模型管理工具" }}
-      className="flex flex-col justify-between flex-1 pb-12 text-black ">
-      <div className="">
-        <h3 className="flex items-center justify-between text-2xl font-semibold">
-          <span>我的产品系统</span>
-          {/*@ts-ignore*/}
-          {unVerifier && (
-            <Button
-              onClick={() => setCreateProductView(true)}
-              className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
-              新建产品系统
-            </Button>
-          )}
-        </h3>
-        <div className="w-full p-5 mt-5 bg-white rounded-2xl">
-          <div className="pb-6 mt-5 overflow-x-auto">
-            <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
-              <Table
-                loading={tableLoading}
-                columns={columns}
-                columnsHeight={"h-[3.125rem]"}
-                mouseHoverKey={"id"}
-                onChangeColumn={(item) => onChangeColumn(item)}
-                data={tableData?.records || []}
-                columnsClassName=" cursor-pointer "
-                headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <Pagination
-        onChange={(v: any) => {
-          setPgNum(v);
-          scrollToTop();
-        }}
-        className="my-8"
-        total={tableData?.total || 0}
-        pgSize={10}
-        pgNum={pgNum}
+      className="flex flex-col justify-between pb-12 text-black ">
+      <h3 className="flex items-center justify-between text-2xl font-semibold">
+        <span>我的产品系统</span>
+        {/*@ts-ignore*/}
+        {unVerifier && (
+          <Button
+            onClick={() => setCreateProductView(true)}
+            className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
+            新建产品系统
+          </Button>
+        )}
+      </h3>
+      <Table
+        columns={columns}
+        columnsHeight={"h-[3.125rem]"}
+        mouseHoverKey={"id"}
+        api={getLcaProductList}
+        tableRef={tableRef}
+        onChangeColumn={(item) => onChangeColumn(item)}
+        columnsClassName=" cursor-pointer "
+        headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
       />
+
       {status !== null && (
         <Modal title="更改状态" onClose={() => setStatus(null)}>
           <div className="flex">

@@ -14,7 +14,7 @@ import {
 import { sleep } from "./utils";
 
 function creatUrl(path: `/${string}`) {
-  return `https://api.gtech-cn.co${path}`;
+  return `https://api.gtech.world${path}`;
 }
 
 export interface Res<T> {

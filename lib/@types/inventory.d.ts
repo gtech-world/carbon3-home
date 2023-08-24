@@ -54,7 +54,7 @@ declare namespace InventoryController {
   records:Records[]
   }
 
-  type Records = {
+  interface Records  {
     calculateSuccessTime:string
     loadName:string
     loadNumber:string

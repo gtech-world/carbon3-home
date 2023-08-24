@@ -17,6 +17,7 @@ import { I18nextProvider } from "react-i18next";
 import { SWRConfig } from "swr/_internal";
 import axios from "axios";
 import { authGetResData } from "@lib/http";
+import "react-tippy/dist/tippy.css";
 
 const open_sans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
