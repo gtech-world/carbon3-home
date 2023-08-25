@@ -109,9 +109,10 @@ export function Header(
     showQuery?: boolean;
     isManager?: boolean;
     menus?: any;
+    nopx?: boolean;
   },
 ) {
-  const { children, className, tits, showQuery, isManager, menus, ...other } = p;
+  const { children, className, tits, showQuery, isManager, nopx = false, menus, ...other } = p;
   const { t } = useT();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
@@ -147,8 +148,8 @@ export function Header(
       <div
         id="app_header"
         className={classNames(
-          `w-full relative z-[3] max-w-[90rem] mx-auto  text-white flex items-center top-0  h-[4.25rem]
-          ${windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]"}
+          `w-full relative z-[3] max-w-[90rem] mx-auto  text-white  flex items-center top-0  h-[4.25rem]
+          ${!nopx && (windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]")}
           `,
           className,
         )}

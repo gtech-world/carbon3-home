@@ -39,7 +39,7 @@ export function SignIn() {
       .then(() => setLoading(false));
   };
   return (
-    <HeaderLayout className="flex flex-col text-black">
+    <HeaderLayout className="flex flex-col text-black" nopx>
       {isMobile ? (
         <p className="flex flex-1 items-center justify-center mt-[-20%]">登录使用请移至web端</p>
       ) : (

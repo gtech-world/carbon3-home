@@ -52,9 +52,10 @@ export function HeaderLayout(
   p: HTMLAttributes<HTMLDivElement> & {
     tits?: string | null;
     isManager?: boolean;
+    nopx?: boolean;
   },
 ) {
-  const { className, tits, isManager, children, ...props } = p;
+  const { className, tits, isManager, nopx, children, ...props } = p;
   const isMobile = useIsMobile();
   const h = useHeaderTipHeight();
   return (
@@ -63,6 +64,7 @@ export function HeaderLayout(
         <MobileHeader />
       ) : (
         <Header
+          nopx={nopx}
           tits={tits}
           isManager={isManager}
           style={{ top: `${h}px` }}
