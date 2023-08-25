@@ -31,7 +31,7 @@ export function OpenQuery() {
       {!isMobile && <button onClick={onBack} className="self-start mb-[5.625rem]">{`< ${t("Back")}`}</button>}
       <SvgQuery className="h-[6.125rem] mo:mt-[5.125rem]" />
       <div className="mt-8 text-[2rem] font-bold mo:text-lg">{t("Open Query")}</div>
-      <div className="mt-3 text-2xl text-center font-medium mo:text-base">
+      <div className="mt-3 text-2xl font-medium text-center mo:text-base">
         {t("Please enter the VIN Code or scan with your phone")}
       </div>
       {isMobile ? (
@@ -43,9 +43,11 @@ export function OpenQuery() {
             placeholder="点击填充示例车辆编码"
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
             style={{ border: "1px solid #DDDDDD", background: "#F8F8F8" }}
-            className="flex-1 w-full p-4 whitespace-nowrap outline-none rounded-lg"
+            className="flex-1 w-full p-4 rounded-lg outline-none whitespace-nowrap"
           />
-          <Button onClick={onQuery} className="w-full mt-5 rounded-lg p-3 text-center text-lg text-white bg-green-2">
+          <Button
+            onClick={onQuery}
+            className="w-full p-3 mt-5 text-lg text-center text-white rounded-lg bg-green-2 hover:bg-green-28">
             {t("Query")}
           </Button>
         </div>
@@ -63,11 +65,11 @@ export function OpenQuery() {
             onChange={onVinChange}
             placeholder="点击填充示例车辆编码"
             onKeyDown={(e) => e.code === "Enter" && onQuery()}
-            className="flex-1 h-full px-4 rounded-l-lg whitespace-nowrap outline-none"
+            className="flex-1 h-full px-4 rounded-l-lg outline-none whitespace-nowrap"
           />
           <Button
             onClick={onQuery}
-            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2">
+            className="w-[7.5rem] rounded-r-lg  h-full text-center text-2xl text-white bg-green-2 hover:bg-green-28">
             {t("Query")}
           </Button>
         </div>

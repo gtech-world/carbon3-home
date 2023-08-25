@@ -23,7 +23,7 @@ interface ICard {
 function Card(p: ICard) {
   const { title, updatedDate, total, btn } = p.data;
   return (
-    <div className="bg-white mr-5 box-layout p-5 rounded-lg mt-5 text-base flex flex-col justify-between mo:w-full">
+    <div className="flex flex-col justify-between p-5 mt-5 mr-5 text-base bg-white rounded-lg box-layout mo:w-full">
       <div>
         <h3 className="text-xl font-semibold">{title}</h3>
         <div className="mt-5">
@@ -37,7 +37,7 @@ function Card(p: ICard) {
           <div>最后更新 : 2023年5月1日</div>
         </div>
       </div>
-      <Button className="mt-5 text-lg bg-green-2 w-full text-white rounded-lg flex-1 min-h-[2.865rem] max-h-[2.865rem]">
+      <Button className="mt-5 text-lg bg-green-2 w-full text-white rounded-lg flex-1 min-h-[2.865rem] max-h-[2.865rem] hover:bg-green-28">
         {btn.text}
       </Button>
     </div>
@@ -73,7 +73,7 @@ export function Document() {
     [],
   );
   return (
-    <CarbonLayout className="bg-gray-16 h-full">
+    <CarbonLayout className="h-full bg-gray-16">
       <h3 className="text-lg font-bold">项目文档管理</h3>
       <div className="flex flex-wrap mr-[-20px] mo:mr-0 mo:flex-col">
         {docData.map((v, i) => {

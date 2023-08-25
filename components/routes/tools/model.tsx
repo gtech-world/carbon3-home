@@ -298,7 +298,9 @@ export function Model() {
           {unVerifier && (
             <Button
               onClick={() => setCreateProductView(true)}
-              className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
+              className={classNames(
+                "w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11 hover:bg-green-28",
+              )}>
               新建产品系统
             </Button>
           )}

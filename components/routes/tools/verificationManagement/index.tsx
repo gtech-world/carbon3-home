@@ -241,7 +241,7 @@ export function VerificationManagementList() {
           {userData?.role === "admin" && (
             <Button
               onClick={() => onOpenModal({})}
-              className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11">
+              className="w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11 hover:bg-green-28">
               新建验证记录
             </Button>
           )}

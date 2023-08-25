@@ -782,7 +782,7 @@ export function InventoryResult() {
           <div className="flex justify-center w-full mt-5 mb-10">
             <Button
               onClick={() => !exportLoading && doExport()}
-              className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14 flex items-center justify-center">
+              className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14 flex items-center justify-center hover:bg-green-28">
               {exportLoading ? (
                 <div>
                   <Loading size="2rem" color={"#fff"} />
