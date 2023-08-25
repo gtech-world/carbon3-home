@@ -124,16 +124,32 @@ export function Header(
     setLastInputVin(e.target.value);
   }, []);
   const onError = useOnError();
+
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const onQuery = () => {
     if (!vin) return onError("Please input VIN Code");
     push(`pcf?vin=${vin}`);
   };
+
   return (
     <>
       <div
         id="app_header"
         className={classNames(
-          "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
+          `w-full relative z-[3] max-w-[90rem] mx-auto  text-white flex items-center top-0  h-[4.25rem]
+          ${windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]"}
+          `,
           className,
         )}
         {...other}>

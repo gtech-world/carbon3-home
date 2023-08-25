@@ -50,7 +50,7 @@ function Card(p: ICard) {
             <Button
               key={`btn${i}`}
               onClick={() => v.onClick && v.onClick()}
-              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0">
+              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0 hover:bg-green-28">
               {v.text}
             </Button>
           ) : (
