@@ -14,6 +14,7 @@ import { useT } from "@lib/hooks/useT";
 import { handleCarbonStr, sleep, textTo2 } from "@lib/utils";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
+import Document from "@public/document.svg";
 
 export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
@@ -46,16 +47,14 @@ export function useMenus(data: any[] = []) {
         }))
         .forEach((item) => menus.push(item));
     }
-    // menus.push({
-    //   topSplit: true,
-    //   icon: <IoLanguageOutline />,
-    //   text: LngsText[lng],
-    //   onClick: () => {
-    //     // alert(11)
-    //     // alert(SupportLngs.find((item) => item !== lng))
-    //     i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
-    //   },
-    // });
+    menus.push({
+      icon: <Document />,
+      text: t("Document"),
+      to: "https://docs.gtech.world/",
+      onClick: () => {
+        push("https://docs.gtech.world/");
+      },
+    });
     menus.push({
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? t("Log Out") : t("Log In"),
