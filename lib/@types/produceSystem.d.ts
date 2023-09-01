@@ -1,9 +1,9 @@
 import { Organization } from "./type";
 
 declare namespace ProduceSystemController {
-  type ProduceSystemList = Page &{
+  type ProduceSystemList = Page & {
     records: ListRecords[];
-  }
+  };
 
   type ListRecords = {
     createTime: string;
@@ -21,9 +21,9 @@ declare namespace ProduceSystemController {
     updateTime?: string;
     updateUser: RecordUpdateUserList;
     updateUserId: number;
-    uuid: number;
+    uuid: any;
     version: string;
-  }
+  };
 
   type RecordUpdateUserList = {
     address?: string;

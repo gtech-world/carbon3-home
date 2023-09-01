@@ -10,7 +10,15 @@ const DEFAULT_CONFIG: MermaidConfig = {
   arrowMarkerAbsolute: false,
   flowchart: {
     htmlLabels: true,
-    curve: "linear",
+  },
+
+  themeVariables: {
+    primaryColor: "#00ff00",
+    primaryTextColor: "#fff",
+    primaryBorderColor: "#7C0000",
+    lineColor: "black",
+    secondaryColor: "#006100",
+    tertiaryColor: "#fff",
   },
   sequence: {
     diagramMarginX: 50,

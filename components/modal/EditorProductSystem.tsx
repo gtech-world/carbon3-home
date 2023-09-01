@@ -161,36 +161,10 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState<File | undefined | null>(null);
   const [progress, setProgress] = useState(0);
+  const [bomData, setBomData] = useState("");
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
-  const disableSubmit = !ps || (!file && inputDesc === ps?.description);
-  const onSubmit = useOn(() => {
-    if (!ps) return;
-    if (disableSubmit) return;
-    setBusy(true);
-    let task: Promise<any>;
-    if (file) {
-      const form = new FormData();
-      form.append("file", file);
-      form.append("name", file.name);
-      task = uploadLcaModel(form, {
-        onUploadProgress: (e) => setProgress(Math.min(100, Math.round((e.rate || 0) * 100))),
-      }).then((modelId) => upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc, modelId }));
-    } else {
-      task = upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc });
-    }
-    task
-      .then(() => {
-        onSuccess && onSuccess();
-        props.onClose && props.onClose();
-      })
-      .catch(console.error)
-      .finally(() => {
-        setProgress(0);
-        setBusy(false);
-      });
-  });
 
   const [realModal, toggleRealModal] = useToggle(false);
   const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
@@ -208,38 +182,12 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       {ps && (
         <>
           <div className="flex flex-col gap-5  w-full min-w-[40rem] px-5 py-[1px] max-h-mc overflow-y-auto">
-            <PairInfo tit="UID" value={ps.uuid || "-"} />
-            <PairInfo
-              tit="版本"
-              value={
-                <div className="flex justify-between items-center gap-2.5 px-5 h-[50px] bg-gray-28 rounded-lg border border-neutral-200">
-                  {ps.version || "-"}
-                  <Dropdown
-                    items={versions}
-                    className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-black text-base font-normal leading-none"
-                    onClick={(i) => {
-                      if (!versions) return;
-                      const viewPs = versions[i];
-                      setOldPs(viewPs);
-                    }}>
-                    查看历史版本
-                  </Dropdown>
-                </div>
-              }
-            />
-            <PairInfo
-              tit="描述"
-              value={
-                <EditorText
-                  disabled={isVerifier}
-                  maxLength={100}
-                  value={inputDesc}
-                  onChange={(e) => setInputDesc(e.target.value)}
-                />
-              }
-            />
-            <PairInfo tit="状态" value={<PsStatus status={ps.state} />} />
-            <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
+            <PairInfo tit="产品系统ID" value={ps.uuid || "-"} />
+            <PairInfo tit="描述" value={inputDesc} />
+            <PairInfo tit="操作人" value={inputDesc} />
+            <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomData("1")} />} />
+            <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
+
             <PairInfo
               tit="产品系统LCA文件"
               value={
@@ -253,16 +201,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
                 />
               }
             />
-            <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo organization={ps?.org} />
-          </div>
-          <div className={classNames("flex flex-col gap-2.5 mt-5 px-5", { hidden: isVerifier })}>
-            <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
-              提交更新
-            </Btn>
-            <div className="text-sm font-normal text-black">
-              * 点击提交更新按钮后，当前的产品系统版本将自动更新。原先版本的信息可以在历史版本中查询。
-            </div>
           </div>
         </>
       )}

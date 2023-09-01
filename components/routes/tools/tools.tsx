@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useMemo } from "react";
+import React from "react";
 import classNames from "classnames";
 
 function ToolsContent(item: any) {
@@ -88,6 +88,11 @@ export function Tools() {
           return <ToolsContent key={`inProgress${i}`} data={v} i={i} />;
         })}
       </ul>
+      {/* <a
+        href={"/tools/newInventory"}
+        className="flex items-center justify-center w-full h-[50px] p-4 mt-5 ml-auto text-lg text-white rounded-lg shrink-0 bg-green-2 ">
+        进入
+      </a> */}
     </ToolsLayout>
   );
 }

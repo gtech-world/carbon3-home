@@ -148,7 +148,7 @@ export function Model() {
               <div
                 className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
                 onClick={() => setEditorProductSystem(record)}>
-                编辑
+                查看
               </div>
             </div>
           );
@@ -294,7 +294,6 @@ export function Model() {
       <div className="">
         <h3 className="flex items-center justify-between text-2xl font-semibold">
           <span>我的产品系统</span>
-          {/*@ts-ignore*/}
           {unVerifier && (
             <Button
               onClick={() => setCreateProductView(true)}
@@ -313,7 +312,7 @@ export function Model() {
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey={"id"}
-                onChangeColumn={(item) => onChangeColumn(item)}
+                // onChangeColumn={(item) => onChangeColumn(item)}
                 data={tableData?.records || []}
                 columnsClassName=" cursor-pointer "
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
