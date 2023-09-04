@@ -208,8 +208,8 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
         <>
           <div className="flex flex-col gap-5  w-full min-w-[40rem] px-5 py-[1px] max-h-mc overflow-y-auto">
             <PairInfo tit="产品系统ID" value={ps.uuid || "-"} />
-            <PairInfo tit="描述" value={inputDesc} />
-            <PairInfo tit="操作人" value={detailInfo?.updateUser.name} />
+            <PairInfo tit="描述" value={inputDesc || "-"} />
+            <PairInfo tit="操作人" value={detailInfo?.updateUser.name || "-"} />
             <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomDataModal(true)} />} />
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
 

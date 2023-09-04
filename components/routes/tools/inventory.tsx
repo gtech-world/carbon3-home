@@ -113,12 +113,6 @@ export function Inventory() {
         },
       },
       {
-        title: "产品系统版本",
-        width: "1rem",
-        dataIndex: "productVersion",
-        render: (text: string) => <span className=" text-lg leading-[27px] max-w-[1rem] ">{text}</span>,
-      },
-      {
         title: "描述",
         dataIndex: "productDescription",
         width: "18.75rem",

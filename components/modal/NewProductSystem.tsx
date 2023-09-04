@@ -17,7 +17,12 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [type, setType] = useState("upload");
   const disabledOk = type === "upload" ? !file : !desc;
   const modelIdRef = useRef<number>();
-  const [resultList, setResultList] = useState<{ modelBomInfo: string; modelName: string; paramDetail: string }>();
+  const [resultList, setResultList] = useState<{
+    modelBomInfo: string;
+    modelName: string;
+    paramDetail: string;
+    id: number;
+  }>({ id: 0, modelBomInfo: "", paramDetail: "", modelName: "" });
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
   const [intervalId, setIntervalId] = useState<any>(null);
@@ -69,10 +74,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         uploadResultDetail(modelId);
       })
       .catch(() => {});
-    // .finally(() => {
-    //   setIsProgress(false);
-    //   setProgress(0);
-    // });
   };
 
   const onOk = useOn(() => {
@@ -122,9 +123,16 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
                   tit="实景参数列表"
                   value={<ActionBtn action="查看" onClick={() => setViewRealDataList(true)} />}
                 />
+
                 <PairInfo
                   tit="产品系统LCA文件"
-                  value={<LcaActionInfo file={file as any} onFileChange={onFileChange} />}
+                  value={
+                    <LcaActionInfo
+                      modelStatus={!isProgress ? 1 : 0}
+                      modelId={resultList.id}
+                      onFileChange={onFileChange}
+                    />
+                  }
                 />
                 <PairInfo
                   tit="描述"

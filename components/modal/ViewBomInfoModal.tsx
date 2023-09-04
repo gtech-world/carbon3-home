@@ -49,7 +49,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
                 <div className="flex flex-row ">
                   {(e?.partNumbers || []).map((item: any, index: number) => {
                     return (
-                      <div key={`value_${index}`} className="w-20 ">
+                      <div key={`value_${index}`} className="flex items-center w-20 ">
                         <div className="h-6 mx-[5px] font-normal  bg-[#F1F1F1] flex justify-center  rounded">
                           PN：{item}
                         </div>

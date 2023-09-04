@@ -110,7 +110,7 @@ export function Model() {
         },
       },
       {
-        title: "变更人",
+        title: "操作人",
         dataIndex: "name",
         width: "12.5rem",
         render: (text: string, record: ProduceSystemController.ListRecords) => {
@@ -122,21 +122,26 @@ export function Model() {
         },
       },
       {
-        title: "变更时间",
-        dataIndex: "updateTime",
+        title: "描述",
+        dataIndex: "description",
         width: "12.5rem",
         render: (text: string) => {
           return (
-            <div className="text-lg  w-[13rem]  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>
+            <div
+              data-tooltip-content={handleContentRender(text, 11)}
+              data-tooltip-id="tooltip"
+              className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
+              {text}
+            </div>
           );
         },
       },
       {
-        title: "版本",
-        dataIndex: "version",
+        title: "上传时间",
+        dataIndex: "createTime",
         width: "9.375rem",
         render: (text: string) => {
-          return <span className="text-lg  font-normal leading-[27px]">{text}</span>;
+          return <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">{text}</span>;
         },
       },
       {
