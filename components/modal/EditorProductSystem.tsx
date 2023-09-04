@@ -230,7 +230,13 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
           </div>
         </>
       )}
-      {realModal && <RealData data={ps?.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
+      {realModal && (
+        <RealData
+          header={["参数名", "过程名称", "参考值"]}
+          data={ps?.model?.paramDetail}
+          onClose={() => toggleRealModal(false)}
+        />
+      )}
       {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={oldPs} />}
       {bomDataModal && (
         <ViewBomInfoModal modelBomInfo={detailInfo?.model?.modelBomInfo} onClose={() => setBomDataModal(false)} />

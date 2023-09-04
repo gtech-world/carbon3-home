@@ -10,7 +10,7 @@ interface ViewBomInfoModalProps {
 
 const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
   const { modelBomInfo = "" } = props;
-  const result = JSON.parse(modelBomInfo);
+  const result = modelBomInfo && JSON.parse(modelBomInfo);
 
   let styles: any = [];
   let mermaidDiagram = "graph TD\n";
@@ -23,7 +23,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
         const childIndex = result.findIndex((x: { flowId: any }) => x.flowId === childId);
         if (childIndex !== -1) {
           mermaidDiagram += `${childIndex + 1} --> ${index + 1}\n`;
-          styles.push(`style ${childIndex + 1 || index + 1} color:black,fill:#F1F1F1,stroke:black\n`);
+          styles.push(`style ${childIndex + 1} color:black,fill:#F1F1F1,stroke:black\n`);
           styles.push(`style ${index + 1} color:black,fill:#F1F1F1,stroke:black\n`);
         }
       });
@@ -31,7 +31,6 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
   });
 
   const data = [...new Set(styles || [])].toString().replace(/,style/g, " style");
-
   const src = `${mermaidDiagram}\n${data}`;
 
   return (
@@ -43,7 +42,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
             value={<Mermaid data={src} className="flex justify-center  w-[800px] h-[200px] bg-[#F1F1F1]" />}
           />
           <PairInfo tit="Part Number信息" value={null} />
-          {result?.map((e: any, i: number) => {
+          {(result || []).map((e: any, i: number) => {
             return (
               <div key={`info_${i}`} className="flex flex-row gap-10">
                 <div className="w-[200px] text-base text-[#666666] ">{e.flowName}</div>
@@ -52,7 +51,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
                     return (
                       <div key={`value_${index}`} className="w-20 ">
                         <div className="h-6 mx-[5px] font-normal  bg-[#F1F1F1] flex justify-center  rounded">
-                          {item}
+                          PN：{item}
                         </div>
                       </div>
                     );

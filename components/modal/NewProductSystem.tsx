@@ -1,6 +1,6 @@
 import { Modal, ModalProps } from "@components/common/modal";
-import { ChangeEvent, Fragment, useCallback, useMemo, useRef, useState } from "react";
-import { ActionBtn, EditorText, LcaActionInfo, OrganizationInfo, PairInfo, PsStatus } from "./EditorProductSystem";
+import { ChangeEvent, Fragment, useCallback, useRef, useState } from "react";
+import { ActionBtn, EditorText, LcaActionInfo, PairInfo } from "./EditorProductSystem";
 import { Btn } from "@components/common/button";
 import { useOn } from "@lib/hooks/useOn";
 import { upsertLcaProduct, uploadLcaModel, getLcaProductDetailList } from "@lib/http";
@@ -15,11 +15,12 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState<File | undefined | null>(null);
   const [type, setType] = useState("upload");
-  const disabledOk = !file;
+  const disabledOk = type === "upload" ? !file : !desc;
   const modelIdRef = useRef<number>();
   const [resultList, setResultList] = useState<{ modelBomInfo: string; modelName: string; paramDetail: string }>();
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
+  const [intervalId, setIntervalId] = useState<any>(null);
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
@@ -34,41 +35,59 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     getLcaProductDetailList(id)
       .then((res) => {
         const { state, modelBomInfo } = res;
-        if (state === 0 || !modelBomInfo) return;
-        setResultList(res);
-        setType("add");
+        if (state === 1 && modelBomInfo) {
+          setResultList(res);
+          setType("add");
+          setIsProgress(false);
+          setProgress(0);
+          clearInterval(intervalId);
+          setIntervalId(null);
+          return;
+        }
+
+        const newIntervalId = setInterval(() => {
+          uploadResultDetail(id);
+        }, 5000);
+        setIntervalId(newIntervalId);
       })
       .catch((e) => console.log(e))
-      .finally();
+      .finally(() => {});
+  };
+
+  const upload = () => {
+    const form = new FormData();
+    form.append("file", file as any);
+    acRef.current = new AbortController();
+    uploadLcaModel(form, {
+      signal: acRef.current.signal,
+      onUploadProgress: (e) => {
+        setProgress(Math.min(Math.round((e.rate || 0) * 100), 100));
+      },
+    })
+      .then((modelId) => {
+        modelIdRef.current = modelId;
+        uploadResultDetail(modelId);
+      })
+      .catch(() => {});
+    // .finally(() => {
+    //   setIsProgress(false);
+    //   setProgress(0);
+    // });
   };
 
   const onOk = useOn(() => {
     if (disabledOk) return;
-    const form = new FormData();
-    form.append("file", file);
-    acRef.current = new AbortController();
+
     if (type === "upload") {
       setIsProgress(true);
-      uploadLcaModel(form, {
-        signal: acRef.current.signal,
-        onUploadProgress: (e) => {
-          setProgress(Math.min(Math.round((e.rate || 0) * 100), 100));
-        },
-      })
-        .then((modelId) => {
-          modelIdRef.current = modelId;
-          uploadResultDetail(modelId);
-        })
-        .catch(() => {})
-        .finally(() => {
-          setIsProgress(false);
-          setProgress(0);
-        });
+      upload();
     } else {
       upsertLcaProduct({ name: resultList?.modelName, description: desc, modelId: modelIdRef.current })
         .then(() => {
           onSuccess && onSuccess();
           onClose();
+          clearInterval(intervalId);
+          setIntervalId(null);
         })
         .catch((e) => {
           console.log("err", e);
