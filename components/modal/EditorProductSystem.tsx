@@ -6,9 +6,8 @@ import { Modal, ModalProps } from "@components/common/modal";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { Organization } from "@lib/@types/type";
 import { useProductSystem } from "@lib/hooks/useDatas";
-import { useOn } from "@lib/hooks/useOn";
 import { useIsVerifier } from "@lib/hooks/useUser";
-import { uploadLcaModel, upsertLcaProduct } from "@lib/http";
+import { getProductDetailList } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
 import _ from "lodash";
@@ -28,6 +27,7 @@ import {
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
 import { ViewProductSystem } from "./ViewProductSystem";
+import ViewBomInfoModal from "./ViewBomInfoModal";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -103,10 +103,7 @@ export function LcaActionInfo(p: {
           <ActionBtn action="上传模型" onClick={onClickUp} />
         </>
       ) : (
-        <>
-          {!file && renderLook()}
-          {modelStatus === 1 && !hiddenUpdate && <ActionBtn action="更新模型" onClick={onClickUp} />}
-        </>
+        <>{!file && renderLook()}</>
       )}
     </div>
   );
@@ -144,6 +141,29 @@ export function OrganizationInfo(p: { organization?: Organization }) {
   );
 }
 
+type bomInfo = {
+  createTime: string;
+  createUserId: number;
+  description: string;
+  historyList: [];
+  id: number;
+  model: {
+    id: number;
+    modelBomInfo: string;
+    modelName: string;
+    modelUuid: string;
+    paramDetail: string;
+    productId: number;
+    state: number;
+  };
+  updateUser: {
+    admin: boolean;
+    id: number;
+    name: string;
+    system: boolean;
+  };
+};
+
 export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: () => void }) {
   const { psId, onSuccess, ...props } = p;
   const { data: ps, isLoading, error } = useProductSystem(psId, 60000);
@@ -160,22 +180,27 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   }, [error]);
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const [progress, setProgress] = useState(0);
-  const [bomData, setBomData] = useState("");
+  const [bomDataModal, setBomDataModal] = useState(false);
+  const [detailInfo, setDetailInfo] = useState<bomInfo>();
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
 
   const [realModal, toggleRealModal] = useToggle(false);
   const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
-  const versions = useMemo(() => {
-    return _.orderBy(
-      (ps?.historyList || []).map((item) => ({ ...item, text: `版本${item.version}` })),
-      (item) => _.toNumber(item.version),
-      "desc",
-    );
-  }, [ps]);
+
   const isVerifier = useIsVerifier();
+
+  const getDetailList = () => {
+    getProductDetailList(psId).then((res) => {
+      setDetailInfo(res);
+    });
+  };
+
+  useEffect(() => {
+    getDetailList();
+  }, []);
+
   return (
     <Modal {...props}>
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
@@ -184,8 +209,8 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
           <div className="flex flex-col gap-5  w-full min-w-[40rem] px-5 py-[1px] max-h-mc overflow-y-auto">
             <PairInfo tit="产品系统ID" value={ps.uuid || "-"} />
             <PairInfo tit="描述" value={inputDesc} />
-            <PairInfo tit="操作人" value={inputDesc} />
-            <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomData("1")} />} />
+            <PairInfo tit="操作人" value={detailInfo?.updateUser.name} />
+            <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomDataModal(true)} />} />
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
 
             <PairInfo
@@ -207,6 +232,9 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       )}
       {realModal && <RealData data={ps?.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
       {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={oldPs} />}
+      {bomDataModal && (
+        <ViewBomInfoModal modelBomInfo={detailInfo?.model?.modelBomInfo} onClose={() => setBomDataModal(false)} />
+      )}
     </Modal>
   );
 }

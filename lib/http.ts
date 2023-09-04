@@ -162,6 +162,17 @@ export async function uploadLcaModel(formData: FormData, config: AxiosRequestCon
   });
   return getData(res);
 }
+
+export async function getLcaProductDetailList(id: number) {
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product-lca/model/${id}/detail`), authConfig());
+  return getData(res);
+}
+
+export async function getProductDetailList(id: number) {
+  const res = await axios.get<Res<any>>(creatUrl(`/api/product-system/${id}/detail`), authConfig());
+  return getData(res);
+}
+
 export async function getLcaProductTypeList() {
   const res = await axios.get<Res<any>>(creatUrl(`/api/product/category/query`), authConfig());
   return getData(res);

@@ -3,13 +3,13 @@ import { ChangeEvent, Fragment, useCallback, useMemo, useRef, useState } from "r
 import { ActionBtn, EditorText, LcaActionInfo, OrganizationInfo, PairInfo, PsStatus } from "./EditorProductSystem";
 import { Btn } from "@components/common/button";
 import { useOn } from "@lib/hooks/useOn";
-import { upsertLcaProduct, uploadLcaModel } from "@lib/http";
+import { upsertLcaProduct, uploadLcaModel, getLcaProductDetailList } from "@lib/http";
 import { Progress } from "@components/common/progress";
 import ViewBomInfoModal from "./ViewBomInfoModal";
+import { RealData } from "./RealData";
 
 export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const { onSuccess, onClose: _onClose, ...props } = p;
-  const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [isProgress, setIsProgress] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -17,7 +17,10 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [type, setType] = useState("upload");
   const disabledOk = !file;
   const modelIdRef = useRef<number>();
-  const [bomData, setBomData] = useState("");
+  const [resultList, setResultList] = useState<{ modelBomInfo: ""; modelName: ""; paramDetail: "" }>({});
+  const [viewBomInfo, setViewBomInfo] = useState(false);
+  const [viewRealDataList, setViewRealDataList] = useState(false);
+
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
@@ -26,6 +29,18 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     acRef.current?.abort();
     _onClose && _onClose();
   }, [_onClose]);
+
+  const uploadResultDetail = (id: number) => {
+    getLcaProductDetailList(id)
+      .then((res) => {
+        const { state, modelBomInfo } = res;
+        if (state === 0 || !modelBomInfo) return;
+        setResultList(res);
+        setType("add");
+      })
+      .catch((e) => console.log(e))
+      .finally();
+  };
 
   const onOk = useOn(() => {
     if (disabledOk) return;
@@ -42,7 +57,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
       })
         .then((modelId) => {
           modelIdRef.current = modelId;
-          setType("add");
+          uploadResultDetail(modelId);
         })
         .catch(() => {})
         .finally(() => {
@@ -50,7 +65,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           setProgress(0);
         });
     } else {
-      upsertLcaProduct({ name, description: desc, modelId: modelIdRef.current })
+      upsertLcaProduct({ name: resultList.modelName, description: desc, modelId: modelIdRef.current })
         .then(() => {
           onSuccess && onSuccess();
           onClose();
@@ -60,7 +75,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         });
     }
   });
-  console.log("progress", progress);
 
   return (
     <Fragment>
@@ -83,21 +97,15 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
               />
             ) : (
               <Fragment>
-                <PairInfo tit="产品系统名称" value={123} />
-                <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomData("1")} />} />
-                <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => null} />} />
+                <PairInfo tit="产品系统名称" value={resultList.modelName} />
+                <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setViewBomInfo(true)} />} />
+                <PairInfo
+                  tit="实景参数列表"
+                  value={<ActionBtn action="查看" onClick={() => setViewRealDataList(true)} />}
+                />
                 <PairInfo
                   tit="产品系统LCA文件"
-                  value={
-                    <LcaActionInfo
-                      // modelId={ps.model?.id}
-                      // disableSelectFile={busy}
-                      // modelStatus={ps.model?.state}
-                      // hiddenUpdate={isVerifier}
-                      file={file as any}
-                      onFileChange={onFileChange}
-                    />
-                  }
+                  value={<LcaActionInfo file={file as any} onFileChange={onFileChange} />}
                 />
                 <PairInfo
                   tit="描述"
@@ -120,7 +128,8 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           </div>
         </div>
       </Modal>
-      {bomData && <ViewBomInfoModal onClose={() => setBomData("")} />}
+      {viewRealDataList && <RealData data={resultList?.paramDetail} onClose={() => setViewRealDataList(false)} />}
+      {viewBomInfo && <ViewBomInfoModal {...resultList} onClose={() => setViewBomInfo(false)} />}
     </Fragment>
   );
 }

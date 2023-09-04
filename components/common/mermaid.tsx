@@ -24,8 +24,8 @@ const DEFAULT_CONFIG: MermaidConfig = {
     diagramMarginX: 50,
     diagramMarginY: 10,
     actorMargin: 50,
-    width: 120,
-    height: 30,
+    width: 420,
+    height: 400,
     boxMargin: 10,
     boxTextMargin: 5,
     noteMargin: 10,
@@ -49,11 +49,15 @@ const DEFAULT_CONFIG: MermaidConfig = {
   },
 };
 
-export function Mermaid(p: { className?: string; data?: string }) {
-  const { className, data = "" } = p;
+export function Mermaid(p: { className?: string; data?: string; ref?: any }) {
+  const { className, data = "", ref } = p;
   mermaid.initialize(DEFAULT_CONFIG);
   useEffect(() => {
     mermaid.contentLoaded();
   }, [data]);
-  return <pre className={classNames("mermaid", className)}>{data}</pre>;
+  return (
+    <pre ref={ref} className={classNames("mermaid", className)}>
+      {data}
+    </pre>
+  );
 }
