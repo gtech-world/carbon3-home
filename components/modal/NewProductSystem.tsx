@@ -17,7 +17,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [type, setType] = useState("upload");
   const disabledOk = !file;
   const modelIdRef = useRef<number>();
-  const [resultList, setResultList] = useState<{ modelBomInfo: ""; modelName: ""; paramDetail: "" }>();
+  const [resultList, setResultList] = useState<{ modelBomInfo: string; modelName: string; paramDetail: string }>();
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
 
