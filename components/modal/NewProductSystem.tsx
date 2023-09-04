@@ -17,7 +17,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [type, setType] = useState("upload");
   const disabledOk = !file;
   const modelIdRef = useRef<number>();
-  const [resultList, setResultList] = useState<{ modelBomInfo: ""; modelName: ""; paramDetail: "" }>({});
+  const [resultList, setResultList] = useState<{ modelBomInfo: ""; modelName: ""; paramDetail: "" }>();
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
 
@@ -65,7 +65,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           setProgress(0);
         });
     } else {
-      upsertLcaProduct({ name: resultList.modelName, description: desc, modelId: modelIdRef.current })
+      upsertLcaProduct({ name: resultList?.modelName, description: desc, modelId: modelIdRef.current })
         .then(() => {
           onSuccess && onSuccess();
           onClose();
@@ -97,7 +97,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
               />
             ) : (
               <Fragment>
-                <PairInfo tit="产品系统名称" value={resultList.modelName} />
+                <PairInfo tit="产品系统名称" value={resultList?.modelName} />
                 <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setViewBomInfo(true)} />} />
                 <PairInfo
                   tit="实景参数列表"
