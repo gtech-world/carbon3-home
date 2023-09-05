@@ -666,7 +666,7 @@ export function InventoryResult() {
         contributeTreeData = [
           {
             contribution: (calcContribution(total, total) * 100).toFixed(2) + "%",
-            process: val.treeNode?.provider.name,
+            process: val.treeNode?.provider?.name || "-",
             requiredAmount: val.treeNode?.requiredAmount + " " + val.treeNode?.refUnit,
             result: val.treeNode?.result,
             // unit: referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit
@@ -690,7 +690,7 @@ export function InventoryResult() {
         items &&
           items.map((v: any) => {
             v.contribution = (calcContribution(v.result, total) * 100).toFixed(2) + "%";
-            v.process = v.provider.name;
+            v.process = v.provider?.name || "-";
             v.requiredAmount = v.requiredAmount + " " + v.refUnit;
             // v.unit = (referenceUnit==='m3'?<span>m<sup>3</sup></span>:referenceUnit)
             if (v.children && v.children.length > 0) {
@@ -706,7 +706,7 @@ export function InventoryResult() {
       // 处理清单列表的数据
       val.totalFlows?.map((v: any) => {
         let item = {
-          name: v.flow.name,
+          name: v.flow?.name || "-",
           category: v.flowPropertyPath,
           amount: v.value,
           unit: v.refUnit,
@@ -719,8 +719,8 @@ export function InventoryResult() {
       });
       val.totalRequirements?.map((v: any) => {
         totalRequire.push({
-          process: v.provider.name,
-          product: v.flow.name,
+          process: v.provider?.name || "-",
+          product: v.flow?.name || "-",
           amount: v.value,
           unit: v.refUnit,
         });
