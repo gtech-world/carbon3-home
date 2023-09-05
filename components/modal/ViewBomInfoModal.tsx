@@ -10,13 +10,26 @@ interface ViewBomInfoModalProps {
 
 const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
   const { modelBomInfo = "" } = props;
-  const result = modelBomInfo && JSON.parse(modelBomInfo);
+  const value = modelBomInfo && JSON.parse(modelBomInfo);
+
+  const customSort = (a: { tagType: string }, b: { tagType: string }) => {
+    if (a.tagType === "REFERENCE" && b.tagType !== "REFERENCE") {
+      return -1; // 'REFERENCE' 排在前面
+    } else if (a.tagType !== "REFERENCE" && b.tagType === "REFERENCE") {
+      return 1; // 'REFERENCE' 排在后面
+    } else {
+      return 0; // 保持原始顺序
+    }
+  };
+
+  const result = (value || []).sort(customSort);
 
   let styles: any = [];
   let mermaidDiagram = "graph TD\n";
   (result || []).forEach((item: { flowName: string; childFlowIds: any }, index: number) => {
     const { flowName, childFlowIds } = item;
     mermaidDiagram += `${index + 1}["${flowName}"]\n`;
+    styles.push(`style ${index + 1} color:black,fill:#F1F1F1,stroke:black\n`);
 
     if (childFlowIds && childFlowIds.length > 0) {
       childFlowIds.forEach((childId: any) => {
@@ -24,7 +37,6 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
         if (childIndex !== -1) {
           mermaidDiagram += `${childIndex + 1} --> ${index + 1}\n`;
           styles.push(`style ${childIndex + 1} color:black,fill:#F1F1F1,stroke:black\n`);
-          styles.push(`style ${index + 1} color:black,fill:#F1F1F1,stroke:black\n`);
         }
       });
     }
@@ -46,13 +58,13 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
             return (
               <div key={`info_${i}`} className="flex flex-row gap-10">
                 <div className="w-[200px] text-base text-[#666666] ">{e.flowName}</div>
-                <div className="flex flex-row ">
+                <div className="flex flex-row items-center">
                   {(e?.partNumbers || []).map((item: any, index: number) => {
                     return (
-                      <div key={`value_${index}`} className="flex items-center w-[130px] mx-[5px] ">
-                        <div className="h-6 w-full  font-normal  bg-[#F1F1F1] flex justify-center  rounded">
-                          PN：{item}
-                        </div>
+                      <div
+                        key={`value_${index}`}
+                        className="flex  max-w-[220px] bg-[#F1F1F1] h-6  rounded  justify-center ">
+                        <div className=" w-full mx-[10px] items-center  font-normal   ">PN：{item}</div>
                       </div>
                     );
                   })}
