@@ -50,7 +50,7 @@ export function Model() {
   const [productList, setProductList] = useState<any>([]);
   const fileRef = useRef(null);
   const { user } = useUser();
-  const [tableLoading, setTableLoading] = useState<boolean>(false);
+  const [tableLoading, setTableLoading] = useState<boolean>(true);
 
   const queryLcaProductTypeList = async () => {
     const res = await getLcaProductTypeList();
@@ -59,7 +59,6 @@ export function Model() {
 
   const queryLcaProductList = useCallback(async () => {
     try {
-      setTableLoading(true);
       const res = await getLcaProductList(pgNum);
       setTableData(res);
       setTableLoading(false);
@@ -70,6 +69,13 @@ export function Model() {
 
   useEffect(() => {
     queryLcaProductList();
+    const intervalId = setInterval(() => {
+      queryLcaProductList();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [queryLcaProductList]);
 
   useEffect(() => {
@@ -330,6 +336,7 @@ export function Model() {
         onChange={(v: any) => {
           setPgNum(v);
           scrollToTop();
+          setTableLoading(true);
         }}
         className="my-8"
         total={tableData?.total || 0}

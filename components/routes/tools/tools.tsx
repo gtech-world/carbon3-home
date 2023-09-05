@@ -9,13 +9,13 @@ function ToolsContent(item: any) {
       <div className="">
         <div className="flex items-center h-20 md:m-5">
           <img width="80" height="90" className="mr-5" src={`/${v.icon}`} alt="" />
-          <div className=" font-semibold lg:text-[20px] md:text-[18px]">
-            <div className=""> {i !== 3 && `\u201C${v.as}\u201D`}</div>
-            <h4>{v.title}</h4>
+          <div className="">
+            <div className="font-semibold lg:text-[20px] md:text-[18px]"> {i !== 3 && `\u201C${v.as}\u201D`}</div>
+            <h4 className="font-semibold lg:text-[20px] md:text-[18px]">{v.title}</h4>
           </div>
         </div>
-        <p className="mt-[40px] text-[#333333] leading-[21px] font-normal lg:text-[18px] md:text-[16px]">{v.text}</p>
-        <div className="mt-10 leading-[21px]   md:text-[16px] md:text-lg lg:text-[18px] ">
+        <p className="mt-[40px] text-[#333333] leading-[21px] font-normal lg:text-[16px] md:text-[14px]">{v.text}</p>
+        <div className="mt-10 leading-[21px]   md:text-[14px] md:text-lg lg:text-[16px] ">
           <h5 className="font-semibold">
             {v.as && `\u201C${v.as}\u201D`} {v.secondText}
           </h5>
@@ -88,11 +88,6 @@ export function Tools() {
           return <ToolsContent key={`inProgress${i}`} data={v} i={i} />;
         })}
       </ul>
-      {/* <a
-        href={"/tools/newInventory"}
-        className="flex items-center justify-center w-full h-[50px] p-4 mt-5 ml-auto text-lg text-white rounded-lg shrink-0 bg-green-2 ">
-        进入
-      </a> */}
     </ToolsLayout>
   );
 }

@@ -25,7 +25,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   }>({ id: 0, modelBomInfo: "", paramDetail: "", modelName: "" });
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
-  const [intervalId, setIntervalId] = useState<any>(null);
+  let newIntervalId: string | number | NodeJS.Timeout | undefined;
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
@@ -45,15 +45,13 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           setType("add");
           setIsProgress(false);
           setProgress(0);
-          clearInterval(intervalId);
-          setIntervalId(null);
+          clearInterval(newIntervalId);
           return;
         }
 
-        const newIntervalId = setInterval(() => {
+        newIntervalId = setInterval(() => {
           uploadResultDetail(id);
         }, 5000);
-        setIntervalId(newIntervalId);
       })
       .catch((e) => console.log(e))
       .finally(() => {});
@@ -87,8 +85,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         .then(() => {
           onSuccess && onSuccess();
           onClose();
-          clearInterval(intervalId);
-          setIntervalId(null);
         })
         .catch((e) => {
           console.log("err", e);
@@ -98,7 +94,13 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
 
   return (
     <Fragment>
-      <Modal {...props} title={"新建产品系统"} onClose={onClose}>
+      <Modal
+        {...props}
+        title={"新建产品系统"}
+        onClose={() => {
+          onClose();
+          clearInterval(newIntervalId);
+        }}>
         <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
           <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
             {isProgress ? (
