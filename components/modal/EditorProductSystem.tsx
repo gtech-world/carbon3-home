@@ -79,6 +79,7 @@ export function LcaActionInfo(p: {
   hiddenUpdate?: boolean;
   file?: File;
   openNewTab?: boolean;
+  btnText?: string;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
   const {
@@ -92,6 +93,7 @@ export function LcaActionInfo(p: {
     modelStatus,
     file,
     onFileChange,
+    btnText = "上传模型",
   } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
@@ -115,7 +117,7 @@ export function LcaActionInfo(p: {
         renderLook()
       ) : isNew ? (
         <>
-          <ActionBtn action="上传模型" onClick={onClickUp} />
+          <ActionBtn action={btnText} onClick={onClickUp} />
         </>
       ) : (
         <>{!file && renderLook()}</>

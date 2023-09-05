@@ -114,6 +114,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
                     disableSelectFile={isProgress}
                     file={file as any}
                     onFileChange={onFileChange}
+                    btnText="选择模型"
                   />
                 }
               />

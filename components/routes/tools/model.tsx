@@ -3,59 +3,29 @@ import { Modal } from "@components/common/modal";
 import { Pagination } from "@components/common/pagination";
 import { Table } from "@components/common/table";
 import { ToolsLayout } from "@components/common/toolsLayout";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import { useUser } from "@components/common/context";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Loading } from "@components/common/loading";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { useUnVerifier } from "@lib/hooks/useUser";
-import { getLcaProductList, getLcaProductTypeList, updateLcaModelState } from "@lib/http";
+import { getLcaProductList, updateLcaModelState } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
 import { handleContentRender, scrollToTop } from "utils";
 
-function formatToTree(ary: any, pid?: number) {
-  return ary
-    .filter((item: any) => (pid === undefined ? item.parentId === 0 : item.parentId === pid))
-    .map((item: any) => {
-      // 通过父节点ID查询所有子节点
-      item.children = formatToTree(ary, item.id);
-      return item;
-    });
-}
-
 export function Model() {
   const [status, setStatus] = useState<any>(null);
   const [viewReal, setViewReal] = useState<any>(null);
-  // const [uploadView, setUploadView] = useState(false);
   const [editorProductSystem, setEditorProductSystem] = useState<any>();
   const [opResult, setOpResult] = useState<any>(null);
   const [createProductView, setCreateProductView] = useState<boolean>(false);
   const [pgNum, setPgNum] = useState(1);
-  const [productName, setProductName] = useState<any>("");
-  const [productSelectedType, setProductSelectedType] = useState<any>(null);
-  const [description, setDescription] = useState<any>("");
-  const [productSelectedIndex, setProductSelectedIndex] = useState<any>(null);
-  const [uploadFile, setUploadFile] = useState<any>(null);
-  const [modelName, setModelName] = useState("");
   const [productViewSelectedIndex, setProductViewSelectedIndex] = useState<number>(-1);
-  const [productNameFilter, setProductNameFilter] = useState(-1);
   const [reload, setReload] = useState(0);
-  const [reloadProduct, setReloadProduct] = useState(0);
   const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
-  const [tableDataTotal, setTableDataTotal] = useState(0);
-  const [productType, setProductType] = useState([]);
   const [productList, setProductList] = useState<any>([]);
-  const fileRef = useRef(null);
-  const { user } = useUser();
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-
-  const queryLcaProductTypeList = async () => {
-    const res = await getLcaProductTypeList();
-    setProductType(res ? formatToTree(res?.records, 0) : []);
-  };
 
   const queryLcaProductList = useCallback(async () => {
     try {
@@ -77,10 +47,6 @@ export function Model() {
       clearInterval(intervalId);
     };
   }, [queryLcaProductList]);
-
-  useEffect(() => {
-    queryLcaProductTypeList();
-  }, []);
 
   const columns = useMemo(
     () => [
@@ -216,74 +182,6 @@ export function Model() {
     setStatus(null);
   };
 
-  // const doAddProduct = async () => {
-  //   if (!productSelectedType?.id) return false;
-
-  //   const findResult = _.find(productList, (item: any) => {
-  //     return item.text === productName;
-  //   });
-  //   if (findResult) {
-  //     toast({ type: "error", msg: "产品名称已经存在" });
-  //     return false;
-  //   }
-  //   setCreateProductView(false);
-  //   await insertLcaProduct({
-  //     name: productName,
-  //     categoryId: productSelectedType?.id,
-  //     orgId: user.orgId,
-  //     description: description,
-  //   });
-  //   toast({ type: "info", msg: "新建成功！" });
-  //   const dom = document.getElementById("productList");
-  //   if (dom) dom.scrollTop = dom.scrollHeight;
-  //   setReloadProduct(reloadProduct + 1);
-  // };
-  // const doUpload = async () => {
-  //   const formData = new FormData();
-  //   formData.append("name", modelName);
-  //   formData.append("file", uploadFile);
-  //   formData.append("productId", productList[productSelectedIndex].id);
-  //   const title = "上传碳足迹模型";
-  //   setOpResult({
-  //     title,
-  //     loading: true,
-  //   });
-  //   // @ts-ignore
-  //   fileRef.current.value = "";
-  //   setUploadView(false);
-  //   const res = await uploadLcaModel(formData);
-  //   if (res) {
-  //     setOpResult({
-  //       title,
-  //       loading: false,
-  //       resultText: "上传成功！",
-  //     });
-  //     setUploadView(false);
-  //     setPgNum(1);
-  //     setReload(reload + 1);
-  //   } else {
-  //     setOpResult({
-  //       title,
-  //       loading: false,
-  //       resultText: "上传失败！",
-  //     });
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (!uploadView) {
-  //     setProductSelectedIndex(null);
-  //     setUploadFile(null);
-  //   }
-  // }, [uploadView]);
-  const canUpload = useMemo(() => {
-    return !!uploadFile && !!modelName && productSelectedIndex > -1;
-  }, [uploadFile, modelName, productSelectedIndex]);
-  const canCreateProduct = useMemo(() => {
-    return !!productName && !!productSelectedType;
-  }, [productName, productSelectedType]);
-  const onProductChange = useCallback((val: any) => {
-    setProductName(val.target.value);
-  }, []);
   const unVerifier = useUnVerifier();
 
   const onSuccess = () => {
@@ -293,9 +191,6 @@ export function Model() {
     }
   };
 
-  const onChangeColumn = (item: ProduceSystemController.ListRecords) => {
-    setEditorProductSystem(item);
-  };
   return (
     <ToolsLayout
       isNew
@@ -323,7 +218,6 @@ export function Model() {
                 columns={columns}
                 columnsHeight={"h-[3.125rem]"}
                 mouseHoverKey={"id"}
-                // onChangeColumn={(item) => onChangeColumn(item)}
                 data={tableData?.records || []}
                 columnsClassName=" cursor-pointer "
                 headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
