@@ -10,8 +10,11 @@ function ToolsContent(item: any) {
         <div className="flex items-center h-20 md:m-5">
           <img width="64" height="64" className="mr-5" src={`/${v.icon}`} alt="" />
           <div className="">
-            <div className="font-semibold lg:text-[20px] md:text-[18px]"> {i !== 3 && `\u201C${v.as}\u201D`}</div>
-            <h4 className="font-semibold lg:text-[20px] md:text-[18px]">{v.title}</h4>
+            <div className="font-semibold lg:text-[20px] md:text-[18px] text-[18px]">
+              {" "}
+              {i !== 3 && `\u201C${v.as}\u201D`}
+            </div>
+            <h4 className="font-semibold lg:text-[20px] md:text-[18px] text-[18px]">{v.title}</h4>
           </div>
         </div>
         <p className="mt-[40px] text-[#333333] leading-[21px] font-normal lg:text-[16px] md:text-[14px]">{v.text}</p>
