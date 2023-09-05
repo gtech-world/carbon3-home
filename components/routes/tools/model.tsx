@@ -97,13 +97,13 @@ export function Model() {
       {
         title: "产品系统ID",
         dataIndex: "uuid",
-        width: "13rem",
+        width: "15rem",
         render: (text: string) => {
           return (
             <span
               data-tooltip-id="tooltip"
               data-tooltip-content={text}
-              className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
+              className="text-lg w-[15rem] truncate inline-block font-normal leading-[27px]">
               {shortStr(text, 8, 8)}
             </span>
           );
@@ -124,13 +124,13 @@ export function Model() {
       {
         title: "描述",
         dataIndex: "description",
-        width: "12.5rem",
+        width: "14rem",
         render: (text: string) => {
           return (
             <div
               data-tooltip-content={handleContentRender(text, 11)}
               data-tooltip-id="tooltip"
-              className="w-[10rem] text-lg truncate inline-block font-normal leading-[27px]">
+              className="w-[14rem] text-lg truncate inline-block font-normal leading-[27px]">
               {text || "-"}
             </div>
           );
@@ -139,7 +139,7 @@ export function Model() {
       {
         title: "上传时间",
         dataIndex: "createTime",
-        width: "9.375rem",
+        width: "13rem",
         render: (text: string) => {
           return <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">{text}</span>;
         },

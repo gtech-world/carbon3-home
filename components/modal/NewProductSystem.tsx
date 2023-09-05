@@ -130,6 +130,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
                     <LcaActionInfo
                       modelStatus={!isProgress ? 1 : 0}
                       modelId={resultList.id}
+                      openNewTab={true}
                       onFileChange={onFileChange}
                     />
                   }

@@ -1,6 +1,4 @@
-import { Btn } from "@components/common/button";
 import { useStore } from "@components/common/context";
-import { Dropdown } from "@components/common/dropdown";
 import { Loading } from "@components/common/loading";
 import { Modal, ModalProps } from "@components/common/modal";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
@@ -20,14 +18,13 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
-import { ViewProductSystem } from "./ViewProductSystem";
 import ViewBomInfoModal from "./ViewBomInfoModal";
+import { ViewProductSystem } from "./ViewProductSystem";
 
 export function PsStatus(p: { status?: number }) {
   const { status } = p;
@@ -52,7 +49,7 @@ export function PsStatus(p: { status?: number }) {
   );
 }
 
-export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLDivElement>; to?: string }) {
+export function ActionBtn(p: { action: string; onClick?: undefined | MouseEventHandler<HTMLDivElement>; to?: string }) {
   const { action, onClick, to } = p;
   if (to) {
     return (
@@ -81,13 +78,31 @@ export function LcaActionInfo(p: {
   disableSelectFile?: boolean;
   hiddenUpdate?: boolean;
   file?: File;
+  openNewTab?: boolean;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
-  const { psId, disableSelectFile = false, hiddenUpdate, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
+  const {
+    psId,
+    disableSelectFile = false,
+    openNewTab = false,
+    hiddenUpdate,
+    modelId,
+    isNew,
+    isRead,
+    modelStatus,
+    file,
+    onFileChange,
+  } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
     if (modelStatus !== 1) return <div className="text-base font-normal leading-none text-amber-500">等待解析</div>;
-    return <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />;
+    return (
+      <ActionBtn
+        onClick={() => (openNewTab ? window.open(`/model?id=${modelId}`, "_blank") : undefined)}
+        to={!openNewTab ? `/model?id=${modelId}` : undefined}
+        action="在线查看"
+      />
+    );
   };
   const onClickUp = (e: MouseEvent<HTMLDivElement>) => {
     !disableSelectFile && inputFileRef.current?.click();
@@ -214,7 +229,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
                 <span
                   data-tooltip-id="tooltip"
                   data-tooltip-content={inputDesc}
-                  className="text-lg w-[30rem] truncate inline-block font-normal leading-[27px]">
+                  className="text-lg w-[40rem]  text-clip overflow-hidden inline-block font-normal leading-[27px]">
                   {inputDesc}
                 </span>
               }
