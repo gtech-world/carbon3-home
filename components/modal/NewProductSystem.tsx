@@ -15,7 +15,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState<File | undefined | null>(null);
   const [type, setType] = useState("upload");
-  const disabledOk = type === "upload" ? !file : !desc;
+  const disabledOk = !file;
   const modelIdRef = useRef<number>();
   const [resultList, setResultList] = useState<{
     modelBomInfo: string;

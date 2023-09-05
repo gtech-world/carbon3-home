@@ -18,7 +18,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
     const { flowName, childFlowIds } = item;
     mermaidDiagram += `${index + 1}["${flowName}"]\n`;
 
-    if (childFlowIds.length > 0) {
+    if (childFlowIds && childFlowIds.length > 0) {
       childFlowIds.forEach((childId: any) => {
         const childIndex = result.findIndex((x: { flowId: any }) => x.flowId === childId);
         if (childIndex !== -1) {
@@ -49,8 +49,8 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
                 <div className="flex flex-row ">
                   {(e?.partNumbers || []).map((item: any, index: number) => {
                     return (
-                      <div key={`value_${index}`} className="flex items-center w-20 ">
-                        <div className="h-6 mx-[5px] font-normal  bg-[#F1F1F1] flex justify-center  rounded">
+                      <div key={`value_${index}`} className="flex items-center w-[130px] mx-[5px] ">
+                        <div className="h-6 w-full  font-normal  bg-[#F1F1F1] flex justify-center  rounded">
                           PN：{item}
                         </div>
                       </div>

@@ -97,7 +97,7 @@ export function Model() {
       {
         title: "产品系统ID",
         dataIndex: "uuid",
-        width: "20rem",
+        width: "13rem",
         render: (text: string) => {
           return (
             <span
@@ -112,10 +112,10 @@ export function Model() {
       {
         title: "操作人",
         dataIndex: "name",
-        width: "12.5rem",
+        width: "8rem",
         render: (text: string, record: ProduceSystemController.ListRecords) => {
           return (
-            <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
+            <span className="w-[8rem] text-lg truncate inline-block font-normal leading-[27px]">
               {record.updateUser.name}
             </span>
           );
@@ -130,8 +130,8 @@ export function Model() {
             <div
               data-tooltip-content={handleContentRender(text, 11)}
               data-tooltip-id="tooltip"
-              className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
-              {text}
+              className="w-[10rem] text-lg truncate inline-block font-normal leading-[27px]">
+              {text || "-"}
             </div>
           );
         },
