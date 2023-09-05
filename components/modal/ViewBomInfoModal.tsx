@@ -63,7 +63,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
                     return (
                       <div
                         key={`value_${index}`}
-                        className="flex  max-w-[220px] bg-[#F1F1F1] h-6  rounded  justify-center ">
+                        className="flex  max-w-[220px] bg-[#F1F1F1] h-6  rounded ml-5 justify-center ">
                         <div className=" w-full mx-[10px] items-center  font-normal   ">PN：{item}</div>
                       </div>
                     );
