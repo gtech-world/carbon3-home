@@ -8,7 +8,7 @@ function ToolsContent(item: any) {
     <li className={classNames("bg-white  rounded-xl w-full p-5 mr-5 flex flex-col justify-between mt-5 ", {})}>
       <div className="">
         <div className="flex items-center h-20 md:m-5">
-          <img width="80" height="90" className="mr-5" src={`/${v.icon}`} alt="" />
+          <img width="64" height="64" className="mr-5" src={`/${v.icon}`} alt="" />
           <div className="">
             <div className="font-semibold lg:text-[20px] md:text-[18px]"> {i !== 3 && `\u201C${v.as}\u201D`}</div>
             <h4 className="font-semibold lg:text-[20px] md:text-[18px]">{v.title}</h4>
