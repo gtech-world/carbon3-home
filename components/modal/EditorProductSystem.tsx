@@ -226,10 +226,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo
               tit="描述"
               value={
-                <span
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content={inputDesc}
-                  className="text-lg w-[40rem]  text-clip overflow-hidden inline-block font-normal leading-[27px]">
+                <span className="text-lg w-[40rem] cursor-default text-clip overflow-hidden inline-block font-normal leading-[27px]">
                   {inputDesc}
                 </span>
               }
