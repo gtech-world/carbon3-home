@@ -52,12 +52,15 @@ export function Pagination(p: Props & HTMLAttributes<HTMLDivElement>) {
     onChange && pgNum < count && onChange(pgNum + 1, count);
   };
   const doFirst = () => {
+    if (pgNum === 1) return;
     onChange && onChange(1, count);
   };
   const doPrev = () => {
     onChange && pgNum > 1 && onChange(pgNum - 1, count);
   };
   const doLast = () => {
+    if (count === pgNum) return;
+
     onChange && onChange(count);
   };
   if (total <= pgSize) return null;
