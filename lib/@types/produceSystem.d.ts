@@ -60,5 +60,6 @@ declare namespace ProduceSystemController {
     productId: 1;
     productSystemUuid?: string;
     updateTime?: string;
+    modelBomInfo?: string;
   };
 }

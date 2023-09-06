@@ -158,29 +158,6 @@ export function OrganizationInfo(p: { organization?: Organization }) {
   );
 }
 
-type bomInfo = {
-  createTime: string;
-  createUserId: number;
-  description: string;
-  historyList: [];
-  id: number;
-  model: {
-    id: number;
-    modelBomInfo: string;
-    modelName: string;
-    modelUuid: string;
-    paramDetail: string;
-    productId: number;
-    state: number;
-  };
-  updateUser: {
-    admin: boolean;
-    id: number;
-    name: string;
-    system: boolean;
-  };
-};
-
 export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: () => void }) {
   const { psId, onSuccess, ...props } = p;
   const { data: ps, isLoading, error } = useProductSystem(psId, 60000);
@@ -198,25 +175,13 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState<File | undefined | null>(null);
   const [bomDataModal, setBomDataModal] = useState(false);
-  const [detailInfo, setDetailInfo] = useState<bomInfo>();
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
 
   const [realModal, toggleRealModal] = useToggle(false);
   const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
-
   const isVerifier = useIsVerifier();
-
-  const getDetailList = () => {
-    getProductDetailList(psId).then((res) => {
-      setDetailInfo(res);
-    });
-  };
-
-  useEffect(() => {
-    getDetailList();
-  }, []);
 
   return (
     <Modal {...props}>
@@ -229,7 +194,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
               tit="描述"
               value={<span className=" w-[40rem] text-[16px] font-normal text-[#999999]">{inputDesc}</span>}
             />
-            <PairInfo tit="操作人" value={detailInfo?.updateUser.name || "-"} />
+            <PairInfo tit="操作人" value={ps.updateUser.name || "-"} />
             <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomDataModal(true)} />} />
             <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
 
@@ -259,7 +224,7 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
       )}
       {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={oldPs} />}
       {bomDataModal && (
-        <ViewBomInfoModal modelBomInfo={detailInfo?.model?.modelBomInfo} onClose={() => setBomDataModal(false)} />
+        <ViewBomInfoModal modelBomInfo={ps?.model?.modelBomInfo} onClose={() => setBomDataModal(false)} />
       )}
     </Modal>
   );
