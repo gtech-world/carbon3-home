@@ -148,6 +148,7 @@ export function Header(
         id="app_header"
         className={classNames(
           `w-full relative z-[3] max-w-[90rem] mx-auto  text-white  flex items-center top-0  h-[4.25rem]
+          ${!nopx && (windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]")}
           `,
           className,
         )}
