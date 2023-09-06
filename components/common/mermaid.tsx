@@ -68,3 +68,5 @@ export function Mermaid(p: { className?: string; data?: string }) {
     </pre>
   );
 }
+
+export default Mermaid;

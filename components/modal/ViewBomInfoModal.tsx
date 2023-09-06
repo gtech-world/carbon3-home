@@ -1,7 +1,7 @@
 import { Modal } from "@components/common/modal";
+import { Wrapmermaid } from "@components/common/wrapmermaid";
 import { FC } from "react";
 import { PairInfo } from "./EditorProductSystem";
-import { Mermaid } from "@components/common/mermaid";
 
 interface ViewBomInfoModalProps {
   onClose: () => void;
@@ -51,7 +51,7 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
         <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
           <PairInfo
             tit="BOM结构"
-            value={<Mermaid data={src} className="flex justify-center  w-[800px] h-[200px] bg-[#F1F1F1]" />}
+            value={<Wrapmermaid data={src} className="flex justify-center  w-[800px] h-[200px] bg-[#F1F1F1]" />}
           />
           <PairInfo tit="Part Number信息" value={null} />
           {(result || []).map((e: any, i: number) => {
