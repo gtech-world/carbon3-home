@@ -52,31 +52,31 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         modelIdRef.current = modelId;
         //5秒请求一次，防止多次请求，加入最大请求数，最大数为：10.超过则停止请求，清除定时器
         const intervalId = setInterval(() => {
+          const closeAll = () => {
+            clearInterval(intervalId);
+            setIsProgress(false);
+            setProgress(0);
+          };
           if (currentRequestCount < maxRequestCount) {
             getLcaProductDetailList(modelId).then((res) => {
               const { state, modelBomInfo } = res;
+
               if (state === 1 && modelBomInfo) {
                 setResultList(res);
                 setType("add");
-                setIsProgress(false);
-                setProgress(0);
-                clearInterval(intervalId);
+                closeAll();
                 return;
               }
               currentRequestCount++;
 
               if (currentRequestCount >= maxRequestCount) {
                 // 达到最大请求次数后，停止定时器
-                clearInterval(intervalId);
-                setIsProgress(false);
-                setProgress(0);
+                closeAll();
               }
             });
           } else {
             // 达到最大请求次数后，停止定时器
-            clearInterval(intervalId);
-            setIsProgress(false);
-            setProgress(0);
+            closeAll();
           }
         }, 5000); // 每隔5秒执行一次接口请求
       })
