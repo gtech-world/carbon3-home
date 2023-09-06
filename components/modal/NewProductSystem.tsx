@@ -167,7 +167,13 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           </div>
         </div>
       </Modal>
-      {viewRealDataList && <RealData data={resultList?.paramDetail} onClose={() => setViewRealDataList(false)} />}
+      {viewRealDataList && (
+        <RealData
+          header={["参数名", "过程名称", "参考值"]}
+          data={resultList?.paramDetail}
+          onClose={() => setViewRealDataList(false)}
+        />
+      )}
       {viewBomInfo && <ViewBomInfoModal {...resultList} onClose={() => setViewBomInfo(false)} />}
     </Fragment>
   );

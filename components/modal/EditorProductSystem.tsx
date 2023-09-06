@@ -192,7 +192,11 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
             <PairInfo tit="产品系统ID" value={ps.uuid || "-"} />
             <PairInfo
               tit="描述"
-              value={<span className=" w-[40rem] text-[16px] font-normal text-[#999999]">{inputDesc || "-"}</span>}
+              value={
+                <div className=" break-words max-w-[40rem] flex-wrap text-[16px] font-normal text-[#999999]">
+                  {inputDesc || "-"}
+                </div>
+              }
             />
             <PairInfo tit="操作人" value={ps.updateUser.name || "-"} />
             <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomDataModal(true)} />} />
