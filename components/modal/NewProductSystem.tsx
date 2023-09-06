@@ -26,6 +26,8 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
   let newIntervalId: string | number | NodeJS.Timeout | undefined;
+  let maxRequestCount = 10; // 设置最大请求次数
+  let currentRequestCount = 0; // 当前请求次数
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
@@ -35,27 +37,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     acRef.current?.abort();
     _onClose && _onClose();
   }, [_onClose]);
-
-  const uploadResultDetail = (id: number) => {
-    getLcaProductDetailList(id)
-      .then((res) => {
-        const { state, modelBomInfo } = res;
-        if (state === 1 && modelBomInfo) {
-          setResultList(res);
-          setType("add");
-          setIsProgress(false);
-          setProgress(0);
-          clearInterval(newIntervalId);
-          return;
-        }
-
-        newIntervalId = setInterval(() => {
-          uploadResultDetail(id);
-        }, 5000);
-      })
-      .catch((e) => console.log(e))
-      .finally(() => {});
-  };
 
   const upload = () => {
     const form = new FormData();
@@ -69,7 +50,35 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     })
       .then((modelId) => {
         modelIdRef.current = modelId;
-        uploadResultDetail(modelId);
+        //5秒请求一次，防止多次请求，加入最大请求数，最大数为：10.超过则停止请求，清除定时器
+        const intervalId = setInterval(() => {
+          if (currentRequestCount < maxRequestCount) {
+            getLcaProductDetailList(modelId).then((res) => {
+              const { state, modelBomInfo } = res;
+              if (state === 1 && modelBomInfo) {
+                setResultList(res);
+                setType("add");
+                setIsProgress(false);
+                setProgress(0);
+                clearInterval(intervalId);
+                return;
+              }
+              currentRequestCount++;
+
+              if (currentRequestCount >= maxRequestCount) {
+                // 达到最大请求次数后，停止定时器
+                clearInterval(intervalId);
+                setIsProgress(false);
+                setProgress(0);
+              }
+            });
+          } else {
+            // 达到最大请求次数后，停止定时器
+            clearInterval(intervalId);
+            setIsProgress(false);
+            setProgress(0);
+          }
+        }, 5000); // 每隔5秒执行一次接口请求
       })
       .catch(() => {});
   };
@@ -81,7 +90,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
       setIsProgress(true);
       upload();
     } else {
-      upsertLcaProduct({ name: resultList?.modelName, description: desc, modelId: modelIdRef.current })
+      upsertLcaProduct({ name: resultList.modelName, description: desc, modelId: modelIdRef.current })
         .then(() => {
           onSuccess && onSuccess();
           onClose();
@@ -99,7 +108,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         title={"新建产品系统"}
         onClose={() => {
           onClose();
-          clearInterval(newIntervalId);
         }}>
         <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
           <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
