@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import mermaid, { MermaidConfig } from "mermaid";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import panzoom from "svg-pan-zoom";
 
 const DEFAULT_CONFIG: MermaidConfig = {
   startOnLoad: true,
@@ -49,12 +50,18 @@ const DEFAULT_CONFIG: MermaidConfig = {
   },
 };
 
-export function Mermaid(p: { className?: string; data?: string; ref?: any }) {
-  const { className, data = "", ref } = p;
+export function Mermaid(p: { className?: string; data?: string }) {
+  const { className, data = "" } = p;
+  const ref = useRef<HTMLPreElement>(null);
   mermaid.initialize(DEFAULT_CONFIG);
   useEffect(() => {
     mermaid.contentLoaded();
   }, [data]);
+  useEffect(() => {
+    const initZoom = () => panzoom(ref.current?.firstChild as any, { zoomEnabled: true, controlIconsEnabled: true });
+    if (ref.current?.firstChild?.nodeName === "svg") initZoom();
+    else setTimeout(() => ref.current?.firstChild?.nodeName === "svg" && initZoom(), 200);
+  }, []);
   return (
     <pre ref={ref} className={classNames("mermaid", className)}>
       {data}

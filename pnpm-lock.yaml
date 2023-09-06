@@ -45,6 +45,7 @@ specifiers:
   react-virtualized-auto-sizer: ^1.0.7
   react-vtree: 3.0.0-beta.3
   react-window: ^1.8.8
+  svg-pan-zoom: ^3.6.1
   swr: ^2.2.0
   tailwindcss: ^3.2.4
   typescript: 4.9.4
@@ -85,6 +86,7 @@ dependencies:
   react-virtualized-auto-sizer: registry.npmmirror.com/react-virtualized-auto-sizer/1.0.20_biqbaboplfbrettd7655fr4n2y
   react-vtree: registry.npmmirror.com/react-vtree/3.0.0-beta.3_pevryihyva5efxkuubay5r2teq
   react-window: registry.npmmirror.com/react-window/1.8.9_biqbaboplfbrettd7655fr4n2y
+  svg-pan-zoom: 3.6.1
   swr: registry.npmmirror.com/swr/2.2.1_react@18.2.0
   typescript: registry.npmmirror.com/typescript/4.9.4
 
@@ -925,6 +927,10 @@ packages:
 
   /stylis/4.3.0:
     resolution: {integrity: sha512-E87pIogpwUsUwXw7dNyU4QDjdgVMy52m+XEOPEKUn161cCzWjjhPSQhByfd1CcNvrOLnXQ6OnnZDwnJrz/Z4YQ==}
+    dev: false
+
+  /svg-pan-zoom/3.6.1:
+    resolution: {integrity: sha512-JaKkGHHfGvRrcMPdJWkssLBeWqM+Isg/a09H7kgNNajT1cX5AztDTNs+C8UzpCxjCTRrG34WbquwaovZbmSk9g==}
     dev: false
 
   /to-fast-properties/2.0.0:
