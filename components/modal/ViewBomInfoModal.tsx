@@ -58,11 +58,11 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
             return (
               <div key={`info_${i}`} className="flex flex-row gap-10">
                 <div className="w-[200px] text-base text-[#666666] ">{e.flowName}</div>
-                <div className="flex flex-wrap flex-1 flex-shrink w-[30rem] ">
+                <div className="flex flex-wrap flex-1 flex-shrink w-[30rem] items-center ">
                   {(e?.partNumbers || []).map((item: any, index: number) => {
                     return (
                       <div key={`value_${index}`} className="flex max-w-lg bg-[#F1F1F1] h-6  mb-[10px] rounded ml-5  ">
-                        <div className=" w-full mx-[10px] items-center  font-normal   ">PN：{item}</div>
+                        <div className=" w-full mx-[10px] items-center  font-normal   ">PN : {item}</div>
                       </div>
                     );
                   })}
