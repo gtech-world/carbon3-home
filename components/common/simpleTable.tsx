@@ -14,7 +14,7 @@ export interface TableProps {
 
 export function DefEmpty() {
   return (
-    <tr className=" text-black text-center text-lg font-normal ">
+    <tr className="text-lg font-normal text-center text-black ">
       <td colSpan={100} className="h-[100px] py-5 align-top">
         无数据
       </td>
@@ -26,7 +26,7 @@ export const STable = ({
   header,
   data,
   empty = <DefEmpty />,
-  className = "min-w-full relative",
+  className = "relative min-w-full bg-neutral-200 ",
   headerClassName = "bg-neutral-200 sticky top-0 text-left text-black text-lg font-bold leading-[27px]",
   headerItemClassName = "p-3",
   tbodyClassName = "bg-white ",
