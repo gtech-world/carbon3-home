@@ -16,7 +16,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [file, setFile] = useState<File | undefined | null>(null);
   const [type, setType] = useState("upload");
   const disabledOk = !file;
-  const modelIdRef = useRef<number>();
+  const modelIdRef = useRef<number>(0);
   const [resultList, setResultList] = useState<{
     modelBomInfo: string;
     modelName: string;
@@ -25,6 +25,8 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   }>({ id: 0, modelBomInfo: "", paramDetail: "", modelName: "" });
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
+  const [continueTimer, setContinueTimer] = useState(true);
+  const [intervalId, setIntervalId] = useState<any>(null);
 
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
@@ -35,6 +37,35 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     _onClose && _onClose();
   }, [_onClose]);
 
+  const closeAll = () => {
+    setIntervalId(null);
+    intervalId && clearTimeout(intervalId);
+    setIsProgress(false);
+    setProgress(0);
+    setContinueTimer(false);
+  };
+
+  const fetchLcaProductDetail = async () => {
+    if (!continueTimer) {
+      closeAll();
+      return;
+    }
+
+    try {
+      const res = await getLcaProductDetailList(modelIdRef.current);
+      const { state, modelBomInfo } = res;
+      if (state === 1 && modelBomInfo) {
+        setResultList(res);
+        setType("add");
+        closeAll();
+        return;
+      }
+      setIntervalId(setTimeout(fetchLcaProductDetail, 5000));
+    } catch (error) {
+      closeAll();
+    }
+  };
+
   const upload = () => {
     const form = new FormData();
     form.append("file", file as any);
@@ -42,35 +73,24 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     uploadLcaModel(form, {
       signal: acRef.current.signal,
       onUploadProgress: (e) => {
-        setProgress(Math.min(Math.round((e.rate || 0) * 100), 100));
+        setProgress(Math.min(Math.round((e.progress || 0) * 100), 100));
       },
     })
       .then((modelId) => {
         modelIdRef.current = modelId;
-        const intervalId = setInterval(() => {
-          const closeAll = () => {
-            clearInterval(intervalId);
-            setIsProgress(false);
-            setProgress(0);
-          };
-          getLcaProductDetailList(modelId).then((res) => {
-            const { state, modelBomInfo } = res;
+        // const int = setTimeout(fetchLcaProductDetail, 5000);
+        // setIntervalId(int);
 
-            if (state === 1 && modelBomInfo) {
-              setResultList(res);
-              setType("add");
-              closeAll();
-              return;
-            }
-          });
-        }, 5000);
+        const initialTimer = setTimeout(fetchLcaProductDetail, 5000);
+        setIntervalId(initialTimer);
       })
-      .catch(() => {});
+      .catch(() => {
+        closeAll();
+      });
   };
 
   const onOk = useOn(() => {
     if (disabledOk) return;
-
     if (type === "upload") {
       setIsProgress(true);
       upload();
@@ -93,6 +113,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         title={"新建产品系统"}
         onClose={() => {
           onClose();
+          closeAll();
         }}>
         <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
           <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
@@ -141,7 +162,13 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           <div className="flex flex-shrink-0 w-full gap-5 px-5">
             {!isProgress && (
               <Fragment>
-                <Btn defStyle="btn-primary-1" className="flex-1" onClick={onClose as any}>
+                <Btn
+                  defStyle="btn-primary-1"
+                  className="flex-1"
+                  onClick={() => {
+                    onClose();
+                    closeAll();
+                  }}>
                   取消
                 </Btn>
                 <Btn className="flex-1" onClick={onOk} disabled={disabledOk}>
