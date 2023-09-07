@@ -7,6 +7,8 @@ import { upsertLcaProduct, uploadLcaModel, getLcaProductDetailList } from "@lib/
 import { Progress } from "@components/common/progress";
 import ViewBomInfoModal from "./ViewBomInfoModal";
 import { RealData } from "./RealData";
+import { sleep } from "@lib/utils";
+import { useSafe } from "@lib/hooks/useSafe";
 
 export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const { onSuccess, onClose: _onClose, ...props } = p;
@@ -16,7 +18,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [file, setFile] = useState<File | undefined | null>(null);
   const [type, setType] = useState("upload");
   const disabledOk = !file;
-  const modelIdRef = useRef<number>(0);
+
   const [resultList, setResultList] = useState<{
     modelBomInfo: string;
     modelName: string;
@@ -25,9 +27,6 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   }>({ id: 0, modelBomInfo: "", paramDetail: "", modelName: "" });
   const [viewBomInfo, setViewBomInfo] = useState(false);
   const [viewRealDataList, setViewRealDataList] = useState(false);
-  const [continueTimer, setContinueTimer] = useState(true);
-  const [intervalId, setIntervalId] = useState<any>(null);
-
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
@@ -37,32 +36,26 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     _onClose && _onClose();
   }, [_onClose]);
 
-  const closeAll = () => {
-    setIntervalId(null);
-    intervalId && clearTimeout(intervalId);
+  const resetState = () => {
     setIsProgress(false);
     setProgress(0);
-    setContinueTimer(false);
   };
 
-  const fetchLcaProductDetail = async () => {
-    if (!continueTimer) {
-      closeAll();
-      return;
-    }
-
-    try {
-      const res = await getLcaProductDetailList(modelIdRef.current);
-      const { state, modelBomInfo } = res;
-      if (state === 1 && modelBomInfo) {
-        setResultList(res);
-        setType("add");
-        closeAll();
-        return;
+  const safe = useSafe();
+  const loopGetDetail = async (modelId: number) => {
+    while (true) {
+      try {
+        await sleep(5000);
+        if (!safe.current) return;
+        const res = await getLcaProductDetailList(modelId);
+        const { state, modelBomInfo } = res;
+        setProgress((p) => Math.min(p + 10, 100));
+        if (state === 1 && modelBomInfo) {
+          return res;
+        }
+      } catch (error) {
+        continue;
       }
-      setIntervalId(setTimeout(fetchLcaProductDetail, 5000));
-    } catch (error) {
-      closeAll();
     }
   };
 
@@ -73,29 +66,30 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
     uploadLcaModel(form, {
       signal: acRef.current.signal,
       onUploadProgress: (e) => {
-        setProgress(Math.min(Math.round((e.progress || 0) * 100), 100));
+        setProgress(Math.min(Math.round((e.progress || 0) * 100), 60));
       },
     })
-      .then((modelId) => {
-        modelIdRef.current = modelId;
-        // const int = setTimeout(fetchLcaProductDetail, 5000);
-        // setIntervalId(int);
-
-        const initialTimer = setTimeout(fetchLcaProductDetail, 5000);
-        setIntervalId(initialTimer);
+      .then(loopGetDetail)
+      .then((res) => {
+        if (res) {
+          setResultList(res);
+          setType("add");
+          resetState();
+        }
       })
       .catch(() => {
-        closeAll();
+        resetState();
       });
   };
 
   const onOk = useOn(() => {
     if (disabledOk) return;
     if (type === "upload") {
+      if (isProgress) return;
       setIsProgress(true);
       upload();
     } else {
-      upsertLcaProduct({ name: resultList.modelName, description: desc, modelId: modelIdRef.current })
+      upsertLcaProduct({ name: resultList.modelName, description: desc, modelId: resultList.id })
         .then(() => {
           onSuccess && onSuccess();
           onClose();
@@ -113,7 +107,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
         title={"新建产品系统"}
         onClose={() => {
           onClose();
-          closeAll();
+          resetState();
         }}>
         <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
           <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
@@ -167,7 +161,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
                   className="flex-1"
                   onClick={() => {
                     onClose();
-                    closeAll();
+                    resetState();
                   }}>
                   取消
                 </Btn>

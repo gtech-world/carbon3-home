@@ -10,7 +10,7 @@ import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { useUnVerifier } from "@lib/hooks/useUser";
 import { getLcaProductList, updateLcaModelState } from "@lib/http";
-import { shortStr } from "@lib/utils";
+import { shortStr, sleep } from "@lib/utils";
 import classNames from "classnames";
 import { handleContentRender, scrollToTop } from "utils";
 
@@ -26,27 +26,29 @@ export function Model() {
   const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
   const [productList, setProductList] = useState<any>([]);
   const [tableLoading, setTableLoading] = useState<boolean>(true);
-
-  const queryLcaProductList = useCallback(async () => {
-    try {
-      const res = await getLcaProductList(pgNum);
-      setTableData(res);
-      setTableLoading(false);
-    } catch (e) {
-      console.log("eee", e);
-    }
-  }, [pgNum]);
-
+  const queryLcaProductList = async () => {
+    const res = await getLcaProductList(pgNum);
+    setTableData(res);
+    setTableLoading(false);
+  };
   useEffect(() => {
-    queryLcaProductList();
-    const intervalId = setInterval(() => {
-      queryLcaProductList();
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId);
+    let stop = false;
+    const task = async () => {
+      while (true) {
+        if (stop) return;
+        try {
+          await queryLcaProductList();
+          await sleep(10000);
+        } catch (e) {
+          continue;
+        }
+      }
     };
-  }, [queryLcaProductList]);
+    task();
+    return () => {
+      stop = true;
+    };
+  }, []);
 
   const columns = useMemo(
     () => [
