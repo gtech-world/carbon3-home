@@ -25,8 +25,8 @@ const DEFAULT_CONFIG: MermaidConfig = {
     diagramMarginX: 50,
     diagramMarginY: 10,
     actorMargin: 50,
-    width: 420,
-    height: 400,
+    width: 800,
+    height: 200,
     boxMargin: 10,
     boxTextMargin: 5,
     noteMargin: 10,
@@ -58,7 +58,12 @@ export function Mermaid(p: { className?: string; data?: string }) {
     mermaid.contentLoaded();
   }, [data]);
   useEffect(() => {
-    const initZoom = () => panzoom(ref.current?.firstChild as any, { zoomEnabled: true, controlIconsEnabled: true });
+    const initZoom = () => {
+      const el = ref.current?.firstChild as SVGElement;
+      el.setAttribute("height", "100%");
+      el.style.maxWidth = "100%";
+      panzoom(el, { zoomEnabled: true, controlIconsEnabled: true });
+    };
     if (ref.current?.firstChild?.nodeName === "svg") initZoom();
     else setTimeout(() => ref.current?.firstChild?.nodeName === "svg" && initZoom(), 200);
   }, []);
