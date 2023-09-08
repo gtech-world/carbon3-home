@@ -90,17 +90,17 @@ export function InventoryResult() {
     getList();
   }, [query.id]);
 
-  const { generalInfo, carbonResult, graphData, pieData }: any = useMemo(() => {
+  const { generalInfo, carbonResult, graphData, pieData } = useMemo(() => {
     let generalInfo: any = [];
     let referenceUnit = "";
     let carbonResult: any = "";
-    let graphData = "classDiagram";
-    let pieData = "pie title ";
+    let graphData = "";
+    let pieData = "";
     if (value) {
       // general infos
       const { lca, bominfo } = value;
       const val = tryParse<any>(lca.lcaResult);
-      console.info("val::", val);
+      // console.info("val::", val);
       if (val) {
         generalInfo = {
           productSystemName: val.extra?.productSystemName,
@@ -125,8 +125,11 @@ export function InventoryResult() {
       // mermaid data
       const boms = tryParse<BomNode[]>(bominfo);
       const tagResult = tryParse<{ result: number; processId: string; flowId: string }[]>(lca.lcaTagResult);
-      console.info("booms:", boms, bominfo);
+      console.info("booms:", boms);
+      console.info("tagRes:", tagResult);
       if (boms && tagResult) {
+        graphData = "classDiagram";
+        pieData = "pie title ";
         const mapTagResult = _.groupBy(tagResult, "flowId");
         const mapBoms = _.groupBy(boms, "flowId");
         const indexMap: {
@@ -156,7 +159,7 @@ export function InventoryResult() {
               if (flowBom && flowRes) {
                 const p = itemTit(item);
                 const c = itemTit(flowBom);
-                graphData += `\n${p} <|-- ${c}`;
+                graphData += `\n ${p} <|-- ${c}`;
               }
             });
           }
@@ -183,6 +186,7 @@ export function InventoryResult() {
       }
     }
 
+    console.info("gD:", graphData);
     return {
       generalInfo,
       carbonResult,
@@ -228,17 +232,17 @@ export function InventoryResult() {
           <div className="p-5 bg-white rounded-2xl">
             <GeneralInfo data={generalInfo} />
             <Result data={carbonResult} />
-            <div className="w-full mt-4">
-              <Expand text="BOM/STAGE的明细结果" onChange={(v: boolean) => toggleBom(v)} />
-              {showBoms && (
-                <>
-                  {!_.isEmpty(graphData) && (
+            {!_.isEmpty(graphData) && !_.isEmpty(pieData) && (
+              <div className="w-full mt-4">
+                <Expand text="BOM/STAGE的明细结果" onChange={(v: boolean) => toggleBom(v)} />
+                {showBoms && (
+                  <>
                     <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={graphData} />
-                  )}
-                  {!_.isEmpty(pieData) && <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={pieData} />}
-                </>
-              )}
-            </div>
+                    <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={pieData} />
+                  </>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex justify-center w-full mt-5 mb-10">
             <Button
