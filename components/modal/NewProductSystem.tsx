@@ -44,17 +44,12 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const safe = useSafe();
   const loopGetDetail = async (modelId: number) => {
     while (true) {
-      try {
-        await sleep(5000);
-        if (!safe.current) return;
-        const res = await getLcaProductDetailList(modelId);
-        const { state, modelBomInfo } = res;
-        setProgress((p) => Math.min(p + 10, 100));
-        if (state === 1 && modelBomInfo) {
-          return res;
-        }
-      } catch (error) {
-        continue;
+      await sleep(5000);
+      if (!safe.current) return;
+      const res = await getLcaProductDetailList(modelId).catch(() => undefined);
+      setProgress((p) => Math.min(p + 10, 100));
+      if (res && res.state === 1 && res.modelBomInfo) {
+        return res;
       }
     }
   };

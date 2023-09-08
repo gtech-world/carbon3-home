@@ -210,12 +210,8 @@ export function Inventory() {
     const task = async () => {
       while (true) {
         if (stop) return;
-        try {
-          await getList();
-          await sleep(10000);
-        } catch (e) {
-          continue;
-        }
+        await getList();
+        await sleep(10000);
       }
     };
     task();
