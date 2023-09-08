@@ -145,7 +145,7 @@ export function Model() {
   const hth = useHeaderTipHeight();
   const h = hh + hth;
   return (
-    <HeaderLayout isManager={true} nopx className="h-0 flex py-0 !px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
+    <HeaderLayout isManager={true} nopx className="h-0 flex !py-0 !px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
       {loading && <LoadingFull />}
       {!!node && (
         <SelectNavsContextProvider>
