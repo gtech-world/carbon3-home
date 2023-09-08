@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import mermaid, { MermaidConfig } from "mermaid";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import panzoom from "svg-pan-zoom";
 
 const DEFAULT_CONFIG: MermaidConfig = {
   startOnLoad: true,
-  theme: "forest",
+  theme: "default",
   logLevel: "fatal",
   securityLevel: "strict",
   arrowMarkerAbsolute: false,
@@ -14,12 +14,12 @@ const DEFAULT_CONFIG: MermaidConfig = {
   },
 
   themeVariables: {
-    primaryColor: "#00ff00",
-    primaryTextColor: "#fff",
-    primaryBorderColor: "#7C0000",
-    lineColor: "black",
-    secondaryColor: "#006100",
-    tertiaryColor: "#fff",
+    // primaryColor: "#00ff00",
+    // primaryTextColor: "#000",
+    // primaryBorderColor: "#7C0000",
+    // lineColor: "black",
+    // secondaryColor: "#006100",
+    // tertiaryColor: "#fff",
   },
   sequence: {
     diagramMarginX: 50,
@@ -48,30 +48,45 @@ const DEFAULT_CONFIG: MermaidConfig = {
     numberSectionStyles: 4,
     axisFormat: "%Y-%m-%d",
   },
+  class: {
+    titleTopMargin: 20,
+    defaultRenderer: "dagre-wrapper",
+  },
 };
 
+const refCount = {
+  count: 1,
+};
 export function Mermaid(p: { className?: string; data?: string }) {
   const { className, data = "" } = p;
-  const ref = useRef<HTMLPreElement>(null);
-  mermaid.initialize(DEFAULT_CONFIG);
+  const ref = useRef<HTMLDivElement>(null);
+  const id = useMemo(() => `aicp_mermaid_${refCount.count++}`, []);
   useEffect(() => {
-    mermaid.contentLoaded();
-  }, [data]);
-  useEffect(() => {
-    const initZoom = () => {
-      const el = ref.current?.firstChild as SVGElement;
-      el.setAttribute("height", "100%");
-      el.style.maxWidth = "100%";
-      panzoom(el, { zoomEnabled: true, controlIconsEnabled: true });
+    const renderData = async () => {
+      try {
+        const el = document.querySelector("#" + id);
+        if (!el) return;
+        mermaid.initialize(DEFAULT_CONFIG);
+        const { svg, bindFunctions } = await mermaid.render(id + "-svg", data);
+        el.innerHTML = svg;
+        bindFunctions?.(el);
+        const svgel = document.getElementById(id + "-svg");
+        if (!svgel) return;
+        svgel.setAttribute("height", "100%");
+        svgel.style.maxWidth = "100%";
+        panzoom(svgel, { zoomEnabled: true, controlIconsEnabled: true });
+      } catch (error) {
+        console.error(error);
+      }
     };
-    if (ref.current?.firstChild?.nodeName === "svg") initZoom();
-    else setTimeout(() => ref.current?.firstChild?.nodeName === "svg" && initZoom(), 200);
-  }, []);
-  return (
-    <pre ref={ref} className={classNames("mermaid", className)}>
-      {data}
-    </pre>
-  );
+    if (ref.current) {
+      renderData();
+    } else {
+      setTimeout(renderData, 200);
+    }
+  }, [data]);
+
+  return <div ref={ref} id={id} className={classNames("mermaid", className)} />;
 }
 
 export default Mermaid;
