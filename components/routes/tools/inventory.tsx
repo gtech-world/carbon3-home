@@ -6,7 +6,7 @@ import { ToolsLayout } from "@components/common/toolsLayout";
 import { RealData } from "@components/modal/RealData";
 import { useUnVerifier } from "@lib/hooks/useUser";
 import { getResultList } from "@lib/http";
-import { shortStr } from "@lib/utils";
+import { shortStr, sleep } from "@lib/utils";
 import classNames from "classnames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { handleContentRender, scrollToTop } from "utils";
@@ -206,15 +206,24 @@ export function Inventory() {
   }, [pgNum]);
 
   useEffect(() => {
-    getList();
-    const intervalId = setInterval(() => {
-      getList();
-    }, 10000);
-
-    return () => {
-      clearInterval(intervalId);
+    let stop = false;
+    const task = async () => {
+      while (true) {
+        if (stop) return;
+        try {
+          await getList();
+          await sleep(10000);
+        } catch (e) {
+          continue;
+        }
+      }
     };
-  }, [getList]);
+    task();
+    return () => {
+      stop = true;
+    };
+  }, []);
+
   const unVerifier = useUnVerifier();
 
   return (
