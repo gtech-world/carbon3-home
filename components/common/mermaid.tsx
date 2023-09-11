@@ -36,6 +36,7 @@ const DEFAULT_CONFIG: MermaidConfig = {
     useMaxWidth: true,
     rightAngles: false,
     showSequenceNumbers: false,
+    wrapPadding: 20,
   },
   gantt: {
     titleTopMargin: 25,
@@ -74,7 +75,7 @@ export function Mermaid(p: { className?: string; data?: string }) {
         if (!svgel) return;
         svgel.setAttribute("height", "100%");
         svgel.style.maxWidth = "100%";
-        panzoom(svgel, { zoomEnabled: true, controlIconsEnabled: true });
+        panzoom(svgel, { mouseWheelZoomEnabled: false, zoomEnabled: true, controlIconsEnabled: true });
       } catch (error) {
         console.error(error);
       }
@@ -86,7 +87,7 @@ export function Mermaid(p: { className?: string; data?: string }) {
     }
   }, [data]);
 
-  return <div ref={ref} id={id} className={classNames("mermaid", className)} />;
+  return <div ref={ref} id={id} className={classNames("mermaid p-2.5", className)} />;
 }
 
 export default Mermaid;

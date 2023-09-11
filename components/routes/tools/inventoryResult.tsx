@@ -237,7 +237,7 @@ export function InventoryResult() {
                 <Expand text="BOM/STAGE的明细结果" onChange={(v: boolean) => toggleBom(v)} />
                 {showBoms && (
                   <>
-                    <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={graphData} />
+                    <Wrapmermaid className="w-full h-[360px] bg-[#F1F1F1] mt-4" data={graphData} />
                     <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={pieData} />
                   </>
                 )}
