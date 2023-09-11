@@ -170,11 +170,10 @@ export function InventoryResult() {
           padding: 20,
           legend: {
             top: 30,
-            padding: 10,
-            right: 0,
-            orient: "vertical",
-            // orient: "horizontal",
-            align: "right",
+            padding: 20,
+            type: "scroll",
+            orient: "horizontal",
+            align: "auto",
           },
           tooltip: {
             trigger: "item",
@@ -190,16 +189,12 @@ export function InventoryResult() {
             type: "pie",
             radius: "60%",
             data: [],
+            center: ["50%", "56%"],
             label: {
               formatter: (item) => {
-                return `${item.name}\n(${item.percent}%)`;
+                return `${item.percent}%`;
               },
             },
-            // tooltip: {
-            //   trigger: "item",
-            //   show: true,
-            //   formatter: (item) => `${item.name} (${item.percent}%)`,
-            // },
           },
         };
         // contents
@@ -218,7 +213,7 @@ export function InventoryResult() {
             pieData.title = { text: item.flowName, left: "center", top: 10 };
             generalInfo.targetName = item.flowName;
           } else {
-            (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
+            if (ftmValue > 0) (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
             // pieData += `\n"${item.flowName}":${ftmValue}`;
           }
         });
@@ -277,7 +272,7 @@ export function InventoryResult() {
                 {showBoms && (
                   <>
                     <Wrapmermaid className="w-full h-[360px] bg-[#F1F1F1] mt-4" data={graphData} />
-                    <Chart className="w-full h-[320px] bg-[#F1F1F1] mt-4" option={pieData} />
+                    <Chart className="w-full !h-[320px] bg-[#F1F1F1] mt-4" option={pieData} />
                   </>
                 )}
               </div>

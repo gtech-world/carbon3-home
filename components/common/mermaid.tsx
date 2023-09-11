@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import mermaid, { MermaidConfig } from "mermaid";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useDebounce, useMeasure } from "react-use";
 import panzoom from "svg-pan-zoom";
 
