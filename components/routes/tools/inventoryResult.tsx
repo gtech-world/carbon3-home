@@ -214,8 +214,7 @@ export function InventoryResult() {
           if (item.tagType === "REFERENCE") {
             pieData.title = { text: item.flowName, left: "center", top: 10 };
             generalInfo.targetName = item.flowName;
-          } else {
-            // pieData += `\n"${item.flowName}":${ftmValue}`;
+            graphData += `\n${p} : Total(${_.round(v?.result || 0, 2)} ${referenceUnit})`;
           }
           if (ftmValue > 0) (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
         });
