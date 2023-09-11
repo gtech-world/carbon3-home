@@ -1,3 +1,4 @@
+import Chart from "@components/common/Chart";
 import { Button } from "@components/common/button";
 import { Loading } from "@components/common/loading";
 import { ToolsLayout } from "@components/common/toolsLayout";
@@ -5,6 +6,7 @@ import { Wrapmermaid } from "@components/common/wrapmermaid";
 import { exportLcaResultExcel, getLcaProductDetailList, getLcaResultDetail } from "@lib/http";
 import { tryParse } from "@lib/utils";
 import classNames from "classnames";
+import { EChartsOption, PieSeriesOption } from "echarts";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -31,13 +33,13 @@ function GeneralInfo(p: { data: any }) {
   const [open, setOpen] = useState(true);
   const { data } = p;
   const list = [
-    { label: "碳足迹批次", text: data.loadNumber },
+    { label: "碳足迹批次", text: data.loadName },
     { label: "产品系统", text: data.productSystemName },
     { label: "目标产品", text: data.targetName },
     { label: "目标产品数量", text: data.targetAmount },
     { label: "Impact Method(环境影响评价方法)", text: "IPCC 2021" },
     { label: "Allocation Method(分摊方法)", text: "Process Defaults" },
-    { label: "Cutoff", text: "none" },
+    { label: "Cutoff", text: "None" },
     { label: "计算结果生成时间", text: data.calculateSuccessTime },
   ];
   return (
@@ -95,7 +97,7 @@ export function InventoryResult() {
     let referenceUnit = "";
     let carbonResult: any = "";
     let graphData = "";
-    let pieData = "";
+    let pieData: EChartsOption = {};
     if (value) {
       // general infos
       const { lca, bominfo } = value;
@@ -108,6 +110,7 @@ export function InventoryResult() {
           targetAmount: val.extra?.targetAmount,
           calculateSuccessTime: lca.calculateSuccessTime,
           loadNumber: lca.loadNumber,
+          loadName: lca.loadName,
         };
         referenceUnit = (val.totalImpacts && val.totalImpacts[0]?.impact.referenceUnit) || "";
         const total = _.round(val.totalResult || val.treeNode?.result || 0, 2);
@@ -125,11 +128,10 @@ export function InventoryResult() {
       // mermaid data
       const boms = tryParse<BomNode[]>(bominfo);
       const tagResult = tryParse<{ result: number; processId: string; flowId: string }[]>(lca.lcaTagResult);
-      console.info("booms:", boms);
-      console.info("tagRes:", tagResult);
+      // console.info("booms:", boms);
+      // console.info("tagRes:", tagResult);
       if (boms && tagResult) {
         graphData = "classDiagram";
-        pieData = "pie title ";
         const mapTagResult = _.groupBy(tagResult, "flowId");
         const mapBoms = _.groupBy(boms, "flowId");
         const indexMap: {
@@ -164,6 +166,42 @@ export function InventoryResult() {
             });
           }
         });
+        pieData = {
+          padding: 20,
+          legend: {
+            top: 30,
+            padding: 10,
+            right: 0,
+            orient: "vertical",
+            // orient: "horizontal",
+            align: "right",
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: (item: any) => {
+              return `<div>
+            ${(item as any).marker}
+            <span>${(item as any).name} (${item.percent}%)</span>
+            <div style="margin-left: 18px">${(item as any).value}</div>
+          </div>`;
+            },
+          },
+          series: {
+            type: "pie",
+            radius: "60%",
+            data: [],
+            label: {
+              formatter: (item) => {
+                return `${item.name}\n(${item.percent}%)`;
+              },
+            },
+            // tooltip: {
+            //   trigger: "item",
+            //   show: true,
+            //   formatter: (item) => `${item.name} (${item.percent}%)`,
+            // },
+          },
+        };
         // contents
         sortBoms.forEach((item) => {
           const p = itemTit(item);
@@ -177,16 +215,17 @@ export function InventoryResult() {
           ${p} : +PCF(${ftmValue} ${referenceUnit})`;
           if (item.tagType !== "REFERENCE" || item.childFlowIds.length > 0) graphData += `\n${content}`;
           if (item.tagType === "REFERENCE") {
-            pieData += item.flowName;
+            pieData.title = { text: item.flowName, left: "center", top: 10 };
             generalInfo.targetName = item.flowName;
           } else {
-            pieData += `\n"${item.flowName}":${ftmValue}`;
+            (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
+            // pieData += `\n"${item.flowName}":${ftmValue}`;
           }
         });
       }
     }
 
-    console.info("gD:", graphData);
+    // console.info("gD:", graphData);
     return {
       generalInfo,
       carbonResult,
@@ -238,7 +277,7 @@ export function InventoryResult() {
                 {showBoms && (
                   <>
                     <Wrapmermaid className="w-full h-[360px] bg-[#F1F1F1] mt-4" data={graphData} />
-                    <Wrapmermaid className="w-full h-[320px] bg-[#F1F1F1] mt-4" data={pieData} />
+                    <Chart className="w-full h-[320px] bg-[#F1F1F1] mt-4" option={pieData} />
                   </>
                 )}
               </div>

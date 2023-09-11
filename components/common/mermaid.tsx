@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import mermaid, { MermaidConfig } from "mermaid";
 import { useEffect, useMemo, useRef } from "react";
+import { useDebounce, useMeasure } from "react-use";
 import panzoom from "svg-pan-zoom";
 
 const DEFAULT_CONFIG: MermaidConfig = {
@@ -53,6 +54,7 @@ const DEFAULT_CONFIG: MermaidConfig = {
     titleTopMargin: 20,
     defaultRenderer: "dagre-wrapper",
   },
+  pie: {},
 };
 
 const refCount = {
@@ -60,33 +62,26 @@ const refCount = {
 };
 export function Mermaid(p: { className?: string; data?: string }) {
   const { className, data = "" } = p;
-  const ref = useRef<HTMLDivElement>(null);
   const id = useMemo(() => `aicp_mermaid_${refCount.count++}`, []);
-  useEffect(() => {
-    const renderData = async () => {
-      try {
-        const el = document.querySelector("#" + id);
-        if (!el) return;
-        mermaid.initialize(DEFAULT_CONFIG);
-        const { svg, bindFunctions } = await mermaid.render(id + "-svg", data);
-        el.innerHTML = svg;
-        bindFunctions?.(el);
-        const svgel = document.getElementById(id + "-svg");
-        if (!svgel) return;
-        svgel.setAttribute("height", "100%");
-        svgel.style.maxWidth = "100%";
-        panzoom(svgel, { mouseWheelZoomEnabled: false, zoomEnabled: true, controlIconsEnabled: true });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (ref.current) {
-      renderData();
-    } else {
-      setTimeout(renderData, 200);
+  const renderData = async () => {
+    try {
+      const el = document.querySelector("#" + id);
+      if (!el) return;
+      mermaid.initialize(DEFAULT_CONFIG);
+      const { svg, bindFunctions } = await mermaid.render(id + "-svg", data);
+      el.innerHTML = svg;
+      bindFunctions?.(el);
+      const svgel = document.getElementById(id + "-svg");
+      if (!svgel) return;
+      svgel.setAttribute("height", "100%");
+      svgel.style.maxWidth = "100%";
+      panzoom(svgel, { mouseWheelZoomEnabled: false, zoomEnabled: true, controlIconsEnabled: true });
+    } catch (error) {
+      console.error(error);
     }
-  }, [data]);
-
+  };
+  const [ref, { width }] = useMeasure<HTMLDivElement>();
+  useDebounce(renderData, 300, [width, data]);
   return <div ref={ref} id={id} className={classNames("mermaid p-2.5", className)} />;
 }
 
