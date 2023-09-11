@@ -201,10 +201,12 @@ export function InventoryResult() {
         sortBoms.forEach((item) => {
           const p = itemTit(item);
           const v = _.first(mapTagResult[item.flowId]);
+          // const value =
+          //   item.tagType === "REFERENCE"
+          //     ? v?.result || 0
+          //     : (v?.result || 0) - _.sumBy(item.childFlowIds, (flowId) => _.first(mapTagResult[flowId])?.result || 0);
           const value =
-            item.tagType === "REFERENCE"
-              ? v?.result || 0
-              : (v?.result || 0) - _.sumBy(item.childFlowIds, (flowId) => _.first(mapTagResult[flowId])?.result || 0);
+            (v?.result || 0) - _.sumBy(item.childFlowIds, (flowId) => _.first(mapTagResult[flowId])?.result || 0);
           const ftmValue = _.round(value, 2);
           const content = `${p} : ${item.flowName.replaceAll("(", "（").replaceAll(")", "）")}
           ${p} : +PCF(${ftmValue} ${referenceUnit})`;
@@ -213,9 +215,9 @@ export function InventoryResult() {
             pieData.title = { text: item.flowName, left: "center", top: 10 };
             generalInfo.targetName = item.flowName;
           } else {
-            if (ftmValue > 0) (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
             // pieData += `\n"${item.flowName}":${ftmValue}`;
           }
+          if (ftmValue > 0) (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
         });
       }
     }
