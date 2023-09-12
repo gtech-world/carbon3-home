@@ -181,7 +181,7 @@ export function InventoryResult() {
               return `<div>
             ${(item as any).marker}
             <span>${(item as any).name} (${item.percent}%)</span>
-            <div style="margin-left: 18px">${(item as any).value}</div>
+            <div style="margin-left: 18px">${(item as any).value} ${referenceUnit}</div>
           </div>`;
             },
           },
