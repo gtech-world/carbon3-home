@@ -9,6 +9,7 @@ import ViewBomInfoModal from "./ViewBomInfoModal";
 import { RealData } from "./RealData";
 import { sleep } from "@lib/utils";
 import { useSafe } from "@lib/hooks/useSafe";
+import classNames from "classnames";
 
 export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const { onSuccess, onClose: _onClose, ...props } = p;
@@ -18,7 +19,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const [file, setFile] = useState<File | undefined | null>(null);
   const [type, setType] = useState("upload");
   const disabledOk = !file;
-
+  const [uploadingText, setUploadingText] = useState<string>("");
   const [resultList, setResultList] = useState<{
     modelBomInfo: string;
     modelName: string;
@@ -39,10 +40,12 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   const resetState = () => {
     setIsProgress(false);
     setProgress(0);
+    setUploadingText("");
   };
 
   const safe = useSafe();
   const loopGetDetail = async (modelId: number) => {
+    setUploadingText("模型解析中......");
     while (true) {
       await sleep(5000);
       if (!safe.current) return;
@@ -55,6 +58,7 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
   };
 
   const upload = () => {
+    setUploadingText("正在上传......");
     const form = new FormData();
     form.append("file", file as any);
     acRef.current = new AbortController();
@@ -105,9 +109,15 @@ export function NewProductSystem(p: ModalProps & { onSuccess?: () => void }) {
           resetState();
         }}>
         <div className="flex flex-col gap-5 w-full min-w-[40rem] overflow-hidden">
-          <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
+          <div
+            className={classNames(
+              `flex flex-col w-full flex-1  max-h-mc px-5 py-[1px] overflow-y-auto ${isProgress ? "gap-0" : "gap-5"}`,
+            )}>
             {isProgress ? (
-              <Progress value={progress} className="my-5 overflow-hidden rounded-lg" />
+              <Fragment>
+                <div className="flex justify-center w-full">{uploadingText}</div>
+                <Progress value={progress} className="my-5 overflow-hidden rounded-lg" />
+              </Fragment>
             ) : type === "upload" ? (
               <PairInfo
                 tit="产品系统LCA文件"

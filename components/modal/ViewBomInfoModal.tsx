@@ -53,21 +53,21 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
         <div className="flex flex-col gap-5 w-full flex-1 max-h-mc px-5 py-[1px] overflow-y-auto">
           <PairInfo
             tit="BOM结构"
-            value={<Wrapmermaid data={src} className="flex justify-center  w-[800px] h-[200px] bg-[#F1F1F1]" />}
+            value={<Wrapmermaid data={src} className="flex justify-center w-[800px] h-[200px] bg-[#F1F1F1]" />}
           />
           <PairInfo tit="Part Number信息" value={null} />
           {(result || []).map((e: any, i: number) => {
             return (
-              <div key={`info_${i}`} className="flex flex-row gap-10 p-0 ">
+              <div key={`info_${i}`} className="flex flex-row gap-10 p-0">
                 <div className="w-[200px] text-base text-[#666666] ">{e.flowName}</div>
-                <div className="flex flex-wrap flex-shrink w-[30rem] items-center ">
+                <div className="flex flex-wrap flex-shrink w-[30rem] items-center">
                   {(e?.partNumbers || []).map((item: any, index: number) => {
                     return (
                       <div
                         key={`value_${index}`}
-                        className="flex max-w-lg items-center bg-[#F1F1F1] h-6   mb-[10px] rounded ml-5  ">
+                        className="flex max-w-lg items-center bg-[#F1F1F1] h-6 mb-[10px] rounded ml-5">
                         <div
-                          className=" w-full mx-[10px] items-center  font-normal   "
+                          className=" w-full mx-[10px] items-center font-normal"
                           data-tooltip-id="tooltip"
                           data-tooltip-content={handleContentRender(item, 10)}>
                           PN : {shortStr(item, 8, 8)}
