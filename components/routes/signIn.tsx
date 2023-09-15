@@ -39,7 +39,7 @@ export function SignIn() {
       .then(() => setLoading(false));
   };
   return (
-    <HeaderLayout className="flex flex-col text-black">
+    <HeaderLayout className="flex flex-col text-black" nopx>
       {isMobile ? (
         <p className="flex flex-1 items-center justify-center mt-[-20%]">登录使用请移至web端</p>
       ) : (
@@ -68,7 +68,7 @@ export function SignIn() {
           />
           <Button
             onClick={onSign}
-            className="w-full max-w-[420px] min-h-[40px] h-[3.125rem] mb-40 text-center text-2xl text-white bg-green-2 rounded-lg mo:text-lg">
+            className="w-full max-w-[420px] min-h-[40px] h-[3.125rem] mb-40 text-center text-2xl text-white bg-green-2 rounded-lg mo:text-lg hover:bg-green-28">
             {t("Sign in")}
           </Button>
         </div>

@@ -8,10 +8,10 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
   const { className, children, ...props } = p;
   const isMobile = useIsMobile();
   return (
-    <div className="flex-1 flex flex-col min-h-fit w-full bg-gray-16 relative">
+    <div className="relative flex flex-col flex-1 w-full min-h-fit bg-gray-16 ">
       {isMobile ? (
         <div className="absolute z-0 top-0 w-full h-[43rem] overflow-hidden bg-green-2 ">
-          <img className="object-cover w-full absolute right-0 bottom-0" src="/home-bg-r.jpg" />
+          <img className="absolute bottom-0 right-0 object-cover w-full" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute ssm:top-[calc(21.5rem_-_75vw)]"
             style={{
@@ -20,8 +20,8 @@ export function HomeHeaderLayout(p: HTMLAttributes<HTMLDivElement>) {
           />
         </div>
       ) : (
-        <div className="absolute z-0 top-0 w-full h-[48.75rem] bg-green-2 overflow-hidden">
-          <img className="object-cover h-full absolute right-0 top-0" src="/home-bg-r.jpg" />
+        <div className="absolute z-0 top-0 w-full h-[48.75rem] bg-green-2 overflow-hidden ">
+          <img className="absolute top-0 right-0 object-cover h-full" src="/home-bg-r.jpg" />
           <div
             className="w-full h-full absolute lg:left-[calc(50%_-_45rem)]"
             style={{
@@ -52,17 +52,19 @@ export function HeaderLayout(
   p: HTMLAttributes<HTMLDivElement> & {
     tits?: string | null;
     isManager?: boolean;
+    nopx?: boolean;
   },
 ) {
-  const { className, tits, isManager, children, ...props } = p;
+  const { className, tits, isManager, nopx, children, ...props } = p;
   const isMobile = useIsMobile();
   const h = useHeaderTipHeight();
   return (
-    <div className="flex-1 flex flex-col min-h-fit w-full relative">
+    <div className="relative flex flex-col flex-1 w-full min-h-fit">
       {isMobile ? (
         <MobileHeader />
       ) : (
         <Header
+          nopx={nopx}
           tits={tits}
           isManager={isManager}
           style={{ top: `${h}px` }}
@@ -82,7 +84,7 @@ export function MainHeaderLayout(p: { showQuery?: boolean; menus?: any[] } & HTM
   const { className, children, showQuery = true, menus = [], ...props } = p;
   const h = useHeaderTipHeight();
   return (
-    <div className="flex-1 w-full flex flex-col min-h-fit bg-gray-16 relative">
+    <div className="relative flex flex-col flex-1 w-full min-h-fit bg-gray-16">
       <Header
         menus={menus}
         isManager={true}

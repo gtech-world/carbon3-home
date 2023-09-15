@@ -1,8 +1,7 @@
 import { Btn } from "@components/common/button";
 import { Modal } from "@components/common/modal";
 import { Table } from "@components/common/table";
-import { TableSchema } from "@lib/@types/table";
-import React, { FC, useMemo } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { getCurrentDate } from "utils";
 
 const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModalProps> = ({
@@ -11,6 +10,7 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
   tableData,
   realArr,
 }) => {
+  const [allTableData, setAllTableData] = useState<InventoryController.InventoryRealDataList[]>(tableData);
   const onSubmit = () => {
     const table = document?.getElementById("realDataTable") as HTMLTableElement;
     const rows = table.getElementsByTagName("tr");
@@ -40,25 +40,25 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     const result = {
       lcaParamList,
     };
-
     typeof onOpenModal === "function" && onOpenModal();
     typeof realData === "function" && realData(result);
   };
 
-  const newData = useMemo(() => {
-    return tableData?.map((item, index) => {
-      return realArr?.length && realArr[index]?.paramName === item.name
+  useEffect(() => {
+    const newTableData = tableData?.map((item, index) => {
+      return realArr?.length && realArr[index].paramName === item.name
         ? { ...item, inputValue: realArr[index].paramValue }
         : { ...item };
     });
-  }, [tableData, realArr]);
+    setAllTableData(newTableData);
+  }, [realArr, tableData]);
 
-  type ColumnsList = InventoryController.InventoryRealDataList;
-  const columns: TableSchema<ColumnsList>[] = [
+  type columnsList = InventoryController.InventoryRealDataList;
+  const columns = [
     {
       title: "参数名",
       dataIndex: "name",
-      width: "3rem",
+      width: "9rem",
       render: (text: string) => (
         <div className=" flex items-center h-[33px] font-normal leading-[21px] text-[14px] ">{text}</div>
       ),
@@ -66,14 +66,14 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     {
       title: "过程名称",
       dataIndex: "name",
-      width: "3rem",
-      render: (_text: string, record: ColumnsList) => (
+      width: "7rem",
+      render: (text: string, record: columnsList) => (
         <div className="flex items-center  h-[33px] font-normal leading-[21px] text-[14px] ">{record.context.name}</div>
       ),
     },
     {
       title: "参考值",
-      width: "3rem",
+      width: "10rem",
       dataIndex: "value",
       render: (text: string) => (
         <div className="flex items-center h-[33px] font-normal leading-[21px] text-[14px] ">{text}</div>
@@ -81,9 +81,9 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
     },
     {
       title: "填入值",
-      width: "3rem",
+      width: "10rem",
       dataIndex: "createTime",
-      render: (_text: string, record: ColumnsList) => (
+      render: (text: string, record: columnsList) => (
         <input
           defaultValue={record.inputValue}
           type="number"
@@ -100,11 +100,10 @@ const InventoryAddRealDataModal: FC<InventoryController.InventoryAddRealDataModa
       titleClassName={"text-[20px] leading-5 font-bold"}
       onClose={(typeof onOpenModal === "function" && onOpenModal) || undefined}>
       <div className=" mx-5 w-[640px] max-h-[400px] overflow-y-auto ">
-        <Table<ColumnsList>
+        <Table
           columns={columns}
           tableId="realDataTable"
-          noContainer={true}
-          data={newData}
+          data={allTableData || []}
           isSetBorder={true}
           maxHeight="calc(100vh - 260px)"
           headerClassName={{

@@ -3,148 +3,140 @@ import { Modal } from "@components/common/modal";
 import { Pagination } from "@components/common/pagination";
 import { Table } from "@components/common/table";
 import { ToolsLayout } from "@components/common/toolsLayout";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useUser } from "@components/common/context";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Loading } from "@components/common/loading";
 import { EditorProductSystem } from "@components/modal/EditorProductSystem";
 import { NewProductSystem } from "@components/modal/NewProductSystem";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { useUnVerifier } from "@lib/hooks/useUser";
-import { getLcaProductList, getLcaProductTypeList, updateLcaModelState } from "@lib/http";
-import { shortStr } from "@lib/utils";
+import { getLcaProductList, updateLcaModelState } from "@lib/http";
+import { shortStr, sleep } from "@lib/utils";
 import classNames from "classnames";
-import { TableAction, TableSchema } from "@lib/@types/table";
-import { Tooltip } from "react-tippy";
-import "react-tippy";
-
-declare module "react-tippy" {
-  export interface TooltipProps {
-    children?: React.ReactNode;
-  }
-}
-
-function formatToTree(ary: any, pid?: number) {
-  return ary
-    .filter((item: any) => (pid === undefined ? item.parentId === 0 : item.parentId === pid))
-    .map((item: any) => {
-      // 通过父节点ID查询所有子节点
-      item.children = formatToTree(ary, item.id);
-      return item;
-    });
-}
+import { handleContentRender, scrollToTop } from "utils";
 
 export function Model() {
   const [status, setStatus] = useState<any>(null);
   const [viewReal, setViewReal] = useState<any>(null);
-  // const [uploadView, setUploadView] = useState(false);
   const [editorProductSystem, setEditorProductSystem] = useState<any>();
   const [opResult, setOpResult] = useState<any>(null);
   const [createProductView, setCreateProductView] = useState<boolean>(false);
-  const [productName, setProductName] = useState<any>("");
-  const [productSelectedType, setProductSelectedType] = useState<any>(null);
-  const [description, setDescription] = useState<any>("");
-  const [productSelectedIndex, setProductSelectedIndex] = useState<any>(null);
-  const [uploadFile, setUploadFile] = useState<any>(null);
-  const [modelName, setModelName] = useState("");
+  const [pgNum, setPgNum] = useState(1);
   const [productViewSelectedIndex, setProductViewSelectedIndex] = useState<number>(-1);
-  const [productNameFilter, setProductNameFilter] = useState(-1);
   const [reload, setReload] = useState(0);
-  const [productType, setProductType] = useState([]);
+  const [tableData, setTableData] = useState<Partial<ProduceSystemController.ProduceSystemList>>({});
   const [productList, setProductList] = useState<any>([]);
-  const tableRef = useRef<TableAction>();
+  const [tableLoading, setTableLoading] = useState<boolean>(true);
+  const queryLcaProductList = async () => {
+    const res = await getLcaProductList(pgNum);
+    setTableData(res);
+    setTableLoading(false);
+  };
+  useEffect(() => {
+    let stop = false;
+    const task = async () => {
+      while (true) {
+        if (stop) return;
+        try {
+          await queryLcaProductList();
+          await sleep(10000);
+        } catch (e) {
+          continue;
+        }
+      }
+    };
+    task();
+    return () => {
+      stop = true;
+    };
+  }, []);
 
-  // const queryLcaProductTypeList = async () => {
-  //   const res = await getLcaProductTypeList();
-  //   setProductType(res ? formatToTree(res?.records, 0) : []);
-  // };
-
-  // useEffect(() => {
-  //   queryLcaProductTypeList();
-  // }, []);
-
-  const columns: TableSchema<ProduceSystemController.ListRecords>[] = [
-    {
-      title: "产品系统",
-      dataIndex: "name",
-      width: "200px",
-      render: (text: string) => {
-        return (
-          <Tooltip
-            theme="light"
-            html={<div className=" flex flex-1 flex-wrap w-[13rem]">{text}</div>}
-            disabled={text.length < 11}
-            arrow={true}
-            followCursor={true}
-            className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
-            <span>{text}</span>
-          </Tooltip>
-        );
+  const columns = useMemo(
+    () => [
+      {
+        title: "产品系统",
+        dataIndex: "name",
+        width: "200px",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-place="top-start"
+              data-tooltip-content={handleContentRender(text, 20)}
+              className="w-[200px] font-normal  text-lg leading-[27px] truncate inline-block">
+              {text}
+            </span>
+          );
+        },
       },
-    },
-    {
-      title: "产品系统ID",
-      dataIndex: "uuid",
-      width: "20rem",
-      render: (text: string) => {
-        return (
-          <Tooltip
-            title={text}
-            theme="light"
-            arrow={true}
-            followCursor={true}
-            className="text-lg w-[13rem] truncate inline-block font-normal leading-[27px]">
-            <span>{shortStr(text, 8, 8)}</span>
-          </Tooltip>
-        );
+      {
+        title: "产品系统ID",
+        dataIndex: "uuid",
+        width: "15rem",
+        render: (text: string) => {
+          return (
+            <span
+              data-tooltip-id="tooltip"
+              data-tooltip-content={text}
+              className="text-lg w-[15rem] truncate inline-block font-normal leading-[27px]">
+              {shortStr(text, 8, 8)}
+            </span>
+          );
+        },
       },
-    },
-    {
-      title: "变更人",
-      dataIndex: "name",
-      width: "12.5rem",
-      render: (_text: string, record) => {
-        return (
-          <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">
-            {record.updateUser.name}
-          </span>
-        );
+      {
+        title: "操作人",
+        dataIndex: "name",
+        width: "8rem",
+        render: (text: string, record: ProduceSystemController.ListRecords) => {
+          return (
+            <span className="w-[8rem] text-lg truncate inline-block font-normal leading-[27px]">
+              {record.updateUser.name}
+            </span>
+          );
+        },
       },
-    },
-    {
-      title: "变更时间",
-      dataIndex: "updateTime",
-      width: "12.5rem",
-      render: (text: string) => {
-        return (
-          <div className="text-lg  w-[13rem]  font-normal leading-[27px] break-keep whitespace-nowrap">{text}</div>
-        );
-      },
-    },
-    {
-      title: "版本",
-      dataIndex: "version",
-      width: "9.375rem",
-      render: (text: string) => {
-        return <span className="text-lg  font-normal leading-[27px]">{text}</span>;
-      },
-    },
-    {
-      title: "",
-      width: "20rem",
-      dataIndex: "",
-      render: (_text: string, record) => {
-        return (
-          <div className="flex justify-between flex-1 ml-10 text-green-2 break-keep">
+      {
+        title: "描述",
+        dataIndex: "description",
+        width: "14rem",
+        render: (text: string) => {
+          return (
             <div
-              className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
-              onClick={() => setEditorProductSystem(record)}>
-              编辑
+              data-tooltip-content={handleContentRender(text, 11)}
+              data-tooltip-id="tooltip"
+              className="w-[14rem] text-lg truncate inline-block font-normal leading-[27px]">
+              {text || "-"}
             </div>
-          </div>
-        );
+          );
+        },
       },
-    },
-  ];
+      {
+        title: "上传时间",
+        dataIndex: "createTime",
+        width: "13rem",
+        render: (text: string) => {
+          return <span className="w-[13rem] text-lg truncate inline-block font-normal leading-[27px]">{text}</span>;
+        },
+      },
+      {
+        title: "",
+        width: "20rem",
+        render: (text: string, record: any) => {
+          return (
+            <div className="flex justify-between flex-1 ml-10 text-green-2 break-keep">
+              <div
+                className="flex items-center font-normal justify-center cursor-pointer text-lg leading-[27px]"
+                onClick={() => setEditorProductSystem(record)}>
+                查看
+              </div>
+            </div>
+          );
+        },
+      },
+    ],
+    [],
+  );
+
   const realColumns = useMemo(
     () => [
       {
@@ -192,111 +184,61 @@ export function Model() {
     setStatus(null);
   };
 
-  // const doAddProduct = async () => {
-  //   if (!productSelectedType?.id) return false;
-
-  //   const findResult = _.find(productList, (item: any) => {
-  //     return item.text === productName;
-  //   });
-  //   if (findResult) {
-  //     toast({ type: "error", msg: "产品名称已经存在" });
-  //     return false;
-  //   }
-  //   setCreateProductView(false);
-  //   await insertLcaProduct({
-  //     name: productName,
-  //     categoryId: productSelectedType?.id,
-  //     orgId: user.orgId,
-  //     description: description,
-  //   });
-  //   toast({ type: "info", msg: "新建成功！" });
-  //   const dom = document.getElementById("productList");
-  //   if (dom) dom.scrollTop = dom.scrollHeight;
-  //   setReloadProduct(reloadProduct + 1);
-  // };
-  // const doUpload = async () => {
-  //   const formData = new FormData();
-  //   formData.append("name", modelName);
-  //   formData.append("file", uploadFile);
-  //   formData.append("productId", productList[productSelectedIndex].id);
-  //   const title = "上传碳足迹模型";
-  //   setOpResult({
-  //     title,
-  //     loading: true,
-  //   });
-  //   // @ts-ignore
-  //   fileRef.current.value = "";
-  //   setUploadView(false);
-  //   const res = await uploadLcaModel(formData);
-  //   if (res) {
-  //     setOpResult({
-  //       title,
-  //       loading: false,
-  //       resultText: "上传成功！",
-  //     });
-  //     setUploadView(false);
-  //     setPgNum(1);
-  //     setReload(reload + 1);
-  //   } else {
-  //     setOpResult({
-  //       title,
-  //       loading: false,
-  //       resultText: "上传失败！",
-  //     });
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (!uploadView) {
-  //     setProductSelectedIndex(null);
-  //     setUploadFile(null);
-  //   }
-  // }, [uploadView]);
-  const canUpload = useMemo(() => {
-    return !!uploadFile && !!modelName && productSelectedIndex > -1;
-  }, [uploadFile, modelName, productSelectedIndex]);
-  const canCreateProduct = useMemo(() => {
-    return !!productName && !!productSelectedType;
-  }, [productName, productSelectedType]);
-  const onProductChange = useCallback((val: any) => {
-    setProductName(val.target.value);
-  }, []);
   const unVerifier = useUnVerifier();
 
   const onSuccess = () => {
-    tableRef.current?.reload(1);
+    setPgNum(1);
+    if (pgNum === 1) {
+      queryLcaProductList();
+    }
   };
 
-  const onChangeColumn = (item: ProduceSystemController.ListRecords) => {
-    setEditorProductSystem(item);
-  };
   return (
     <ToolsLayout
       isNew
       canBack
       link={{ pathName: "/tools/tools", homeTitle: "产品碳足迹工具集", currentTitle: "产品碳足迹模型管理工具" }}
-      className="flex flex-col justify-between pb-12 text-black ">
-      <h3 className="flex items-center justify-between text-2xl font-semibold">
-        <span>我的产品系统</span>
-        {/*@ts-ignore*/}
-        {unVerifier && (
-          <Button
-            onClick={() => setCreateProductView(true)}
-            className={classNames("w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11")}>
-            新建产品系统
-          </Button>
-        )}
-      </h3>
-      <Table
-        columns={columns}
-        columnsHeight={"h-[3.125rem]"}
-        mouseHoverKey={"id"}
-        api={getLcaProductList}
-        tableRef={tableRef}
-        onChangeColumn={(item) => onChangeColumn(item)}
-        columnsClassName=" cursor-pointer "
-        headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
+      className="flex flex-col justify-between flex-1 pb-12 text-black ">
+      <div className="">
+        <h3 className="flex items-center justify-between text-2xl font-semibold">
+          <span>我的产品系统</span>
+          {unVerifier && (
+            <Button
+              onClick={() => setCreateProductView(true)}
+              className={classNames(
+                "w-40 text-lg font-normal text-white rounded-lg bg-green-2 h-11 hover:bg-green-28",
+              )}>
+              新建产品系统
+            </Button>
+          )}
+        </h3>
+        <div className="w-full p-5 mt-5 bg-white rounded-2xl">
+          <div className="pb-6 mt-5 overflow-x-auto">
+            <div className="min-h-[20.25rem] text-base leading-[1.625rem] min-w-[68.25rem]">
+              <Table
+                loading={tableLoading}
+                columns={columns}
+                columnsHeight={"h-[3.125rem]"}
+                mouseHoverKey={"id"}
+                data={tableData?.records || []}
+                columnsClassName=" cursor-pointer "
+                headerClassName={{ background: "#fff", fontWeight: "700", fontSize: "18px", lineHeight: "27px" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <Pagination
+        onChange={(v: any) => {
+          setPgNum(v);
+          scrollToTop();
+          setTableLoading(true);
+        }}
+        className="my-8"
+        total={tableData?.total || 0}
+        pgSize={10}
+        pgNum={pgNum}
       />
-
       {status !== null && (
         <Modal title="更改状态" onClose={() => setStatus(null)}>
           <div className="flex">

@@ -76,7 +76,9 @@ declare namespace InventoryController {
     id:number
     lcaMethodId:number
     lcaResult:string
+    lcaTagResult: string
     loadNumber:string
+    loadName: string
     modelId:number
     orgId:number
     siteId?:number

@@ -1,5 +1,5 @@
 import { ToolsLayout } from "@components/common/toolsLayout";
-import React, { useMemo } from "react";
+import React from "react";
 import classNames from "classnames";
 
 function ToolsContent(item: any) {
@@ -8,14 +8,17 @@ function ToolsContent(item: any) {
     <li className={classNames("bg-white  rounded-xl w-full p-5 mr-5 flex flex-col justify-between mt-5 ", {})}>
       <div className="">
         <div className="flex items-center h-20 md:m-5">
-          <img width="80" height="90" className="mr-5" src={`/${v.icon}`} alt="" />
-          <div className=" font-semibold lg:text-[20px] md:text-[18px]">
-            <div className=""> {i !== 3 && `\u201C${v.as}\u201D`}</div>
-            <h4>{v.title}</h4>
+          <img width="64" height="64" className="mr-5" src={`/${v.icon}`} alt="" />
+          <div className="">
+            <div className="font-semibold lg:text-[20px] md:text-[18px] text-[18px]">
+              {" "}
+              {i !== 3 && `\u201C${v.as}\u201D`}
+            </div>
+            <h4 className="font-semibold lg:text-[20px] md:text-[18px] text-[18px]">{v.title}</h4>
           </div>
         </div>
-        <p className="mt-[40px] text-[#333333] leading-[21px] font-normal lg:text-[18px] md:text-[16px]">{v.text}</p>
-        <div className="mt-10 leading-[21px]   md:text-[16px] md:text-lg lg:text-[18px] ">
+        <p className="mt-[40px] text-[#333333] leading-[21px] font-normal lg:text-[16px] md:text-[14px]">{v.text}</p>
+        <div className="mt-10 leading-[21px]   md:text-[14px] md:text-lg lg:text-[16px] ">
           <h5 className="font-semibold">
             {v.as && `\u201C${v.as}\u201D`} {v.secondText}
           </h5>

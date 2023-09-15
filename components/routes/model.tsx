@@ -145,13 +145,13 @@ export function Model() {
   const hth = useHeaderTipHeight();
   const h = hh + hth;
   return (
-    <HeaderLayout isManager={true} className="h-0 flex py-0 !px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
+    <HeaderLayout isManager={true} nopx className="h-0 flex !py-0 !px-0" style={{ maxHeight: `calc(100vh - ${h}px)` }}>
       {loading && <LoadingFull />}
       {!!node && (
         <SelectNavsContextProvider>
           <NavigationTreeContext.Provider value={{ descriptores: (value as any)[1] }}>
             <Split
-              className="split flex w-full"
+              className="flex w-full split"
               sizes={[1, 99]}
               minSize={260}
               snapOffset={1}

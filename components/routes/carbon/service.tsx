@@ -25,11 +25,11 @@ interface ICard {
 function Card(p: ICard) {
   const { title, icon, infos, btn, tools = [] } = p.data;
   return (
-    <div className="bg-white mr-5 mo:mr-0 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between mo:w-full">
+    <div className="flex flex-col justify-between p-5 mt-5 mr-5 bg-white rounded-lg mo:mr-0 box-layout mo:w-full">
       <div>
         <div className="flex items-center">
           {icon}
-          <span className="text-xl ml-4 font-semibold">{title}</span>
+          <span className="ml-4 text-xl font-semibold">{title}</span>
         </div>
         <div className="mt-5">
           {infos.map((v: { label: string; text: string }, i: number) => {
@@ -51,13 +51,13 @@ function Card(p: ICard) {
             })}
         </div>
 
-        <div className="mt-5 flex mo:flex-col">
+        <div className="flex mt-5 mo:flex-col">
           {btn.map((v: { type: string; text: string; onClick: Function }, i: number) => {
             return v.type === "primary" ? (
               <Button
                 key={`btn${i}`}
                 onClick={() => v.onClick && v.onClick()}
-                className="ml-5 mo:ml-0 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5">
+                className="ml-5 mo:ml-0 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 hover:bg-green-28">
                 {v.text}
               </Button>
             ) : (
@@ -218,7 +218,7 @@ export function Service() {
   );
   return (
     <CarbonLayout className="bg-gray-16">
-      <div className="flex items-start flex-col">
+      <div className="flex flex-col items-start">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={() => setInProgressOpen(!inProgressOpen)}>
           <span className="text-lg font-bold">进行中/实施中 (4)</span>
           <FaSortDown
@@ -233,7 +233,7 @@ export function Service() {
           </div>
         )}
       </div>
-      <div className="mt-5 flex items-start flex-col">
+      <div className="flex flex-col items-start mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={() => setCompletedOpen(!completedOpen)}>
           <span className="text-lg font-bold">已完成 (2)</span>
           <FaSortDown

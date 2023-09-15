@@ -150,3 +150,7 @@ button[disabled] {
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
+/* Define the background color when hovering over a row */
+.hover-color-table tbody tr:hover {
+  background-color: #F3F3F3; 
+}

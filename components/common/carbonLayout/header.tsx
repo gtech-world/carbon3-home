@@ -16,7 +16,7 @@ export function CarbonHeader(p: HTMLAttributes<HTMLDivElement>) {
     <>
       <div
         className={classNames(
-          "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
+          "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0  h-[4.25rem]",
           className,
         )}
         {...other}>

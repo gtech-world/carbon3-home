@@ -14,6 +14,7 @@ import { useT } from "@lib/hooks/useT";
 import { handleCarbonStr, sleep, textTo2 } from "@lib/utils";
 import { FiHome, FiLogIn, FiLogOut, FiSearch } from "react-icons/fi";
 import { VscAccount } from "react-icons/vsc";
+import Document from "@public/document.svg";
 
 export function useMenus(data: any[] = []) {
   const isMobile = useIsMobile();
@@ -46,16 +47,14 @@ export function useMenus(data: any[] = []) {
         }))
         .forEach((item) => menus.push(item));
     }
-    // menus.push({
-    //   topSplit: true,
-    //   icon: <IoLanguageOutline />,
-    //   text: LngsText[lng],
-    //   onClick: () => {
-    //     // alert(11)
-    //     // alert(SupportLngs.find((item) => item !== lng))
-    //     i18n.changeLanguage(SupportLngs.find((item) => item !== lng));
-    //   },
-    // });
+    menus.push({
+      icon: <Document />,
+      text: t("Document"),
+      to: "https://docs.gtech.world/",
+      onClick: () => {
+        push("https://docs.gtech.world/");
+      },
+    });
     menus.push({
       icon: user ? <FiLogOut /> : <FiLogIn />,
       text: user ? t("Log Out") : t("Log In"),
@@ -109,9 +108,10 @@ export function Header(
     showQuery?: boolean;
     isManager?: boolean;
     menus?: any;
+    nopx?: boolean;
   },
 ) {
-  const { children, className, tits, showQuery, isManager, menus, ...other } = p;
+  const { children, className, tits, showQuery, isManager, nopx = false, menus, ...other } = p;
   const { t } = useT();
   const mTit = tits || t("Automotive Industry Carbon Platform") || "";
   const mTits = useMemo(() => textTo2(mTit), [mTit]);
@@ -124,16 +124,32 @@ export function Header(
     setLastInputVin(e.target.value);
   }, []);
   const onError = useOnError();
+
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const onQuery = () => {
     if (!vin) return onError("Please input VIN Code");
     push(`pcf?vin=${vin}`);
   };
+
   return (
     <>
       <div
         id="app_header"
         className={classNames(
-          "w-full relative z-[3] max-w-[90rem] mx-auto text-white flex items-center top-0 px-[7.5rem] h-[4.25rem]",
+          `w-full relative z-[3] max-w-[90rem] mx-auto  text-white  flex items-center top-0  h-[4.25rem]
+          ${!nopx && (windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]")}
+          `,
           className,
         )}
         {...other}>
@@ -158,7 +174,7 @@ export function Header(
 
         <div className="flex-1" />
         {showQuery && (
-          <div className="relative text-white text-lg mr-4 mo:hidden">
+          <div className="relative mr-4 text-lg text-white mo:hidden">
             <input
               style={{ border: "2px solid #fff" }}
               className="w-[17.5rem] h-[2.25rem] rounded-sm outline-none bg-transparent pl-10 pr-4"

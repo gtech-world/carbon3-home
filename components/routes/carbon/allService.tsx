@@ -32,11 +32,11 @@ interface ICard {
 function Card(p: ICard) {
   const { title, icon, infos, btn } = p.data;
   return (
-    <div className="bg-white mr-5 mo:mr-0 box-layout p-5 rounded-lg mt-5 flex flex-col justify-between mo:w-full">
+    <div className="flex flex-col justify-between p-5 mt-5 mr-5 bg-white rounded-lg mo:mr-0 box-layout mo:w-full">
       <div>
         <div className="flex items-center">
           {icon}
-          <span className="text-xl ml-4 font-semibold">{title}</span>
+          <span className="ml-4 text-xl font-semibold">{title}</span>
         </div>
         <div className="mt-5">
           {infos.map((v: { label: string; text: string }, i: number) => {
@@ -44,20 +44,20 @@ function Card(p: ICard) {
           })}
         </div>
       </div>
-      <div className="mt-5 flex mo:flex-col">
+      <div className="flex mt-5 mo:flex-col">
         {btn.map((v: { type: string; text: string; onClick: Function }, i: number) => {
           return v.type === "primary" ? (
             <Button
               key={`btn${i}`}
               onClick={() => v.onClick && v.onClick()}
-              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0">
+              className="ml-5 text-lg bg-green-2 text-white rounded-lg flex-1 min-h-[2.865rem] mo:mt-5 mo:ml-0 hover:bg-green-28">
               {v.text}
             </Button>
           ) : (
             <Button
               key={`btn${i}`}
               onClick={() => v.onClick && v.onClick()}
-              className="bg-green-2/10 text-lg hover:bg-green-2/20 text-green-2 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem]">
+              className="bg-green-2/10 text-lg text-green-2 border-2 border-green-2 rounded-lg flex-1 min-h-[2.865rem] hover:bg-green-2/20 ">
               {v.text}
             </Button>
           );
@@ -261,7 +261,7 @@ export function AllService() {
   );
   return (
     <CarbonLayout className="bg-gray-16">
-      <div className="flex items-start flex-col">
+      <div className="flex flex-col items-start">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={() => setTrainOpen(!trainOpen)}>
           <span className="text-lg font-bold">类别-培训与咨询 (4)</span>
           <FaSortDown className={classNames("ml-2 mt-[-0.45rem] text-2xl", trainOpen && "rotate-180 mb-[-1.2rem]")} />
@@ -274,7 +274,7 @@ export function AllService() {
           </div>
         )}
       </div>
-      <div className="mt-5 flex items-start flex-col">
+      <div className="flex flex-col items-start mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={() => setImplementOpen(!implementOpen)}>
           <span className="text-lg font-bold">类别-双碳实施 (4)</span>
           <FaSortDown
@@ -289,7 +289,7 @@ export function AllService() {
           </div>
         )}
       </div>
-      <div className="mt-5 flex items-start flex-col">
+      <div className="flex flex-col items-start mt-5">
         <div className="flex flex-wrap items-center cursor-pointer" onClick={() => setMarketOpen(!marketOpen)}>
           <span className="text-lg font-bold">类别-市场化支持 (3)</span>
           <FaSortDown className={classNames("ml-2 mt-[-0.45rem] text-2xl", marketOpen && "rotate-180 mb-[-1.2rem]")} />

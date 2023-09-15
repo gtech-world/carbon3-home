@@ -14,7 +14,7 @@ import SvgTeacher from "@public/teacher.svg";
 import classNames from "classnames";
 import React, { FC, Fragment, useEffect, useState } from "react";
 
-const Card: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const Card: FC<{ windowWidth: boolean }> = ({ windowWidth }) => {
   const { user } = useUser();
   const isMobile = useIsMobile();
   const { t, i18n } = useT();
@@ -68,7 +68,7 @@ const Card: FC<{ windowWidth: number }> = ({ windowWidth }) => {
       <div className="flex justify-center w-full px-5 bg-white">
         <div
           className={` flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col
-        mo:px-0  ${windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]"}
+        mo:px-0  ${windowWidth ? "px-[3%]" : "px-[7.5rem]"}
        w-full mo:flex-col mo:mt-11 mo:mb-0`}>
           <ul className="flex justify-between w-full pb-6 mo:flex-col mo:pb-0">
             {tabsList.map((v, i) => {
@@ -272,7 +272,7 @@ function CardTabsItem3() {
   );
 }
 
-const CardTabs: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const CardTabs: FC<{ windowWidth: boolean }> = ({ windowWidth }) => {
   const [selected, setSelected] = useState(-1);
   const tabsItemComponent = [
     <CardTabsItem1 key={`CardTabsItem1`} />,
@@ -303,11 +303,11 @@ const CardTabs: FC<{ windowWidth: number }> = ({ windowWidth }) => {
   ];
 
   return (
-    <div className="flex justify-center w-full px-5">
+    <div className="flex justify-center w-full mo:px-5">
       <a href="#" id="secondView" />
       <div
         className={` flex text-lg mo:text-base flex-shrink-0 max-w-[90rem] mo:max-w-auto pt-10 pb-5  flex-col
-        mo:px-0  ${windowWidth > 1200 && windowWidth <= 1280 ? "px-[3%]" : "px-[7.5rem]"}
+        mo:px-0  ${windowWidth ? "px-[3%]" : "px-[7.5rem]"}
        w-full mo:flex-col mo:mt-11 mo:mb-0`}>
         <ul className="flex justify-between w-full pb-8 mo:flex-col mo:pb-0">
           {tabsList.map((v, i) => {
@@ -363,7 +363,6 @@ const CardTabs: FC<{ windowWidth: number }> = ({ windowWidth }) => {
 export function Home() {
   const { user } = useUser();
   const [windowWidth, setWindowWidth] = useState(0);
-
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -374,11 +373,12 @@ export function Home() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const width = windowWidth > 1200 && windowWidth <= 1280;
 
   return (
     <HomeHeaderLayout>
-      <div className="flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem]">
-        <div className="max-w-[90rem] h-[42.875rem] px-[7.5rem] mo:px-10 w-full mx-auto">
+      <div className={`flex flex-col flex-shrink-0 mo:items-center mo:h-[37.25rem] w-full `}>
+        <div className={`max-w-[90rem] h-[42.875rem]  mo:px-10 w-full mx-auto  ${width ? "px-[3%]" : "px-[7.5rem]"}`}>
           <div className="text-[2rem] text-white font-semibold w-[37.25rem] mt-36 mo:text-[1.75rem] mo:leading-normal mo:text-center mo:w-full mo:mt-[5.375rem]">
             {/*{t(*/}
             {/*  "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative."*/}
@@ -408,8 +408,8 @@ export function Home() {
         <NumData num={277148} label="Labelled Vehicles" />
         <NumData num={909128401} label="Piece of Data Collected" />
       </div> */}
-      <CardTabs windowWidth={windowWidth} />
-      <Card windowWidth={windowWidth} />
+      <CardTabs windowWidth={width} />
+      <Card windowWidth={width} />
     </HomeHeaderLayout>
   );
 }

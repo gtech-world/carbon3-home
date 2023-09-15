@@ -1,14 +1,11 @@
-import { Btn } from "@components/common/button";
 import { useStore } from "@components/common/context";
-import { Dropdown } from "@components/common/dropdown";
 import { Loading } from "@components/common/loading";
 import { Modal, ModalProps } from "@components/common/modal";
 import { ProduceSystemController } from "@lib/@types/produceSystem";
 import { Organization } from "@lib/@types/type";
 import { useProductSystem } from "@lib/hooks/useDatas";
-import { useOn } from "@lib/hooks/useOn";
 import { useIsVerifier } from "@lib/hooks/useUser";
-import { uploadLcaModel, upsertLcaProduct } from "@lib/http";
+import { getProductDetailList } from "@lib/http";
 import { shortStr } from "@lib/utils";
 import classNames from "classnames";
 import _ from "lodash";
@@ -21,12 +18,12 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
 import { useToggle } from "react-use";
 import { RealData } from "./RealData";
+import ViewBomInfoModal from "./ViewBomInfoModal";
 import { ViewProductSystem } from "./ViewProductSystem";
 
 export function PsStatus(p: { status?: number }) {
@@ -52,7 +49,7 @@ export function PsStatus(p: { status?: number }) {
   );
 }
 
-export function ActionBtn(p: { action: string; onClick?: MouseEventHandler<HTMLDivElement>; to?: string }) {
+export function ActionBtn(p: { action: string; onClick?: undefined | MouseEventHandler<HTMLDivElement>; to?: string }) {
   const { action, onClick, to } = p;
   if (to) {
     return (
@@ -81,13 +78,33 @@ export function LcaActionInfo(p: {
   disableSelectFile?: boolean;
   hiddenUpdate?: boolean;
   file?: File;
+  openNewTab?: boolean;
+  btnText?: string;
   onFileChange?: ChangeEventHandler<HTMLInputElement>;
 }) {
-  const { psId, disableSelectFile = false, hiddenUpdate, modelId, isNew, isRead, modelStatus, file, onFileChange } = p;
+  const {
+    psId,
+    disableSelectFile = false,
+    openNewTab = false,
+    hiddenUpdate,
+    modelId,
+    isNew,
+    isRead,
+    modelStatus,
+    file,
+    onFileChange,
+    btnText = "上传模型",
+  } = p;
   const inputFileRef = useRef<HTMLInputElement>(null);
   const renderLook = () => {
     if (modelStatus !== 1) return <div className="text-base font-normal leading-none text-amber-500">等待解析</div>;
-    return <ActionBtn to={`/model?id=${modelId}`} action="在线查看" />;
+    return (
+      <ActionBtn
+        onClick={() => (openNewTab ? window.open(`/model?id=${modelId}`, "_blank") : undefined)}
+        to={!openNewTab ? `/model?id=${modelId}` : undefined}
+        action="在线查看"
+      />
+    );
   };
   const onClickUp = (e: MouseEvent<HTMLDivElement>) => {
     !disableSelectFile && inputFileRef.current?.click();
@@ -100,13 +117,10 @@ export function LcaActionInfo(p: {
         renderLook()
       ) : isNew ? (
         <>
-          <ActionBtn action="上传模型" onClick={onClickUp} />
+          <ActionBtn action={btnText} onClick={onClickUp} />
         </>
       ) : (
-        <>
-          {!file && renderLook()}
-          {modelStatus === 1 && !hiddenUpdate && <ActionBtn action="更新模型" onClick={onClickUp} />}
-        </>
+        <>{!file && renderLook()}</>
       )}
     </div>
   );
@@ -160,86 +174,34 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
   }, [error]);
   const [busy, setBusy] = useState(false);
   const [file, setFile] = useState<File | undefined | null>(null);
-  const [progress, setProgress] = useState(0);
+  const [bomDataModal, setBomDataModal] = useState(false);
   const onFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.item(0));
   }, []);
-  const disableSubmit = !ps || (!file && inputDesc === ps?.description);
-  const onSubmit = useOn(() => {
-    if (!ps) return;
-    if (disableSubmit) return;
-    setBusy(true);
-    let task: Promise<any>;
-    if (file) {
-      const form = new FormData();
-      form.append("file", file);
-      form.append("name", file.name);
-      task = uploadLcaModel(form, {
-        onUploadProgress: (e) => setProgress(Math.min(100, Math.round((e.rate || 0) * 100))),
-      }).then((modelId) => upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc, modelId }));
-    } else {
-      task = upsertLcaProduct({ id: ps.id, name: ps.name, description: inputDesc });
-    }
-    task
-      .then(() => {
-        onSuccess && onSuccess();
-        props.onClose && props.onClose();
-      })
-      .catch(console.error)
-      .finally(() => {
-        setProgress(0);
-        setBusy(false);
-      });
-  });
 
   const [realModal, toggleRealModal] = useToggle(false);
   const [oldPs, setOldPs] = useState<ProduceSystemController.ListRecords>();
-  const versions = useMemo(() => {
-    return _.orderBy(
-      (ps?.historyList || []).map((item) => ({ ...item, text: `版本${item.version}` })),
-      (item) => _.toNumber(item.version),
-      "desc",
-    );
-  }, [ps]);
   const isVerifier = useIsVerifier();
+
   return (
     <Modal {...props}>
       {isLoading && !ps && <Loading className="min-h-[100px]" />}
       {ps && (
         <>
           <div className="flex flex-col gap-5  w-full min-w-[40rem] px-5 py-[1px] max-h-mc overflow-y-auto">
-            <PairInfo tit="UID" value={ps.uuid || "-"} />
-            <PairInfo
-              tit="版本"
-              value={
-                <div className="flex justify-between items-center gap-2.5 px-5 h-[50px] bg-gray-28 rounded-lg border border-neutral-200">
-                  {ps.version || "-"}
-                  <Dropdown
-                    items={versions}
-                    className="!px-2.5 !py-1 bg-white rounded border border-neutral-200 text-black text-base font-normal leading-none"
-                    onClick={(i) => {
-                      if (!versions) return;
-                      const viewPs = versions[i];
-                      setOldPs(viewPs);
-                    }}>
-                    查看历史版本
-                  </Dropdown>
-                </div>
-              }
-            />
+            <PairInfo tit="产品系统ID" value={ps.uuid || "-"} />
             <PairInfo
               tit="描述"
               value={
-                <EditorText
-                  disabled={isVerifier}
-                  maxLength={100}
-                  value={inputDesc}
-                  onChange={(e) => setInputDesc(e.target.value)}
-                />
+                <div className=" break-words max-w-[40rem] flex-wrap text-[16px] font-normal text-[#999999]">
+                  {inputDesc || "-"}
+                </div>
               }
             />
-            <PairInfo tit="状态" value={<PsStatus status={ps.state} />} />
-            <PairInfo tit="变更人" value={ps.updateUser?.name || "-"} />
+            <PairInfo tit="操作人" value={ps.updateUser.name || "-"} />
+            <PairInfo tit="BOM信息" value={<ActionBtn action="查看" onClick={() => setBomDataModal(true)} />} />
+            <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
+
             <PairInfo
               tit="产品系统LCA文件"
               value={
@@ -253,21 +215,21 @@ export function EditorProductSystem(p: ModalProps & { psId: number; onSuccess?: 
                 />
               }
             />
-            <PairInfo tit="实景参数列表" value={<ActionBtn action="查看" onClick={() => toggleRealModal(true)} />} />
             <OrganizationInfo organization={ps?.org} />
-          </div>
-          <div className={classNames("flex flex-col gap-2.5 mt-5 px-5", { hidden: isVerifier })}>
-            <Btn busy={busy} disabled={disableSubmit} onClick={onSubmit}>
-              提交更新
-            </Btn>
-            <div className="text-sm font-normal text-black">
-              * 点击提交更新按钮后，当前的产品系统版本将自动更新。原先版本的信息可以在历史版本中查询。
-            </div>
           </div>
         </>
       )}
-      {realModal && <RealData data={ps?.model?.paramDetail} onClose={() => toggleRealModal(false)} />}
+      {realModal && (
+        <RealData
+          header={["参数名", "过程名称", "参考值"]}
+          data={ps?.model?.paramDetail}
+          onClose={() => toggleRealModal(false)}
+        />
+      )}
       {oldPs && <ViewProductSystem onClose={() => setOldPs(undefined)} ps={oldPs} />}
+      {bomDataModal && (
+        <ViewBomInfoModal modelBomInfo={ps?.model?.modelBomInfo} onClose={() => setBomDataModal(false)} />
+      )}
     </Modal>
   );
 }
