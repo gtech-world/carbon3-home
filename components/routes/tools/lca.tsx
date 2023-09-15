@@ -37,8 +37,8 @@ export function Lca() {
               className="text-green-2"
               target="_blank"
               rel="noreferrer"
-              href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_macOS_x64_1.0.2_2023-07-10.dmg">
-              aicpLCA_macOS_x64_1.0.2_2023-07-10.dmg
+              href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_macOS_x64_1.0.3_2023-09-14.dmg">
+              aicpLCA_macOS_x64_1.0.3_2023-09-14.dmg
             </a>
           </p>
           <p className="mt-3">
@@ -47,8 +47,8 @@ export function Lca() {
               className="text-green-2"
               target="_blank"
               rel="noreferrer"
-              href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_WINDOWS_X64_1.0.2_2023-07-10.exe">
-              aicpLCA_WINDOWS_X64_1.0.2_2023-07-10.exe
+              href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/aicpLCA_WINDOWS_X64_1.0.3_2023-09-14.exe">
+              aicpLCA_WINDOWS_X64_1.0.3_2023-09-14.exe
             </a>
           </p>
         </div>
@@ -59,7 +59,7 @@ export function Lca() {
             className="ml-5 underline text-blue-0"
             rel="noreferrer"
             target="_blank"
-            href="https://github.com/gtech-world/olca-app/releases/tag/v1.0.2">
+            href="https://github.com/gtech-world/olca-app/releases/tag/v1.0.3">
             请点击此处下载
           </a>
           {/* <a className="ml-5 underline text-blue-0" rel="noreferrer" target="_blank" href="https://gtech-lca-1317970565.cos.ap-shanghai.myqcloud.com/AICP_LCA_LCIA_Method_202306.zolca">LCIA Method库</a> */}
