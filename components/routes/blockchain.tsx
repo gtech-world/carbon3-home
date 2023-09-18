@@ -196,7 +196,7 @@ export function Blockchain() {
   );
   return (
     <div className="flex flex-col flex-1 w-full text-black bg-gray-16 min-h-fit">
-      <header className="bg-green-2 text-white flex items-center h-[4.25rem] px-[4.375rem] w-full">
+      <header className="bg-green-2 text-white flex items-center h-[4.25rem]  w-full">
         <SVGAICP fill="#29953A" className="h-[2.25rem] mo:h-[1.75rem] fill-white ml-[3.125rem] mo:ml-4" />
         <div className="w-[5.9rem] mo:w-[4.5rem] ml-4 mo:ml-3 text-base mo:text-[0.8rem] mo:leading-[1.125rem]">
           {t("Trust Label NFT Viewer")}
