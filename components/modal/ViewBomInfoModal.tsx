@@ -4,6 +4,7 @@ import { FC } from "react";
 import { PairInfo } from "./EditorProductSystem";
 import { shortStr } from "@lib/utils";
 import { handleContentRender } from "utils";
+import { isTagType } from "@lib/tagtools";
 
 interface ViewBomInfoModalProps {
   onClose: () => void;
@@ -14,10 +15,10 @@ const ViewBomInfoModal: FC<ViewBomInfoModalProps> = ({ onClose, ...props }) => {
   const { modelBomInfo = "" } = props;
   const value = modelBomInfo && JSON.parse(modelBomInfo);
 
-  const customSort = (a: { tagType: string }, b: { tagType: string }) => {
-    if (a.tagType === "REFERENCE" && b.tagType !== "REFERENCE") {
+  const customSort = (a: { tagType: string | string[] }, b: { tagType: string | string[] }) => {
+    if (isTagType(a.tagType, "REFERENCE") && !isTagType(b.tagType, "REFERENCE")) {
       return -1; // 'REFERENCE' 排在前面
-    } else if (a.tagType !== "REFERENCE" && b.tagType === "REFERENCE") {
+    } else if (!isTagType(a.tagType, "REFERENCE") && isTagType(b.tagType, "REFERENCE")) {
       return 1; // 'REFERENCE' 排在后面
     } else {
       return 0; // 保持原始顺序
