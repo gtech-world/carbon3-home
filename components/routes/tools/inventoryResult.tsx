@@ -2,71 +2,45 @@ import Chart from "@components/common/Chart";
 import { Button } from "@components/common/button";
 import { Loading } from "@components/common/loading";
 import { ToolsLayout } from "@components/common/toolsLayout";
-import { Wrapmermaid } from "@components/common/wrapmermaid";
 import { exportLcaResultExcel, getLcaProductDetailList, getLcaResultDetail } from "@lib/http";
+import { BomNode, deepSetBomChild, isTagType } from "@lib/tagtools";
 import { tryParse } from "@lib/utils";
+import CarbonFooter from "@public/carbon_footer.svg";
 import classNames from "classnames";
-import { EChartsOption, PieSeriesOption } from "echarts";
+import { EChartsOption, SankeySeriesOption } from "echarts";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { BsCaretUpFill } from "react-icons/bs";
-import { useToggle } from "react-use";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
-function Expand(p: { text: string; onChange: Function }) {
-  const [open, setOpen] = useState(true);
-  const { text, onChange } = p;
-  useMemo(() => {
-    onChange && onChange(open);
-  }, [open]);
+function MCard(p: { children?: ReactNode; tit: string; className?: string }) {
+  const { children, tit, className } = p;
   return (
-    <div className="inline-block font-bold" onClick={() => setOpen(!open)}>
-      <div className="flex items-center cursor-pointer">
-        <span>{text}</span>
-        <BsCaretUpFill height="7px" className={classNames("ml-1", !open && "rotate-180")} />
+    <div
+      className={classNames("flex w-full flex-col bg-white min-h-[6.25rem]", className)}
+      style={{
+        boxShadow: "0px 3px 0px 0px #29953A inset, 0px 2px 10px 0px rgba(26, 62, 31, 0.10)",
+      }}>
+      <div
+        className="w-full h-[4.1875rem] flex justify-center items-center text-xl font-semibold text-black"
+        style={{
+          background: "linear-gradient(180deg, rgba(41, 149, 58, 0.12) 0%, rgba(41, 149, 58, 0) 100%)",
+        }}>
+        {tit}
       </div>
+      {children}
     </div>
   );
 }
 
-function GeneralInfo(p: { data: any }) {
-  const [open, setOpen] = useState(true);
-  const { data } = p;
-  const list = [
-    { label: "碳足迹批次", text: data.loadName },
-    { label: "产品系统", text: data.productSystemName },
-    { label: "目标产品", text: data.targetName },
-    { label: "目标产品数量", text: data.targetAmount },
-    { label: "Impact Method(环境影响评价方法)", text: "IPCC 2021" },
-    { label: "Allocation Method(分摊方法)", text: "Process Defaults" },
-    { label: "Cutoff", text: "None" },
-    { label: "计算结果生成时间", text: data.calculateSuccessTime },
-  ];
+function InfoItem(p: { tit: string; value: string }) {
+  const { tit, value } = p;
   return (
-    <div>
-      <Expand text="一般信息" onChange={(v: boolean) => setOpen(v)} />
-      {open && (
-        <div className="mt-4">
-          {list.map((v: any, i: number) => {
-            return (
-              <div className="flex" key={`data-${i}`}>
-                <label className="">{v.label} :</label>
-                <span className="ml-1 text-gray-6">{v.text}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-function Result(p: { data: any }) {
-  const [open, setOpen] = useState(true);
-  const { data } = p;
-  return (
-    <div className="mt-4">
-      <Expand text="碳足迹结果" onChange={(v: boolean) => setOpen(v)} />
-      {open && <div className="text-[1.75rem] font-semibold mt-4">{data}</div>}
+    <div className="flex justify-between">
+      <div className="flex gap-2.5 items-center text-green-2 text-base">
+        <div className="w-1 h-1 shrink-0 rounded-sm bg-green-2 overflow-hidden" />
+        <span className="whitespace-nowrap">{tit}</span>
+      </div>
+      <div className="text-base text-gray-6 text-right">{value}</div>
     </div>
   );
 }
@@ -92,141 +66,115 @@ export function InventoryResult() {
     getList();
   }, [query.id]);
 
-  const { generalInfo, carbonResult, graphData, pieData } = useMemo(() => {
+  const { generalInfo, carbonResult, chartData } = useMemo(() => {
     let generalInfo: any = [];
     let referenceUnit = "";
-    let carbonResult: any = "";
-    let graphData = "";
-    let pieData: EChartsOption = {};
+    let carbonResult: [string, string] = ["", ""];
+
+    let chartData: EChartsOption = {};
     if (value) {
       // general infos
       const { lca, bominfo } = value;
       const val = tryParse<any>(lca.lcaResult);
       // console.info("val::", val);
       if (val) {
+        const splited = (val.extra?.targetAmount || "").split("Item(s)");
         generalInfo = {
           productSystemName: val.extra?.productSystemName,
           methodName: val.extra?.methodName,
-          targetAmount: val.extra?.targetAmount,
+          targetName: splited[1] || val.extra?.productSystemName,
+          targetAmount: `${Math.round(splited[0] || 1)} (件)`,
           calculateSuccessTime: lca.calculateSuccessTime,
           loadNumber: lca.loadNumber,
           loadName: lca.loadName,
         };
         referenceUnit = (val.totalImpacts && val.totalImpacts[0]?.impact.referenceUnit) || "";
         const total = _.round(val.totalResult || val.treeNode?.result || 0, 2);
-        carbonResult = `${total || 0} ${referenceUnit}`;
+        carbonResult = [`${total || 0}`, referenceUnit];
       }
 
-      type BomNode = {
-        flowId: string;
-        tagType: string;
-        flowName: string;
-        processId: string;
-        partNumbers: string[];
-        childFlowIds: string[];
-      };
       // mermaid data
       const boms = tryParse<BomNode[]>(bominfo);
       const tagResult = tryParse<{ result: number; processId: string; flowId: string }[]>(lca.lcaTagResult);
       // console.info("booms:", boms);
       // console.info("tagRes:", tagResult);
       if (boms && tagResult) {
-        graphData = "classDiagram";
         const mapTagResult = _.groupBy(tagResult, "flowId");
         const mapBoms = _.groupBy(boms, "flowId");
-        const indexMap: {
-          bomIndex: number;
-          stageIndex: number;
-          [k: string]: number;
-        } = {
-          bomIndex: 1,
-          stageIndex: 1,
+        deepSetBomChild(boms);
+        const sortBoms = boms;
+        chartData = {
+          padding: 20,
+          tooltip: {
+            trigger: "item",
+          },
+          series: {
+            type: "sankey",
+            data: [],
+            links: [],
+          },
         };
-        const getIndex = (item: BomNode) => {
-          if (!indexMap[item.flowId]) {
-            indexMap[item.flowId] = item.tagType === "STAGE" ? indexMap.stageIndex++ : indexMap.bomIndex++;
+        const getOtherName = (item: BomNode) => {
+          if (isTagType(item.tagType, "STAGE01")) return "使用环节";
+          if (isTagType(item.tagType, "STAGE02")) return "运输销售环节";
+          if (isTagType(item.tagType, "STAGE03")) return "生产制造环节";
+          return "";
+        };
+
+        const getOtherNameForDeep = (item: BomNode) => {
+          if (isTagType(item.tagType, "REFERENCE")) return "使用环节";
+          if (isTagType(item.tagType, "STAGE")) {
+            if (item._depth === 1) return "生产制造环节";
+            if (item._depth === 2) return "运输销售环节";
           }
-          return indexMap[item.flowId];
+          return "";
         };
-        const itemTit = (item: BomNode) => {
-          return item.tagType === "REFERENCE" ? "目标产品" : item.tagType + getIndex(item);
-        };
-        const sortBoms = _.sortBy(boms, (item) => (item.tagType === "BOM" ? 2 : item.tagType === "STAGE" ? 1 : 0));
-        // links
+
+        // data and links
         sortBoms.forEach((item) => {
+          const links = (chartData.series as SankeySeriesOption).links;
+          const data = (chartData.series as SankeySeriesOption).data;
+          const value = _.first(mapTagResult[item.flowId])?.result || 0;
+
+          // add data
+          data?.push({ name: item.flowName, value: _.round(value, 2), depth: item._depth });
+
+          // add links
           if (item.childFlowIds && item.childFlowIds.length) {
             item.childFlowIds.forEach((flowId) => {
               const flowRes = _.first(mapTagResult[flowId]);
               const flowBom = _.first(mapBoms[flowId]);
               if (flowBom && flowRes) {
-                const p = itemTit(item);
-                const c = itemTit(flowBom);
-                graphData += `\n ${p} <|-- ${c}`;
+                const bomV = _.first(mapTagResult[flowBom.flowId]);
+                const ftmValue = _.round(bomV?.result || 0, 2);
+                links?.push({ target: item.flowName, source: flowBom.flowName, value: ftmValue });
               }
             });
           }
-        });
-        pieData = {
-          padding: 20,
-          legend: {
-            top: 30,
-            padding: 20,
-            type: "scroll",
-            orient: "horizontal",
-            align: "auto",
-          },
-          tooltip: {
-            trigger: "item",
-            formatter: (item: any) => {
-              return `<div>
-            ${(item as any).marker}
-            <span>${(item as any).name} (${item.percent}%)</span>
-            <div style="margin-left: 18px">${(item as any).value} ${referenceUnit}</div>
-          </div>`;
-            },
-          },
-          series: {
-            type: "pie",
-            radius: "60%",
-            data: [],
-            center: ["50%", "56%"],
-            label: {
-              formatter: (item) => {
-                return `${item.percent}%`;
-              },
-            },
-          },
-        };
-        // contents
-        sortBoms.forEach((item) => {
-          const p = itemTit(item);
-          const v = _.first(mapTagResult[item.flowId]);
-          // const value =
-          //   item.tagType === "REFERENCE"
-          //     ? v?.result || 0
-          //     : (v?.result || 0) - _.sumBy(item.childFlowIds, (flowId) => _.first(mapTagResult[flowId])?.result || 0);
-          const value =
-            (v?.result || 0) - _.sumBy(item.childFlowIds, (flowId) => _.first(mapTagResult[flowId])?.result || 0);
-          const ftmValue = _.round(value, 2);
-          const content = `${p} : ${item.flowName.replaceAll("(", "（").replaceAll(")", "）")}
-          ${p} : +PCF(${ftmValue} ${referenceUnit})`;
-          if (item.tagType !== "REFERENCE" || item.childFlowIds.length > 0) graphData += `\n${content}`;
-          if (item.tagType === "REFERENCE") {
-            pieData.title = { text: item.flowName, left: "center", top: 10 };
-            generalInfo.targetName = item.flowName;
-            graphData += `\n${p} : Total(${_.round(v?.result || 0, 2)} ${referenceUnit})`;
+          // add other
+          const other = _.round(
+            value - _.sumBy(item.childFlowIds || [], (flowId) => mapTagResult[flowId][0]?.result),
+            2,
+          );
+
+          const otherName = getOtherName(item);
+          if (otherName) {
+            data?.push({ name: otherName, depth: item._depth - 1 });
+            links?.push({ target: item.flowName, source: otherName, value: other });
+          } else if (other > 0) {
+            const otherNameDeep = getOtherNameForDeep(item);
+            if (otherNameDeep) {
+              data?.push({ name: otherNameDeep, depth: item._depth - 1 });
+              links?.push({ target: item.flowName, source: otherNameDeep, value: other });
+            }
           }
-          if (ftmValue > 0) (pieData.series as PieSeriesOption).data?.push({ name: item.flowName, value: ftmValue });
         });
       }
     }
-
-    // console.info("gD:", graphData);
     return {
       generalInfo,
       carbonResult,
-      graphData,
-      pieData,
+      chartData,
     };
   }, [value]);
 
@@ -253,7 +201,6 @@ export function InventoryResult() {
       }
     }
   };
-  const [showBoms, toggleBom] = useToggle(true);
 
   return (
     <ToolsLayout className="text-lg text-black">
@@ -262,22 +209,29 @@ export function InventoryResult() {
           <Loading />
         </div>
       ) : (
-        <div className="mo:break-all">
-          <h3 className="my-5 text-2xl font-semibold">碳足迹结果</h3>
-          <div className="p-5 bg-white rounded-2xl">
-            <GeneralInfo data={generalInfo} />
-            <Result data={carbonResult} />
-            {!_.isEmpty(graphData) && !_.isEmpty(pieData) && (
-              <div className="w-full mt-4">
-                <Expand text="BOM/STAGE的明细结果" onChange={(v: boolean) => toggleBom(v)} />
-                {showBoms && (
-                  <>
-                    <Wrapmermaid className="w-full h-[360px] bg-[#F1F1F1] mt-4" data={graphData} />
-                    <Chart className="w-full !h-[320px] bg-[#F1F1F1] mt-4" option={pieData} />
-                  </>
-                )}
+        <div className="pt-8 mo:break-all">
+          <div className="grid grid-cols-2 gap-5 mo:grid-cols-1">
+            <MCard tit="产品碳足迹">
+              <div className="flex items-center flex-1 px-9 mb-9">
+                <CarbonFooter />
+                <div className="flex-1 flex flex-col justify-center items-center whitespace-nowrap">
+                  <span className="font-semibold text-green-2 text-4xl">{carbonResult[0]}</span>
+                  <span className="font-semibold text-black text-base">{carbonResult[1]}</span>
+                </div>
               </div>
-            )}
+            </MCard>
+            <MCard tit="碳足迹评价详情">
+              <div className="flex flex-col gap-3 mx-5 mt-3 mb-9">
+                <InfoItem tit="目标产品" value={generalInfo.targetName} />
+                <InfoItem tit="目标产品数量" value={generalInfo.targetAmount} />
+                <InfoItem tit="碳足迹批次" value={generalInfo.loadName} />
+                <InfoItem tit="环境影响评价方法" value={"IPCC 2021,GWP 100"} />
+                <InfoItem tit="计算结果生成时间" value={generalInfo.calculateSuccessTime} />
+              </div>
+            </MCard>
+            <MCard tit="生命周期环节明细结果" className="col-span-2 mo:col-span-1">
+              {chartData && <Chart className="w-full !h-[360px]" option={chartData} />}
+            </MCard>
           </div>
           <div className="flex justify-center w-full mt-5 mb-10">
             <Button
