@@ -16,10 +16,12 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
       const zip = new JSZip();
       let folderName = "";
 
-      fileList.forEach((file) => {
-        folderName = file.fileName.split("/")[0];
-        zip.file(file.fileName, file.downloadUrl);
-      });
+      for (const files of fileList) {
+        folderName = files?.fileName?.split("/")[0];
+        const blob = await (await fetch(files.downloadUrl)).blob();
+        zip.file(files.fileName, blob);
+      }
+
       const content = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(content);
