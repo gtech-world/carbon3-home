@@ -107,6 +107,11 @@ export function InventoryResult() {
           padding: 20,
           tooltip: {
             trigger: "item",
+            formatter: (item: any) => {
+              const content = `${item.name} ${item.value}(${referenceUnit})`;
+              if (item.marker) return `${item.marker} ${content}`;
+              return content;
+            },
           },
           series: {
             type: "sankey",
@@ -132,6 +137,7 @@ export function InventoryResult() {
 
         // data and links
         sortBoms.forEach((item) => {
+          if (isTagType(item.tagType, "REFERENCE")) generalInfo.targetName = item.flowName;
           const links = (chartData.series as SankeySeriesOption).links;
           const data = (chartData.series as SankeySeriesOption).data;
           const value = _.first(mapTagResult[item.flowId])?.result || 0;
