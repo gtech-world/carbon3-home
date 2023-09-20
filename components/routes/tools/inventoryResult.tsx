@@ -134,6 +134,7 @@ export function InventoryResult() {
           }
           return "";
         };
+        const NameFlag: { [k: string]: boolean } = {};
 
         // data and links
         sortBoms.forEach((item) => {
@@ -143,7 +144,10 @@ export function InventoryResult() {
           const value = _.first(mapTagResult[item.flowId])?.result || 0;
 
           // add data
-          data?.push({ name: item.flowName, value: _.round(value, 2), depth: item._depth });
+          if (!NameFlag[item.flowName]) {
+            NameFlag[item.flowName] = true;
+            data?.push({ name: item.flowName, value: _.round(value, 2), depth: item._depth });
+          }
 
           // add links
           if (item.childFlowIds && item.childFlowIds.length) {
@@ -164,19 +168,26 @@ export function InventoryResult() {
           );
 
           const otherName = getOtherName(item);
-          if (otherName) {
-            data?.push({ name: otherName, depth: item._depth - 1 });
+          if (otherName && item._depth > 0) {
+            if (!NameFlag[otherName]) {
+              NameFlag[otherName] = true;
+              data?.push({ name: otherName, depth: item._depth - 1 });
+            }
             links?.push({ target: item.flowName, source: otherName, value: other });
-          } else if (other > 0) {
+          } else if (other > 0 && item._depth > 0) {
             const otherNameDeep = getOtherNameForDeep(item);
             if (otherNameDeep) {
-              data?.push({ name: otherNameDeep, depth: item._depth - 1 });
+              if (!NameFlag[otherNameDeep]) {
+                NameFlag[otherNameDeep] = true;
+                data?.push({ name: otherNameDeep, depth: item._depth - 1 });
+              }
               links?.push({ target: item.flowName, source: otherNameDeep, value: other });
             }
           }
         });
       }
     }
+    console.info("cd:", chartData);
     return {
       generalInfo,
       carbonResult,
