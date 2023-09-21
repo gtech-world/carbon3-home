@@ -2,6 +2,7 @@ import { Modal } from "@components/common/modal";
 import { FC, Fragment, useState } from "react";
 import JSZip from "jszip";
 import { useOnError } from "@components/common/context";
+import { Btn } from "@components/common/button";
 
 const ViewVerification: FC<VerificationManagementController.ViewVerificationManagementModal> = ({
   closeModal,
@@ -16,10 +17,18 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
       const zip = new JSZip();
       let folderName = "";
 
-      fileList.forEach((file) => {
-        folderName = file.fileName.split("/")[0];
-        zip.file(file.fileName, file.downloadUrl);
+      const promises = fileList.map(async (files) => {
+        folderName = files?.fileName?.split("/")[0];
+        const blob = await (await fetch(files.downloadUrl)).blob();
+        return { fileName: files.fileName, blob };
       });
+
+      const results = await Promise.all(promises);
+
+      results.forEach((result) => {
+        zip.file(result.fileName, result.blob);
+      });
+
       const content = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(content);
@@ -46,12 +55,14 @@ const ViewVerification: FC<VerificationManagementController.ViewVerificationMana
             );
           })}
         </div>
-        <button
+        <Btn
+          busy={loading}
           disabled={loading}
+          defStyle="btn-primary"
           className="bg-[#29953A] w-full h-[50px] rounded-lg text-[#FFFFFF] mt-5"
           onClick={handleDownloadClick}>
           下载
-        </button>
+        </Btn>
       </Modal>
     </Fragment>
   );

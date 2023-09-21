@@ -11,7 +11,7 @@ export const scrollToTop = () => {
   document.documentElement.scrollTop = 0;
 };
 
-export const handleContentRender = (text: string, width: number) => {
+export const handleContentRender = (text: any, width: number) => {
   if (text.length > width) {
     return text;
   } else {

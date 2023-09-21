@@ -388,7 +388,7 @@ export function Car() {
       {isMobile ? (
         <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : vin ? <Empty /> : null}</>}</>
       ) : (
-        <HeaderLayout className="!px-7">
+        <HeaderLayout nopx className="!px-7">
           {loading ? (
             <Loading />
           ) : (
