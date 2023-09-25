@@ -11,6 +11,8 @@ import { EChartsOption, SankeySeriesOption } from "echarts";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useMemo, useState } from "react";
+import { toPng } from "html-to-image";
+const pdfMake = require("pdfmake");
 
 function MCard(p: { children?: ReactNode; tit: string; className?: string }) {
   const { children, tit, className } = p;
@@ -219,6 +221,20 @@ export function InventoryResult() {
     }
   };
 
+  const doExportPDF = async () => {
+    const el = document.getElementById("inventory-result-content");
+    if (!el) return;
+    const name = `PCF-${generalInfo.loadName}.pdf`;
+    toPng(el)
+      .then((png) =>
+        pdfMake.createPdf({
+          content: [{ image: png, width: 515 }],
+        }),
+      )
+      .then((pdf) => pdf.download(name))
+      .catch(console.error);
+  };
+
   return (
     <ToolsLayout className="text-lg text-black">
       {loading ? (
@@ -226,7 +242,7 @@ export function InventoryResult() {
           <Loading />
         </div>
       ) : (
-        <div className="pt-8 mo:break-all">
+        <div className="pt-8 mo:break-all w-full max-w-[1000px] mx-auto" id="inventory-result-content">
           <div className="grid grid-cols-2 gap-5 mo:grid-cols-1">
             <MCard tit="产品碳足迹">
               <div className="flex items-center flex-1 px-9 mb-9">
@@ -250,17 +266,22 @@ export function InventoryResult() {
               {chartData && <Chart className="w-full !h-[360px]" option={chartData} />}
             </MCard>
           </div>
-          <div className="flex justify-center w-full mt-5 mb-10">
+          <div className="flex justify-center w-full mt-5 mb-10 gap-5 mo:flex-wrap">
             <Button
               onClick={() => !exportLoading && doExport()}
-              className="mt-5 text-lg bg-green-2 w-[26.875rem] text-white rounded-lg  h-14 flex items-center justify-center hover:bg-green-28">
+              className="text-lg bg-green-2 w-[16.5625rem] mo:w-full text-white rounded-lg  h-14 flex items-center justify-center hover:bg-green-28">
               {exportLoading ? (
                 <div>
                   <Loading size="2rem" color={"#fff"} />
                 </div>
               ) : (
-                <span>导出Excel</span>
+                <span>导出计算明细Excel</span>
               )}
+            </Button>
+            <Button
+              onClick={doExportPDF}
+              className="text-lg bg-green-2 w-[16.5625rem] mo:w-full text-white rounded-lg  h-14 flex items-center justify-center hover:bg-green-28">
+              将此页面生成PDF
             </Button>
           </div>
         </div>
