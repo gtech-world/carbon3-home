@@ -29,6 +29,7 @@ import { useToggle } from "react-use";
 import { FiChevronLeft } from "react-icons/fi";
 import DivText from "@components/common/DivText";
 import { getSbtUUIDInfo } from "@lib/services/carbonTag";
+import { dealResult } from "utils";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -367,6 +368,7 @@ export function Car() {
     functionalUnit = "-",
     evaluationBoundary = "-",
     evaluationBasis = "-",
+    pcfResult = "-",
   } = tagList || {};
   const productInfo = [
     { text: "标签编号", value: uuid },
@@ -400,7 +402,7 @@ export function Car() {
   const { t } = useT();
 
   return (
-    <HeaderLayout nopx className="  bg-[#F3F3F3] w-full h-full">
+    <HeaderLayout nopx className=" !px-7 bg-[#F3F3F3] w-full h-full">
       <div className={`w-full  max-w-[1480px] mx-auto `}>
         <div
           className="flex items-center mb-2.5 text-sm cursor-pointer"
@@ -417,7 +419,7 @@ export function Car() {
           <div className="w-[420px] h-[320px] mo:h-[126px] bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
             <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:ml-[15px]" />
             <div className="mo:ml-[2.5rem]">
-              <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">1878.22 kg</div>
+              <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">{dealResult(pcfResult)}</div>
               <div className="font-[1.75rem] leading-8   ">二氧化碳等效排放</div>
             </div>
           </div>
@@ -440,7 +442,7 @@ export function Car() {
             <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px] " />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("What is AIAG Digital3 Carbon Trust Label?")}</div>
             <div
-              className="text-[.9375rem] font-medium text-center mx-5"
+              className="text-[.9375rem] font-normal text-center mx-5"
               dangerouslySetInnerHTML={{
                 __html: handleCarbonStr(
                   t(
@@ -460,7 +462,7 @@ export function Car() {
             <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
             <div
-              className="text-[.9375rem] font-medium text-center mx-5"
+              className="text-[.9375rem] font-normal text-center mx-5"
               dangerouslySetInnerHTML={{
                 __html: t(
                   "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",
@@ -478,5 +480,3 @@ export function Car() {
     </HeaderLayout>
   );
 }
-
-export default Car;

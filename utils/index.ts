@@ -18,3 +18,14 @@ export const handleContentRender = (text: any, width: number) => {
     return "";
   }
 };
+
+export const dealResult = (data: string) => {
+  const matches = data?.match(/(\d+\.\d{2})/);
+
+  if (matches && matches.length > 1) {
+    const extractedNumber = parseFloat(matches[1]).toFixed(2);
+    return `${extractedNumber}kg`;
+  } else {
+    return "";
+  }
+};

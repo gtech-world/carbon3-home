@@ -21,6 +21,7 @@ declare namespace SbtTokenController {
     evaluationBoundary?: string; //评价边界
     evaluationBasis?: string; //评价依据
     evaluationExpireTime?: string; //评价有效期
+    pcfResult?: string; //二氧化碳等效排放
   }
 
   interface TransferEvent {

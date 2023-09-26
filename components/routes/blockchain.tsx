@@ -15,6 +15,7 @@ import SVGAICP from "/public/AICP.svg";
 import SvgGgx from "@public/GGX.svg";
 import { Table } from "@components/common/table";
 import { getSbtDetail } from "@lib/services/carbonTag";
+import { dealResult } from "utils";
 
 function ItemInfo(p: { label: string; text: string; link?: string; tip?: any; className?: string }) {
   return (
@@ -68,8 +69,6 @@ function CardInfo(p: any) {
     labelCredential = "",
     proofTime = "",
   } = p?.data || {};
-  const data = pcfResult?.split("kg");
-  const result = Number(data[0]).toFixed(2) + data[1];
 
   const { t } = useT();
   return (
@@ -77,7 +76,7 @@ function CardInfo(p: any) {
       <ItemInfo
         label={t("SBT Token ID")}
         text={tokenId}
-        link={genScanTokenUrl(tokenId)}
+        link={genScanUrl("address", "0x7BC6afe0cDc6DE9191dfC6d68A3bad45E270F695")}
         tip={t(
           "SBTs are non-transferable and immutable digital credentials representing the vehicle’s carbon footprint label. Every SBT has a unique token ID.",
         )}
@@ -101,7 +100,7 @@ function CardInfo(p: any) {
         link={`/car?vin=${uuid}`}
         tip={t("The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.")}
       />
-      <ItemInfo label={t("Carbon Emission")} text={result} />
+      <ItemInfo label={t("Carbon Emission")} text={dealResult(pcfResult)} />
       <ItemInfo label={t("Certified Documents")} text={labelCredential} />
       <ItemInfo label={t("Label Print Date")} text={proofTime} />
     </div>
@@ -197,6 +196,9 @@ export function Blockchain() {
   const polygonscanDesc = t(
     "GGX (GTech Green Chain) is a shared digital space for the automotive industry. GGX offers 3T (Transparency, Traceability, Trust) featured data as a solid foundation for cross-boundary collaboration between automotive value chain players.",
   );
+
+  console.log("sbtTagList", sbtTagList);
+
   return (
     <div className="flex flex-col flex-1 w-full text-black bg-gray-16 min-h-fit">
       <header className="bg-green-2 text-white flex items-center h-[4.25rem]  w-full">
@@ -260,7 +262,9 @@ export function Blockchain() {
             <SvgGgx className="mb-5" />
             <p className="font-bold">{t("Blockchain powered by:")}</p>
             <p className="text-green-2">
-              {/* <Link href="https://polygon.technology/" target="_blank">{t('Polygon Blockchain')}</Link> */}
+              <Link href={`https://explorer.gtech.world/address/${sbtTagList?.ownerAddress}`} target="_blank">
+                {t("Polygon Blockchain")}
+              </Link>
               {t("GGX Blockchain")}
             </p>
             <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}></p>

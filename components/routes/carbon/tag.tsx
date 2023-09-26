@@ -25,7 +25,7 @@ function Card(p: {
     <div className="bg-white mr-5 w-[22.875rem] mo:w-full p-5 rounded-lg mb-5 text-base mo:mr-0">
       <ProductQrcode qrcodeDisable={qrcodeDisable} data={qrCode} />
       <div className="flex flex-col mt-5">
-        <h3 className="text-xl font-semibold">{title}</h3>
+        <h3 className="text-xl font-semibold">完成[{title}]产品碳足迹测算</h3>
         <span>{by}</span>
         <span>标签ID : {id}</span>
       </div>
