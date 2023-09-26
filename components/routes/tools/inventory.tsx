@@ -218,7 +218,7 @@ export function Inventory() {
     return () => {
       stop = true;
     };
-  }, []);
+  }, [pgNum]);
 
   const unVerifier = useUnVerifier();
 

@@ -48,7 +48,7 @@ export function Model() {
     return () => {
       stop = true;
     };
-  }, []);
+  }, [pgNum]);
 
   const columns = useMemo(
     () => [
