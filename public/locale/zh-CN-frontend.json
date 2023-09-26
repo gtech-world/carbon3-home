@@ -15,7 +15,7 @@
   "Open Query": "公开查询",
   "{{value}} for public accessible": "面向公众的{{value}}",
   "Sign in": "登入",
-  "{{value}} with authenticated account*": "使用经认证的专业账户*</br>{{value}}",
+  "{{value}} with authenticated account*": "使用经认证的专业账户*{{value}}",
   "Enter": "进入",
   "Explore": "探索",
   "Work with AICD for a Net Zero future": "与AICD一起建筑净零排放的未来",
@@ -109,8 +109,7 @@
   "Certified by AIAG": "由AIAG认证",
   "Label Details": "可信标签信息",
   "SBT Token ID": "SBT凭证编号",
-  "Label Owner": "标签拥有者",
-  "Owner Address": "拥有者的链上地址",
+  "Label Owner": "标签申请主体",
   "Product Model": "产品型号",
   "Product Unique Identifier": "产品唯一标识符",
   "Label Type": "标签类型",
@@ -160,5 +159,12 @@
   "AICP Digital3 Carbon System": "AICP Digital3 Carbon 系统入口",
   "AICP is the global, industry-level platform for OEMs and suppliers to manage, track and display their carbon footprint data under the AIAG Carbon Initiative.": "AICP是全球性的行业级碳服务平台，帮助主机厂与供应商在AIAG碳倡议框架下管理、追踪和展示碳足迹。",
   "AICP is the global, industry-level platform designed for long-term carbon emission performance traceability and visibility under the AIAG Carbon Initiative. AICP offers public view mode and supply chain view mode.": "AICP（汽车行业碳服务平台）是一个全球性、行业级的服务平台，被设计用于在“AIAG碳倡议”框架下记录和追踪汽车行业超长期的碳排放表现。AICP服务平台提供公开信息查询模式以及供应链用户授权查询模式。",
-  "i18nStamp": 1690253309532
+  "Blockchain SBT ID": "SBT凭证编号",
+  "Carbon Emission": "碳排放量",
+  "Certified Documents": "证明文件",
+  "Label Print Date": "标签印制日期",
+  "Blockchain Activities Data from:": "链上活动数据来源",
+  "GGX Blockchain": "GGX区块链",
+  "Product UUID": "产品唯一标识符",
+  "GGX (GTech Green Chain) is a shared digital space for the automotive industry. GGX offers 3T (Transparency, Traceability, Trust) featured data as a solid foundation for cross-boundary collaboration between automotive value chain players.": "GGX（GTech Green-chain）是一个服务于汽车供应链的共享数字空间。GGX为汽车供应链用户提供跨组织的3T（代表Transparency可见性、Traceability可追溯、Trusted可信性）数据协作基础。"
 }

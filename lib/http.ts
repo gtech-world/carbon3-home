@@ -109,9 +109,8 @@ export async function getPCFInventory(vin: string | number) {
   return getData(res);
 }
 
-//
 export async function getSbtInfo(vin: string | number) {
-  const res = await axios.get<Res<SbtInfo>>(creatUrl(`/api/sbt/${vin}/info`));
+  const res = await axios.get<Res<SbtInfo>>(creatUrl(`/api/sbt/token/uuid/${vin}`));
   return getData(res);
 }
 

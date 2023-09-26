@@ -2,6 +2,8 @@ import SVGAicdRound from "@public/aicp-round.svg";
 import SVGArrowRight from "@public/arrow-right.svg";
 import SVGCar from "@public/car.svg";
 import SVGCarbon3 from "@public/carbon3.svg";
+import Nft from "@public/Nft.svg";
+
 import SVGCO2 from "@public/co2.svg";
 import SVGLeaf2 from "@public/leaf2.svg";
 import SVGLeaf3 from "@public/leaf3.svg";
@@ -21,9 +23,12 @@ import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/oldHttp";
 import { ftmCarbonEmission, ftmTimestamp, handleCarbonStr } from "@lib/utils";
 import classNames from "classnames";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useToggle } from "react-use";
+import { FiChevronLeft } from "react-icons/fi";
+import DivText from "@components/common/DivText";
+import { getSbtUUIDInfo } from "@lib/services/carbonTag";
 interface CarUIProps {
   data: {
     sbt: SbtInfo;
@@ -302,6 +307,7 @@ function PcCar(p: CarUIProps) {
   const { t } = useT();
   return (
     <div className="w-full p-5 max-w-[1480px] mx-auto">
+      大大说
       <div className="text-2xl font-bold leading-normal ">
         {t("Product Carbon Footprint Certified")} <span className="text-base font-medium">{t("by AIAG")}</span>
       </div>
@@ -348,60 +354,128 @@ export function Car() {
   const { query } = useRouter();
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
-  const { value, loading } = useAsyncM(
-    noArgs(() => Promise.all([getSbtInfo(vin), getSbgEmissionInventory(vin)]), [vin]),
-    [vin],
-  );
-  const data = useMemo<CarUIProps["data"] | undefined>(() => {
-    if (!value) return undefined;
-    const [sbt, sbtEmissions] = value;
-    if (!sbt || !sbtEmissions) return undefined;
-    const sbtPhase = genSbtPhase();
-    const mapPhase: { [k: string]: SbtPhase } = {};
-    sbtPhase.forEach((item) => (mapPhase[item.name] = item));
-    let totalEmission = 0;
-    sbtEmissions.forEach((emi: any) => {
-      if (mapPhase[emi.phase]) {
-        mapPhase[emi.phase].carbon_emission += emi.ghgEmission;
-        totalEmission += emi.ghgEmission;
-      }
-    });
-    sbtPhase.forEach((p) => {
-      p.progress = totalEmission > 0 ? Math.round((p.carbon_emission / totalEmission) * 100) : 0;
-      p.verified = p.carbon_emission > 0 && p.name !== PHASE[PHASE.length - 1];
-    });
+  const [tagList, setTagList] = useState<SbtTokenController.TagList>();
+  const {
+    evaluationAgency = "-",
+    evaluationExpireTime = "-",
+    evaluationType = "-",
+    loadNumber = "-",
+    orgName = "-",
+    productName = "-",
+    tokenId = "-",
+    uuid = "-",
+    functionalUnit = "-",
+    evaluationBoundary = "-",
+    evaluationBasis = "-",
+  } = tagList || {};
+  const productInfo = [
+    { text: "标签编号", value: uuid },
+    { text: "产品型号", value: productName },
+    { text: "产品唯一标识符", value: loadNumber },
+    { text: "标签申请主体", value: orgName },
+  ];
 
-    return {
-      sbt,
-      sbtPhase,
-      totalEmission,
-      tonnes: "19.33",
-      trees: "773",
-      recyclable: "35%",
-      use: "12.9",
-    };
-  }, [value]);
+  const productTagInfo = [
+    { text: "评价类型", value: evaluationType },
+    { text: "功能单位", value: functionalUnit },
+    { text: "评价边界", value: evaluationBoundary },
+    { text: "评价依据", value: evaluationBasis },
+    { text: "评价机构", value: evaluationAgency },
+    { text: "评价有效期", value: evaluationExpireTime },
+    { text: "区块链SBT证书编号", value: tokenId },
+  ];
+
+  const getTagList = useCallback(async () => {
+    try {
+      const res = await getSbtUUIDInfo(vin);
+      setTagList(res || {});
+    } catch (error) {}
+  }, [vin]);
+
+  useEffect(() => {
+    getTagList();
+  }, [getTagList]);
+
   const onBack = useGoBack();
   const { t } = useT();
+
   return (
-    <div className="flex flex-col flex-1 w-full text-black bg-gray-16 min-h-fit">
-      {isMobile ? (
-        <>{loading ? <Loading /> : <>{data ? <MobileCar data={data} /> : vin ? <Empty /> : null}</>}</>
-      ) : (
-        <HeaderLayout nopx className="!px-7">
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
-              <div className="w-full px-5 max-w-[1480px] mx-auto">
-                <button onClick={onBack} className="self-start ml-1">{`< ${t("Back")}`}</button>
-              </div>
-              {data ? <PcCar data={data} /> : vin ? <Empty /> : null}
-            </>
-          )}
-        </HeaderLayout>
-      )}
-    </div>
+    <HeaderLayout nopx className="  bg-[#F3F3F3] w-full h-full">
+      <div className={`w-full  max-w-[1480px] mx-auto `}>
+        <div
+          className="flex items-center mb-2.5 text-sm cursor-pointer"
+          onClick={() => {
+            onBack();
+          }}>
+          <FiChevronLeft className="text-lg" />
+          返回
+        </div>
+        <div className="mb-5 text-2xl font-bold leading-normal">
+          {t("Product Carbon Footprint Certified")} <span className="text-base font-medium">{t("by AIAG")}</span>
+        </div>
+        <div className="flex w-full gap-5 mo:flex-none mo:flex-col ">
+          <div className="w-[420px] h-[320px] mo:h-[126px] bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
+            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:ml-[15px]" />
+            <div className="mo:ml-[2.5rem]">
+              <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">1878.22 kg</div>
+              <div className="font-[1.75rem] leading-8   ">二氧化碳等效排放</div>
+            </div>
+          </div>
+          <div className="w-[420px]  mo:w-full h-[320px] bg-[#FFFFFF] mo:h-[240px] rounded-lg">
+            <div className="mx-5 mt-5">
+              <div className="mb-5 font-bold text-[1.25rem] leading-7">产品信息</div>
+              <DivText textArray={productInfo} />
+            </div>
+          </div>
+          <div className="w-[420px] h-[320px]  mo:w-full bg-[#FFFFFF]  mo:h-[269px] rounded-lg">
+            <div className="mt-5 ml-5">
+              <div className="mb-5 font-bold text-[1.25rem] leading-7">产品碳足迹评价信息</div>
+
+              <DivText textArray={productTagInfo} />
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-5 mt-5 mo:flex-none mo:flex-col ">
+          <div className="w-[640px]  h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
+            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px] " />
+            <div className="text-lg font-bold mb-[.9375rem]"> {t("What is AIAG Digital3 Carbon Trust Label?")}</div>
+            <div
+              className="text-[.9375rem] font-medium text-center mx-5"
+              dangerouslySetInnerHTML={{
+                __html: handleCarbonStr(
+                  t(
+                    "The AIAG Digital3 Carbon Trust Label is an industry-level certification framework for every vehicle produced under {{value}}. The Trust Label guarantees that any raw data behind the label is verified and recorded in an immutable manner for the ultimate transparency and traceability for the vehicle’s carbon performance.",
+                  ).replace(
+                    "{{value}}",
+                    `<a class="text-green-2 cursor-pointer" target="_blank" href="https://aiag.org.cn/ACAC/Automotive-Carbon-Advisory-Committee" rel="noreferrer">${t(
+                      "AIAG’s carbon reduction / Net Zero 2050 initiatives",
+                    )}</a>`,
+                  ),
+                ),
+              }}
+            />
+          </div>
+
+          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
+            <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
+            <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
+            <div
+              className="text-[.9375rem] font-medium text-center mx-5"
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",
+                ).replace(
+                  "{{value}}",
+                  `<a class="text-green-2 cursor-pointer" target="_blank" href="/blockchain?tokenId=${tokenId}" rel="noreferrer">${t(
+                    "here",
+                  )}</a>`,
+                ),
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </HeaderLayout>
   );
 }
 

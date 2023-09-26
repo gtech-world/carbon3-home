@@ -191,7 +191,7 @@ export const Table: FC<Table.ITable> = ({
         )}
         {!loading && (
           <tbody style={{ maxHeight }} className="w-full overflow-y-auto ">
-            {tableData.map((item, itemIndex) => {
+            {(tableData || []).map((item, itemIndex) => {
               return (
                 <tr
                   key={`table_data_${itemIndex}`}
