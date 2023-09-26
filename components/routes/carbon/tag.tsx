@@ -101,13 +101,44 @@ export function Tag() {
     setTagList(res);
   };
 
+  const data = [
+    {
+      title: "2",
+      icon: {
+        key: null,
+        ref: null,
+        props: {
+          className: "w-[2.75rem]",
+        },
+        _owner: null,
+        _store: {},
+      },
+      by: "2023年09月15日签发 by AIAG",
+      id: "bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+      qrcodeDisable: false,
+      link: [
+        {
+          text: "标签信息",
+          href: "/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+        },
+        {
+          text: "在区块链浏览器查看",
+          target: "_blank",
+          href: "/blockchain?tokenId=3000000",
+        },
+      ],
+      tokenId: 3000000,
+      qrCode: " https://aicp.gtech.world/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+    },
+  ];
+
   useEffect(() => {
     getTagList();
   }, []);
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="flex flex-wrap">
-        {tagList?.records.map((v: any, i) => {
+        {data.map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
       </div>
