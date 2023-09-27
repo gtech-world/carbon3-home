@@ -97,7 +97,6 @@ function CardInfo(p: any) {
         className="mo:flex mo:flex-col"
         label={t("Product UUID")}
         text={loadNumber}
-        link={`/car?vin=${uuid}`}
         tip={t("The unique identifier number or code for the labelled product, typically a VIN code for the vehicle.")}
       />
       <ItemInfo label={t("Carbon Emission")} text={dealResult(pcfResult)} />

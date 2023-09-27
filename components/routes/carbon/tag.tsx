@@ -86,7 +86,8 @@ export function Tag() {
   const [tagList, setTagList] = useState<SbtTokenController.Records>();
 
   const currentTime = moment("2023-09-15 17:34:02");
-  const formattedTime = currentTime.format("YYYY年MM月DD日");
+
+  console.log("ebeee", process, process.env);
 
   const getTagList = async () => {
     const res = await getCarbonTagList();
@@ -108,7 +109,7 @@ export function Tag() {
           ],
           tokenId,
           orgName,
-          qrCode: ` https://aicp.gtech.world/car?vin=${uuid}`,
+          qrCode: `https://aicp.gtech.world/car?vin=${uuid}`,
         };
       },
     ) as any;
