@@ -407,7 +407,7 @@ export function Car() {
 
   return (
     <HeaderLayout nopx className=" !px-7 bg-[#F3F3F3] w-full h-full">
-      <div className={`w-full  max-w-[1480px] mx-auto `}>
+      <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
         <div
           className="flex items-center mb-2.5 text-sm cursor-pointer"
           onClick={() => {
