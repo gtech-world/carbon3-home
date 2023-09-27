@@ -262,7 +262,7 @@ export function Blockchain() {
             <SvgGgx className="mb-5" />
             <p className="font-bold">{t("Blockchain powered by:")}</p>
             <p className="text-green-2">
-              <Link href={`https://explorer.gtech.world/address/${sbtTagList?.ownerAddress}`} target="_blank">
+              <Link href={`https://explorer.gtech.world`} target="_blank">
                 {t("GGX Blockchain")}
               </Link>
             </p>
