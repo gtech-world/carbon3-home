@@ -217,7 +217,7 @@ export function Blockchain() {
             <div className="bg-white flex justify-center px-10 items-center rounded-lg mo:h-[21rem] mo:px-0">
               <ProductQrcode
                 className=""
-                orgName={sbtTagList?.orgName}
+                // orgName={sbtTagList?.orgName}
                 data={`${
                   current || "https://aicp-beta.gtech.world"
                 }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`}
