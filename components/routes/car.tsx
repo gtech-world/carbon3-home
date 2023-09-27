@@ -21,7 +21,7 @@ import { useAutoAnim } from "@lib/hooks/useAutoAnim";
 import { useGoBack } from "@lib/hooks/useGoBack";
 import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/oldHttp";
-import { ftmCarbonEmission, ftmTimestamp, handleCarbonStr } from "@lib/utils";
+import { ftmCarbonEmission, ftmTimestamp, genScanUrl, handleCarbonStr } from "@lib/utils";
 import classNames from "classnames";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
@@ -384,7 +384,11 @@ export function Car() {
     { text: "评价依据", value: evaluationBasis },
     { text: "评价机构", value: evaluationAgency },
     { text: "评价有效期", value: evaluationExpireTime },
-    { text: "区块链SBT证书编号", value: tokenId },
+    {
+      text: "区块链SBT证书编号",
+      value: tokenId,
+      link: genScanUrl("address", "0x7BC6afe0cDc6DE9191dfC6d68A3bad45E270F695"),
+    },
   ];
 
   const getTagList = useCallback(async () => {
