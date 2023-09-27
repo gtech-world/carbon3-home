@@ -85,10 +85,6 @@ const tagData = [
 export function Tag() {
   const [tagList, setTagList] = useState<SbtTokenController.Records>();
 
-  const currentTime = moment("2023-09-15 17:34:02");
-
-  console.log("ebeee", process, process.env);
-
   const getTagList = async () => {
     const res = await getCarbonTagList();
     res.records = (res?.records || []).map(
@@ -109,7 +105,7 @@ export function Tag() {
           ],
           tokenId,
           orgName,
-          qrCode: `https://aicp.gtech.world/car?vin=${uuid}`,
+          qrCode: `${window?.location?.origin || "https://aicp-beta.gtech.world"}/car?vin=${uuid}`,
         };
       },
     ) as any;
@@ -146,7 +142,9 @@ export function Tag() {
       ],
       tokenId: 4000000,
       orgName: "测试机构",
-      qrCode: " https://aicp.gtech.world/car?vin=b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134",
+      qrCode: `${
+        window?.location?.origin || "https://aicp-beta.gtech.world"
+      }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`,
     },
     {
       title: "2",
@@ -175,7 +173,9 @@ export function Tag() {
       ],
       tokenId: 3000000,
       orgName: "测试机构",
-      qrCode: " https://aicp.gtech.world/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+      qrCode: `${
+        window?.location?.origin || "https://aicp-beta.gtech.world"
+      }/car?vin=${"bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205"}`,
     },
   ];
 

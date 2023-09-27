@@ -212,7 +212,7 @@ export function Blockchain() {
         <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
           <div className="flex mo:flex-col">
             <div className="bg-white flex justify-center px-10 items-center rounded-lg mo:h-[21rem] mo:px-0">
-              <ProductQrcode className="" />
+              <ProductQrcode className="" orgName={sbtTagList?.orgName} />
             </div>
             <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
               <div className="flex mb-5">
