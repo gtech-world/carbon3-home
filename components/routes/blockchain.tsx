@@ -84,7 +84,6 @@ function CardInfo(p: any) {
       <ItemInfo label={t("Label No.")} text={uuid} />
       <ItemInfo label={t("Label Type")} text={"PCF"} />
       <ItemInfo
-        className="mo:flex mo:flex-col"
         label={t("Label Owner")}
         text={orgName}
         link={genScanUrl("address", ownerAddress)}
@@ -110,9 +109,10 @@ export function Blockchain() {
   const { query } = useRouter();
   const tokenId: string = query.tokenId as string;
   const { t } = useT();
-  const [loading, setLoading] = useState<false>(false);
+  const [loading, setLoading] = useState(true);
   const [sbtTagList, setSbtTagList] = useState<SbtTokenController.SbtNftList>();
   const isMobile = useIsMobile();
+  const [current, setCurrent] = useState("");
   const action: { [key: number]: string } = {
     0: "transfer",
     1: "mint",
@@ -125,11 +125,14 @@ export function Blockchain() {
       setSbtTagList(res);
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setLoading(false);
     }
   }, [tokenId]);
 
   useEffect(() => {
     getTagList();
+    setCurrent(window?.location?.origin);
   }, [getTagList]);
   const columns = [
     {
@@ -158,7 +161,7 @@ export function Blockchain() {
       title: t("Age"),
       dataIndex: "blockTimestamp",
       render: (text: number) => {
-        return moment(text * 1000).fromNow();
+        return <span className="whitespace-nowrap"> {moment(text * 1000).fromNow()}</span>;
       },
     },
     {
@@ -212,7 +215,13 @@ export function Blockchain() {
         <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
           <div className="flex mo:flex-col">
             <div className="bg-white flex justify-center px-10 items-center rounded-lg mo:h-[21rem] mo:px-0">
-              <ProductQrcode className="" orgName={sbtTagList?.orgName} />
+              <ProductQrcode
+                className=""
+                orgName={sbtTagList?.orgName}
+                data={`${
+                  current || "https://aicp-beta.gtech.world"
+                }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`}
+              />
             </div>
             <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">
               <div className="flex mb-5">
@@ -226,7 +235,7 @@ export function Blockchain() {
                     {!isMobile && <p>#1940327340</p>}
                   </div>
                   <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">
-                    {t("Certified by AIAG")}
+                    {t("Certified by {{value}}").replace("{{value}}", sbtTagList?.orgName as any)}
                   </span>
                 </div>
               </div>

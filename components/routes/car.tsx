@@ -23,7 +23,7 @@ import { useT } from "@lib/hooks/useT";
 import { getSbgEmissionInventory, getSbtInfo, noArgs } from "@lib/oldHttp";
 import { ftmCarbonEmission, ftmTimestamp, genScanUrl, handleCarbonStr } from "@lib/utils";
 import classNames from "classnames";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { IoCheckmarkCircleOutline, IoEllipsisHorizontalCircle } from "react-icons/io5";
 import { useToggle } from "react-use";
 import { FiChevronLeft } from "react-icons/fi";
@@ -355,6 +355,7 @@ export function Car() {
   const { query } = useRouter();
   const vin: string = query.vin as string;
   const isMobile = useIsMobile();
+  const [loading, setLoading] = useState<boolean>(true);
   const [tagList, setTagList] = useState<SbtTokenController.TagList>();
   const {
     evaluationAgency = "-",
@@ -395,7 +396,10 @@ export function Car() {
     try {
       const res = await getSbtUUIDInfo(vin);
       setTagList(res || {});
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   }, [vin]);
 
   useEffect(() => {
@@ -405,38 +409,28 @@ export function Car() {
   const onBack = useGoBack();
   const { t } = useT();
 
-  return (
-    <HeaderLayout nopx className=" !px-7 bg-[#F3F3F3] w-full h-full">
-      <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
-        <div
-          className="flex items-center mb-2.5 text-sm cursor-pointer"
-          onClick={() => {
-            onBack();
-          }}>
-          <FiChevronLeft className="text-lg" />
-          返回
-        </div>
-        <div className="mb-5 text-2xl font-bold leading-normal">
-          {t("Product Carbon Footprint Certified")} <span className="text-base font-medium">{t("by AIAG")}</span>
-        </div>
+  const noHeader = () => {
+    return (
+      <Fragment>
         <div className="flex w-full gap-5 mo:flex-none mo:flex-col ">
-          <div className="w-[420px] h-[320px] mo:h-[126px] bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
+          <div className="w-[420px] max-h-[350px]  mo:h-[126px] bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
             <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:ml-[15px]" />
             <div className="mo:ml-[2.5rem]">
               <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">{dealResult(pcfResult)}</div>
               <div className="font-[1.75rem] leading-8   ">二氧化碳等效排放</div>
             </div>
           </div>
-          <div className="w-[420px]  mo:w-full h-[320px] bg-[#FFFFFF] mo:h-[240px] rounded-lg">
-            <div className="mx-5 mt-5">
-              <div className="mb-5 font-bold text-[1.25rem] leading-7">产品信息</div>
+          <div className="w-[420px]  mo:w-full  max-h-[350px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
+            <div className="mx-5 mt-10 mb-5 mo:mt-5">
+              <div className="mb-5 mo:mb-[15px]  font-bold mo:text-[18px] text-[20px] leading-7">产品信息</div>
               <DivText textArray={productInfo} />
             </div>
           </div>
-          <div className="w-[420px] h-[320px]  mo:w-full bg-[#FFFFFF]  mo:h-[269px] rounded-lg">
-            <div className="mt-5 ml-5">
-              <div className="mb-5 font-bold text-[1.25rem] leading-7">产品碳足迹评价信息</div>
-
+          <div className="w-[420px]  mo:w-full  max-h-[350px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
+            <div className="mx-5 mt-10 mb-5 mo:mt-5">
+              <div className="mb-5 mo:mb-[15px]   font-bold mo:text-[18px] text-[20px] leading-7">
+                产品碳足迹评价信息
+              </div>
               <DivText textArray={productTagInfo} />
             </div>
           </div>
@@ -444,7 +438,7 @@ export function Car() {
         <div className="flex gap-5 mt-5 mo:flex-none mo:flex-col ">
           <div className="w-[640px]  h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
             <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px] " />
-            <div className="text-lg font-bold mb-[.9375rem]"> {t("What is AIAG Digital3 Carbon Trust Label?")}</div>
+            <div className="text-lg font-bold mb-[.9375rem]  "> {t("What is AIAG Digital3 Carbon Trust Label?")}</div>
             <div
               className="text-[.9375rem] font-normal text-center mx-5"
               dangerouslySetInnerHTML={{
@@ -480,7 +474,43 @@ export function Car() {
             />
           </div>
         </div>
-      </div>
-    </HeaderLayout>
+      </Fragment>
+    );
+  };
+
+  return (
+    <Fragment>
+      {isMobile ? (
+        <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5 bg-[#F3F3F3]">{noHeader()}</div>
+      ) : (
+        <HeaderLayout nopx className={` !px-7 bg-[#F3F3F3] w-full h-full `}>
+          {!isMobile && (
+            <Fragment>
+              <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5">
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <Fragment>
+                    <div
+                      className="flex items-center mb-2.5 text-sm cursor-pointer"
+                      onClick={() => {
+                        onBack();
+                      }}>
+                      <FiChevronLeft className="text-lg" />
+                      返回
+                    </div>
+                    <div className="mb-5 text-2xl font-bold leading-normal">
+                      {t("Product Carbon Footprint Certified")}{" "}
+                      <span className="text-base font-medium">{t("by AIAG")}</span>
+                    </div>
+                    {noHeader()}
+                  </Fragment>
+                )}
+              </div>
+            </Fragment>
+          )}
+        </HeaderLayout>
+      )}
+    </Fragment>
   );
 }

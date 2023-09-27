@@ -106,7 +106,7 @@
   "＊ AICD Pro Accounts only serve enterprise-level users within the automotive supply chain. To learn more about Pro Accounts, please contact hi@gtech.world.": "＊ 专业账户面向汽车供应链内的企业级用户。了解更多关于专业账户，请联系GTech（邮箱：hi@gtech.world）。",
   "The AICD site is under development. This version is for demonstration purpose only and the data is not real. For more information, please contract email hi@gtech.world.": "AICD网站正在建设中，此版本仅用于演示目的，数据不具有任何真实意义。任何疑问或洽谈需求，请联系邮箱 hi@gtech.world。",
   "Automotive Carbon Footprint Trust Label": "汽车行业产品碳足迹可信标签",
-  "Certified by AIAG": "由AIAG认证",
+  "Certified by {{value}}": "由 {{value}} 认证",
   "Label Details": "可信标签信息",
   "SBT Token ID": "SBT凭证编号",
   "Label Owner": "标签申请主体",
