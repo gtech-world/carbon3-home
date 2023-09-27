@@ -457,7 +457,7 @@ export function Car() {
           </div>
 
           <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
-            <img src="/nft.png" className="w-[5.8125rem] mt-[.375rem] mb-[1.625rem]" />
+            <img src="/nft.png" className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px]" />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
             <div
               className="text-[.9375rem] font-normal text-center mx-5"
@@ -501,9 +501,7 @@ export function Car() {
                     </div>
                     <div className="mb-5 text-2xl font-bold leading-normal">
                       {t("Product Carbon Footprint Certified")}{" "}
-                      <span className="text-base font-medium">
-                        {t("by {{value}}").replace("{{value}}", orgName || "")}
-                      </span>
+                      <span className="text-base font-medium">{t("by AIAG")}</span>
                     </div>
                     {noHeader()}
                   </Fragment>

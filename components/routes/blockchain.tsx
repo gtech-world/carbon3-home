@@ -107,7 +107,7 @@ function CardInfo(p: any) {
 
 export function Blockchain() {
   const { query } = useRouter();
-  const tokenId: string = query.tokenId as string;
+  const { tokenId, name } = query;
   const { t } = useT();
   const [loading, setLoading] = useState(true);
   const [sbtTagList, setSbtTagList] = useState<SbtTokenController.SbtNftList>();
@@ -121,7 +121,7 @@ export function Blockchain() {
 
   const getTagList = useCallback(async () => {
     try {
-      const res = await getSbtDetail(tokenId);
+      const res = await getSbtDetail(tokenId as string);
       setSbtTagList(res);
     } catch (error) {
       console.log("error", error);
@@ -217,7 +217,7 @@ export function Blockchain() {
             <div className="bg-white flex justify-center px-10 items-center rounded-lg mo:h-[21rem] mo:px-0">
               <ProductQrcode
                 className=""
-                // orgName={sbtTagList?.orgName}
+                name={name}
                 data={`${
                   current || "https://aicp-beta.gtech.world"
                 }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`}
@@ -234,9 +234,7 @@ export function Blockchain() {
                     </span>
                     {!isMobile && <p>#1940327340</p>}
                   </div>
-                  <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">
-                    {t("Certified by {{value}}").replace("{{value}}", sbtTagList?.orgName as any)}
-                  </span>
+                  <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t("by AIAG")}</span>
                 </div>
               </div>
               <div className="px-12 py-5 bg-white rounded-lg mo:pl-10 mo:pr-3">
