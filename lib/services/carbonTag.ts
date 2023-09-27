@@ -11,14 +11,14 @@ export async function getCarbonTagList(pgNum: number = 0) {
 }
 
 export async function getSbtUUIDInfo(vin: string | number) {
-  const res = await axios.get<Res<SbtTokenController.TagList>>(createUrl(`/api/sbt/token/uuid/${vin}`), authConfig());
+  const res = await axios.get<Res<SbtTokenController.TagList>>(`https://api-v2.gtech.world/api/sbt/token/uuid/${vin}`);
+
   return getData(res);
 }
 
 export async function getSbtDetail(tokenId: string | number) {
   const res = await axios.get<Res<SbtTokenController.SbtNftList>>(
-    createUrl(`/api/sbt/token/nft/${tokenId}`),
-    authConfig(),
+    `https://api-v2.gtech.world/api/sbt/token/nft/${tokenId}`,
   );
   return getData(res);
 }
