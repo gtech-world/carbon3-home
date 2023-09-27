@@ -263,9 +263,8 @@ export function Blockchain() {
             <p className="font-bold">{t("Blockchain powered by:")}</p>
             <p className="text-green-2">
               <Link href={`https://explorer.gtech.world/address/${sbtTagList?.ownerAddress}`} target="_blank">
-                {t("Polygon Blockchain")}
+                {t("GGX Blockchain")}
               </Link>
-              {t("GGX Blockchain")}
             </p>
             <p dangerouslySetInnerHTML={{ __html: polygonscanDesc }}></p>
           </div>
