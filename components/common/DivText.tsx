@@ -12,7 +12,7 @@ const DivText: FC<TextType> = ({ textArray = [] }) => {
         textArray.map((item, key) => {
           return (
             <div key={`text_${key}`} className="mb-[8px]">
-              <span className=" font-bold leading-7 text-[#000000] text-[15px]   mo:text-[15px]">{item.text}：</span>
+              <span className=" font-bold leading-7 text-[#000000] text-[16px]   mo:text-[15px]">{item.text}：</span>
               {item.link ? (
                 <a
                   href={item.link}

@@ -68,7 +68,7 @@
   "Overall Data Quality": "总体数据质量",
   "INVENTORY BREAKDOWN": "产品碳足迹数据下钻",
   "Product Carbon Footprint Certified": "产品碳足迹标签",
-  "by AIAG": "由AIAG认可颁发",
+  "by {{value}}": "由 {{value}} 认可颁发",
   "Check Details": "查看更多信息",
   "tonnes of CO2e Cradle-to-Gate emission": "全生命周期二氧化碳等效排放(吨)",
   "trees (8-yr old) to absorbe for one year": "这些二氧化碳需要多少颗树吸收一年",

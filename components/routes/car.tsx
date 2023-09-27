@@ -362,7 +362,7 @@ export function Car() {
     evaluationExpireTime = "-",
     evaluationType = "-",
     loadNumber = "-",
-    orgName = "-",
+    orgName = " ",
     productName = "-",
     tokenId = "-",
     uuid = "-",
@@ -421,13 +421,13 @@ export function Car() {
             </div>
           </div>
           <div className="w-[420px]  mo:w-full  max-h-[350px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
-            <div className="mx-5 mt-10 mb-5 mo:mt-5">
+            <div className="mx-5 mt-5 mb-5">
               <div className="mb-5 mo:mb-[15px]  font-bold mo:text-[18px] text-[20px] leading-7">产品信息</div>
               <DivText textArray={productInfo} />
             </div>
           </div>
           <div className="w-[420px]  mo:w-full  max-h-[350px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
-            <div className="mx-5 mt-10 mb-5 mo:mt-5">
+            <div className="mx-5 mt-5 mb-5">
               <div className="mb-5 mo:mb-[15px]   font-bold mo:text-[18px] text-[20px] leading-7">
                 产品碳足迹评价信息
               </div>
@@ -501,7 +501,9 @@ export function Car() {
                     </div>
                     <div className="mb-5 text-2xl font-bold leading-normal">
                       {t("Product Carbon Footprint Certified")}{" "}
-                      <span className="text-base font-medium">{t("by AIAG")}</span>
+                      <span className="text-base font-medium">
+                        {t("by {{value}}").replace("{{value}}", orgName || "")}
+                      </span>
                     </div>
                     {noHeader()}
                   </Fragment>
