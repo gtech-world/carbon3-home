@@ -108,7 +108,7 @@ export function Tag() {
           ],
           tokenId,
           orgName,
-          qrCode: `${window?.location?.origin || "https://aicp-beta.gtech.world"}/car?vin=${uuid}`,
+          qrCode: `${current || "https://aicp-beta.gtech.world"}/car?vin=${uuid}`,
         };
       },
     ) as any;
@@ -145,7 +145,7 @@ export function Tag() {
       tokenId: 4000000,
       orgName: "测试机构",
       qrCode: `${
-        window?.location?.origin || "https://aicp-beta.gtech.world"
+        current || "https://aicp-beta.gtech.world"
       }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`,
     },
     {
@@ -177,7 +177,7 @@ export function Tag() {
       tokenId: 3000000,
       orgName: "测试机构",
       qrCode: `${
-        window?.location?.origin || "https://aicp-beta.gtech.world"
+        current || "https://aicp-beta.gtech.world"
       }/car?vin=${"bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205"}`,
     },
   ];
