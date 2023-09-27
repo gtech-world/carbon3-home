@@ -30,7 +30,6 @@ function Card(p: {
   };
 }) {
   const { title, icon, qrcodeDisable, by, id, link, qrCode, orgName } = p.data;
-  console.log("psadsa", p.data);
 
   return (
     <div className="bg-white mr-5 w-[22.875rem] mo:w-full p-5 rounded-lg mb-5 text-base mo:mr-0">
@@ -84,6 +83,7 @@ const tagData = [
 
 export function Tag() {
   const [tagList, setTagList] = useState<SbtTokenController.Records>();
+  const [current, setCurrent] = useState("");
 
   const getTagList = async () => {
     const res = await getCarbonTagList();
@@ -111,8 +111,6 @@ export function Tag() {
     ) as any;
     setTagList(res);
   };
-
-  console.log("taasaasa", tagList);
 
   const data = [
     {
@@ -143,7 +141,7 @@ export function Tag() {
       tokenId: 4000000,
       orgName: "测试机构",
       qrCode: `${
-        window?.location?.origin || "https://aicp-beta.gtech.world"
+        current || "https://aicp-beta.gtech.world"
       }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`,
     },
     {
@@ -174,14 +172,16 @@ export function Tag() {
       tokenId: 3000000,
       orgName: "测试机构",
       qrCode: `${
-        window?.location?.origin || "https://aicp-beta.gtech.world"
+        current || "https://aicp-beta.gtech.world"
       }/car?vin=${"bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205"}`,
     },
   ];
 
   useEffect(() => {
     getTagList();
+    setCurrent(window?.location?.origin);
   }, []);
+
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="flex flex-wrap">
@@ -192,5 +192,4 @@ export function Tag() {
     </CarbonLayout>
   );
 }
-
 export default Tag;
