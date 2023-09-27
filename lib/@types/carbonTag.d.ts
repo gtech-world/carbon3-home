@@ -7,6 +7,8 @@ declare namespace SbtTokenController {
       proofTime: string;
       verifyUserName: string;
       tokenUrl: string;
+      orgName: string;
+      orgType: string;
     }[];
   };
   interface TagList {

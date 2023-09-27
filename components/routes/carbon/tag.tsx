@@ -18,12 +18,23 @@ function PartInfo(p: { label: string; text: string }) {
 }
 
 function Card(p: {
-  data: { title: string; icon: any; qrcodeDisable: boolean; by: string; id: string; link: any; qrCode: string };
+  data: {
+    title: string;
+    orgName: string;
+    icon: any;
+    qrcodeDisable: boolean;
+    by: string;
+    id: string;
+    link: any;
+    qrCode: string;
+  };
 }) {
-  const { title, icon, qrcodeDisable, by, id, link, qrCode } = p.data;
+  const { title, icon, qrcodeDisable, by, id, link, qrCode, orgName } = p.data;
+  console.log("psadsa", p.data);
+
   return (
     <div className="bg-white mr-5 w-[22.875rem] mo:w-full p-5 rounded-lg mb-5 text-base mo:mr-0">
-      <ProductQrcode qrcodeDisable={qrcodeDisable} data={qrCode} />
+      <ProductQrcode qrcodeDisable={qrcodeDisable} data={qrCode} orgName={orgName} />
       <div className="flex flex-col mt-5">
         <h3 className="text-xl font-semibold">完成[{title}]产品碳足迹测算</h3>
         <span>{by}</span>
@@ -79,58 +90,61 @@ export function Tag() {
 
   const getTagList = async () => {
     const res = await getCarbonTagList();
-    res.records = (res?.records || []).map(({ loadName, proofTime, tokenId, tokenUrl, uuid, verifyUserName }) => {
-      return {
-        title: loadName,
-        icon: <SvgTeacher className="w-[2.75rem]" />,
-        by: `${getCurrentDate(proofTime, "YYYY年MM月DD日")}签发 by AIAG`,
-        id: uuid,
-        qrcodeDisable: false,
-        link: [
-          { text: "标签信息", href: `/car?vin=${uuid}` },
-          {
-            text: "在区块链浏览器查看",
-            target: "_blank",
-            href: `/blockchain?tokenId=${tokenId}`,
-          },
-        ],
-        tokenId,
-        qrCode: ` https://aicp.gtech.world/car?vin=${uuid}`,
-      };
-    }) as any;
+    res.records = (res?.records || []).map(
+      ({ loadName, proofTime, tokenId, tokenUrl, orgName, orgType, uuid, verifyUserName }) => {
+        return {
+          title: loadName,
+          icon: <SvgTeacher className="w-[2.75rem]" />,
+          by: `${getCurrentDate(proofTime, "YYYY年MM月DD日")}签发 by ${orgName}`,
+          id: uuid,
+          qrcodeDisable: false,
+          link: [
+            { text: "标签信息", href: `/car?vin=${uuid}` },
+            {
+              text: "在区块链浏览器查看",
+              target: "_blank",
+              href: `/blockchain?tokenId=${tokenId}`,
+            },
+          ],
+          tokenId,
+          orgName,
+          qrCode: ` https://aicp.gtech.world/car?vin=${uuid}`,
+        };
+      },
+    ) as any;
     setTagList(res);
   };
 
-  const data = [
-    {
-      title: "2",
-      icon: {
-        key: null,
-        ref: null,
-        props: {
-          className: "w-[2.75rem]",
-        },
-        _owner: null,
-        _store: {},
-      },
-      by: "2023年09月15日签发 by AIAG",
-      id: "bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
-      qrcodeDisable: false,
-      link: [
-        {
-          text: "标签信息",
-          href: "/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
-        },
-        {
-          text: "在区块链浏览器查看",
-          target: "_blank",
-          href: "/blockchain?tokenId=3000000",
-        },
-      ],
-      tokenId: 3000000,
-      qrCode: " https://aicp.gtech.world/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
-    },
-  ];
+  // const data = [
+  //   {
+  //     title: "2",
+  //     icon: {
+  //       key: null,
+  //       ref: null,
+  //       props: {
+  //         className: "w-[2.75rem]",
+  //       },
+  //       _owner: null,
+  //       _store: {},
+  //     },
+  //     by: "2023年09月15日签发 by AIAG",
+  //     id: "bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+  //     qrcodeDisable: false,
+  //     link: [
+  //       {
+  //         text: "标签信息",
+  //         href: "/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+  //       },
+  //       {
+  //         text: "在区块链浏览器查看",
+  //         target: "_blank",
+  //         href: "/blockchain?tokenId=3000000",
+  //       },
+  //     ],
+  //     tokenId: 3000000,
+  //     qrCode: " https://aicp.gtech.world/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
+  //   },
+  // ];
 
   useEffect(() => {
     getTagList();
@@ -138,7 +152,7 @@ export function Tag() {
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="flex flex-wrap">
-        {data.map((v: any, i) => {
+        {tagList?.records.map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
       </div>
