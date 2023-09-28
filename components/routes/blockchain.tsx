@@ -230,9 +230,9 @@ export function Blockchain() {
                   <div className="flex flex-col">
                     <span className="w-full font-bold">
                       {t("Automotive Carbon Footprint Trust Label")}
-                      {isMobile && <span className="ml-3 font-medium">#1940327340</span>}
+                      {isMobile && <span className="ml-3 font-medium">#{tokenId}</span>}
                     </span>
-                    {!isMobile && <p>#1940327340</p>}
+                    {!isMobile && <p>#{tokenId}</p>}
                   </div>
                   <span className="text-sm ml-3 mo:ml-0 mt-[0.3rem] mo:mt-2 mo:text-gray-6">{t("by AIAG")}</span>
                 </div>

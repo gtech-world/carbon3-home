@@ -379,7 +379,7 @@ export function Car() {
   ];
 
   const productTagInfo = [
-    { text: "评价类型", value: evaluationType },
+    { text: "评价类型", value: evaluationType !== "aicp" ? "Certified" : "Verified" },
     { text: "功能单位", value: functionalUnit },
     { text: "评价边界", value: evaluationBoundary },
     { text: "评价依据", value: evaluationBasis },
@@ -446,7 +446,7 @@ export function Car() {
                 __html: handleCarbonStr(t("What is AIAG Digital3 Carbon Trust Label?")),
               }}></div>
             <div
-              className="text-[.9375rem] font-normal text-center mx-5 mo:mb-5 leading-5"
+              className="text-[.9375rem] font-normal text-center mx-5 mo:mb-5 "
               dangerouslySetInnerHTML={{
                 __html: handleCarbonStr(
                   t(
@@ -466,7 +466,7 @@ export function Car() {
             <img src="/nft.png" className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px]" />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
             <div
-              className="text-[.9375rem] font-normal text-center mx-5 md:mb-0 mmd:mb-5 mb-5 mo:mb-0 lg:mb-0 leading-5  "
+              className="text-[.9375rem] font-normal text-center mx-5 md:mb-2 mmd:mb-7 mb-7 mo:mb-0 lg:mb-2  "
               dangerouslySetInnerHTML={{
                 __html: t(
                   "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",

@@ -9,6 +9,7 @@ module.exports = {
         mo: { max: "900px" },
         md: [{ min: "900px", max: "1280px" }],
         mmd: [{ min: "990px", max: "1200px" }],
+        sm: { min: "900px" },
       },
       fontFamily: {
         OpenSans: "var(--open-sans)",

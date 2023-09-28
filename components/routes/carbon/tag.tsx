@@ -108,7 +108,7 @@ export function Tag() {
           ],
           tokenId,
           orgName,
-          qrCode: `${current || "https://aicp-beta.gtech.world"}/car?vin=${uuid}`,
+          qrCode: `${current || "https://aicp.gtech-cn.co"}/car?vin=${uuid}`,
         };
       },
     ) as any;
@@ -119,6 +119,8 @@ export function Tag() {
     getTagList();
     setCurrent(window?.location?.origin);
   }, []);
+
+  console.log("current", current);
 
   return (
     <CarbonLayout className="h-full bg-gray-16">
