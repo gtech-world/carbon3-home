@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { FC } from "react";
+import { handleContentRender } from "utils";
 
 interface TextType {
   textArray: { text: string; value: string | number; link?: string }[];
@@ -11,8 +12,8 @@ const DivText: FC<TextType> = ({ textArray = [] }) => {
       {textArray.length &&
         textArray.map((item, key) => {
           return (
-            <div key={`text_${key}`} className="lg:mb-[4px] mo:mb-1 md:mb-4">
-              <span className=" font-bold leading-7 text-[#000000] text-[16px]  ">{item.text}：</span>
+            <div key={`text_${key}`} className="lg:mb-[4px] mo:mb-1 md:mb-4  sm:truncate sm:max-w-[25rem]">
+              <span className=" font-bold leading-7 text-[#000000] text-[16px] ">{item.text}：</span>
               {item.link ? (
                 <a
                   href={item.link}
@@ -25,7 +26,12 @@ const DivText: FC<TextType> = ({ textArray = [] }) => {
                   {item.value}
                 </a>
               ) : (
-                <span className=" font-normal text-[#666666] text-[16px] ">{item.value}</span>
+                <span
+                  data-tooltip-id="tooltip"
+                  data-tooltip-content={handleContentRender(item.value, 14)}
+                  className=" font-normal text-[#666666] text-[16px] ">
+                  {item.value}
+                </span>
               )}
             </div>
           );

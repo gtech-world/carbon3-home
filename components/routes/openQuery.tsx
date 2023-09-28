@@ -22,7 +22,7 @@ export function OpenQuery() {
   };
   const onVinFocus = () => {
     if (!vin) {
-      setVin("b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134");
+      setVin("24f96502-9e20-4cb1-a060-111255cb2a69-1695884327");
     }
   };
   const isMobile = useIsMobile();
