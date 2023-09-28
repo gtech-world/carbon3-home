@@ -3,7 +3,7 @@ import classNames from "classnames";
 import QRCode from "qrcode.react";
 
 export function ProductQrcode(p: any) {
-  const { qrText, className, qrcodeDisable, data, orgName, name } = p;
+  const { qrText, className, qrcodeDisable, data, orgName, name = "Certified" } = p;
   return (
     <div className={classNames("", className)}>
       <div className="p-1 border-[4px] border-green-2 rounded-[2.25rem]">

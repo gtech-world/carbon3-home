@@ -438,7 +438,7 @@ export function Car() {
           </div>
         </div>
         <div className="flex gap-5 mt-5 mo:flex-none mo:flex-col ">
-          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
+          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:max-h-[290px]">
             <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px] " />
             <div className="text-lg font-bold mb-[.9375rem]  "> {t("What is AIAG Digital3 Carbon Trust Label?")}</div>
             <div
@@ -458,11 +458,11 @@ export function Car() {
             />
           </div>
 
-          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[313px]">
+          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:h-[270px]">
             <img src="/nft.png" className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px]" />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
             <div
-              className="text-[.9375rem] font-normal text-center mx-5 md:mb-0 mmd:mb-5 mb-5 mo:mb-0 lg:mb-0"
+              className="text-[.9375rem] font-normal text-center mx-5 md:mb-0 mmd:mb-5 mb-5 mo:mb-0 lg:mb-0 "
               dangerouslySetInnerHTML={{
                 __html: t(
                   "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",

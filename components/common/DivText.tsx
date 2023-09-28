@@ -11,7 +11,7 @@ const DivText: FC<TextType> = ({ textArray = [] }) => {
       {textArray.length &&
         textArray.map((item, key) => {
           return (
-            <div key={`text_${key}`} className="lg:mb-[4px] mo:mb-2 md:mb-4">
+            <div key={`text_${key}`} className="lg:mb-[4px] mo:mb-1 md:mb-4">
               <span className=" font-bold leading-7 text-[#000000] text-[16px]  ">{item.text}：</span>
               {item.link ? (
                 <a
