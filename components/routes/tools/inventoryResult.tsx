@@ -242,8 +242,8 @@ export function InventoryResult() {
           <Loading />
         </div>
       ) : (
-        <div className="pt-8 mo:break-all w-full max-w-[1000px] mx-auto" id="inventory-result-content">
-          <div className="grid grid-cols-2 gap-5 mo:grid-cols-1">
+        <div className="pt-8 mo:break-all w-full max-w-[1000px] mx-auto">
+          <div className="grid grid-cols-2 gap-5 mo:grid-cols-1" id="inventory-result-content">
             <MCard tit="产品碳足迹">
               <div className="flex items-center flex-1 px-9 mb-9">
                 <CarbonFooter />

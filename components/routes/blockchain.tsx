@@ -218,9 +218,7 @@ export function Blockchain() {
               <ProductQrcode
                 className=""
                 name={name}
-                data={`${
-                  current || "https://aicp.gtech-cn.co"
-                }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`}
+                data={`${current || "https://aicp.gtech.world"}/car?vin=${sbtTagList?.uuid}`}
               />
             </div>
             <div className="flex flex-col flex-1 ml-5 mo:ml-0 mo:mt-5">

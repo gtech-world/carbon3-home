@@ -413,14 +413,16 @@ export function Car() {
     return (
       <Fragment>
         <div className="flex w-full gap-5 mo:flex-none mo:flex-col ">
-          <div className="w-[420px] max-h-[380px]  mo:h-[110px]  bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
-            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mb-2 mo:ml-[15px]" />
-            <div className="mo:ml-[2.5rem]">
-              <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">{dealResult(pcfResult)}</div>
+          <div className="w-[420px] max-h-[450px] p-5 mo:h-auto  bg-[#FFFFFF] text-center  flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
+            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mb-2  shrink-0" />
+            <div className="mo:ml-[2.5rem] mo:flex-1 ">
+              <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold max-w-full break-all">
+                {pcfResult}
+              </div>
               <div className="font-[1.75rem] leading-8   ">二氧化碳等效排放</div>
             </div>
           </div>
-          <div className="w-[420px]  mo:w-full  max-h-[380px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
+          <div className="w-[420px]  mo:w-full  max-h-[450px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
             <div className="mx-5 mt-5 mb-5 mmd:mt-10">
               <div className="mb-5 mo:mb-[15px]  md:text-[18px]   font-bold mo:text-[18px] text-[20px] leading-7">
                 产品信息
@@ -428,7 +430,7 @@ export function Car() {
               <DivText textArray={productInfo} />
             </div>
           </div>
-          <div className="w-[420px]  mo:w-full  max-h-[380px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
+          <div className="w-[420px]  mo:w-full  max-h-[450px] bg-[#FFFFFF] mo:max-h-[350px] rounded-lg">
             <div className="mx-5 mt-5 mb-5 mmd:mt-10">
               <div className="mb-5 mo:mb-[15px] md:text-[18px]   font-bold mo:text-[18px] text-[20px] leading-7">
                 产品碳足迹评价信息

@@ -4,6 +4,8 @@ import QRCode from "qrcode.react";
 
 export function ProductQrcode(p: any) {
   const { qrText, className, qrcodeDisable, data, orgName, name = "Certified" } = p;
+  console.log("data", data);
+
   return (
     <div className={classNames("", className)}>
       <div className="p-1 border-[4px] border-green-2 rounded-[2.25rem]">
@@ -19,11 +21,7 @@ export function ProductQrcode(p: any) {
             <p className="text-[0.6875rem] text-center mb-2 leading-[0.945rem] font-semibold mo:leading-[0.865rem]">
               {qrText ? qrText : `Product Carbon Footprint ${name} `}
             </p>
-            {qrcodeDisable ? (
-              <img className="w-[5.75rem]" src={"/disable_qrcode.svg"} alt="" />
-            ) : (
-              <QRCode className="w-[5.75rem]" size={92} value={data} />
-            )}
+            <QRCode className="w-[5.75rem]" size={92} value={data} />
           </div>
         </div>
       </div>
