@@ -23,7 +23,7 @@ export const Table: FC<Table.ITable> = ({
   columnsClassName,
   onChangeColumn = (item: any) => item,
 }) => {
-  const [tableData, setTableData] = useState(data || []);
+  const [tableData, setTableData] = useState<any>(data || []);
   const [filters, setFilters] = useState<any>({});
   const [mouseHoverItem, setMouseHoverItem] = useState<Record<string, any>>({});
   const ref = useRef(null);
@@ -191,7 +191,7 @@ export const Table: FC<Table.ITable> = ({
         )}
         {!loading && (
           <tbody style={{ maxHeight }} className="w-full overflow-y-auto ">
-            {tableData.map((item, itemIndex) => {
+            {(tableData || []).map((item: any, itemIndex: number) => {
               return (
                 <tr
                   key={`table_data_${itemIndex}`}

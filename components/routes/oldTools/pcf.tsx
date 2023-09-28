@@ -24,9 +24,9 @@ function InventoryStat(p: { icon: React.ReactNode; tit: string; txt: string }) {
   return (
     <div className="flex items-center w-full">
       {icon}
-      <div className="ml-5 w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-2">
-        <div className="font-bold text-lg text-black mo:text-base">{tit}</div>
-        <div className="text-gray-6 text-lg mo:text-base">{txt}</div>
+      <div className="flex-1 w-0 ml-5 overflow-hidden text-ellipsis whitespace-nowrap mo:ml-2">
+        <div className="text-lg font-bold text-black mo:text-base">{tit}</div>
+        <div className="text-lg text-gray-6 mo:text-base">{txt}</div>
       </div>
     </div>
   );
@@ -67,7 +67,7 @@ export function PCF() {
   });
   const onVinFocus = () => {
     if (vin) return false;
-    const lastVin = sessionStorage.getItem("last_vin") || "1500101202311001";
+    const lastVin = sessionStorage.getItem("last_vin") || "b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134";
     const mVin = lastVin;
     if (mVin) {
       setVin(mVin);
@@ -126,7 +126,7 @@ export function PCF() {
       </div>
       <div className="relative flex-shrink-0 w-[31.25rem] mo:w-auto rounded-lg overflow-hidden bg-white">
         <input
-          className="h-full w-full py-3 pl-5 pr-14 text-lg outline-none"
+          className="w-full h-full py-3 pl-5 text-lg outline-none pr-14"
           maxLength={32}
           type="text"
           onKeyDown={(e) => e.code === "Enter" && onSearch()}
@@ -145,13 +145,13 @@ export function PCF() {
             <>
               <div className="flex mo:flex-col">
                 <div className="w-0 flex-[5] mr-5 mo:w-full">
-                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("PRODUCT INFO")}</div>
+                  <div className="my-5 text-2xl font-bold mo:text-lg mo:my-5">{t("PRODUCT INFO")}</div>
                   <div className="bg-white rounded-lg p-5 h-[14.875rem] flex mo:flex-col mo:h-auto">
                     <img
                       className="object-contain w-[16.25rem] h-full rounded-lg border border-solid border-black mo:w-full mo:aspect-[3/2]"
                       src={productInfo?.imageUrl || CAR_SRC}
                     />
-                    <div className="w-0 flex-1 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
+                    <div className="flex-1 w-0 ml-8 mo:mt-5 mo:ml-0 mo:w-full">
                       <PartInfo label={t("Product Name")} text={productInfo?.displayName || "-"} />
                       <PartInfo label={t("Product UID")} text={productInfo?.uuid || "-"} />
                       <PartInfo label={t("Product Type")} text={productInfo?.type || "-"} />
@@ -161,7 +161,7 @@ export function PCF() {
                   </div>
                 </div>
                 <div className="w-0 flex-[3] mo:w-full">
-                  <div className="text-2xl font-bold my-5 mo:text-lg mo:my-5">{t("INVENTORY STATS")}</div>
+                  <div className="my-5 text-2xl font-bold mo:text-lg mo:my-5">{t("INVENTORY STATS")}</div>
                   <div className="bg-white rounded-lg p-5 pl-8 h-[14.875rem] w-full flex flex-col justify-between mo:pl-5">
                     <InventoryStat
                       icon={<SvgCO2e className="text-[3.125rem] mo:text-[2.5rem] text-green-2 mr-[.625rem]" />}
@@ -181,7 +181,7 @@ export function PCF() {
                   </div>
                 </div>
               </div>
-              <div className="text-2xl font-bold mb-5 mt-8 mo:text-lg mo:my-5">{t("INVENTORY BREAKDOWN")}</div>
+              <div className="mt-8 mb-5 text-2xl font-bold mo:text-lg mo:my-5">{t("INVENTORY BREAKDOWN")}</div>
               {mData && (
                 <>{isMobile ? <MobileInventoryBreakdown data={mData} /> : <PcInventoryBreakdown data={mData} />}</>
               )}

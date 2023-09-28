@@ -26,7 +26,7 @@ export function ToolsLayout(
       />
 
       <div
-        className={classNames("w-full h-full mx-auto px-[60px] flex flex-col flex-1", containerClassName, {
+        className={classNames("w-full h-full mx-auto px-[60px] mo:px-5 flex flex-col flex-1", containerClassName, {
           " max-w-[90rem]": !isNew,
         })}>
         {canBack && (

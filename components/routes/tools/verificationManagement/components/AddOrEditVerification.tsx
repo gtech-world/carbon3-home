@@ -61,6 +61,12 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
     verifierId?: number;
     files?: FileList;
     verifyState: boolean;
+
+    // doverify params
+    functionalUnit?: string;
+    evaluationBoundary?: string;
+    evaluationBasis?: string;
+    evaluationExpireTime?: string;
   }>({ verifyState: true });
   const [upFiles, upAbort] = useUpFiles();
   useEffect(() => upAbort, []);
@@ -136,12 +142,27 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
         setBusy(false);
       });
   };
-  const disableVerify = !verifyRecord || disableFiles;
+  const disableVerify =
+    !verifyRecord ||
+    disableFiles ||
+    !state.functionalUnit ||
+    !state.evaluationBoundary ||
+    !state.evaluationBasis ||
+    !state.evaluationExpireTime;
   const doVerify = () => {
     if (disableVerify || !state.files || busy) return;
     setBusy(true);
     upFiles(state.files)
-      .then((ids) => verifyVerifyRecord(verifyRecord.id, ids, true))
+      .then((ids) =>
+        verifyVerifyRecord(verifyRecord.id, {
+          fileList: ids,
+          state: true,
+          functionalUnit: state.functionalUnit,
+          evaluationBoundary: state.evaluationBoundary,
+          evaluationBasis: state.evaluationBasis,
+          evaluationExpireTime: state.evaluationExpireTime + " 00:00:00",
+        }),
+      )
       .then(() => closeModal(true))
       .catch(console.error)
       .finally(() => {
@@ -221,13 +242,41 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                     <TextDiv value={verifyRecord?.verifyUser?.name} />
                   </ItemDiv>
                   {renderInputVerifyFiles()}
-                  {/* <ItemDiv title="验证状态">
-                    <Select2
-                      current={state.verifyState ? 0 : 1}
-                      items={[{ text: "已验证" }, { text: "未验证" }]}
-                      onChange={(i) => setState({ verifyState: i === 0 })}
+                  <ItemDiv title="功能单位">
+                    <input
+                      value={state.functionalUnit || verifyRecord?.functionalUnit}
+                      onChange={(e) => setState({ functionalUnit: e.target.value })}
+                      maxLength={30}
+                      className={inputClassName}
                     />
-                  </ItemDiv> */}
+                  </ItemDiv>
+                  <ItemDiv title="评价边界">
+                    <input
+                      value={state.evaluationBoundary || verifyRecord?.evaluationBoundary}
+                      onChange={(e) => setState({ evaluationBoundary: e.target.value })}
+                      maxLength={30}
+                      className={inputClassName}
+                    />
+                  </ItemDiv>
+                  <ItemDiv title="评价依据">
+                    <input
+                      value={state.evaluationBasis || verifyRecord?.evaluationBasis}
+                      onChange={(e) => setState({ evaluationBasis: e.target.value })}
+                      maxLength={30}
+                      className={inputClassName}
+                    />
+                  </ItemDiv>
+                  <ItemDiv title="评价有效期">
+                    <input
+                      value={state.evaluationExpireTime || verifyRecord?.evaluationExpireTime}
+                      type="date"
+                      onChange={(e) => {
+                        console.info("inputTime:", e.target.value), setState({ evaluationExpireTime: e.target.value });
+                      }}
+                      maxLength={30}
+                      className={inputClassName}
+                    />
+                  </ItemDiv>
                 </>
               ) : (
                 <>

@@ -109,9 +109,8 @@ export async function getPCFInventory(vin: string | number) {
   return getData(res);
 }
 
-//
 export async function getSbtInfo(vin: string | number) {
-  const res = await axios.get<Res<SbtInfo>>(creatUrl(`/api/sbt/${vin}/info`));
+  const res = await axios.get<Res<SbtInfo>>(creatUrl(`/api/sbt/token/uuid/${vin}`));
   return getData(res);
 }
 
@@ -293,7 +292,17 @@ export async function updateVerifyRecord(id: number, config: Partial<CreateVerif
   return getData(res);
 }
 
-export async function verifyVerifyRecord(id: number, fileList: number[], state: boolean = false) {
-  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/verify`), { fileList, state }, authConfig());
+export async function verifyVerifyRecord(
+  id: number,
+  params: {
+    functionalUnit?: string;
+    evaluationBoundary?: string;
+    evaluationBasis?: string;
+    evaluationExpireTime?: string;
+    fileList: number[];
+    state: boolean;
+  },
+) {
+  const res = await axios.post<Res<any>>(creatUrl(`/api/verifyRecord/${id}/verify`), { ...params }, authConfig());
   return getData(res);
 }

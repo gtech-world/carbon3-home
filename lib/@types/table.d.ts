@@ -1,7 +1,7 @@
 declare namespace Table {
   interface ITable {
     columns: any[];
-    data: any[];
+    data?: any[];
     className?: string;
     headerClassName?: object;
     cellClassName?: Function;
