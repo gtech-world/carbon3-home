@@ -379,7 +379,7 @@ export function Car() {
   ];
 
   const productTagInfo = [
-    { text: "评价类型", value: evaluationType !== "aicp" ? "Certified" : "Verified" },
+    { text: "评价类型", value: evaluationType !== "aicp" ? "第三方认证" : "AICP平台审核" },
     { text: "功能单位", value: functionalUnit },
     { text: "评价边界", value: evaluationBoundary },
     { text: "评价依据", value: evaluationBasis },

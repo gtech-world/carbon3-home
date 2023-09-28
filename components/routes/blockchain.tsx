@@ -219,7 +219,7 @@ export function Blockchain() {
                 className=""
                 name={name}
                 data={`${
-                  current || "https://aicp-beta.gtech.world"
+                  current || "https://aicp.gtech-cn.co"
                 }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`}
               />
             </div>
