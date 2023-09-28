@@ -192,7 +192,7 @@ export function Tag() {
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="flex flex-wrap">
-        {tagList?.records.map((v: any, i) => {
+        {data.map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
       </div>
