@@ -128,6 +128,7 @@ export function Tag() {
         {(tagList?.records || []).map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
+        {`${current || "https://aicp.gtech-cn.co"}/car?vin=`}
       </div>
     </CarbonLayout>
   );
