@@ -167,5 +167,6 @@
   "Blockchain Activities Data from:": "链上活动数据来源",
   "GGX Blockchain": "GGX区块链",
   "Product UUID": "产品唯一标识符",
-  "GGX (GTech Green Chain) is a shared digital space for the automotive industry. GGX offers 3T (Transparency, Traceability, Trust) featured data as a solid foundation for cross-boundary collaboration between automotive value chain players.": "GGX（GTech Green-chain）是一个服务于汽车供应链的共享数字空间。GGX为汽车供应链用户提供跨组织的3T（代表Transparency可见性、Traceability可追溯、Trusted可信性）数据协作基础。"
+  "GGX (GTech Green Chain) is a shared digital space for the automotive industry. GGX offers 3T (Transparency, Traceability, Trust) featured data as a solid foundation for cross-boundary collaboration between automotive value chain players.": "GGX（GTech Green-chain）是一个服务于汽车供应链的共享数字空间。GGX为汽车供应链用户提供跨组织的3T（代表Transparency可见性、Traceability可追溯、Trusted可信性）数据协作基础。",
+  "Data not available for this imput.": "您查询的数据不存在。"
 }
