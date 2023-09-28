@@ -115,75 +115,6 @@ export function Tag() {
     setTagList(res);
   };
 
-  const data = [
-    {
-      title: "1",
-      icon: {
-        key: null,
-        ref: null,
-        props: {
-          className: "w-[2.75rem]",
-        },
-        _owner: null,
-        _store: {},
-      },
-      by: "2023年09月26日签发 by 测试机构",
-      id: "b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134",
-      qrcodeDisable: false,
-      name: "Certified",
-      link: [
-        {
-          text: "标签信息",
-          href: "/car?vin=b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134",
-        },
-        {
-          text: "在区块链浏览器查看",
-          target: "_blank",
-          href: "/blockchain?tokenId=4000000&name=Certified",
-        },
-      ],
-      tokenId: 4000000,
-      orgName: "测试机构",
-      qrCode: `${
-        current || "https://aicp-beta.gtech.world"
-      }/car?vin=${"b5387977-9615-4528-aa14-7fbcd7b51ba5-1695716134"}`,
-    },
-    {
-      title: "2",
-      icon: {
-        key: null,
-        ref: null,
-        props: {
-          className: "w-[2.75rem]",
-        },
-        _owner: null,
-        _store: {},
-      },
-      by: "2023年09月15日签发 by 测试机构",
-      id: "bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
-      qrcodeDisable: false,
-      name: "Certified",
-      link: [
-        {
-          text: "标签信息",
-          href: "/car?vin=bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205",
-        },
-        {
-          text: "在区块链浏览器查看",
-          target: "_blank",
-          href: "/blockchain?tokenId=3000000&name=Certified",
-        },
-      ],
-      tokenId: 3000000,
-      orgName: "测试机构",
-      qrCode: `${
-        current || "https://aicp-beta.gtech.world"
-      }/car?vin=${"bd7d4203-60d0-49de-b00e-5946cfe0cd04-1695016205"}`,
-    },
-  ];
-
-  console.log("dasdasd", tagList);
-
   useEffect(() => {
     getTagList();
     setCurrent(window?.location?.origin);
@@ -192,7 +123,7 @@ export function Tag() {
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="flex flex-wrap">
-        {data.map((v: any, i) => {
+        {(tagList?.records || []).map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
       </div>

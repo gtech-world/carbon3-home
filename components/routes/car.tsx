@@ -413,8 +413,8 @@ export function Car() {
     return (
       <Fragment>
         <div className="flex w-full gap-5 mo:flex-none mo:flex-col ">
-          <div className="w-[420px] max-h-[380px]  mo:h-[126px] bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
-            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:ml-[15px]" />
+          <div className="w-[420px] max-h-[380px]  mo:h-[110px]  bg-[#FFFFFF]   flex justify-center mo:justify-start   mo:flex-row mo:w-full flex-col items-center rounded-lg ">
+            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mb-2 mo:ml-[15px]" />
             <div className="mo:ml-[2.5rem]">
               <div className="text-[#29953A] text-[1.75rem] leading-8 font-semibold">{dealResult(pcfResult)}</div>
               <div className="font-[1.75rem] leading-8   ">二氧化碳等效排放</div>
@@ -438,15 +438,15 @@ export function Car() {
           </div>
         </div>
         <div className="flex gap-5 mt-5 mo:flex-none mo:flex-col ">
-          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:flex-shrink-0 ">
-            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px] " />
+          <div className="w-[640px] mo:h-[340px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg mo:flex-shrink-1 ">
+            <SVGCarbon3 className="text-[5.375rem] w-[5.375rem]  mb-5 mo:mt-[30px] " />
             <div
               className="text-lg font-bold mb-[.9375rem] mo:mx-5 "
               dangerouslySetInnerHTML={{
                 __html: handleCarbonStr(t("What is AIAG Digital3 Carbon Trust Label?")),
               }}></div>
             <div
-              className="text-[.9375rem] font-normal text-center mx-5 mo:mb-5"
+              className="text-[.9375rem] font-normal text-center mx-5 mo:mb-5 leading-5"
               dangerouslySetInnerHTML={{
                 __html: handleCarbonStr(
                   t(
@@ -462,11 +462,11 @@ export function Car() {
             />
           </div>
 
-          <div className="w-[640px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg  mo:flex-shrink-0">
+          <div className="w-[640px] mo:h-[320px] h-[18.125rem] mo:w-full bg-[#FFFFFF] flex mo:flex-none justify-center mo:justify-start flex-col items-center rounded-lg  ">
             <img src="/nft.png" className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-5 mo:mt-[30px]" />
             <div className="text-lg font-bold mb-[.9375rem]"> {t("Immutability and Traceability")}</div>
             <div
-              className="text-[.9375rem] font-normal text-center mx-5 md:mb-0 mmd:mb-5 mb-5 mo:mb-0 lg:mb-0  "
+              className="text-[.9375rem] font-normal text-center mx-5 md:mb-0 mmd:mb-5 mb-5 mo:mb-0 lg:mb-0 leading-5  "
               dangerouslySetInnerHTML={{
                 __html: t(
                   "A Soul-bounded Token (a special type of NFT that is not allowed to transfer after created) has been generated on blockchain to make sure the information in this label is immutable and will be maintain for traceability forever. Check {{value}} to verify the SBT on blockchain explorer.",
@@ -484,10 +484,18 @@ export function Car() {
     );
   };
 
+  const noData = () => {
+    return (
+      <div className="flex items-center justify-center w-full h-40">{t("Data not available for this imput.")}</div>
+    );
+  };
+
   return (
     <Fragment>
       {isMobile ? (
-        <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5 bg-[#F3F3F3]">{noHeader()}</div>
+        <div className="w-full py-5 px-[3.125rem] max-w-[1480px] mx-auto mo:p-5 bg-[#F3F3F3]">
+          {!tagList ? noData() : noHeader()}
+        </div>
       ) : (
         <HeaderLayout nopx className={` !px-7 bg-[#F3F3F3] w-full h-full `}>
           {!isMobile && (
@@ -505,11 +513,17 @@ export function Car() {
                       <FiChevronLeft className="text-lg" />
                       返回
                     </div>
-                    <div className="mb-5 text-2xl font-bold leading-normal">
-                      {t("Product Carbon Footprint Certified")}{" "}
-                      <span className="text-base font-medium">{t("by AIAG")}</span>
-                    </div>
-                    {noHeader()}
+                    {!tagList ? (
+                      noData()
+                    ) : (
+                      <Fragment>
+                        <div className="mb-5 text-2xl font-bold leading-normal">
+                          {t("Product Carbon Footprint Certified")}{" "}
+                          <span className="text-base font-medium">{t("by AIAG")}</span>
+                        </div>
+                        {noHeader()}
+                      </Fragment>
+                    )}
                   </Fragment>
                 )}
               </div>
