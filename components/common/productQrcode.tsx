@@ -18,10 +18,10 @@ export function ProductQrcode(p: any) {
             <img className="w-[6.875rem]" src="/earth_1.png" alt="" />
           </div>
           <div className="w-[7.125rem] flex flex-col items-center">
-            <p className="text-[0.6875rem] text-center mb-2 leading-[0.945rem] font-semibold mo:leading-[0.865rem]">
+            <p className="text-[0.6875rem] mmd:text text-center mb-2 leading-[0.945rem] font-semibold mo:leading-[0.865rem]">
               {qrText ? qrText : `Product Carbon Footprint ${name} `}
             </p>
-            <QRCode className="w-[5.75rem]" size={92} value={data} />
+            <QRCode style={{ width: "100%", height: "100%" }} value={data} />
           </div>
         </div>
       </div>
