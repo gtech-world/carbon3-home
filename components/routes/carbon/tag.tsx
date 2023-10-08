@@ -244,7 +244,7 @@ export function Tag() {
   return (
     <CarbonLayout className="h-full bg-gray-16">
       <div className="grid grid-cols-3 gap-5 mo:flex mo:flex-wrap ">
-        {(tagList?.records || []).map((v: any, i) => {
+        {(data || []).map((v: any, i) => {
           return <Card key={`tagData${i}`} data={v} />;
         })}
       </div>
