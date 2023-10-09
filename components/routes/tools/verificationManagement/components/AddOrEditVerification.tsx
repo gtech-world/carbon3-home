@@ -268,8 +268,10 @@ const AddOrEditVerification: FC<VerificationManagementController.VerificationMan
                   </ItemDiv>
                   <ItemDiv title="评价有效期">
                     <input
+                      style={{ color: "#DDDDDD" }}
                       value={state.evaluationExpireTime || verifyRecord?.evaluationExpireTime}
                       type="date"
+                      id="dateCheck"
                       onChange={(e) => {
                         console.info("inputTime:", e.target.value), setState({ evaluationExpireTime: e.target.value });
                       }}

@@ -154,3 +154,17 @@ button[disabled] {
 .hover-color-table tbody tr:hover {
   background-color: #F3F3F3; 
 }
+
+
+ /* 解决input date类型 时间选择时不能点击全文本框触发 */
+#dateCheck{
+  position: relative;
+  content:'sds'
+
+}
+
+#dateCheck::-webkit-calendar-picker-indicator{
+        position: absolute;
+        right: 0;
+        padding-left: 100%;
+    }

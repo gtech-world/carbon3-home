@@ -56,7 +56,7 @@ function ItemQA(p: { type: number }) {
         );
   }, [type, t]);
   return (
-    <div className="flex-1 w-0 p-5 bg-white rounded-lg flex flex-col items-center [&:nth-child(n+2)]:ml-5 mo:!ml-0 mo:w-full mo:mt-5">
+    <div className="w-[640px] p-5 bg-white rounded-lg flex flex-col items-center   mo:w-full mo:mt-5">
       {type === 1 ? (
         <SVGCarbon3 className="text-[5.375rem] w-[5.375rem] mt-[.625rem] mb-[1.875rem]" />
       ) : type === 2 ? (
@@ -171,6 +171,7 @@ export function Car() {
             </div>
           </div>
         </div>
+
         <div className="flex gap-5 mt-5 mo:flex-none mo:flex-col ">
           <ItemQA type={1} />
           <ItemQA type={3} />

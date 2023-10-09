@@ -4,18 +4,7 @@ import { getCarbonTagList } from "@lib/services/carbonTag";
 import SvgTeacher from "@public/teacher.svg";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
-import moment from "moment";
 import { getCurrentDate } from "utils";
-
-function PartInfo(p: { label: string; text: string }) {
-  return (
-    <div className="flex flex-col text-base">
-      <label className="font-bold">{p.label} :</label>
-      <span className="text-gray-6">{p.text}</span>
-    </div>
-  );
-}
 
 function Card(p: {
   data: {
